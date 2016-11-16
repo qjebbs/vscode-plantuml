@@ -1,57 +1,26 @@
 import * as vscode from 'vscode';
-import * as path from 'path';
 import { Exporter } from './exporter';
-import { Diagram, Diagrams } from './diagram';
+import { Previewer } from './preview';
 
-interface format {
-    label: string;
-    format: string;
-}
 export class PlantUML {
-    context: vscode.ExtensionContext;
     config: vscode.WorkspaceConfiguration;
-    constructor(context: vscode.ExtensionContext) {
-        this.context = context
+    private previewer = new Previewer(true);
+    private exporter = new Exporter(null);
+    constructor(public context: vscode.ExtensionContext) {
         this.updateConfig();
     }
     updateConfig() {
         this.config = vscode.workspace.getConfiguration("plantuml");
+        this.exporter.config=this.config;
+        this.previewer.autoUpdate=this.config.get("autoUpdatePreview") as boolean
     }
-    export(all: boolean) {
-        let editor = vscode.window.activeTextEditor;
-        let outputDefaultPath = path.dirname(editor.document.uri.fsPath);
-        let diagrams = new Diagrams();
-        if (all) {
-            diagrams.AddAll();
-        } else {
-            let dg = new Diagram().GetCurrent();
-            diagrams.Add(new Diagram().GetCurrent());
-            editor.selections = [new vscode.Selection(dg.start, dg.end)];
-        }
-        let bar=vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-        return new Exporter(this.config, diagrams).execute(bar)
-        .then(
-            msgs => {
-                vscode.window.showInformationMessage("Export finish.");
-                bar.dispose();
-            },
-            msg => {
-                let m = msg as string
-                vscode.window.showErrorMessage(m.replace(/\n/g, " "));
-                bar.dispose();
-            }
-        );
-    }
+    
     register(): vscode.Disposable[] {
+        //register export
         let ds: vscode.Disposable[] = [];
-        let d = vscode.commands.registerCommand('plantuml.export', () => {
-            this.export(false);
-        });
-        ds.push(d);
-        d = vscode.commands.registerCommand('plantuml.exportAll', () => {
-            this.export(true);
-        });
-        ds.push(d);
+        ds.push(...this.exporter.register());
+        //register preview
+        ds.push(...this.previewer.register());
         return ds;
     }
 }

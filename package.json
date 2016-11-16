@@ -13,7 +13,8 @@
   ],
   "activationEvents": [
     "onCommand:plantuml.export",
-    "onCommand:plantuml.exportAll"
+    "onCommand:plantuml.exportAll",
+    "onCommand:plantuml.preview"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -42,11 +43,27 @@
     "commands": [
       {
         "command": "plantuml.export",
-        "title": "PlantUML: Export Current Diagram to file."
+        "title": "%plantuml.export.title%",
+        "category": "PlantUML"
       },
       {
         "command": "plantuml.exportAll",
-        "title": "PlantUML: Export All Diagrams to file."
+        "title": "%plantuml.exportAll.title%",
+        "category": "PlantUML"
+      },
+      {
+        "command": "plantuml.preview",
+        "title": "%plantuml.preview.title%",
+        "category": "PlantUML"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "plantuml.export",
+        "key": "Alt+d"
+      },{
+        "command": "plantuml.preview",
+        "key": "Alt+p"
       }
     ],
     "configuration": {
@@ -62,6 +79,11 @@
           "type": "boolean",
           "default": true,
           "description": "export files to a folder which has same name with current file."
+        },
+        "plantuml.autoUpdatePreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "decides if automatically update the preview window."
         }
       }
     }
