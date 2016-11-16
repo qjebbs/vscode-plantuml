@@ -80,6 +80,11 @@
           "default": true,
           "description": "export files to a folder which has same name with current file."
         },
+        "plantuml.exportConcurrency": {
+          "type": "number",
+          "default": 3,
+          "description": "decides concurrency count when export multiple diagrams."
+        },
         "plantuml.autoUpdatePreview": {
           "type": "boolean",
           "default": true,

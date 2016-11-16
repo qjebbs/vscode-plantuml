@@ -4,27 +4,52 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Diagram, Diagrams } from './diagram';
 
-let isDebug = true;
-
 export class Exporter {
-    private plantUmlCommand: string = "D:\\Portable\\VSCode\\data\\plantuml.8049.jar";
-    private javaCommand: string = "java";
+    private jar: string;
+    private java: string = "java";
 
-    constructor(public config: vscode.WorkspaceConfiguration) {
+    constructor(public config: vscode.WorkspaceConfiguration, public context: vscode.ExtensionContext) {
+        this.jar = path.join(context.extensionPath, "plantuml.jar");
+        if (!fs.existsSync(this.jar)) {
+            vscode.window.showErrorMessage("can't find 'plantuml.jar', please download and put it here: " +
+                context.extensionPath);
+        }
     }
-    doExportCommand(all: boolean) {
+    register(): vscode.Disposable[] {
+        //register export
+        let ds: vscode.Disposable[] = [];
+        let d = vscode.commands.registerCommand('plantuml.export', () => {
+            try {
+                this.export(false);
+            } catch (error) {
+                vscode.window.showErrorMessage(error)
+            }
+        });
+        ds.push(d);
+        d = vscode.commands.registerCommand('plantuml.exportAll', () => {
+            try {
+                this.export(true);
+            } catch (error) {
+                vscode.window.showErrorMessage(error)
+            }
+        });
+        ds.push(d);
+        return ds;
+    }
+    export(all: boolean) {
         let editor = vscode.window.activeTextEditor;
         let outputDefaultPath = path.dirname(editor.document.uri.fsPath);
-        let diagrams = new Diagrams();
+        let ds = new Diagrams();
         if (all) {
-            diagrams.AddAll();
+            ds.AddAll();
         } else {
             let dg = new Diagram().GetCurrent();
-            diagrams.Add(new Diagram().GetCurrent());
+            ds.Add(new Diagram().GetCurrent());
             editor.selections = [new vscode.Selection(dg.start, dg.end)];
         }
         let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-        return this.export(diagrams, bar)
+        let concurrency = this.config.get("exportConcurrency") as number;
+        return this.doExports(ds.diagrams, concurrency, bar)
             .then(
             msgs => {
                 vscode.window.showInformationMessage("Export finish.");
@@ -38,7 +63,7 @@ export class Exporter {
             }
             );
     }
-    exportFile(diagram: Diagram, format: string, savePath?: string) {
+    exportToFile(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem) {
         if (!savePath) {
             let subDir = this.config.get("exportSubFolder") as boolean;
             let dir = diagram.dir;
@@ -50,23 +75,27 @@ export class Exporter {
             }
             savePath = path.join(dir, diagram.title + "." + format.split(":")[0])
         }
-        return this.doExport(diagram, format, savePath);
+        return this.doExport(diagram, format, savePath, bar);
     }
-    exportText(diagram: Diagram, format: string) {
-        return this.doExport(diagram, format);
+    exportToText(diagram: Diagram, format: string, bar?: vscode.StatusBarItem) {
+        return this.doExport(diagram, format, null, bar);
     }
-    private doExport(diagram: Diagram, format: string, savePath?: string) {
+    private doExport(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem) {
+        if (bar) {
+            bar.show();
+            bar.text = "PlantUML exporting: " + diagram.title + "." + format.split(":")[0];
+        }
         let params = [
             '-Duser.dir=' + diagram.dir,
             '-Djava.awt.headless=true',
             '-jar',
-            this.plantUmlCommand,
+            this.jar,
             "-t" + format,
             '-pipe',
             '-charset',
             'utf-8'
         ];
-        var process = child_process.spawn(this.javaCommand, params);
+        var process = child_process.spawn(this.java, params);
         if (diagram.content !== null) {
             process.stdin.write(diagram.content);
             process.stdin.end();
@@ -94,41 +123,29 @@ export class Exporter {
             });
         });
     }
-
-    export(diagrams: Diagrams, bar?: vscode.StatusBarItem) {
-        if (bar) bar.show();
+    private doExports(diagrams: Diagram[], concurrency: number = 1, bar?: vscode.StatusBarItem) {
         let format = this.config.get("exportFormat") as string;
-        return diagrams.diagrams.reduce((prev: Promise<{}>, diagram: Diagram, index: number) => {
-            return prev.then(
-                () => {
-                    if (bar) bar.text = "PlantUML exporting: " + diagram.title + "." + format.split(":")[0];
-                    return this.exportFile(diagram, format);
-                },
-                err => {
-                    return Promise.reject(err);
-                });
-        }, Promise.resolve(""));
+        concurrency = concurrency > diagrams.length ? diagrams.length : concurrency;
+        let promises: Promise<{}>[] = [];
+        for (let i = 0; i < concurrency; i++) {
+            //each i starts a task chain, which export indexes like 0,3,6,9... (task 1, concurrency 3 for example.)
+            promises.push(
+                diagrams.reduce((prev: Promise<{}>, diagram: Diagram, index: number) => {
+                    if (index % concurrency != i) {
+                        // ignore indexes belongs to other task.chain
+                        return prev;
+                    }
+                    return prev.then(
+                        () => {
+                            return this.exportToFile(diagram, format, null, bar);
+                        },
+                        err => {
+                            return Promise.reject(err);
+                        });
+                }, Promise.resolve(""))
+            );
+        }
+        return Promise.all(promises);
     }
 
-    register(): vscode.Disposable[] {
-        //register export
-        let ds: vscode.Disposable[] = [];
-        let d = vscode.commands.registerCommand('plantuml.export', () => {
-            try {
-                this.doExportCommand(false);
-            } catch (error) {
-                vscode.window.showErrorMessage(error)
-            }
-        });
-        ds.push(d);
-        d = vscode.commands.registerCommand('plantuml.exportAll', () => {
-            try {
-                this.doExportCommand(true);
-            } catch (error) {
-                vscode.window.showErrorMessage(error)
-            }
-        });
-        ds.push(d);
-        return ds;
-    }
 }

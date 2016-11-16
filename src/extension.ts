@@ -4,18 +4,14 @@
 import * as vscode from 'vscode';
 import { PlantUML } from "./planuml";
 
+let extension: PlantUML;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
     let extension = new PlantUML(context);
-    
     context.subscriptions.push(...extension.register());
-    context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(()=>{
-        extension.updateConfig();
-    }));
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() {
 }
-let extension: PlantUML;

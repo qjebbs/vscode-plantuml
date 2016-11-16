@@ -14,7 +14,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
 
     private prevPath: string = path.join(os.tmpdir(), "plantuml-preview.svg");
     private error: string = "";
-    constructor(public autoUpdate: boolean) { }
+    constructor(public exporter: Exporter, public autoUpdate: boolean) { }
 
     provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): string {
         if (this.error) {
@@ -36,7 +36,6 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                 </html>`;
     }
     update() {
-        let exp = new Exporter(null);
         let diagram = new Diagram().GetCurrent();
         if (fs.existsSync(this.prevPath)) {
             fs.unlinkSync(this.prevPath);
@@ -46,7 +45,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             this.Emittor.fire(this.Uri);
             return;
         }
-        exp.exportFile(diagram, "svg", this.prevPath).then(
+        this.exporter.exportToFile(diagram, "svg", this.prevPath).then(
             svg => {
                 this.error = "";
                 this.Emittor.fire(this.Uri);
