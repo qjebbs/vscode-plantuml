@@ -1,12 +1,17 @@
 {
   "name": "plantuml",
   "displayName": "PlantUML",
-  "description": "PlantUML is the tool to preview & generate PlantUML diagrams in VSCode.",
+  "description": "Preview & generate PlantUML diagrams in VSCode.",
   "version": "0.0.1",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.5.0"
   },
+	"icon": "images/icon.png",
+	"license": "",
+	"bugs": {
+		"url": ""
+	},
   "categories": [
     "Languages",
     "Other"

@@ -17,19 +17,20 @@ export class Previewer implements vscode.TextDocumentContentProvider {
     constructor(public exporter: Exporter, public autoUpdate: boolean) { }
 
     provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): string {
+        let Timestamp = new Date().getTime();
         if (this.error) {
             return `<html>
-                    <body>
-                    <div>
-                        <p>${this.error}</p>
+                    <body style="text-align: left; background-color: #fff;">
+                    <div style="margin:1em;">
+                        <p style="display: block; outline: red 1px solid; color: black; background: lightpink; padding: 0.2em 0.5em 0.2em 0.5em;">${this.error}</p>
+                        <img src="${this.prevPath}?_=${Timestamp}" alt="Processing...">
                     </div>
                     </body>
                 </html>`;
         }
-        let Timestamp = new Date().getTime();
         return `<html>
-                    <body>
-                    <div>
+                    <body style="text-align: center; background-color: #fff;">
+                    <div style="margin:1em;">
                         <img src="${this.prevPath}?_=${Timestamp}" alt="Processing...">
                     </div>
                     </body>
