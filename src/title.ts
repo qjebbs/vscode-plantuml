@@ -8,7 +8,7 @@ var regs = [
     { find: /\s*[\*#=\|]*\s*(.+?)\s*$/m, replace: '$1' },
     // \t to space
     // { find: /(?<!\\)\\t/, replace: ' ' },
-    { find: /([^\\])\\t/, replace: '$1 ' },
+    { find: /([^\\])\\[tn]/, replace: '$1' },
     // \\ to \
     { find: /\\\\/, replace: '\\' },
     // *=|

@@ -29,6 +29,8 @@ Before you can use the plugin, it's necessary to have following installed:
 [Graphviz]: http://www.graphviz.org/Download..php "Download Graphviz"
 [PlantUML]: http://plantuml.com/download "Download PlantUML"
 
+> If you've installed java, but still prompts "java not installed", please add java bin path to environment variables.
+
 ## Extension Settings
 
 This extension contributes the following settings:
@@ -44,6 +46,10 @@ This extension contributes the following settings:
 
 
 ## Release Notes
+
+### 1.0.1
+
+fixed export diagram without title
 
 ### 1.0.0
 

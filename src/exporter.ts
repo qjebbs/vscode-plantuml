@@ -73,7 +73,7 @@ export class Exporter {
             let subDir = this.config.get("exportSubFolder") as boolean;
             let dir = diagram.dir;
             if (subDir) {
-                dir = diagram.fileName.substr(0, diagram.fileName.lastIndexOf("."))
+                dir = path.join(diagram.dir, diagram.fileName);
                 if (!fs.existsSync(dir)) {
                     fs.mkdir(dir);
                 }
@@ -88,7 +88,7 @@ export class Exporter {
     private doExport(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem) {
         if (!this.javeInstalled) {
             return Promise.reject({
-                error: "java not installed!",
+                error: "java not installed!\nIf you've installed java, please add java bin path to environment variables.",
                 out: ""
             });
         }

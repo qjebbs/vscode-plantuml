@@ -50,7 +50,9 @@ export class Diagram {
         // this.start = editor.document.lineAt(0).range.start;
         // this.end = editor.document.lineAt(editor.document.lineCount - 1).range.end;
         this.path = editor.document.uri.fsPath;
-        this.fileName = editor.document.fileName;
+        this.fileName = path.basename(this.path)
+        let i = this.fileName.lastIndexOf(".");
+        if (i >= 0) this.fileName = this.fileName.substr(0, i);
         this.dir = path.dirname(this.path);
 
         for (let i = lineNumber; i >= 0; i--) {
@@ -89,6 +91,11 @@ export class Diagram {
                 this.titleRaw = matches[1];
             }
         }
-        this.title = title.Deal(this.titleRaw);
+        if (this.titleRaw) {
+            this.title = title.Deal(this.titleRaw);
+        } else {
+            this.title = `${this.fileName}@${this.start.line + 1}-${this.end.line + 1}`;
+        }
+
     }
 }
