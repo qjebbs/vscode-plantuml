@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Exporter } from './exporter';
@@ -12,7 +11,8 @@ export class Previewer implements vscode.TextDocumentContentProvider {
     onDidChange: vscode.Event<vscode.Uri> = this.Emittor.event;
     Uri: vscode.Uri = vscode.Uri.parse('plantuml://preview');
 
-    private image: string = path.join(os.tmpdir(), "plantuml-preview.png");
+    private image: string;
+    private imageProcessing:string;
     private template: string;
     private templateError: string;
     private error: string = "";
@@ -26,6 +26,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         let tplPreviewErrorPath: string = path.join(tplPath, "preview-error.html");
         this.template = '`' + fs.readFileSync(tplPreviewPath, "utf-8") + '`';
         this.templateError = '`' + fs.readFileSync(tplPreviewErrorPath, "utf-8") + '`';
+        this.imageProcessing=path.join(this.context.extensionPath, "images","preview-processing.png");
     }
 
     provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): string {
@@ -70,6 +71,9 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             if (!editor) return;
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, 'PlantUML Preview')
                 .then(success => {
+                    //display processing tip
+                    this.image=this.imageProcessing;
+                    this.Emittor.fire(this.Uri);
                     this.update();
                     return;
                 }, reason => {

@@ -64,11 +64,8 @@
     ],
     "keybindings": [
       {
-        "command": "plantuml.export",
-        "key": "Alt+d"
-      },{
         "command": "plantuml.preview",
-        "key": "Alt+p"
+        "key": "Alt+d"
       }
     ],
     "configuration": {
