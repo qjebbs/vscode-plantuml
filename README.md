@@ -23,9 +23,11 @@ Before you can use the plugin, it's necessary to have following installed:
 
 * [Java][Java] : Platform for PlantUML running.
 * [Graphviz][Graphviz] : PlantUML requires it to calculate positions in diagram.
+* [PlantUML][Graphviz] : Download and place it in extension root folder.
 
 [Java]: http://java.com/en/download/ "Download Java"
 [Graphviz]: http://www.graphviz.org/Download..php "Download Graphviz"
+[PlantUML]: http://plantuml.com/download "Download PlantUML"
 
 ## Extension Settings
 

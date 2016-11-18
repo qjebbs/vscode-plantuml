@@ -12,7 +12,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
     Uri: vscode.Uri = vscode.Uri.parse('plantuml://preview');
 
     private image: string;
-    private imageProcessing:string;
+    private imageProcessing: string;
     private template: string;
     private templateError: string;
     private error: string = "";
@@ -26,12 +26,12 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         let tplPreviewErrorPath: string = path.join(tplPath, "preview-error.html");
         this.template = '`' + fs.readFileSync(tplPreviewPath, "utf-8") + '`';
         this.templateError = '`' + fs.readFileSync(tplPreviewErrorPath, "utf-8") + '`';
-        this.imageProcessing=path.join(this.context.extensionPath, "images","preview-processing.png");
+        this.imageProcessing = path.join(this.context.extensionPath, "images", "preview-processing.png");
     }
 
     provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): string {
         let image = this.image;
-        let error = this.error;
+        let error = this.error.replace(/\n/g, "<br />");
         if (this.error) {
             return eval(this.templateError);
         }
@@ -52,7 +52,9 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                 this.Emittor.fire(this.Uri);
             },
             err => {
-                this.error = err;
+                this.error = err.error;
+                let b64 = new Buffer(err.out as Buffer).toString('base64');
+                this.image = `data:image/png;base64,${b64}`
                 this.Emittor.fire(this.Uri);
             }
         );
@@ -72,7 +74,8 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, 'PlantUML Preview')
                 .then(success => {
                     //display processing tip
-                    this.image=this.imageProcessing;
+                    this.error="";
+                    this.image = this.imageProcessing;
                     this.Emittor.fire(this.Uri);
                     this.update();
                     return;

@@ -12,10 +12,6 @@ export class Exporter {
     constructor(public config: vscode.WorkspaceConfiguration, public context: vscode.ExtensionContext) {
         this.testJava();
         this.jar = path.join(context.extensionPath, "plantuml.jar");
-        if (!fs.existsSync(this.jar)) {
-            vscode.window.showErrorMessage("can't find 'plantuml.jar', please download and put it here: " +
-                context.extensionPath);
-        }
     }
     private testJava() {
         var process = child_process.exec(this.java + " -version", (e, stdout, stderr) => {
@@ -66,7 +62,7 @@ export class Exporter {
             },
             msg => {
                 bar.dispose();
-                let m = msg as string
+                let m = msg.error as string
                 console.log(m);
                 vscode.window.showErrorMessage(m.replace(/\n/g, " "));
             }
@@ -91,7 +87,16 @@ export class Exporter {
     }
     private doExport(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem) {
         if (!this.javeInstalled) {
-            return Promise.reject("java not installed!");
+            return Promise.reject({
+                error: "java not installed!",
+                out: ""
+            });
+        }
+        if (!fs.existsSync(this.jar)) {
+            return Promise.reject({
+                error: "Can't find 'plantuml.jar'.Please download and place it here: \n" + this.context.extensionPath,
+                out: ""
+            });
         }
         if (bar) {
             bar.show();
@@ -126,11 +131,11 @@ export class Exporter {
                 });
             }
             process.stdout.on('close', function () {
+                let stdout = Buffer.concat(buffs, bufflen)
                 if (!stderror) {
-                    let stdout = Buffer.concat(buffs, bufflen)
                     resolve(stdout);
                 } else {
-                    reject(stderror);
+                    reject({ error: stderror, out: stdout });
                 }
             })
             process.stderr.on('data', function (x) {
@@ -155,7 +160,7 @@ export class Exporter {
                             return this.exportToFile(diagram, format, null, bar);
                         },
                         err => {
-                            return Promise.reject(err);
+                            return Promise.reject({ error: err.error, out: err.out });
                         });
                 }, Promise.resolve(""))
             );
