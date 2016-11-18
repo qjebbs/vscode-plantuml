@@ -12,42 +12,41 @@ export class Previewer implements vscode.TextDocumentContentProvider {
     onDidChange: vscode.Event<vscode.Uri> = this.Emittor.event;
     Uri: vscode.Uri = vscode.Uri.parse('plantuml://preview');
 
-    private prevPath: string = path.join(os.tmpdir(), "plantuml-preview.svg");
+    private image: string = path.join(os.tmpdir(), "plantuml-preview.png");
+    private template: string;
+    private templateError: string;
     private error: string = "";
-    constructor(public exporter: Exporter, public autoUpdate: boolean) { }
+    constructor(
+        public config: vscode.WorkspaceConfiguration,
+        public context: vscode.ExtensionContext,
+        public exporter: Exporter
+    ) {
+        let tplPath: string = path.join(this.context.extensionPath, "templates");
+        let tplPreviewPath: string = path.join(tplPath, "preview.html");
+        let tplPreviewErrorPath: string = path.join(tplPath, "preview-error.html");
+        this.template = '`' + fs.readFileSync(tplPreviewPath, "utf-8") + '`';
+        this.templateError = '`' + fs.readFileSync(tplPreviewErrorPath, "utf-8") + '`';
+    }
 
     provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): string {
-        let Timestamp = new Date().getTime();
+        let image = this.image;
+        let error = this.error;
         if (this.error) {
-            return `<html>
-                    <body style="text-align: left; background-color: #fff;">
-                    <div style="margin:1em;">
-                        <p style="display: block; outline: red 1px solid; color: black; background: lightpink; padding: 0.2em 0.5em 0.2em 0.5em;">${this.error}</p>
-                        <img src="${this.prevPath}?_=${Timestamp}" alt="Processing...">
-                    </div>
-                    </body>
-                </html>`;
+            return eval(this.templateError);
         }
-        return `<html>
-                    <body style="text-align: center; background-color: #fff;">
-                    <div style="margin:1em;">
-                        <img src="${this.prevPath}?_=${Timestamp}" alt="Processing...">
-                    </div>
-                    </body>
-                </html>`;
+        return eval(this.template);
     }
     update() {
         let diagram = new Diagram().GetCurrent();
-        if (fs.existsSync(this.prevPath)) {
-            fs.unlinkSync(this.prevPath);
-        }
         if (!diagram.content) {
             this.error = "No valid diagram found here!";
             this.Emittor.fire(this.Uri);
             return;
         }
-        this.exporter.exportToFile(diagram, "svg", this.prevPath).then(
-            svg => {
+        this.exporter.exportToBuffer(diagram, "png").then(
+            png => {
+                let b64 = new Buffer(png as Buffer).toString('base64');
+                this.image = `data:image/png;base64,${b64}`
                 this.error = "";
                 this.Emittor.fire(this.Uri);
             },
@@ -68,6 +67,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         //register command
         disposable = vscode.commands.registerCommand('plantuml.preview', () => {
             var editor = vscode.window.activeTextEditor;
+            if (!editor) return;
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, 'PlantUML Preview')
                 .then(success => {
                     this.update();
@@ -81,7 +81,8 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         //register watcher
         let lastTimestamp = new Date().getTime();
         disposable = vscode.workspace.onDidChangeTextDocument(e => {
-            if (vscode.window.activeTextEditor.document !== e.document || !this.autoUpdate) {
+            if (vscode.window.activeTextEditor.document !== e.document ||
+                !this.config.get("autoUpdatePreview") as boolean) {
                 return;
             }
             lastTimestamp = new Date().getTime();

@@ -37,7 +37,8 @@ export class Diagram {
     start: vscode.Position;
     end: vscode.Position;
     GetCurrent() {
-        this.DiagramAt(vscode.window.activeTextEditor.selection.anchor.line);
+        let editor = vscode.window.activeTextEditor;
+        if (editor) this.DiagramAt(editor.selection.anchor.line);
         return this;
     }
     DiagramAt(lineNumber: number) {

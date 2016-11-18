@@ -7,13 +7,22 @@ import { Diagram, Diagrams } from './diagram';
 export class Exporter {
     private jar: string;
     private java: string = "java";
+    private javeInstalled: boolean = true;
 
     constructor(public config: vscode.WorkspaceConfiguration, public context: vscode.ExtensionContext) {
+        this.testJava();
         this.jar = path.join(context.extensionPath, "plantuml.jar");
         if (!fs.existsSync(this.jar)) {
             vscode.window.showErrorMessage("can't find 'plantuml.jar', please download and put it here: " +
                 context.extensionPath);
         }
+    }
+    private testJava() {
+        var process = child_process.exec(this.java + " -version", (e, stdout, stderr) => {
+            if (e instanceof Error) {
+                this.javeInstalled = false;
+            }
+        });
     }
     register(): vscode.Disposable[] {
         //register export
@@ -52,14 +61,14 @@ export class Exporter {
         return this.doExports(ds.diagrams, concurrency, bar)
             .then(
             msgs => {
-                vscode.window.showInformationMessage("Export finish.");
                 bar.dispose();
+                vscode.window.showInformationMessage("Export finish.");
             },
             msg => {
+                bar.dispose();
                 let m = msg as string
                 console.log(m);
                 vscode.window.showErrorMessage(m.replace(/\n/g, " "));
-                bar.dispose();
             }
             );
     }
@@ -77,10 +86,13 @@ export class Exporter {
         }
         return this.doExport(diagram, format, savePath, bar);
     }
-    exportToText(diagram: Diagram, format: string, bar?: vscode.StatusBarItem) {
+    exportToBuffer(diagram: Diagram, format: string, bar?: vscode.StatusBarItem) {
         return this.doExport(diagram, format, null, bar);
     }
     private doExport(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem) {
+        if (!this.javeInstalled) {
+            return Promise.reject("java not installed!");
+        }
         if (bar) {
             bar.show();
             bar.text = "PlantUML exporting: " + diagram.title + "." + format.split(":")[0];
@@ -101,18 +113,21 @@ export class Exporter {
             process.stdin.end();
         }
         return new Promise((resolve, reject) => {
-            let stdout = '';
+            let buffs: Buffer[] = [];
+            let bufflen = 0;
             let stderror = '';
             if (savePath) {
                 let f = fs.createWriteStream(savePath);
                 process.stdout.pipe(f);
             } else {
-                process.stdout.on('data', function (x) {
-                    stdout += x;
+                process.stdout.on('data', function (x: Buffer) {
+                    buffs.push(x);
+                    bufflen += x.length;
                 });
             }
             process.stdout.on('close', function () {
                 if (!stderror) {
+                    let stdout = Buffer.concat(buffs, bufflen)
                     resolve(stdout);
                 } else {
                     reject(stderror);
