@@ -17,19 +17,21 @@ To export diagrams, go to Command Palette, find and execute command:
 - Preview and auto update
 - Concurrency export
 
+![demo](images/demo.gif "demo")
+
 ## Requirements
 
 Before you can use the plugin, it's necessary to have following installed:
 
 * [Java][Java] : Platform for PlantUML running.
 * [Graphviz][Graphviz] : PlantUML requires it to calculate positions in diagram.
-* [PlantUML][Graphviz] : Download and place it in extension root folder.
+* [PlantUML][PlantUML] : Download and place it in extension root folder.
 
 [Java]: http://java.com/en/download/ "Download Java"
 [Graphviz]: http://www.graphviz.org/Download..php "Download Graphviz"
 [PlantUML]: http://plantuml.com/download "Download PlantUML"
 
-> If you've installed java, but still prompts "java not installed", please add java bin path to environment variables.
+> If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
 
 ## Extension Settings
 
@@ -46,6 +48,10 @@ This extension contributes the following settings:
 
 
 ## Release Notes
+
+### 1.0.2
+
+improved custom error display
 
 ### 1.0.1
 

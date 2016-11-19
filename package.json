@@ -3,14 +3,14 @@
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
 	"icon": "images/icon.png",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.5.0"
   },
 	"license": "SEE LICENSE IN LICENSE.txt",
 	"bugs": {
-		"url": ""
+		"url": "https://github.com/qjebbs/vscode-plantuml/issues"
 	},
 	"homepage": "https://github.com/qjebbs/vscode-plantuml/blob/master/README.md",
 	"repository": {
