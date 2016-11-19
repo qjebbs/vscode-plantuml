@@ -41,6 +41,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         let diagram = new Diagram().GetCurrent();
         if (!diagram.content) {
             this.error = "No valid diagram found here!";
+            this.image = "";
             this.Emittor.fire(this.Uri);
             return;
         }
@@ -52,9 +53,12 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                 this.Emittor.fire(this.Uri);
             },
             err => {
+                this.image = "";
                 this.error = err.error;
                 let b64 = new Buffer(err.out as Buffer).toString('base64');
-                this.image = `data:image/png;base64,${b64}`
+                if (b64) {
+                    this.image = `data:image/png;base64,${b64}`
+                }
                 this.Emittor.fire(this.Uri);
             }
         );
@@ -74,7 +78,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, 'PlantUML Preview')
                 .then(success => {
                     //display processing tip
-                    this.error="";
+                    this.error = "";
                     this.image = this.imageProcessing;
                     this.Emittor.fire(this.Uri);
                     this.update();
