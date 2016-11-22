@@ -70,8 +70,12 @@ export class Exporter {
     }
     exportToFile(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem) {
         if (!savePath) {
-            let subDir = this.config.get("exportSubFolder") as boolean;
             let dir = diagram.dir;
+            if (!path.isAbsolute(dir)) return Promise.reject({
+                error: "Please save the file before you export its diagrams.",
+                out: ""
+            });
+            let subDir = this.config.get("exportSubFolder") as boolean;
             if (subDir) {
                 dir = path.join(diagram.dir, diagram.fileName);
                 if (!fs.existsSync(dir)) {
@@ -88,7 +92,7 @@ export class Exporter {
     private doExport(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem) {
         if (!this.javeInstalled) {
             return Promise.reject({
-                error: "java not installed!\nIf you've installed java, please add java bin path to environment variables.",
+                error: "java not installed!\nIf you've installed java, please add java bin path to PATH environment variable.",
                 out: ""
             });
         }
@@ -103,7 +107,6 @@ export class Exporter {
             bar.text = "PlantUML exporting: " + diagram.title + "." + format.split(":")[0];
         }
         let params = [
-            '-Duser.dir=' + diagram.dir,
             '-Djava.awt.headless=true',
             '-jar',
             this.jar,
@@ -112,6 +115,8 @@ export class Exporter {
             '-charset',
             'utf-8'
         ];
+        if (path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
+
         var process = child_process.spawn(this.java, params);
         if (diagram.content !== null) {
             process.stdin.write(diagram.content);

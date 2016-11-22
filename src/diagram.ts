@@ -54,6 +54,11 @@ export class Diagram {
         let i = this.fileName.lastIndexOf(".");
         if (i >= 0) this.fileName = this.fileName.substr(0, i);
         this.dir = path.dirname(this.path);
+        if (!path.isAbsolute(this.dir)) {
+            if (vscode.workspace.rootPath) {
+                this.dir = vscode.workspace.rootPath;
+            }
+        }
 
         for (let i = lineNumber; i >= 0; i--) {
             let line = editor.document.lineAt(i);
