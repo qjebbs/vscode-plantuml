@@ -2,7 +2,8 @@
 
 This is a plugin that preview and export PlantUML diagrams in VSCode.
 
-By default, it binds the `Alt-D` key (Preview diagram) and registers export & preview commands on the Command Palette. Place your cursor in your diagram and trigger the command.
+By default, it binds the `Alt-D` key (Preview diagram) and registers export & preview commands on the Command Palette. 
+Place your cursor in your diagram and trigger the command.
 
 The plugin manages multiple diagrams in one file, and support concurrency export when exports them.
 
@@ -12,7 +13,8 @@ To export diagrams, go to Command Palette, find and execute command:
 
 ## Features
 
-- Manages multiple diagrams in one file
+- Manages multiple diagrams in one file. 
+- `Ctrl+Shift+O` to list all diagrams in the file. Add titles for every diagram is recommended.
 - New syntax file, support of all diagram types and salt.
 - Preview and auto update
 - Concurrency export
@@ -45,21 +47,9 @@ This extension contributes the following settings:
 
 ## Known Issues
 
+Please post and view issues on [GitHub][issues]
 
-
-## Release Notes
-
-### 1.0.2
-
-improved custom error display
-
-### 1.0.1
-
-fixed export diagram without title
-
-### 1.0.0
-
-Initial release ...
+[issues]: https://github.com/qjebbs/vscode-plantuml/issues "Post issues"
 
 -----------------------------------------------------------------------------------------------------------
 

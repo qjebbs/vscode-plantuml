@@ -3,7 +3,7 @@
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
 	"icon": "images/icon.png",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.5.0"
@@ -22,6 +22,7 @@
     "Other"
   ],
   "activationEvents": [
+    "onLanguage:diagram",
     "onCommand:plantuml.export",
     "onCommand:plantuml.exportAll",
     "onCommand:plantuml.preview"

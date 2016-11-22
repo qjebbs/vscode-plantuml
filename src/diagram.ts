@@ -12,17 +12,22 @@ export class Diagrams {
         let d = new Diagram();
         d.GetCurrent();
         this.diagrams.push(d);
+        return this
     }
-    AddAll() {
+    AddAll(document?: vscode.TextDocument) {
         let editor = vscode.window.activeTextEditor;
+        if (!document) {
+            document = editor.document;
+        }
         let RegStart = /@start/;
-        for (let i = 0; i < editor.document.lineCount; i++) {
-            let line = editor.document.lineAt(i);
+        for (let i = 0; i < document.lineCount; i++) {
+            let line = document.lineAt(i);
             if (RegStart.test(line.text)) {
                 let d = new Diagram().DiagramAt(i);
                 this.diagrams.push(d);
             }
         }
+        return this
     }
 }
 
