@@ -16,6 +16,8 @@ export class Previewer implements vscode.TextDocumentContentProvider {
     private template: string;
     private templateError: string;
     private error: string = "";
+    private rendered: number = 0;
+    private watchDisposables: vscode.Disposable[] = [];
     constructor(
         public config: vscode.WorkspaceConfiguration,
         public context: vscode.ExtensionContext,
@@ -45,6 +47,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             this.Emittor.fire(this.Uri);
             return;
         }
+        this.rendered = diagram.start.line;
         this.exporter.exportToBuffer(diagram, "png").then(
             png => {
                 let b64 = new Buffer(png as Buffer).toString('base64');
@@ -63,10 +66,17 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             }
         );
     };
+    //display processing tip
+    processing() {
+        this.error = "";
+        this.image = this.imageProcessing;
+        this.Emittor.fire(this.Uri);
+        this.update();
+    }
     register(): vscode.Disposable[] {
         let disposable: vscode.Disposable;
         let disposables: vscode.Disposable[] = [];
-
+        
         //register provider
         disposable = vscode.workspace.registerTextDocumentContentProvider('plantuml', this);
         disposables.push(disposable);
@@ -77,17 +87,22 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             if (!editor) return;
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, 'PlantUML Preview')
                 .then(success => {
-                    //display processing tip
-                    this.error = "";
-                    this.image = this.imageProcessing;
-                    this.Emittor.fire(this.Uri);
-                    this.update();
+                    this.startWatch();
+                    this.processing();
                     return;
                 }, reason => {
                     vscode.window.showErrorMessage(reason);
                 });
         });
         disposables.push(disposable);
+        return disposables;
+    }
+    startWatch() {
+        if (this.watchDisposables.length) {
+            return;
+        }
+        let disposable: vscode.Disposable;
+        let disposables: vscode.Disposable[] = [];
 
         //register watcher
         let lastTimestamp = new Date().getTime();
@@ -104,7 +119,36 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             }, 500);
         });
         disposables.push(disposable);
+        disposable = vscode.window.onDidChangeTextEditorSelection(e => {
+            if (vscode.window.activeTextEditor !== e.textEditor ||
+                this.rendered == new Diagram().GetCurrent().start.line ||
+                !this.config.get("autoUpdatePreview") as boolean) {
+                return;
+            }
+            lastTimestamp = new Date().getTime();
+            setTimeout(() => {
+                if (new Date().getTime() - lastTimestamp >= 400) {
+                    this.processing();
+                    this.update();
+                }
+            }, 500);
+        });
+        disposables.push(disposable);
 
-        return disposables;
+        //stop watcher when preview window is closed
+        disposable = vscode.workspace.onDidCloseTextDocument(e => {
+            if (e.uri.scheme === this.Uri.scheme) {
+                this.stopWatch();
+            }
+        })
+        disposables.push(disposable);
+
+        this.watchDisposables = disposables;
+    }
+    stopWatch() {
+        for (let d of this.watchDisposables) {
+            d.dispose();
+        }
+        this.watchDisposables = [];
     }
 }

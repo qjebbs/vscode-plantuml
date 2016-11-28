@@ -11,7 +11,7 @@ export class PlantUML {
     constructor(public context: vscode.ExtensionContext) {
         this.exporter = new Exporter(this.config, this.context);
         this.previewer = new Previewer(this.config, this.context, this.exporter)
-        this.symboler=new Symbol();
+        this.symboler = new Symbol();
         this.updateConfig();
     }
     updateConfig() {
@@ -20,7 +20,7 @@ export class PlantUML {
         this.previewer.config = this.config;
     }
 
-    register(): vscode.Disposable[] {
+    activate(): vscode.Disposable[] {
         try {
             let ds: vscode.Disposable[] = [];
             ds.push(
@@ -38,6 +38,8 @@ export class PlantUML {
         } catch (error) {
             console.log(error);
         }
-
+    }
+    deactivate() {
+        this.previewer.stopWatch();
     }
 }

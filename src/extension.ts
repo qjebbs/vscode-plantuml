@@ -9,9 +9,10 @@ let extension: PlantUML;
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
     let extension = new PlantUML(context);
-    context.subscriptions.push(...extension.register());
+    context.subscriptions.push(...extension.activate());
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() {
+    extension.deactivate();
 }
