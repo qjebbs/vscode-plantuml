@@ -2,21 +2,21 @@
   "name": "plantuml",
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
-	"icon": "images/icon.png",
-  "version": "1.0.4",
+  "icon": "images/icon.png",
+  "version": "1.0.5",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.5.0"
   },
-	"license": "SEE LICENSE IN LICENSE.txt",
-	"bugs": {
-		"url": "https://github.com/qjebbs/vscode-plantuml/issues"
-	},
-	"homepage": "https://github.com/qjebbs/vscode-plantuml/blob/master/README.md",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/qjebbs/vscode-plantuml.git"
-	},
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "bugs": {
+    "url": "https://github.com/qjebbs/vscode-plantuml/issues"
+  },
+  "homepage": "https://github.com/qjebbs/vscode-plantuml/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qjebbs/vscode-plantuml.git"
+  },
   "categories": [
     "Languages",
     "Other"
@@ -80,8 +80,8 @@
       "properties": {
         "plantuml.exportFormat": {
           "type": "string",
-          "default": "png",
-          "description": "export format:png, svg, eps, pdf, vdx, xmi, scxml, html, txt, utxt, latex, latex:nopreamble."
+          "default": "",
+          "description": "export format:png, svg, eps, pdf, vdx, xmi, scxml, html, txt, utxt, latex, latex:nopreamble. Leave it blank to pick format everytime you export."
         },
         "plantuml.exportSubFolder": {
           "type": "boolean",

@@ -41,7 +41,7 @@ export class Exporter {
         ds.push(d);
         return ds;
     }
-    export(all: boolean) {
+    async export(all: boolean) {
         let editor = vscode.window.activeTextEditor;
         let outputDefaultPath = path.dirname(editor.document.uri.fsPath);
         let ds = new Diagrams();
@@ -54,7 +54,7 @@ export class Exporter {
         }
         let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
         let concurrency = this.config.get("exportConcurrency") as number;
-        return this.doExports(ds.diagrams, concurrency, bar)
+        return await this.doExports(ds.diagrams, concurrency, bar)
             .then(
             msgs => {
                 bar.dispose();
@@ -148,8 +148,24 @@ export class Exporter {
             });
         });
     }
-    private doExports(diagrams: Diagram[], concurrency: number = 1, bar?: vscode.StatusBarItem) {
+    private async doExports(diagrams: Diagram[], concurrency: number = 1, bar?: vscode.StatusBarItem) {
         let format = this.config.get("exportFormat") as string;
+        if (!format) {
+            format = await vscode.window.showQuickPick([
+                "png",
+                "svg",
+                "eps",
+                "pdf",
+                "vdx",
+                "xmi",
+                "scxml",
+                "html",
+                "txt",
+                "utxt",
+                "latex",
+                "latex:nopreamble",
+            ]);
+        }
         concurrency = concurrency > diagrams.length ? diagrams.length : concurrency;
         let promises: Promise<{}>[] = [];
         for (let i = 0; i < concurrency; i++) {
@@ -172,5 +188,4 @@ export class Exporter {
         }
         return Promise.all(promises);
     }
-
 }

@@ -1,3 +1,7 @@
+### 1.0.5
+
+- `plantuml.exportFormat` default is not set, user may pick one format everytime exports. You can still set a format for it if you don't want to pick.
+
 ### 1.0.4
 
 - Improvement: Update preview when move cursor to another diagram. 
