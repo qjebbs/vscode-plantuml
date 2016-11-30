@@ -1,15 +1,15 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { Exporter } from './exporter';
+import { Exporter, ExportError } from './exporter';
 import { Diagram } from './diagram';
 
 
 export class Previewer implements vscode.TextDocumentContentProvider {
 
-    Emittor: vscode.EventEmitter<vscode.Uri> = new vscode.EventEmitter<vscode.Uri>();
-    onDidChange: vscode.Event<vscode.Uri> = this.Emittor.event;
-    Uri: vscode.Uri = vscode.Uri.parse('plantuml://preview');
+    Emittor = new vscode.EventEmitter<vscode.Uri>();
+    onDidChange = this.Emittor.event;
+    Uri = vscode.Uri.parse('plantuml://preview');
 
     private image: string;
     private imageProcessing: string;
@@ -49,16 +49,17 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         }
         this.rendered = diagram.start.line;
         this.exporter.exportToBuffer(diagram, "png").then(
-            png => {
-                let b64 = new Buffer(png as Buffer).toString('base64');
+            result => {
+                let b64 = result.toString('base64');
                 this.image = `data:image/png;base64,${b64}`
                 this.error = "";
                 this.Emittor.fire(this.Uri);
             },
-            err => {
+            error => {
+                let err = error as ExportError
                 this.image = "";
                 this.error = err.error;
-                let b64 = new Buffer(err.out as Buffer).toString('base64');
+                let b64 = err.out.toString('base64');
                 if (b64) {
                     this.image = `data:image/png;base64,${b64}`
                 }
@@ -71,12 +72,11 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         this.error = "";
         this.image = this.imageProcessing;
         this.Emittor.fire(this.Uri);
-        this.update();
     }
     register(): vscode.Disposable[] {
         let disposable: vscode.Disposable;
         let disposables: vscode.Disposable[] = [];
-        
+
         //register provider
         disposable = vscode.workspace.registerTextDocumentContentProvider('plantuml', this);
         disposables.push(disposable);
@@ -87,8 +87,13 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             if (!editor) return;
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, 'PlantUML Preview')
                 .then(success => {
-                    this.startWatch();
+                    //active source editor
+                    vscode.window.showTextDocument(editor.document);
+                    //update preview
+                    let auto = this.config.get("autoUpdatePreview") as boolean
+                    if (auto) this.startWatch(); else this.stopWatch();
                     this.processing();
+                    this.update();
                     return;
                 }, reason => {
                     vscode.window.showErrorMessage(reason);
@@ -107,8 +112,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         //register watcher
         let lastTimestamp = new Date().getTime();
         disposable = vscode.workspace.onDidChangeTextDocument(e => {
-            if (vscode.window.activeTextEditor.document !== e.document ||
-                !this.config.get("autoUpdatePreview") as boolean) {
+            if (vscode.window.activeTextEditor.document !== e.document) {
                 return;
             }
             lastTimestamp = new Date().getTime();
@@ -121,8 +125,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         disposables.push(disposable);
         disposable = vscode.window.onDidChangeTextEditorSelection(e => {
             if (vscode.window.activeTextEditor !== e.textEditor ||
-                this.rendered == new Diagram().GetCurrent().start.line ||
-                !this.config.get("autoUpdatePreview") as boolean) {
+                this.rendered == new Diagram().GetCurrent().start.line) {
                 return;
             }
             lastTimestamp = new Date().getTime();

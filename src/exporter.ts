@@ -4,6 +4,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Diagram, Diagrams } from './diagram';
 
+export interface ExportError {
+    error: string;
+    out: Buffer;
+}
+
 export class Exporter {
     private jar: string;
     private java: string = "java";
@@ -21,13 +26,18 @@ export class Exporter {
         });
     }
     register(): vscode.Disposable[] {
+        function showError(error) {
+            let err = error as TypeError;
+            console.log(error);
+            vscode.window.showErrorMessage(err.message);
+        }
         //register export
         let ds: vscode.Disposable[] = [];
         let d = vscode.commands.registerCommand('plantuml.export', () => {
             try {
                 this.export(false);
             } catch (error) {
-                vscode.window.showErrorMessage(error)
+                showError(error);
             }
         });
         ds.push(d);
@@ -35,13 +45,13 @@ export class Exporter {
             try {
                 this.export(true);
             } catch (error) {
-                vscode.window.showErrorMessage(error)
+                showError(error);
             }
         });
         ds.push(d);
         return ds;
     }
-    async export(all: boolean) {
+    export(all: boolean) {
         let editor = vscode.window.activeTextEditor;
         let outputDefaultPath = path.dirname(editor.document.uri.fsPath);
         let ds = new Diagrams();
@@ -49,31 +59,34 @@ export class Exporter {
             ds.AddAll();
         } else {
             let dg = new Diagram().GetCurrent();
-            ds.Add(new Diagram().GetCurrent());
+            ds.Add(dg);
             editor.selections = [new vscode.Selection(dg.start, dg.end)];
         }
         let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
         let concurrency = this.config.get("exportConcurrency") as number;
-        return await this.doExports(ds.diagrams, concurrency, bar)
-            .then(
-            msgs => {
+        this.doExports(ds.diagrams, concurrency, bar).then(
+            results => {
                 bar.dispose();
-                vscode.window.showInformationMessage("Export finish.");
+                if (results.length) {
+                    vscode.window.showInformationMessage("Export finish.");
+                }
             },
-            msg => {
+            error => {
                 bar.dispose();
-                let m = msg.error as string
+                let err = error as ExportError;
+                let m = err.error as string
                 console.log(m);
                 vscode.window.showErrorMessage(m.replace(/\n/g, " "));
             }
-            );
+        );
+        return;
     }
-    exportToFile(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem) {
+    exportToFile(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
         if (!savePath) {
             let dir = diagram.dir;
-            if (!path.isAbsolute(dir)) return Promise.reject({
+            if (!path.isAbsolute(dir)) return Promise.reject<ExportError>({
                 error: "Please save the file before you export its diagrams.",
-                out: ""
+                out: new Buffer("")
             });
             let subDir = this.config.get("exportSubFolder") as boolean;
             if (subDir) {
@@ -86,20 +99,20 @@ export class Exporter {
         }
         return this.doExport(diagram, format, savePath, bar);
     }
-    exportToBuffer(diagram: Diagram, format: string, bar?: vscode.StatusBarItem) {
+    exportToBuffer(diagram: Diagram, format: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
         return this.doExport(diagram, format, null, bar);
     }
-    private doExport(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem) {
+    private doExport(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
         if (!this.javeInstalled) {
-            return Promise.reject({
+            return Promise.reject<ExportError>({
                 error: "java not installed!\nIf you've installed java, please add java bin path to PATH environment variable.",
-                out: ""
+                out: new Buffer("")
             });
         }
         if (!fs.existsSync(this.jar)) {
-            return Promise.reject({
+            return Promise.reject<ExportError>({
                 error: "Can't find 'plantuml.jar'.Please download and place it here: \n" + this.context.extensionPath,
-                out: ""
+                out: new Buffer("")
             });
         }
         if (bar) {
@@ -122,7 +135,7 @@ export class Exporter {
             process.stdin.write(diagram.content);
             process.stdin.end();
         }
-        return new Promise((resolve, reject) => {
+        return new Promise<Buffer>((resolve, reject) => {
             let buffs: Buffer[] = [];
             let bufflen = 0;
             let stderror = '';
@@ -140,7 +153,7 @@ export class Exporter {
                 if (!stderror) {
                     resolve(stdout);
                 } else {
-                    reject({ error: stderror, out: stdout });
+                    reject(<ExportError>{ error: stderror, out: stdout });
                 }
             })
             process.stderr.on('data', function (x) {
@@ -148,7 +161,7 @@ export class Exporter {
             });
         });
     }
-    private async doExports(diagrams: Diagram[], concurrency: number = 1, bar?: vscode.StatusBarItem) {
+    private async doExports(diagrams: Diagram[], concurrency: number = 1, bar?: vscode.StatusBarItem): Promise<Buffer[]> {
         let format = this.config.get("exportFormat") as string;
         if (!format) {
             format = await vscode.window.showQuickPick([
@@ -165,13 +178,14 @@ export class Exporter {
                 "latex",
                 "latex:nopreamble",
             ]);
+            if (!format) return Promise.resolve([]);
         }
         concurrency = concurrency > diagrams.length ? diagrams.length : concurrency;
-        let promises: Promise<{}>[] = [];
+        let promises: Promise<Buffer>[] = [];
         for (let i = 0; i < concurrency; i++) {
             //each i starts a task chain, which export indexes like 0,3,6,9... (task 1, concurrency 3 for example.)
             promises.push(
-                diagrams.reduce((prev: Promise<{}>, diagram: Diagram, index: number) => {
+                diagrams.reduce((prev: Promise<Buffer>, diagram: Diagram, index: number) => {
                     if (index % concurrency != i) {
                         // ignore indexes belongs to other task.chain
                         return prev;
@@ -181,11 +195,12 @@ export class Exporter {
                             return this.exportToFile(diagram, format, null, bar);
                         },
                         err => {
-                            return Promise.reject({ error: err.error, out: err.out });
+                            let result = err as ExportError;
+                            return Promise.reject<ExportError>({ error: result.error, out: result.out });
                         });
                 }, Promise.resolve(""))
             );
         }
-        return Promise.all(promises);
+        return Promise.all<Buffer>(promises);
     }
 }

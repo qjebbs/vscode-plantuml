@@ -81,7 +81,10 @@
         "plantuml.exportFormat": {
           "type": "string",
           "default": "",
-          "description": "export format:png, svg, eps, pdf, vdx, xmi, scxml, html, txt, utxt, latex, latex:nopreamble. Leave it blank to pick format everytime you export."
+          "enum": [
+            "", "png", "svg", "eps", "pdf", "vdx", "xmi", "scxml", "html", "txt", "utxt", "latex", "latex:nopreamble"
+          ],
+          "description": "export format. Leave it blank to pick format everytime you export."
         },
         "plantuml.exportSubFolder": {
           "type": "boolean",
