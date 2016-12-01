@@ -1,16 +1,19 @@
 import * as vscode from 'vscode';
 import { Exporter } from './exporter';
 import { Previewer } from './preview';
+import { Builder } from "./builder";
 import { Symbol } from "./symbol";
 
 export class PlantUML {
     config: vscode.WorkspaceConfiguration;
     private previewer: Previewer;
     private exporter: Exporter;
+    private builder: Builder;
     private symboler: Symbol;
     constructor(public context: vscode.ExtensionContext) {
         this.exporter = new Exporter(this.config, this.context);
         this.previewer = new Previewer(this.config, this.context, this.exporter)
+        this.builder = new Builder(this.config, this.context, this.exporter)
         this.symboler = new Symbol();
         this.updateConfig();
     }
@@ -18,6 +21,7 @@ export class PlantUML {
         this.config = vscode.workspace.getConfiguration("plantuml");
         this.exporter.config = this.config;
         this.previewer.config = this.config;
+        this.builder.config = this.config;
     }
 
     activate(): vscode.Disposable[] {
@@ -32,6 +36,8 @@ export class PlantUML {
             ds.push(...this.exporter.register());
             //register preview
             ds.push(...this.previewer.register());
+            //register builder
+            ds.push(...this.builder.register());
             //register symbol provider
             ds.push(...this.symboler.register());
             return ds;

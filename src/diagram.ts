@@ -14,16 +14,16 @@ export class Diagrams {
         this.diagrams.push(d);
         return this
     }
-    AddAll(document?: vscode.TextDocument) {
-        let editor = vscode.window.activeTextEditor;
+    AddDocument(document?: vscode.TextDocument) {
         if (!document) {
+            let editor = vscode.window.activeTextEditor;
             document = editor.document;
         }
         let RegStart = /@start/;
         for (let i = 0; i < document.lineCount; i++) {
             let line = document.lineAt(i);
             if (RegStart.test(line.text)) {
-                let d = new Diagram().DiagramAt(i);
+                let d = new Diagram().DiagramAt(i, document);
                 this.diagrams.push(d);
             }
         }
@@ -46,15 +46,11 @@ export class Diagram {
         if (editor) this.DiagramAt(editor.selection.anchor.line);
         return this;
     }
-    DiagramAt(lineNumber: number) {
-        let editor = vscode.window.activeTextEditor;
+    DiagramAt(lineNumber: number, document?: vscode.TextDocument) {
         let RegStart = /@start/;
         let RegEnd = /@end/;
-
-        this.editor = editor
-        // this.start = editor.document.lineAt(0).range.start;
-        // this.end = editor.document.lineAt(editor.document.lineCount - 1).range.end;
-        this.path = editor.document.uri.fsPath;
+        if (!document) document = vscode.window.activeTextEditor.document
+        this.path = document.uri.fsPath;
         this.fileName = path.basename(this.path)
         let i = this.fileName.lastIndexOf(".");
         if (i >= 0) this.fileName = this.fileName.substr(0, i);
@@ -66,7 +62,7 @@ export class Diagram {
         }
 
         for (let i = lineNumber; i >= 0; i--) {
-            let line = editor.document.lineAt(i);
+            let line = document.lineAt(i);
             if (RegStart.test(line.text)) {
                 this.start = line.range.start;
                 break;
@@ -74,8 +70,8 @@ export class Diagram {
                 return this;
             }
         }
-        for (let i = lineNumber; i < editor.document.lineCount; i++) {
-            let line = editor.document.lineAt(i);
+        for (let i = lineNumber; i < document.lineCount; i++) {
+            let line = document.lineAt(i);
             if (RegEnd.test(line.text)) {
                 this.end = line.range.end
                 break;
@@ -84,18 +80,17 @@ export class Diagram {
             }
         }
         if (this.start && this.end) {
-            this.content = editor.document.getText(new vscode.Range(this.start, this.end));
-            this.getTitle();
+            this.content = document.getText(new vscode.Range(this.start, this.end));
+            this.getTitle(document);
         }
         return this;
     }
 
-    private getTitle() {
+    private getTitle(document: vscode.TextDocument) {
         let inlineTitle = /^\s*title\s+(.+?)\s*$/i;
         let multLineTitle = /^\s*title\s*$/i;
-        let editor = this.editor;
         for (let i = this.start.line; i <= this.end.line; i++) {
-            let text = editor.document.lineAt(i).text;
+            let text = document.lineAt(i).text;
             if (inlineTitle.test(text)) {
                 let matches = text.match(inlineTitle);
                 this.titleRaw = matches[1];

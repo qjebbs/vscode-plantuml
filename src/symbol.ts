@@ -13,7 +13,7 @@ export class Symbol implements vscode.DocumentSymbolProvider {
     provideDocumentSymbols(document: vscode.TextDocument, token: vscode.CancellationToken): vscode.SymbolInformation[] {
         let results: vscode.SymbolInformation[] = [];
 
-        let ds = new Diagrams().AddAll(document);
+        let ds = new Diagrams().AddDocument(document);
         for (let d of ds.diagrams) {
             results.push(
                 new vscode.SymbolInformation(
@@ -25,6 +25,5 @@ export class Symbol implements vscode.DocumentSymbolProvider {
             );
         }
         return results;
-
     }
 }

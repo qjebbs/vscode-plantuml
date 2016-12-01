@@ -3,7 +3,7 @@
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
   "icon": "images/icon.png",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.5.0"
@@ -23,8 +23,9 @@
   ],
   "activationEvents": [
     "onLanguage:diagram",
-    "onCommand:plantuml.export",
-    "onCommand:plantuml.exportAll",
+    "onCommand:plantuml.exportCurrent",
+    "onCommand:plantuml.exportDocument",
+    "onCommand:plantuml.exportWorkspace",
     "onCommand:plantuml.preview"
   ],
   "main": "./out/src/extension",
@@ -35,7 +36,9 @@
         "extensions": [
           ".wsd",
           ".pu",
-          ".puml"
+          ".puml",
+          ".plantuml",
+          ".iuml"
         ],
         "aliases": [
           "Diagram",
@@ -53,13 +56,18 @@
     ],
     "commands": [
       {
-        "command": "plantuml.export",
-        "title": "%plantuml.export.title%",
+        "command": "plantuml.exportCurrent",
+        "title": "%plantuml.exportCurrent.title%",
         "category": "PlantUML"
       },
       {
-        "command": "plantuml.exportAll",
-        "title": "%plantuml.exportAll.title%",
+        "command": "plantuml.exportDocument",
+        "title": "%plantuml.exportDocument.title%",
+        "category": "PlantUML"
+      },
+      {
+        "command": "plantuml.exportWorkspace",
+        "title": "%plantuml.exportWorkspace.title%",
         "category": "PlantUML"
       },
       {
@@ -82,7 +90,19 @@
           "type": "string",
           "default": "",
           "enum": [
-            "", "png", "svg", "eps", "pdf", "vdx", "xmi", "scxml", "html", "txt", "utxt", "latex", "latex:nopreamble"
+            "",
+            "png",
+            "svg",
+            "eps",
+            "pdf",
+            "vdx",
+            "xmi",
+            "scxml",
+            "html",
+            "txt",
+            "utxt",
+            "latex",
+            "latex:nopreamble"
           ],
           "description": "export format. Leave it blank to pick format everytime you export."
         },

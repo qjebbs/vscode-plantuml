@@ -8,16 +8,17 @@ Place your cursor in your diagram and trigger the command.
 The plugin manages multiple diagrams in one file, and support concurrency export when exports them.
 
 To export diagrams, go to Command Palette, find and execute command:
-- `PlantUML: Export Current Diagram to file` 
-- `PlantUML: Export All Diagrams to file`.
+- `PlantUML: Export Current Diagram` 
+- `PlantUML: Export Current File Diagrams`.
+- `PlantUML: Export Workspace Diagrams`.
 
 ## Features
 
-- Manages multiple diagrams in one file. 
-- `Ctrl+Shift+O` to list all diagrams in the file. Add titles for every diagram is recommended.
-- New syntax file, support of all diagram types and salt.
 - Preview and auto update
+- Export diagram at cursor, or diagrams in current file or whole workspace.
 - Concurrency export
+- `Ctrl+Shift+O` to list all diagrams in the file. Add titles for every diagram is recommended.
+- New syntax file, support of all diagram types.
 
 ![demo](images/demo.gif "demo")
 

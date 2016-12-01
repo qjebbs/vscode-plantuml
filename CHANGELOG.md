@@ -1,15 +1,22 @@
+### 1.1.0
+
+- New Feature: Export workspace diagrams
+- Add more suffixes: ".iuml", ".plantuml"
+- Small improvements
+- Changed command name and display
+
 ### 1.0.5
 
 - `plantuml.exportFormat` default is not set, user may pick one format everytime exports. You can still set a format for it if you don't want to pick. Setting enumeration added.
-- currnet document remains active after preview command.
-- Bug Fix: Update twice when trigger preview command.
+- currnet document remains active after preview command
+- Bug Fix: Update twice when trigger preview command
 - code optimization
 
 ### 1.0.4
 
-- Improvement: Update preview when move cursor to another diagram. 
+- Improvement: Update preview when move cursor to another diagram
 - Improvement: Stop watching when preview closed. But it has a 3 minutes delay due to [#13623](https://github.com/Microsoft/vscode/issues/13623)
-- Bug Fix: Remove excess "PlantUML:" display in Command Palette.
+- Bug Fix: Remove excess "PlantUML:" display in Command Palette
 
 ### 1.0.3
 

@@ -1,5 +1,6 @@
 {
-	"plantuml.export.title": "导出当前图表",
-	"plantuml.exportAll.title": "导出所有图表",
+	"plantuml.exportCurrent.title": "导出光标位置图表",
+	"plantuml.exportDocument.title": "导出当前文件图表",
+	"plantuml.exportWorkspace.title": "导出工作区图表",
 	"plantuml.preview.title": "打开预览"
 }

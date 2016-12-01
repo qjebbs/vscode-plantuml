@@ -3,6 +3,7 @@ import * as child_process from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Diagram, Diagrams } from './diagram';
+import { ExportFormats } from './base';
 
 export interface ExportError {
     error: string;
@@ -33,17 +34,17 @@ export class Exporter {
         }
         //register export
         let ds: vscode.Disposable[] = [];
-        let d = vscode.commands.registerCommand('plantuml.export', () => {
+        let d = vscode.commands.registerCommand('plantuml.exportCurrent', () => {
             try {
-                this.export(false);
+                this.exportDocument(false);
             } catch (error) {
                 showError(error);
             }
         });
         ds.push(d);
-        d = vscode.commands.registerCommand('plantuml.exportAll', () => {
+        d = vscode.commands.registerCommand('plantuml.exportDocument', () => {
             try {
-                this.export(true);
+                this.exportDocument(true);
             } catch (error) {
                 showError(error);
             }
@@ -51,35 +52,10 @@ export class Exporter {
         ds.push(d);
         return ds;
     }
-    export(all: boolean) {
-        let editor = vscode.window.activeTextEditor;
-        let outputDefaultPath = path.dirname(editor.document.uri.fsPath);
-        let ds = new Diagrams();
-        if (all) {
-            ds.AddAll();
-        } else {
-            let dg = new Diagram().GetCurrent();
-            ds.Add(dg);
-            editor.selections = [new vscode.Selection(dg.start, dg.end)];
-        }
-        let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-        let concurrency = this.config.get("exportConcurrency") as number;
-        this.doExports(ds.diagrams, concurrency, bar).then(
-            results => {
-                bar.dispose();
-                if (results.length) {
-                    vscode.window.showInformationMessage("Export finish.");
-                }
-            },
-            error => {
-                bar.dispose();
-                let err = error as ExportError;
-                let m = err.error as string
-                console.log(m);
-                vscode.window.showErrorMessage(m.replace(/\n/g, " "));
-            }
-        );
-        return;
+    async exportURI(uri: vscode.Uri, format: string, concurrency?: number, bar?: vscode.StatusBarItem) {
+        let doc = await vscode.workspace.openTextDocument(uri);
+        let ds = new Diagrams().AddDocument(doc)
+        return this.doExports(ds.diagrams, concurrency, format, bar);
     }
     exportToFile(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
         if (!savePath) {
@@ -101,6 +77,53 @@ export class Exporter {
     }
     exportToBuffer(diagram: Diagram, format: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
         return this.doExport(diagram, format, null, bar);
+    }
+    private async exportDocument(all: boolean) {
+        let editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showWarningMessage("No active document to export.");
+            return;
+        }
+        let outputDefaultPath = path.dirname(editor.document.uri.fsPath);
+        let format = this.config.get("exportFormat") as string;
+        if (!format) {
+            format = await vscode.window.showQuickPick(ExportFormats);
+            if (!format) return;
+        }
+        let ds = new Diagrams();
+        if (all) {
+            ds.AddDocument();
+            if (!ds.diagrams.length) {
+                vscode.window.showWarningMessage("No valid diagram found!");
+                return;
+            }
+        } else {
+            let dg = new Diagram().GetCurrent();
+            if (!dg.content) {
+                vscode.window.showWarningMessage("No valid diagram found here!");
+                return;
+            }
+            ds.Add(dg);
+            editor.selections = [new vscode.Selection(dg.start, dg.end)];
+        }
+        let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+        let concurrency = this.config.get("exportConcurrency") as number;
+        this.doExports(ds.diagrams, concurrency, format, bar).then(
+            results => {
+                bar.dispose();
+                if (results.length) {
+                    vscode.window.showInformationMessage(`${results.length} diagrams exported.`);
+                }
+            },
+            error => {
+                bar.dispose();
+                let err = error as ExportError;
+                let m = err.error as string
+                console.log(m);
+                vscode.window.showErrorMessage(m.replace(/\n/g, " "));
+            }
+        );
+        return;
     }
     private doExport(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
         if (!this.javeInstalled) {
@@ -161,25 +184,7 @@ export class Exporter {
             });
         });
     }
-    private async doExports(diagrams: Diagram[], concurrency: number = 1, bar?: vscode.StatusBarItem): Promise<Buffer[]> {
-        let format = this.config.get("exportFormat") as string;
-        if (!format) {
-            format = await vscode.window.showQuickPick([
-                "png",
-                "svg",
-                "eps",
-                "pdf",
-                "vdx",
-                "xmi",
-                "scxml",
-                "html",
-                "txt",
-                "utxt",
-                "latex",
-                "latex:nopreamble",
-            ]);
-            if (!format) return Promise.resolve([]);
-        }
+    private doExports(diagrams: Diagram[], concurrency: number = 1, format: string, bar?: vscode.StatusBarItem): Promise<Buffer[]> {
         concurrency = concurrency > diagrams.length ? diagrams.length : concurrency;
         let promises: Promise<Buffer>[] = [];
         for (let i = 0; i < concurrency; i++) {

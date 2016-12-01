@@ -1,5 +1,6 @@
 {
-	"plantuml.export.title": "Export Current Diagram to file",
-	"plantuml.exportAll.title": "Export All Diagrams to file",
-	"plantuml.preview.title": "Preview Current Diagrams"
+	"plantuml.exportCurrent.title": "Export Current Diagram",
+	"plantuml.exportDocument.title": "Export Current File Diagrams",
+	"plantuml.exportWorkspace.title": "Export Workspace Diagrams",
+	"plantuml.preview.title": "Preview Current Diagram"
 }
