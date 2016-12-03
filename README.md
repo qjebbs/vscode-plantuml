@@ -41,8 +41,9 @@ Before you can use the plugin, it's necessary to have following installed:
 This extension contributes the following settings:
 
 - `plantuml.exportFormat`: format to export. default is not set, user may pick one format everytime exports. You can still set a format for it if you don't want to pick.
-- `plantuml.exportSubFolder`: export files to a folder named with current file.
+- `plantuml.exportSubFolder`: export diagrams to a folder which has same name with host file.
 - `plantuml.exportConcurrency`: decides concurrency count when export multiple diagrams.
+- `plantuml.exportOutDirName`: export workspace diagrams will be organized in a directory named with value specified here.
 - `plantuml.autoUpdatePreview`: edecides if automatically update the preview window.
 
 

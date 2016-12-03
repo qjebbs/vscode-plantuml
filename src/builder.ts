@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 import { Exporter, ExportError } from './exporter';
 import { Diagram } from './diagram';
 import { ExportFormats, FileSuffixes } from './base';
-
 
 export class Builder {
     constructor(
@@ -38,7 +38,10 @@ export class Builder {
             if (!format) return;
         }
         if (!para) {
-            this.doBuild(await this.findFiles(FileSuffixes), format);
+            let exts = FileSuffixes.reduce((prev, cur) => {
+                return prev + (prev ? "," : "") + cur;
+            }, "");
+            this.doBuild(await vscode.workspace.findFiles(`**/*{${exts}}`, ""), format);
         } else if (para instanceof vscode.Uri) {
             this.doBuild([para], format);
         } else if (para instanceof Array) {
@@ -57,7 +60,9 @@ export class Builder {
         uris.reduce((prev: Promise<Buffer>, uri: vscode.Uri, index: number) => {
             return prev.then(
                 () => {
-                    return this.exporter.exportURI(uri, format, concurrency, bar);
+                    let outDirName = this.config.get("exportOutDirName") as number;
+                    let dir = path.join(vscode.workspace.rootPath, outDirName);
+                    return this.exporter.exportURI(uri, format, dir, concurrency, bar);
                 },
                 error => {
                     let reason = "";
@@ -74,7 +79,6 @@ export class Builder {
                         }
                     }
                     return Promise.reject(reason);
-                    // return this.exporter.exportURI(uri, format, concurrency, bar);
                 });
         }, Promise.resolve("")).then(
             results => {
@@ -94,28 +98,5 @@ export class Builder {
                 }
             }
             )
-    }
-
-    private async findFiles(exts: string[]) {
-        let uris: vscode.Uri[] = [];
-        await exts.reduce((prev: Promise<vscode.Uri[]>, ext: string) => {
-            return prev.then(
-                us => {
-                    uris.push(...us);
-                    return vscode.workspace.findFiles(`**/*${ext}`, "");
-                },
-                err => {
-                    return Promise.reject(err);
-                }
-            );
-        }, Promise.resolve("")).then(
-            us => {
-                uris.push(...us);
-            },
-            err => {
-                return Promise.reject(err);
-            }
-            );
-        return uris;
     }
 }

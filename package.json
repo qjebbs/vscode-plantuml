@@ -3,7 +3,7 @@
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
   "icon": "images/icon.png",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.5.0"
@@ -109,12 +109,17 @@
         "plantuml.exportSubFolder": {
           "type": "boolean",
           "default": true,
-          "description": "export files to a folder which has same name with current file."
+          "description": "export diagrams to a folder which has same name with host file."
         },
         "plantuml.exportConcurrency": {
           "type": "number",
           "default": 3,
           "description": "decides concurrency count when export multiple diagrams."
+        },
+        "plantuml.exportOutDirName": {
+          "type": "string",
+          "default": "out",
+          "description": "export workspace diagrams will be organized in a directory named with value specified here."
         },
         "plantuml.autoUpdatePreview": {
           "type": "boolean",

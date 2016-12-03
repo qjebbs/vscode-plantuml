@@ -1,3 +1,7 @@
+### 1.1.1
+
+- Improvement: export workspace diagrams will be organized in a directory named with "out" by default. you can changed directory name with setting `plantuml.exportOutDirName`.
+
 ### 1.1.0
 
 - New Feature: Export workspace diagrams

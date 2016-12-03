@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Diagram, Diagrams } from './diagram';
 import { ExportFormats } from './base';
+import { mkdirsSync, isSubPath } from './tools';
 
 export interface ExportError {
     error: string;
@@ -52,31 +53,16 @@ export class Exporter {
         ds.push(d);
         return ds;
     }
-    async exportURI(uri: vscode.Uri, format: string, concurrency?: number, bar?: vscode.StatusBarItem) {
+    async exportURI(uri: vscode.Uri, format: string, dir?: string, concurrency?: number, bar?: vscode.StatusBarItem) {
         let doc = await vscode.workspace.openTextDocument(uri);
         let ds = new Diagrams().AddDocument(doc)
-        return this.doExports(ds.diagrams, concurrency, format, bar);
+        return this.doExports(ds.diagrams, format, dir, concurrency, bar);
     }
-    exportToFile(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
-        if (!savePath) {
-            let dir = diagram.dir;
-            if (!path.isAbsolute(dir)) return Promise.reject<ExportError>({
-                error: "Please save the file before you export its diagrams.",
-                out: new Buffer("")
-            });
-            let subDir = this.config.get("exportSubFolder") as boolean;
-            if (subDir) {
-                dir = path.join(diagram.dir, diagram.fileName);
-                if (!fs.existsSync(dir)) {
-                    fs.mkdir(dir);
-                }
-            }
-            savePath = path.join(dir, diagram.title + "." + format.split(":")[0])
-        }
+    exportToFile(diagram: Diagram, format: string, savePath: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
         return this.doExport(diagram, format, savePath, bar);
     }
     exportToBuffer(diagram: Diagram, format: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
-        return this.doExport(diagram, format, null, bar);
+        return this.doExport(diagram, format, "", bar);
     }
     private async exportDocument(all: boolean) {
         let editor = vscode.window.activeTextEditor;
@@ -108,7 +94,13 @@ export class Exporter {
         }
         let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
         let concurrency = this.config.get("exportConcurrency") as number;
-        this.doExports(ds.diagrams, concurrency, format, bar).then(
+        let outDirName = this.config.get("exportOutDirName") as number;
+        let dir = "";
+        let wkdir = vscode.workspace.rootPath;
+        //if current document is in workspace, organize exports in 'out' directory.
+        //if not, export beside the document.
+        if (isSubPath(editor.document.fileName, wkdir)) dir = path.join(wkdir, outDirName);
+        this.doExports(ds.diagrams, format, dir, concurrency, bar).then(
             results => {
                 bar.dispose();
                 if (results.length) {
@@ -125,7 +117,14 @@ export class Exporter {
         );
         return;
     }
-    private doExport(diagram: Diagram, format: string, savePath?: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
+    /**
+     * export a diagram to file or to Buffer.
+     * @param diagram The diagram to export.
+     * @param format format of export file.
+     * @param savePath if savePath is given, it exports to a file, or, to Buffer.
+     * @returns A Promise of Buffer.
+     */
+    private doExport(diagram: Diagram, format: string, savePath: string, bar: vscode.StatusBarItem): Promise<Buffer> {
         if (!this.javeInstalled) {
             return Promise.reject<ExportError>({
                 error: "java not installed!\nIf you've installed java, please add java bin path to PATH environment variable.",
@@ -184,7 +183,15 @@ export class Exporter {
             });
         });
     }
-    private doExports(diagrams: Diagram[], concurrency: number = 1, format: string, bar?: vscode.StatusBarItem): Promise<Buffer[]> {
+    /**
+     * export diagrams to file.
+     * @param diagrams The diagrams array to export.
+     * @param format format of export file.
+     * @param dir if dir is given, it exports filest to this dir which has same structure to files in workspace, or, directly to workspace dir.
+     * @returns A Promise of Buffer array.
+     */
+    private doExports(diagrams: Diagram[], format: string, dir: string, concurrency: number, bar: vscode.StatusBarItem): Promise<Buffer[]> {
+        concurrency = concurrency > 0 ? concurrency : 1
         concurrency = concurrency > diagrams.length ? diagrams.length : concurrency;
         let promises: Promise<Buffer>[] = [];
         for (let i = 0; i < concurrency; i++) {
@@ -197,7 +204,23 @@ export class Exporter {
                     }
                     return prev.then(
                         () => {
-                            return this.exportToFile(diagram, format, null, bar);
+                            let exportDir = diagram.dir;
+                            if (!path.isAbsolute(exportDir)) return Promise.reject<ExportError>({
+                                error: "Please save the file before you export its diagrams.",
+                                out: new Buffer("")
+                            });
+                            let wkDir = vscode.workspace.rootPath;
+                            if (dir && wkDir) {
+                                let temp = path.relative(wkDir, exportDir);
+                                exportDir = path.join(dir, temp);
+                            }
+                            let subDir = this.config.get("exportSubFolder") as boolean;
+                            if (subDir) {
+                                exportDir = path.join(exportDir, diagram.fileName);
+                            }
+                            mkdirsSync(exportDir);
+                            let savePath = path.join(exportDir, diagram.title + "." + format.split(":")[0])
+                            return this.exportToFile(diagram, format, savePath, bar);
                         },
                         err => {
                             let result = err as ExportError;
