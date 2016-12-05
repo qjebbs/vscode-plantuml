@@ -3,7 +3,7 @@
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
   "icon": "images/icon.png",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.5.0"
@@ -80,6 +80,20 @@
       {
         "command": "plantuml.preview",
         "key": "Alt+d"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "diagram",
+        "path": "./snippets/common.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/activity.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/eggs.json"
       }
     ],
     "configuration": {

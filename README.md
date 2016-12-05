@@ -19,6 +19,7 @@ To export diagrams, go to Command Palette, find and execute command:
 - Concurrency export
 - `Ctrl+Shift+O` to list all diagrams in the file. Add titles for every diagram is recommended.
 - New syntax file, support of all diagram types.
+- Snippets for activity diagrams and `Eggs`.
 
 ![demo](images/demo.gif "demo")
 

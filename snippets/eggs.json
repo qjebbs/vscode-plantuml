@@ -1,0 +1,20 @@
+{
+    "sudoku": {
+        "prefix": "egg:sudoku",
+        "body": "@startuml\nsudoku ${1:}\n@enduml",
+        "description": "Egg: New sudoku diagram",
+        "scope": ""
+    },
+    "earth": {
+        "prefix": "egg:earth",
+        "body": "@startuml\nxearth(500,500)\n'Fixed position\nviewPositionType = Fixed\nviewPosLat = 30.3\nviewPosLong = 120.2\n''Relative view from Sun\n'viewPositionType = Sun-relative\n'sunPosRelLat = -10\n'sunPosRelLong = 40\n''Relative view from Moon\n'viewPositionType = Moon\n'daySideBrightness = 100\n'nightSideBrightness = 30\n''View set by orbit\n'viewPositionType = Orbit\n'orbitPeriod = 1\n'orbitInclination = 30\n''Add more stars\n'starsP = true\n'starFrequency = 0.025\n'bigStars = 20\n''grid configuration\n'gridP = true\n'gridDivision = 9\n'gridPixelDivision = 8\n''shading\n'shadeP = true\n''grid\n'gridP = true\n''luminosity\n'daySideBrightness = 100\n'nightSideBrightness = 30\n'terminatorDiscontinuity = 50\n'Zooming\nviewMagnification = 1\n'Adding cities\n39.92 116.43 \"Beijing\" # China\n30.3 120.2 \"Hangzhou\" # China\n@enduml",
+        "description": "Egg: New earth diagram",
+        "scope": ""
+    },
+    "fonts": {
+        "prefix": "egg:font",
+        "body": "@startuml\nlistfonts ${1:test characters}\n@enduml",
+        "description": "Egg: New font list diagram",
+        "scope": ""
+    }
+}

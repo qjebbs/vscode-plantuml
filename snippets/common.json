@@ -1,0 +1,38 @@
+{
+    "new": {
+        "prefix": "new",
+        "body": "@startuml\n\t${1:}\n@enduml",
+        "description": "New Diagram block",
+        "scope": ""
+    },
+    "footer": {
+        "prefix": "footer",
+        "body": "footer\n\t${1:footer text}\nend footer",
+        "description": "Diagram footer",
+        "scope": ""
+    },
+    "header": {
+        "prefix": "header",
+        "body": "header\n\t${1:header text}\nend header",
+        "description": "Diagram header",
+        "scope": ""
+    },
+    "legend": {
+        "prefix": "legend",
+        "body": "legend\n\t${1:legend text}\nend legend",
+        "description": "Diagram legend",
+        "scope": ""
+    },
+    "note": {
+        "prefix": "note",
+        "body": "note\n\t${1:note text}\nend note",
+        "description": "Multi-line note",
+        "scope": ""
+    },
+    "note-inline": {
+        "prefix": "note",
+        "body": "note ${1:right}${2:left}: ${3:note text}",
+        "description": "Multi-line note",
+        "scope": ""
+    }
+}

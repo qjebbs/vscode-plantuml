@@ -1,0 +1,44 @@
+{
+    "ifelse": {
+        "prefix": "ifelse",
+        "body": "if (${1:condition}) then (${2:result})\n\t:${4:do something};\nelse (${3:result})\n\t:${5:do something};\nendif",
+        "description": "activity: if-else",
+        "scope": ""
+    },
+    "ifelseif": {
+        "prefix": "ifelseif",
+        "body": "if (${1:condition}) then (${2:result})\n\t:${6:do something};\nelse if (${3:condition}) then (${4:result})\n\t:${7:do something};\nelse (${5:result})\n\t:${8:do something};\nendif",
+        "description": "activity: if-elseif",
+        "scope": ""
+    },
+    "split": {
+        "prefix": "split",
+        "body": "split\n\t:${1:do something};\nsplit again\n\t:${2:do something};\nend split",
+        "description": "activity: split",
+        "scope": ""
+    },
+    "repeat": {
+        "prefix": "repeat",
+        "body": "repeat\n\t:${1:do something};\nrepeat while (${2:condition}) is (${3:result})",
+        "description": "activity: repeat",
+        "scope": ""
+    },
+    "while": {
+        "prefix": "while",
+        "body": "while (${1:condition}) is (${2:result})\n\t:${3:do something};\nendwhile (${4:resultOther})",
+        "description": "activity: while",
+        "scope": ""
+    },
+    "fork": {
+        "prefix": "fork",
+        "body": "fork\n\t:${1:do something};\nfork again\n\t:${2:do something};\nend fork",
+        "description": "activity: fork",
+        "scope": ""
+    },
+    "partition": {
+        "prefix": "partition",
+        "body": "partition ${1:\"Group Name\"} {\n\t:${2:do something};\n\t:${3:do something};\n}",
+        "description": "activity: partition",
+        "scope": ""
+    }
+}

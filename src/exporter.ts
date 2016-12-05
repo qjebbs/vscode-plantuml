@@ -139,7 +139,7 @@ export class Exporter {
         }
         if (bar) {
             bar.show();
-            bar.text = "PlantUML exporting: " + diagram.title + "." + format.split(":")[0];
+            bar.text = "PlantUML Exporting: " + diagram.title + "." + format.split(":")[0];
         }
         let params = [
             '-Djava.awt.headless=true',

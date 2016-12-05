@@ -1,3 +1,7 @@
+### 1.1.2
+
+- Improvement: Add part of snippets. Type `egg` and see what happens!
+
 ### 1.1.1
 
 - Improvement: export workspace diagrams will be organized in a directory named with "out" by default. you can changed directory name with setting `plantuml.exportOutDirName`.
