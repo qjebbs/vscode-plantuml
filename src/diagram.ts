@@ -49,9 +49,9 @@ export class Diagram {
     DiagramAt(lineNumber: number, document?: vscode.TextDocument) {
         let RegStart = /@start/;
         let RegEnd = /@end/;
-        if (!document) document = vscode.window.activeTextEditor.document
+        if (!document) document = vscode.window.activeTextEditor.document;
         this.path = document.uri.fsPath;
-        this.fileName = path.basename(this.path)
+        this.fileName = path.basename(this.path);
         let i = this.fileName.lastIndexOf(".");
         if (i >= 0) this.fileName = this.fileName.substr(0, i);
         this.dir = path.dirname(this.path);
@@ -87,6 +87,14 @@ export class Diagram {
     }
 
     private getTitle(document: vscode.TextDocument) {
+        let RegFName = /@start(\w+)\s+(.+?)\s*$/i;
+        let text = document.lineAt(this.start.line).text;
+        let matches = text.match(RegFName);
+        if (matches) {
+            this.titleRaw = matches[2];
+            this.title = title.Deal(this.titleRaw);
+            return;
+        }
         let inlineTitle = /^\s*title\s+(.+?)\s*$/i;
         let multLineTitle = /^\s*title\s*$/i;
         for (let i = this.start.line; i <= this.end.line; i++) {
@@ -101,6 +109,5 @@ export class Diagram {
         } else {
             this.title = `${this.fileName}@${this.start.line + 1}-${this.end.line + 1}`;
         }
-
     }
 }

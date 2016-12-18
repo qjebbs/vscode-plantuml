@@ -1,3 +1,8 @@
+### 1.1.3
+
+- Improvement: Support naming diagram when diagram starts and resolve [#2](https://github.com/qjebbs/vscode-plantuml/issues/2)
+- Improvement: Should have the file saved before export to avoid unexpected export location.
+
 ### 1.1.2
 
 - Improvement: Add part of snippets. Type `egg` and see what happens!

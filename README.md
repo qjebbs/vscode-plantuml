@@ -12,12 +12,20 @@ To export diagrams, go to Command Palette, find and execute command:
 - `PlantUML: Export Current File Diagrams`.
 - `PlantUML: Export Workspace Diagrams`.
 
+
+`Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram when diagram starts.
+
+```
+@startuml diagram_name
+sudoku
+@enduml
+```
+
 ## Features
 
 - Preview and auto update
 - Export diagram at cursor, or diagrams in current file or whole workspace.
 - Concurrency export
-- `Ctrl+Shift+O` to list all diagrams in the file. Add titles for every diagram is recommended.
 - New syntax file, support of all diagram types.
 - Snippets for activity diagrams and `Eggs`.
 

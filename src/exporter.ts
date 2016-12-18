@@ -70,7 +70,10 @@ export class Exporter {
             vscode.window.showWarningMessage("No active document to export.");
             return;
         }
-        let outputDefaultPath = path.dirname(editor.document.uri.fsPath);
+        if (!path.isAbsolute(editor.document.fileName)) {
+            vscode.window.showWarningMessage("Please save the file before you export its diagrams.");
+            return;
+        };
         let format = this.config.get("exportFormat") as string;
         if (!format) {
             format = await vscode.window.showQuickPick(ExportFormats);
