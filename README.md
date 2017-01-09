@@ -13,20 +13,24 @@ To export diagrams, go to Command Palette, find and execute command:
 - `PlantUML: Export Workspace Diagrams`.
 
 
-`Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram when diagram starts.
+Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram when diagram starts.
 
-```
-@startuml diagram_name
-sudoku
-@enduml
-```
+> @startuml diagram_name<br/>
+> sudoku<br/>
+> @enduml
+
+To Generate URL for diagrams on-the-fly, find and execute command:
+- `PlantUML: Generate URL for Current Diagram` 
+- `PlantUML: Generate URLs for Current File Diagrams`.
+
+Default, it generates markdown image snippets. You can change to simple url through `plantuml.urlResult`
 
 ## Features
 
 - Preview and auto update
 - Export diagram at cursor, or diagrams in current file or whole workspace.
-- Concurrency export
-- New syntax file, support of all diagram types.
+- Concurrent export
+- New syntax file, support all diagram types.
 - Snippets for activity diagrams and `Eggs`.
 
 ![demo](images/demo.gif "demo")
@@ -54,6 +58,9 @@ This extension contributes the following settings:
 - `plantuml.exportConcurrency`: decides concurrency count when export multiple diagrams.
 - `plantuml.exportOutDirName`: export workspace diagrams will be organized in a directory named with value specified here.
 - `plantuml.autoUpdatePreview`: edecides if automatically update the preview window.
+- `plantuml.urlServer`: plantuml server to generate UML diagrams on-the-fly.
+- `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.
+- `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
 
 
 ## Known Issues

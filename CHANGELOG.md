@@ -1,3 +1,7 @@
+### 1.2.0
+- New Feature: Add ability to generate the compressed URL for a diagram.
+- Improvement: Show errors in output panel.
+
 ### 1.1.3
 
 - Improvement: Support naming diagram when diagram starts and resolve [#2](https://github.com/qjebbs/vscode-plantuml/issues/2)

@@ -13,6 +13,12 @@ export var ExportFormats = [
     "latex:nopreamble"
 ]
 
+export var urlFormats = [
+    "png",
+    "svg",
+    "txt"
+]
+
 export var FileSuffixes = [
     ".wsd",
     ".pu",

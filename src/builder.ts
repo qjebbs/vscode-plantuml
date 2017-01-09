@@ -2,28 +2,24 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { Exporter, ExportError } from './exporter';
 import { Diagram } from './diagram';
-import { ExportFormats, FileSuffixes } from './base';
+import { ExportFormats, FileSuffixes } from './settings';
 
 export class Builder {
     constructor(
         public config: vscode.WorkspaceConfiguration,
         public context: vscode.ExtensionContext,
-        public exporter: Exporter
+        public exporter: Exporter,
+        public outputPanel: vscode.OutputChannel
     ) { }
 
     register(): vscode.Disposable[] {
-        function showError(error) {
-            let err = error as TypeError;
-            console.log(error);
-            vscode.window.showErrorMessage(err.message);
-        }
         //register export
         let ds: vscode.Disposable[] = [];
         let d = vscode.commands.registerCommand('plantuml.exportWorkspace', () => {
             try {
                 this.build(null);
             } catch (error) {
-                showError(error);
+                this.showError(error);
             }
         });
         ds.push(d);
@@ -91,12 +87,16 @@ export class Builder {
                 bar.dispose();
                 if (error instanceof TypeError) {
                     let err = error as TypeError;
-                    console.log(err);
-                    vscode.window.showErrorMessage(err.message);
+                    this.showError(err.message);
                 } else {
-                    vscode.window.showErrorMessage(error.replace(/\n/g, " "));
+                    this.showError(error);
                 }
             }
-            )
+            );
+    }
+    private showError(error: string) {
+        this.outputPanel.clear();
+        this.outputPanel.append(error);
+        this.outputPanel.show();
     }
 }

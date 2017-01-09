@@ -3,7 +3,7 @@ import * as child_process from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Diagram, Diagrams } from './diagram';
-import { ExportFormats } from './base';
+import { ExportFormats } from './settings';
 import { mkdirsSync, isSubPath } from './tools';
 
 export interface ExportError {
@@ -16,7 +16,7 @@ export class Exporter {
     private java: string = "java";
     private javeInstalled: boolean = true;
 
-    constructor(public config: vscode.WorkspaceConfiguration, public context: vscode.ExtensionContext) {
+    constructor(public config: vscode.WorkspaceConfiguration, public context: vscode.ExtensionContext, public outputPanel: vscode.OutputChannel) {
         this.testJava();
         this.jar = path.join(context.extensionPath, "plantuml.jar");
     }
@@ -28,18 +28,13 @@ export class Exporter {
         });
     }
     register(): vscode.Disposable[] {
-        function showError(error) {
-            let err = error as TypeError;
-            console.log(error);
-            vscode.window.showErrorMessage(err.message);
-        }
         //register export
         let ds: vscode.Disposable[] = [];
         let d = vscode.commands.registerCommand('plantuml.exportCurrent', () => {
             try {
                 this.exportDocument(false);
             } catch (error) {
-                showError(error);
+                this.showError(error);
             }
         });
         ds.push(d);
@@ -47,7 +42,7 @@ export class Exporter {
             try {
                 this.exportDocument(true);
             } catch (error) {
-                showError(error);
+                this.showError(error);
             }
         });
         ds.push(d);
@@ -114,8 +109,7 @@ export class Exporter {
                 bar.dispose();
                 let err = error as ExportError;
                 let m = err.error as string
-                console.log(m);
-                vscode.window.showErrorMessage(m.replace(/\n/g, " "));
+                this.showError(m);
             }
         );
         return;
@@ -190,7 +184,7 @@ export class Exporter {
      * export diagrams to file.
      * @param diagrams The diagrams array to export.
      * @param format format of export file.
-     * @param dir if dir is given, it exports filest to this dir which has same structure to files in workspace, or, directly to workspace dir.
+     * @param dir if dir is given, it exports files to this dir which has same structure to files in workspace. Or, directly to workspace dir.
      * @returns A Promise of Buffer array.
      */
     private doExports(diagrams: Diagram[], format: string, dir: string, concurrency: number, bar: vscode.StatusBarItem): Promise<Buffer[]> {
@@ -202,7 +196,7 @@ export class Exporter {
             promises.push(
                 diagrams.reduce((prev: Promise<Buffer>, diagram: Diagram, index: number) => {
                     if (index % concurrency != i) {
-                        // ignore indexes belongs to other task.chain
+                        // ignore indexes belongs to other task chain
                         return prev;
                     }
                     return prev.then(
@@ -233,5 +227,10 @@ export class Exporter {
             );
         }
         return Promise.all<Buffer>(promises);
+    }
+    private showError(error: string) {
+        this.outputPanel.clear();
+        this.outputPanel.append(error);
+        this.outputPanel.show();
     }
 }
