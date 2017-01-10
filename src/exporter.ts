@@ -31,19 +31,11 @@ export class Exporter {
         //register export
         let ds: vscode.Disposable[] = [];
         let d = vscode.commands.registerCommand('plantuml.exportCurrent', () => {
-            try {
-                this.exportDocument(false);
-            } catch (error) {
-                this.showError(error);
-            }
+            this.exportDocument(false);
         });
         ds.push(d);
         d = vscode.commands.registerCommand('plantuml.exportDocument', () => {
-            try {
-                this.exportDocument(true);
-            } catch (error) {
-                this.showError(error);
-            }
+            this.exportDocument(true);
         });
         ds.push(d);
         return ds;
@@ -60,58 +52,63 @@ export class Exporter {
         return this.doExport(diagram, format, "", bar);
     }
     private async exportDocument(all: boolean) {
-        let editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            vscode.window.showWarningMessage("No active document to export.");
-            return;
-        }
-        if (!path.isAbsolute(editor.document.fileName)) {
-            vscode.window.showWarningMessage("Please save the file before you export its diagrams.");
-            return;
-        };
-        let format = this.config.get("exportFormat") as string;
-        if (!format) {
-            format = await vscode.window.showQuickPick(ExportFormats);
-            if (!format) return;
-        }
-        let ds = new Diagrams();
-        if (all) {
-            ds.AddDocument();
-            if (!ds.diagrams.length) {
-                vscode.window.showWarningMessage("No valid diagram found!");
+        try {
+            let editor = vscode.window.activeTextEditor;
+            if (!editor) {
+                vscode.window.showWarningMessage("No active document to export.");
                 return;
             }
-        } else {
-            let dg = new Diagram().GetCurrent();
-            if (!dg.content) {
-                vscode.window.showWarningMessage("No valid diagram found here!");
+            if (!path.isAbsolute(editor.document.fileName)) {
+                vscode.window.showWarningMessage("Please save the file before you export its diagrams.");
                 return;
+            };
+            let format = this.config.get("exportFormat") as string;
+            if (!format) {
+                format = await vscode.window.showQuickPick(ExportFormats);
+                if (!format) return;
             }
-            ds.Add(dg);
-            editor.selections = [new vscode.Selection(dg.start, dg.end)];
-        }
-        let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-        let concurrency = this.config.get("exportConcurrency") as number;
-        let outDirName = this.config.get("exportOutDirName") as number;
-        let dir = "";
-        let wkdir = vscode.workspace.rootPath;
-        //if current document is in workspace, organize exports in 'out' directory.
-        //if not, export beside the document.
-        if (isSubPath(editor.document.fileName, wkdir)) dir = path.join(wkdir, outDirName);
-        this.doExports(ds.diagrams, format, dir, concurrency, bar).then(
-            results => {
-                bar.dispose();
-                if (results.length) {
-                    vscode.window.showInformationMessage(`${results.length} diagrams exported.`);
+            let ds = new Diagrams();
+            if (all) {
+                ds.AddDocument();
+                if (!ds.diagrams.length) {
+                    vscode.window.showWarningMessage("No valid diagram found!");
+                    return;
                 }
-            },
-            error => {
-                bar.dispose();
-                let err = error as ExportError;
-                let m = err.error as string
-                this.showError(m);
+            } else {
+                let dg = new Diagram().GetCurrent();
+                if (!dg.content) {
+                    vscode.window.showWarningMessage("No valid diagram found here!");
+                    return;
+                }
+                ds.Add(dg);
+                editor.selections = [new vscode.Selection(dg.start, dg.end)];
             }
-        );
+            let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+            let concurrency = this.config.get("exportConcurrency") as number;
+            let outDirName = this.config.get("exportOutDirName") as number;
+            let dir = "";
+            let wkdir = vscode.workspace.rootPath;
+            //if current document is in workspace, organize exports in 'out' directory.
+            //if not, export beside the document.
+            if (wkdir && isSubPath(editor.document.fileName, wkdir)) dir = path.join(wkdir, outDirName);
+            this.doExports(ds.diagrams, format, dir, concurrency, bar).then(
+                results => {
+                    bar.dispose();
+                    if (results.length) {
+                        vscode.window.showInformationMessage(`${results.length} diagrams exported.`);
+                    }
+                },
+                error => {
+                    bar.dispose();
+                    let err = error as ExportError;
+                    let m = err.error as string
+                    this.showError(m);
+                }
+            );
+        } catch (error) {
+            let err = error as TypeError;
+            this.showError("exportDocument error: " + err.message);
+        }
         return;
     }
     /**
