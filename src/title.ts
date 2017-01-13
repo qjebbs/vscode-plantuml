@@ -3,7 +3,7 @@ interface regReplace {
     replace: string;
 }
 
-var regs = [
+const regs:regReplace[] = [
     // trim and remove Creole in head
     { find: /\s*[\*#=\|]*\s*(.+?)\s*$/m, replace: '$1' },
     // \t to space

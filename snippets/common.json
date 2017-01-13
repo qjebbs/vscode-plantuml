@@ -25,7 +25,7 @@
     },
     "note": {
         "prefix": "note",
-        "body": "note\n\t${1:note text}\nend note",
+        "body": "note ${1:right}${2:left}\n\t${3:note text}\nend note",
         "description": "Multi-line note",
         "scope": ""
     },

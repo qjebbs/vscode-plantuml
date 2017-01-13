@@ -8,7 +8,6 @@ import { Diagram } from './diagram';
 export class Previewer implements vscode.TextDocumentContentProvider {
 
     Emittor = new vscode.EventEmitter<vscode.Uri>();
-    onDidChange = this.Emittor.event;
     Uri = vscode.Uri.parse('plantuml://preview');
 
     private image: string;
