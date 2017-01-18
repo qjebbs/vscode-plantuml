@@ -1,3 +1,8 @@
+### 1.2.1
+- New Feature: Add context menus for PlantUML file.
+- fix: Cannot export when no workspace open.
+- code optimization
+
 ### 1.2.0
 - New Feature: Add ability to generate the compressed URL for a diagram.
 - Improvement: Show errors in output panel.

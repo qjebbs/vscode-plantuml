@@ -2,7 +2,7 @@
 	"plantuml.exportCurrent.title": "导出光标位置图表",
 	"plantuml.exportDocument.title": "导出当前文件图表",
 	"plantuml.exportWorkspace.title": "导出工作区图表",
-	"plantuml.preview.title": "打开预览",
+	"plantuml.preview.title": "预览光标位置图表",
 	"plantuml.URLCurrent.title": "为光标位置图表创建链接",
 	"plantuml.URLDocument.title": "为当前文件图表创建链接"
 }
