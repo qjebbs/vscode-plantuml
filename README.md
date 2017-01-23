@@ -27,9 +27,10 @@ Default, it generates markdown image snippets. You can change to simple url thro
 
 ## Features
 
-- Preview and auto update
+- Preview and auto update.
 - Export diagram at cursor, or diagrams in current file or whole workspace.
-- Concurrent export
+- Concurrent export.
+- Generate compressed URLs.
 - New syntax file, support all diagram types.
 - Snippets for activity diagrams and `Eggs`.
 

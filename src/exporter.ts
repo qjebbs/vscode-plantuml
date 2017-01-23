@@ -11,6 +11,11 @@ export interface ExportError {
     out: Buffer;
 }
 
+export interface ExportTask {
+    process: child_process.ChildProcess;
+    promise: Promise<Buffer>;
+}
+
 export class Exporter {
     private jar: string;
     private java: string = "java";
@@ -45,10 +50,10 @@ export class Exporter {
         let ds = new Diagrams().AddDocument(doc)
         return this.doExports(ds.diagrams, format, dir, concurrency, bar);
     }
-    exportToFile(diagram: Diagram, format: string, savePath: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
+    exportToFile(diagram: Diagram, format: string, savePath: string, bar?: vscode.StatusBarItem): ExportTask {
         return this.doExport(diagram, format, savePath, bar);
     }
-    exportToBuffer(diagram: Diagram, format: string, bar?: vscode.StatusBarItem): Promise<Buffer> {
+    exportToBuffer(diagram: Diagram, format: string, bar?: vscode.StatusBarItem): ExportTask {
         return this.doExport(diagram, format, "", bar);
     }
     private async exportDocument(all: boolean) {
@@ -118,18 +123,20 @@ export class Exporter {
      * @param savePath if savePath is given, it exports to a file, or, to Buffer.
      * @returns A Promise of Buffer.
      */
-    private doExport(diagram: Diagram, format: string, savePath: string, bar: vscode.StatusBarItem): Promise<Buffer> {
+    private doExport(diagram: Diagram, format: string, savePath: string, bar: vscode.StatusBarItem): ExportTask {
         if (!this.javeInstalled) {
-            return Promise.reject<ExportError>({
+            let pms = Promise.reject<ExportError>({
                 error: "java not installed!\nIf you've installed java, please add java bin path to PATH environment variable.",
                 out: new Buffer("")
             });
+            return <ExportTask>{ promise: pms };
         }
         if (!fs.existsSync(this.jar)) {
-            return Promise.reject<ExportError>({
+            let pms = Promise.reject<ExportError>({
                 error: "Can't find 'plantuml.jar'.Please download and place it here: \n" + this.context.extensionPath,
                 out: new Buffer("")
             });
+            return <ExportTask>{ promise: pms };
         }
         if (bar) {
             bar.show();
@@ -146,12 +153,12 @@ export class Exporter {
         ];
         if (path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
 
-        var process = child_process.spawn(this.java, params);
+        let process = child_process.spawn(this.java, params);
         if (diagram.content !== null) {
             process.stdin.write(diagram.content);
             process.stdin.end();
         }
-        return new Promise<Buffer>((resolve, reject) => {
+        let pms = new Promise<Buffer>((resolve, reject) => {
             let buffs: Buffer[] = [];
             let bufflen = 0;
             let stderror = '';
@@ -176,6 +183,7 @@ export class Exporter {
                 stderror += x;
             });
         });
+        return <ExportTask>{ process: process, promise: pms };
     }
     /**
      * export diagrams to file.
@@ -214,7 +222,7 @@ export class Exporter {
                             }
                             mkdirsSync(exportDir);
                             let savePath = path.join(exportDir, diagram.title + "." + format.split(":")[0])
-                            return this.exportToFile(diagram, format, savePath, bar);
+                            return this.exportToFile(diagram, format, savePath, bar).promise;
                         },
                         err => {
                             let result = err as ExportError;

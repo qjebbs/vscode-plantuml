@@ -1,3 +1,8 @@
+### 1.2.2
+- Fix: resources drained & lag caused by auto update preview.
+- Improvement: Error display in preview is less annoying.
+- Fix: Not updated preview sometimes when switch to another file.
+
 ### 1.2.1
 - New Feature: Add context menus for PlantUML file.
 - fix: Cannot export when no workspace open.
