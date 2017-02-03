@@ -151,6 +151,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                     if (auto) this.startWatch(); else this.stopWatch();
                     this.processing();
                     this.update();
+                    this.TargetChanged;
                     return;
                 }, reason => {
                     vscode.window.showErrorMessage(reason);
