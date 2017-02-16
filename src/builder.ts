@@ -3,6 +3,7 @@ import * as path from 'path';
 import { Exporter, ExportError } from './exporter';
 import { Diagram } from './diagram';
 import { ExportFormats, FileSuffixes } from './settings';
+import { parseError } from './tools';
 
 export class Builder {
     constructor(
@@ -33,6 +34,7 @@ export class Builder {
             format = await vscode.window.showQuickPick(ExportFormats);
             if (!format) return;
         }
+        this.outputPanel.clear();
         if (!para) {
             let exts = FileSuffixes.reduce((prev, cur) => {
                 return prev + (prev ? "," : "") + cur;
@@ -53,50 +55,48 @@ export class Builder {
     private doBuild(uris: vscode.Uri[], format: string) {
         let concurrency = this.config.get("exportConcurrency") as number;
         let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-        uris.reduce((prev: Promise<Buffer>, uri: vscode.Uri, index: number) => {
+        let errors: ExportError[] = [];
+        let outDirName = this.config.get("exportOutDirName") as number;
+        let dir = path.join(vscode.workspace.rootPath, outDirName);
+        uris.reduce((prev: Promise<Buffer[]>, uri: vscode.Uri, index: number) => {
             return prev.then(
                 () => {
-                    let outDirName = this.config.get("exportOutDirName") as number;
-                    let dir = path.join(vscode.workspace.rootPath, outDirName);
                     return this.exporter.exportURI(uri, format, dir, concurrency, bar);
                 },
                 error => {
-                    let reason = "";
-                    if (typeof (error) === "string") {
-                        reason = error;
-                    } else {
-                        let file = uris[index - 1].path;
-                        if (error instanceof TypeError) {
-                            let err = error as TypeError;
-                            reason = `${file}: ${err.message}`
-                        } else {
-                            let err = error as ExportError;
-                            reason = `${file}: ${err.error}`
-                        }
-                    }
-                    return Promise.reject(reason);
+                    errors.push(...parseError(`${error.length} errors found in file ${uris[index - 1].fsPath}\n`))
+                    errors.push(...parseError(error));
+                    // continue next file
+                    return this.exporter.exportURI(uri, format, dir, concurrency, bar);
                 });
-        }, Promise.resolve("")).then(
-            results => {
+        }, Promise.resolve([])).then(
+            () => {
                 bar.dispose();
                 if (uris.length) {
-                    vscode.window.showInformationMessage(`Export ${uris.length} files finish.`);
+                    if (errors.length) {
+                        vscode.window.showInformationMessage(`Export ${uris.length} files finish with error.`);
+                        this.showError(errors);
+                    } else {
+                        vscode.window.showInformationMessage(`Export ${uris.length} files finish.`);
+                    }
                 }
             },
             error => {
                 bar.dispose();
-                if (error instanceof TypeError) {
-                    let err = error as TypeError;
-                    this.showError(err.message);
-                } else {
-                    this.showError(error);
+                errors.push(...parseError(`${error.length} errors found in file ${uris[uris.length - 1].fsPath}\n`))
+                errors.push(...parseError(error));
+                if (uris.length) {
+                    vscode.window.showInformationMessage(`Export ${uris.length} files finish with error.`);
+                    this.showError(errors);
                 }
             }
             );
     }
-    private showError(error: string) {
+    private showError(errors: ExportError[]) {
         this.outputPanel.clear();
-        this.outputPanel.append(error);
+        for (let e of errors) {
+            this.outputPanel.appendLine(e.error);
+        }
         this.outputPanel.show();
     }
 }

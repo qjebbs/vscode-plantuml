@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as zlib from 'zlib';
+import { ExportError } from './exporter';
 
 export function mkdirs(dirname, callback) {
     fs.exists(dirname, function (exists) {
@@ -29,6 +30,21 @@ export function isSubPath(from: string, to: string): boolean {
     let rel = path.relative(to, from);
     return !(path.isAbsolute(rel) || rel.substr(0, 2) == "..")
 }
+
+export function parseError(error: any): ExportError[] {
+    let nb = new Buffer("");
+    if (typeof (error) === "string") {
+        return [<ExportError>{ error: error, out: nb }];
+    } else if (error instanceof TypeError) {
+        let err = error as TypeError;
+        return [<ExportError>{ error: err.message, out: nb }];
+    } else if (error instanceof Array) {
+        return error as ExportError[];
+    } else {
+        return [error as ExportError];
+    }
+}
+
 export function URLTextFrom(s: string): string {
     let opt: zlib.ZlibOptions = { level: 9 };
     let d = zlib.deflateRawSync(new Buffer(s), opt) as Buffer;

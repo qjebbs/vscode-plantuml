@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Diagram, Diagrams } from './diagram';
 import { ExportFormats } from './settings';
-import { mkdirsSync, isSubPath } from './tools';
+import { mkdirsSync, isSubPath, parseError } from './tools';
 
 export interface ExportError {
     error: string;
@@ -48,7 +48,14 @@ export class Exporter {
     async exportURI(uri: vscode.Uri, format: string, dir?: string, concurrency?: number, bar?: vscode.StatusBarItem) {
         let doc = await vscode.workspace.openTextDocument(uri);
         let ds = new Diagrams().AddDocument(doc)
-        return this.doExports(ds.diagrams, format, dir, concurrency, bar);
+        if (!ds.diagrams.length) return Promise.resolve(<Buffer[]>[]);
+        let p = this.doExports(ds.diagrams, format, dir, concurrency, bar);
+        return new Promise<Buffer[]>((resolve, reject) => {
+            p.then(
+                r => { resolve(r) },
+                e => { reject(e) }
+            )
+        })
     }
     exportToFile(diagram: Diagram, format: string, savePath: string, bar?: vscode.StatusBarItem): ExportTask {
         return this.doExport(diagram, format, savePath, bar);
@@ -72,6 +79,7 @@ export class Exporter {
                 format = await vscode.window.showQuickPick(ExportFormats);
                 if (!format) return;
             }
+            this.outputPanel.clear();
             let ds = new Diagrams();
             if (all) {
                 ds.AddDocument();
@@ -100,19 +108,18 @@ export class Exporter {
                 results => {
                     bar.dispose();
                     if (results.length) {
-                        vscode.window.showInformationMessage(`${results.length} diagrams exported.`);
+                        vscode.window.showInformationMessage("Export document success.");
                     }
                 },
                 error => {
                     bar.dispose();
-                    let err = error as ExportError;
-                    let m = err.error as string
-                    this.showError(m);
+                    let err = parseError(error);
+                    this.showError(err);
                 }
             );
         } catch (error) {
-            let err = error as TypeError;
-            this.showError("exportDocument error: " + err.message);
+            let err = parseError(error);
+            this.showError(err);
         }
         return;
     }
@@ -125,17 +132,11 @@ export class Exporter {
      */
     private doExport(diagram: Diagram, format: string, savePath: string, bar: vscode.StatusBarItem): ExportTask {
         if (!this.javeInstalled) {
-            let pms = Promise.reject<ExportError>({
-                error: "java not installed!\nIf you've installed java, please add java bin path to PATH environment variable.",
-                out: new Buffer("")
-            });
+            let pms = Promise.reject("java not installed!\nIf you've installed java, please add java bin path to PATH environment variable.");
             return <ExportTask>{ promise: pms };
         }
         if (!fs.existsSync(this.jar)) {
-            let pms = Promise.reject<ExportError>({
-                error: "Can't find 'plantuml.jar'.Please download and place it here: \n" + this.context.extensionPath,
-                out: new Buffer("")
-            });
+            let pms = Promise.reject("Can't find 'plantuml.jar'.Please download and place it here: \n" + this.context.extensionPath);
             return <ExportTask>{ promise: pms };
         }
         if (bar) {
@@ -176,6 +177,7 @@ export class Exporter {
                 if (!stderror) {
                     resolve(stdout);
                 } else {
+                    stderror = `In diagram ${diagram.title}:\n${stderror}`;
                     reject(<ExportError>{ error: stderror, out: stdout });
                 }
             })
@@ -196,6 +198,7 @@ export class Exporter {
         concurrency = concurrency > 0 ? concurrency : 1
         concurrency = concurrency > diagrams.length ? diagrams.length : concurrency;
         let promises: Promise<Buffer>[] = [];
+        let errors: ExportError[] = [];
         for (let i = 0; i < concurrency; i++) {
             //each i starts a task chain, which export indexes like 0,3,6,9... (task 1, concurrency 3 for example.)
             promises.push(
@@ -204,38 +207,54 @@ export class Exporter {
                         // ignore indexes belongs to other task chain
                         return prev;
                     }
+                    let exportDir = diagram.dir;
+                    if (!path.isAbsolute(exportDir)) return Promise.reject("Please save the file before you export its diagrams.");
+                    let wkDir = vscode.workspace.rootPath;
+                    if (dir && wkDir) {
+                        let temp = path.relative(wkDir, exportDir);
+                        exportDir = path.join(dir, temp);
+                    }
+                    let subDir = this.config.get("exportSubFolder") as boolean;
+                    if (subDir) {
+                        exportDir = path.join(exportDir, diagram.fileName);
+                    }
+                    mkdirsSync(exportDir);
+                    let savePath = path.join(exportDir, diagram.title + "." + format.split(":")[0])
                     return prev.then(
                         () => {
-                            let exportDir = diagram.dir;
-                            if (!path.isAbsolute(exportDir)) return Promise.reject<ExportError>({
-                                error: "Please save the file before you export its diagrams.",
-                                out: new Buffer("")
-                            });
-                            let wkDir = vscode.workspace.rootPath;
-                            if (dir && wkDir) {
-                                let temp = path.relative(wkDir, exportDir);
-                                exportDir = path.join(dir, temp);
-                            }
-                            let subDir = this.config.get("exportSubFolder") as boolean;
-                            if (subDir) {
-                                exportDir = path.join(exportDir, diagram.fileName);
-                            }
-                            mkdirsSync(exportDir);
-                            let savePath = path.join(exportDir, diagram.title + "." + format.split(":")[0])
                             return this.exportToFile(diagram, format, savePath, bar).promise;
                         },
                         err => {
-                            let result = err as ExportError;
-                            return Promise.reject<ExportError>({ error: result.error, out: result.out });
+                            errors.push(...parseError(err));
+                            // return Promise.reject(err);
+                            //continue next diagram
+                            return this.exportToFile(diagram, format, savePath, bar).promise;
                         });
-                }, Promise.resolve(""))
+                }, Promise.resolve(new Buffer(""))).then(
+                    //to push last error of a chain
+                    r => {
+                        return r;
+                    },
+                    err => {
+                        errors.push(...parseError(err));
+                        return;
+                    })
             );
         }
-        return Promise.all<Buffer>(promises);
+        let all = Promise.all(promises);
+        return new Promise((resolve, reject) => {
+            all.then(
+                r => {
+                    if (errors.length) reject(errors); else resolve(r)
+                }
+            );
+        });
     }
-    private showError(error: string) {
+    private showError(errors: ExportError[]) {
         this.outputPanel.clear();
-        this.outputPanel.append(error);
+        for (let e of errors) {
+            this.outputPanel.appendLine(e.error);
+        }
         this.outputPanel.show();
     }
 }

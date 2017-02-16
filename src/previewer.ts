@@ -4,6 +4,7 @@ import * as path from 'path';
 import { Exporter, ExportError } from './exporter';
 import { Diagram } from './diagram';
 import * as child_process from 'child_process';
+import { parseError } from './tools'
 
 enum previewStatus {
     default,
@@ -116,7 +117,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             error => {
                 this.process = null;
                 this.status = previewStatus.error;
-                let err = error as ExportError
+                let err = parseError(error)[0];
                 this.error = err.error;
                 let b64 = err.out.toString('base64');
                 if (!(b64 || err.error)) return;
