@@ -1,3 +1,9 @@
+### 1.2.3
+- Improvement: generating error of a diagram (or file) won't stop the next generating.
+- Fix & Improvement: collect and show every single error when export document / workspace.
+- OpenIconic snippet
+- Other improvements
+
 ### 1.2.2
 - Fix: resources drained & lag caused by auto update preview.
 - Improvement: Error display in preview is less annoying.
@@ -5,8 +11,8 @@
 
 ### 1.2.1
 - New Feature: Add context menus for PlantUML file.
-- fix: Cannot export when no workspace open.
-- code optimization
+- Fix: Cannot export when no workspace open.
+- Code optimization
 
 ### 1.2.0
 - New Feature: Add ability to generate the compressed URL for a diagram.
