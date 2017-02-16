@@ -29,6 +29,7 @@ export class Builder {
     build(uri: vscode.Uri);
     build(uris: vscode.Uri[]);
     async build(para) {
+        if (!vscode.workspace.rootPath) { return; }
         let format = this.config.get("exportFormat") as string;
         if (!format) {
             format = await vscode.window.showQuickPick(ExportFormats);
@@ -53,6 +54,10 @@ export class Builder {
         }
     }
     private doBuild(uris: vscode.Uri[], format: string) {
+        if (!uris.length) {
+            vscode.window.showInformationMessage("No file to export.");
+            return;
+        }
         let concurrency = this.config.get("exportConcurrency") as number;
         let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
         let errors: ExportError[] = [];

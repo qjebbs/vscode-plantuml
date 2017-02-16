@@ -67,11 +67,11 @@ export class Exporter {
         try {
             let editor = vscode.window.activeTextEditor;
             if (!editor) {
-                vscode.window.showWarningMessage("No active document to export.");
+                vscode.window.showInformationMessage("No text document to export.");
                 return;
             }
             if (!path.isAbsolute(editor.document.fileName)) {
-                vscode.window.showWarningMessage("Please save the file before you export its diagrams.");
+                vscode.window.showInformationMessage("Please save the file before you export its diagrams.");
                 return;
             };
             let format = this.config.get("exportFormat") as string;
@@ -84,13 +84,13 @@ export class Exporter {
             if (all) {
                 ds.AddDocument();
                 if (!ds.diagrams.length) {
-                    vscode.window.showWarningMessage("No valid diagram found!");
+                    vscode.window.showInformationMessage("No diagram to export.");
                     return;
                 }
             } else {
                 let dg = new Diagram().GetCurrent();
                 if (!dg.content) {
-                    vscode.window.showWarningMessage("No valid diagram found here!");
+                    vscode.window.showInformationMessage("No valid diagram found here!");
                     return;
                 }
                 ds.Add(dg);

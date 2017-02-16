@@ -67,7 +67,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                 return "";
         }
     }
-    update() {
+    update(processingTip: boolean) {
         if (this.process) {
             //kill lats unfinished task.
             // let pid = this.process.pid;
@@ -75,15 +75,17 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             this.process.on('exit', (code) => {
                 // console.log(`killed (${pid} ${code}) and restart!`);
                 this.process = null;
-                this.doUpdate();
+                this.doUpdate(processingTip);
             })
             return;
         }
-        this.doUpdate();
+        this.doUpdate(processingTip);
     }
     get TargetChanged(): boolean {
         let current = new Diagram().GetCurrent();
-        let changed = this.rendered != current.path + "@" + current.start.line;
+        let cur = "";
+        if (current.start) cur = current.path + "@" + current.start.line;
+        let changed = this.rendered != cur;
         if (changed) {
             this.rendered = current.path + "@" + current.start.line;
             this.error = "";
@@ -92,7 +94,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         }
         return changed;
     }
-    private doUpdate() {
+    private doUpdate(processingTip: boolean) {
         let diagram = new Diagram().GetCurrent();
         if (!diagram.content) {
             this.status = previewStatus.error;
@@ -104,7 +106,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         let task = this.exporter.exportToBuffer(diagram, "png");
         this.process = task.process;
         // console.log(`start pid ${this.process.pid}!`);
-
+        if (processingTip) this.processing();
         task.promise.then(
             result => {
                 this.process = null;
@@ -142,21 +144,23 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         //register command
         disposable = vscode.commands.registerCommand('plantuml.preview', () => {
             var editor = vscode.window.activeTextEditor;
-            if (!editor) return;
+            if (!editor || editor.document.languageId != "diagram") return;
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, 'PlantUML Preview')
-                .then(success => {
+                .then(
+                success => {
                     //active source editor
                     vscode.window.showTextDocument(editor.document);
                     //update preview
                     let auto = this.config.get("autoUpdatePreview") as boolean
                     if (auto) this.startWatch(); else this.stopWatch();
-                    this.processing();
-                    this.update();
+                    this.update(true);
                     this.TargetChanged;
                     return;
-                }, reason => {
+                },
+                reason => {
                     vscode.window.showErrorMessage(reason);
-                });
+                }
+                );
         });
         disposables.push(disposable);
         return disposables;
@@ -177,7 +181,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             lastTimestamp = new Date().getTime();
             setTimeout(() => {
                 if (new Date().getTime() - lastTimestamp >= 400) {
-                    this.update();
+                    this.update(false);
                 }
             }, 500);
         });
@@ -187,8 +191,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             lastTimestamp = new Date().getTime();
             setTimeout(() => {
                 if (new Date().getTime() - lastTimestamp >= 400) {
-                    this.processing();
-                    this.update();
+                    this.update(true);
                 }
             }, 500);
         });
