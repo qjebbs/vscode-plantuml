@@ -31,6 +31,8 @@ export class Previewer implements vscode.TextDocumentContentProvider {
     private templateError: string;
     private templateProcessing: string;
 
+    private killingLock: boolean = false;
+
     constructor(
         public config: vscode.WorkspaceConfiguration,
         public context: vscode.ExtensionContext,
@@ -68,7 +70,10 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         }
     }
     update(processingTip: boolean) {
+        //FIXME: last update may not happen due to killingLock
+        if (this.killingLock) return;
         if (this.process) {
+            this.killingLock = true;
             //kill lats unfinished task.
             // let pid = this.process.pid;
             this.process.kill();
@@ -76,6 +81,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                 // console.log(`killed (${pid} ${code}) and restart!`);
                 this.process = null;
                 this.doUpdate(processingTip);
+                this.killingLock = false;
             })
             return;
         }
