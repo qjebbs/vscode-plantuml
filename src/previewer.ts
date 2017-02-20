@@ -93,7 +93,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         if (current.start) cur = current.path + "@" + current.start.line;
         let changed = this.rendered != cur;
         if (changed) {
-            this.rendered = current.path + "@" + current.start.line;
+            this.rendered = cur;
             this.error = "";
             this.image = "";
             this.imageError = ""
