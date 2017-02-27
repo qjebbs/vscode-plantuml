@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Diagram, Diagrams } from './diagram';
 import { ExportFormats } from './settings';
-import { mkdirsSync, isSubPath, parseError } from './tools';
+import { mkdirsSync, isSubPath, showError, parseError } from './tools';
 
 export interface ExportError {
     error: string;
@@ -114,12 +114,12 @@ export class Exporter {
                 error => {
                     bar.dispose();
                     let err = parseError(error);
-                    this.showError(err);
+                    showError(this.outputPanel, err);
                 }
             );
         } catch (error) {
             let err = parseError(error);
-            this.showError(err);
+            showError(this.outputPanel, err);
         }
         return;
     }
@@ -249,12 +249,5 @@ export class Exporter {
                 }
             );
         });
-    }
-    private showError(errors: ExportError[]) {
-        this.outputPanel.clear();
-        for (let e of errors) {
-            this.outputPanel.appendLine(e.error);
-        }
-        this.outputPanel.show();
     }
 }

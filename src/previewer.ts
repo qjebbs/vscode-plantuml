@@ -150,7 +150,8 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         //register command
         disposable = vscode.commands.registerCommand('plantuml.preview', () => {
             var editor = vscode.window.activeTextEditor;
-            if (!editor || editor.document.languageId != "diagram") return;
+            if (!editor) return;
+
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, 'PlantUML Preview')
                 .then(
                 success => {

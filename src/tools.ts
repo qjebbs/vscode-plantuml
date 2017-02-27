@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as zlib from 'zlib';
 import { ExportError } from './exporter';
+import * as vscode from 'vscode';
 
 export function mkdirs(dirname, callback) {
     fs.exists(dirname, function (exists) {
@@ -43,6 +44,14 @@ export function parseError(error: any): ExportError[] {
     } else {
         return [error as ExportError];
     }
+}
+
+export function showError(panel: vscode.OutputChannel, errors: ExportError[]) {
+    panel.clear();
+    for (let e of errors) {
+        panel.appendLine(e.error);
+    }
+    panel.show();
 }
 
 export function URLTextFrom(s: string): string {

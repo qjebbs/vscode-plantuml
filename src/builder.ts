@@ -3,7 +3,7 @@ import * as path from 'path';
 import { Exporter, ExportError } from './exporter';
 import { Diagram } from './diagram';
 import { ExportFormats, FileSuffixes } from './settings';
-import { parseError } from './tools';
+import { showError, parseError } from './tools';
 
 export class Builder {
     constructor(
@@ -20,7 +20,7 @@ export class Builder {
             try {
                 this.build(null);
             } catch (error) {
-                this.showError(error);
+                showError(this.outputPanel, parseError(error));
             }
         });
         ds.push(d);
@@ -80,7 +80,7 @@ export class Builder {
                 if (uris.length) {
                     if (errors.length) {
                         vscode.window.showInformationMessage(`Export ${uris.length} files finish with error.`);
-                        this.showError(errors);
+                        showError(this.outputPanel, errors);
                     } else {
                         vscode.window.showInformationMessage(`Export ${uris.length} files finish.`);
                     }
@@ -92,16 +92,9 @@ export class Builder {
                 errors.push(...parseError(error));
                 if (uris.length) {
                     vscode.window.showInformationMessage(`Export ${uris.length} files finish with error.`);
-                    this.showError(errors);
+                    showError(this.outputPanel, errors);
                 }
             }
             );
-    }
-    private showError(errors: ExportError[]) {
-        this.outputPanel.clear();
-        for (let e of errors) {
-            this.outputPanel.appendLine(e.error);
-        }
-        this.outputPanel.show();
     }
 }

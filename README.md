@@ -36,6 +36,12 @@ Default, it generates markdown image snippets. You can change to simple url thro
 
 ![demo](images/demo.gif "demo")
 
+## How to install
+
+Launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter.
+
+`ext install plantuml`
+
 ## Requirements
 
 Before you can use the plugin, it's necessary to have following installed:
