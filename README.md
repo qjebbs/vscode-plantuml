@@ -12,18 +12,17 @@ To export diagrams, go to Command Palette, find and execute command:
 - `PlantUML: Export Current File Diagrams`.
 - `PlantUML: Export Workspace Diagrams`.
 
+To Generate URL for diagrams on-the-fly, find and execute command:
+- `PlantUML: Generate URL for Current Diagram` 
+- `PlantUML: Generate URLs for Current File Diagrams`.
+
+Default, it generates markdown image snippets. You can change to simple url through `plantuml.urlResult`
 
 Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram when diagram starts.
 
 > @startuml diagram_name<br/>
 > sudoku<br/>
 > @enduml
-
-To Generate URL for diagrams on-the-fly, find and execute command:
-- `PlantUML: Generate URL for Current Diagram` 
-- `PlantUML: Generate URLs for Current File Diagrams`.
-
-Default, it generates markdown image snippets. You can change to simple url through `plantuml.urlResult`
 
 ## Features
 

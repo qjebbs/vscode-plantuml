@@ -1,3 +1,7 @@
+### 1.2.4
+- Fix: process leak when type with input method.
+- Many optimizations & small fixes.
+
 ### 1.2.3
 - Improvement: generating error of a diagram (or file) won't stop the next generating.
 - Fix & Improvement: collect and show every single error when export document / workspace.
