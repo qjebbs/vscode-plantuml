@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Exporter, ExportError } from './exporter';
-import { Diagram } from './diagram';
+import { Diagram, Diagrams } from './diagram';
 import * as child_process from 'child_process';
 import { parseError } from './tools'
 
@@ -151,6 +151,8 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         disposable = vscode.commands.registerCommand('plantuml.preview', () => {
             var editor = vscode.window.activeTextEditor;
             if (!editor) return;
+            let ds = new Diagrams().AddDocument(editor.document);
+            if (!ds.diagrams.length) return;
 
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, 'PlantUML Preview')
                 .then(
