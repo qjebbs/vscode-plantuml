@@ -1,3 +1,7 @@
+### 1.2.5
+- Improvement: Preview don't show when no diagram found in document. Resolve [#7](https://github.com/qjebbs/vscode-plantuml/issues/7).
+- Fix: "note top|bottom of" highlight. fix [#8](https://github.com/qjebbs/vscode-plantuml/issues/8).
+
 ### 1.2.4
 - Fix: process leak when type with input method.
 - Many optimizations & small fixes.
