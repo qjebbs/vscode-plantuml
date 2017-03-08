@@ -1310,7 +1310,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?i)^\s*(package|node|folder|frame|cloud|database)(\s+([^\s\\\(\)]+|".+"))?\s*\{\s*$</string>
+					<string>(?i)^\s*(package|node|folder|frame|cloud|database)(\s+([^\s\\\(\)]+|".+"))?(\s+(as)\s+(\w+))?\s*\{\s*$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1319,6 +1319,16 @@
 							<string>keyword.other.component.group.source.wsd</string>
 						</dict>
 						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.quoted.double.component.group.source.wsd</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.component.group.source.wsd</string>
+						</dict>
+						<key>6</key>
 						<dict>
 							<key>name</key>
 							<string>string.quoted.double.component.group.source.wsd</string>
@@ -1803,11 +1813,11 @@
 					<key>comment</key>
 					<string>inline note for Sequence</string>
 					<key>match</key>
-					<string>(?i)^\s*([rh]?note ((right|left)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$</string>
+					<string>(?i)^\s*([rh]?note ((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$</string>
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?i)^\s*([rh]?note\s+((right|left)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$</string>
+					<string>(?i)^\s*([rh]?note\s+((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -2568,11 +2578,11 @@
 					<key>comment</key>
 					<string>inline note for state</string>
 					<key>match</key>
-					<string>(?i)^\s*([rh]?note ((right|left)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$</string>
+					<string>(?i)^\s*([rh]?note ((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$</string>
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?i)^\s*([rh]?note\s+((right|left)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$</string>
+					<string>(?i)^\s*([rh]?note\s+((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -3028,11 +3038,11 @@
 					<key>comment</key>
 					<string>inline note for Sequence</string>
 					<key>match</key>
-					<string>(?i)^\s*(note ((right|left)\s+of|over))\s+(\(.+?\)|[^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$</string>
+					<string>(?i)^\s*(note ((right|left|top|bottom)\s+of|over))\s+(\(.+?\)|[^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$</string>
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?i)^\s*(note\s+((right|left)\s+of|over|as))\s+([^\s\[\]\(\)]+?|\(.+?\))\s*$</string>
+					<string>(?i)^\s*(note\s+((right|left|top|bottom)\s+of|over|as))\s+([^\s\[\]\(\)]+?|\(.+?\))\s*$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>

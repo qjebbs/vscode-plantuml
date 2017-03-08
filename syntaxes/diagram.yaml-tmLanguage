@@ -214,14 +214,14 @@ repository:
   Sequence:
     patterns:
     - comment: inline note for Sequence
-      match: (?i)^\s*([rh]?note ((right|left)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
+      match: (?i)^\s*([rh]?note ((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:
         '1': {name: keyword.other.sequence.note.source.wsd}
         '4': {name: entity.other.sequence.note.source.wsd}
         '5': {name: constant.numeric.sequence.note.source.wsd}
         '8': {name: comment.line.sequence.note.source.wsd}
     - comment: multi-line note for Sequence
-      begin: (?i)^\s*([rh]?note\s+((right|left)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$
+      begin: (?i)^\s*([rh]?note\s+((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$
       beginCaptures:
         '1': {name: keyword.other.sequence.note.source.wsd}
         '2': {name: entity.other.sequence.note.source.wsd}
@@ -413,14 +413,14 @@ repository:
         '4': {name: entity.other.usecase.link.source.wsd}
         '5': {name: comment.line.usecase.link.source.wsd}
     - comment: inline note for Sequence
-      match: (?i)^\s*(note ((right|left)\s+of|over))\s+(\(.+?\)|[^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
+      match: (?i)^\s*(note ((right|left|top|bottom)\s+of|over))\s+(\(.+?\)|[^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:
         '1': {name: keyword.other.usecase.note.source.wsd}
         '4': {name: entity.other.usecase.note.source.wsd}
         '5': {name: constant.numeric.usecase.note.source.wsd}
         '8': {name: comment.line.usecase.note.source.wsd}
     - comment: multi-line note & noteAs for usecase
-      begin: (?i)^\s*(note\s+((right|left)\s+of|over|as))\s+([^\s\[\]\(\)]+?|\(.+?\))\s*$
+      begin: (?i)^\s*(note\s+((right|left|top|bottom)\s+of|over|as))\s+([^\s\[\]\(\)]+?|\(.+?\))\s*$
       beginCaptures:
         '1': {name: keyword.other.usecase.note.source.wsd}
         '4': {name: entity.other.usecase.note.source.wsd}
@@ -540,10 +540,12 @@ repository:
       - name: comment.line.component.note.source.wsd
         match: .+?
     - comment: Grouping Components
-      begin: (?i)^\s*(package|node|folder|frame|cloud|database)(\s+([^\s\\\(\)]+|".+"))?\s*\{\s*$
+      begin: (?i)^\s*(package|node|folder|frame|cloud|database)(\s+([^\s\\\(\)]+|".+"))?(\s+(as)\s+(\w+))?\s*\{\s*$
       beginCaptures:
         '1': {name: keyword.other.component.group.source.wsd}
         '3': {name: string.quoted.double.component.group.source.wsd}
+        '5': {name: keyword.other.component.group.source.wsd}
+        '6': {name: string.quoted.double.component.group.source.wsd}
       end: ^\s*(?<!\\)\}\s*$
       patterns:
       - include: $self
@@ -606,14 +608,14 @@ repository:
       captures:
         '1': {name: keyword.other.state.concurrent.source.wsd}
     - comment: inline note for state
-      match: (?i)^\s*([rh]?note ((right|left)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
+      match: (?i)^\s*([rh]?note ((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:
         '1': {name: keyword.other.state.note.source.wsd}
         '4': {name: entity.other.state.note.source.wsd}
         '5': {name: constant.numeric.state.note.source.wsd}
         '8': {name: comment.line.state.note.source.wsd}
     - comment: multi-line note for state
-      begin: (?i)^\s*([rh]?note\s+((right|left)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$
+      begin: (?i)^\s*([rh]?note\s+((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$
       beginCaptures:
         '1': {name: keyword.other.state.note.source.wsd}
         '2': {name: entity.other.state.note.source.wsd}
