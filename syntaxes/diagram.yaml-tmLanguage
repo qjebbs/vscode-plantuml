@@ -204,10 +204,11 @@ repository:
         '4': {name: keyword.other.activity.while.source.wsd}
         '6': {name: comment.line.activity.while.source.wsd}
     - comment: endwhile
-      match: (?i)^\s*(endwhile)(\s?\((.+?)\))?\s*$
+      match: (?i)^\s*(end)\s?(while)(\s*\((.+?)\))?\s*$
       captures:
         '1': {name: keyword.other.activity.endwhile.source.wsd}
-        '3': {name: comment.line.activity.endwhile.source.wsd}
+        '2': {name: keyword.other.activity.endwhile.source.wsd}
+        '4': {name: comment.line.activity.endwhile.source.wsd}
     - comment: other keywords
       name: keyword.other.activity.other.source.wsd
       match: (?i)^\s*(split( again)?|endif|repeat|start|stop|end|end\s+fork|end\s+split|fork( again)?|detach)\s*$
