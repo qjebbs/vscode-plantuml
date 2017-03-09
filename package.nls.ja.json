@@ -1,0 +1,8 @@
+{
+	"plantuml.exportCurrent.title": "カーソル位置のダイアグラムをエクスポート",
+	"plantuml.exportDocument.title": "ファイル内のダイアグラムをエクスポート",
+	"plantuml.exportWorkspace.title": "ワークスペース内のダイアグラムをエクスポート",
+	"plantuml.preview.title": "カーソル位置のダイアグラムをプレビュー",
+	"plantuml.URLCurrent.title": "カーソル位置のダイアグラムをURLに変換",
+	"plantuml.URLDocument.title": "ファイル内のダイアグラムをURLに変換"
+}
