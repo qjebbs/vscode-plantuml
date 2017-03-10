@@ -312,12 +312,12 @@
 							<key>name</key>
 							<string>string.quoted.double.activity.while.source.wsd</string>
 						</dict>
-						<key>4</key>
+						<key>5</key>
 						<dict>
 							<key>name</key>
 							<string>keyword.other.activity.while.source.wsd</string>
 						</dict>
-						<key>6</key>
+						<key>7</key>
 						<dict>
 							<key>name</key>
 							<string>comment.line.activity.while.source.wsd</string>
@@ -326,7 +326,7 @@
 					<key>comment</key>
 					<string>while is, repeat while is</string>
 					<key>match</key>
-					<string>(?i)^\s*(repeat\s+)?(while)\s?\((.+?)\)\s?(is)(\s?\((.+?)\))?\s*$</string>
+					<string>(?i)^\s*(repeat\s+)?(while)\s*\((.+?)\)(\s*(is)(\s*\((.+?)\))?)?\s*$</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -336,7 +336,12 @@
 							<key>name</key>
 							<string>keyword.other.activity.endwhile.source.wsd</string>
 						</dict>
-						<key>3</key>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.activity.endwhile.source.wsd</string>
+						</dict>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>comment.line.activity.endwhile.source.wsd</string>
@@ -345,7 +350,7 @@
 					<key>comment</key>
 					<string>endwhile</string>
 					<key>match</key>
-					<string>(?i)^\s*(endwhile)(\s?\((.+?)\))?\s*$</string>
+					<string>(?i)^\s*(end)\s?(while)(\s*\((.+?)\))?\s*$</string>
 				</dict>
 				<dict>
 					<key>comment</key>
