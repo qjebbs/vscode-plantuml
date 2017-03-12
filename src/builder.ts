@@ -4,13 +4,15 @@ import { Exporter, ExportError } from './exporter';
 import { Diagram } from './diagram';
 import { ExportFormats, FileSuffixes } from './settings';
 import { showError, parseError } from './tools';
+import * as nls from "vscode-nls";
 
 export class Builder {
     constructor(
         public config: vscode.WorkspaceConfiguration,
         public context: vscode.ExtensionContext,
         public exporter: Exporter,
-        public outputPanel: vscode.OutputChannel
+        public outputPanel: vscode.OutputChannel,
+        public localize: nls.LocalizeFunc
     ) { }
 
     register(): vscode.Disposable[] {
@@ -55,7 +57,7 @@ export class Builder {
     }
     private doBuild(uris: vscode.Uri[], format: string) {
         if (!uris.length) {
-            vscode.window.showInformationMessage("No file to export.");
+            vscode.window.showInformationMessage(this.localize(8, "No file to export."));
             return;
         }
         let concurrency = this.config.get("exportConcurrency") as number;
@@ -69,7 +71,7 @@ export class Builder {
                     return this.exporter.exportURI(uri, format, dir, concurrency, bar);
                 },
                 error => {
-                    errors.push(...parseError(`${error.length} errors found in file ${uris[index - 1].fsPath}\n`))
+                    errors.push(...parseError(this.localize(11, "{0} errors found in file {1}\n", error.length, uris[index - 1].fsPath)))
                     errors.push(...parseError(error));
                     // continue next file
                     return this.exporter.exportURI(uri, format, dir, concurrency, bar);
@@ -79,19 +81,19 @@ export class Builder {
                 bar.dispose();
                 if (uris.length) {
                     if (errors.length) {
-                        vscode.window.showInformationMessage(`Export ${uris.length} files finish with error.`);
+                        vscode.window.showInformationMessage(this.localize(12, "Export {0} files finish with error.", uris.length));
                         showError(this.outputPanel, errors);
                     } else {
-                        vscode.window.showInformationMessage(`Export ${uris.length} files finish.`);
+                        vscode.window.showInformationMessage(this.localize(13, "Export {0} files finish.", uris.length));
                     }
                 }
             },
             error => {
                 bar.dispose();
-                errors.push(...parseError(`${error.length} errors found in file ${uris[uris.length - 1].fsPath}\n`))
+                errors.push(...parseError(this.localize(11, "{0} errors found in file {1}\n", error.length, uris[uris.length - 1].fsPath)));
                 errors.push(...parseError(error));
                 if (uris.length) {
-                    vscode.window.showInformationMessage(`Export ${uris.length} files finish with error.`);
+                    vscode.window.showInformationMessage(this.localize(12, "Export {0} files finish with error.", uris.length));
                     showError(this.outputPanel, errors);
                 }
             }

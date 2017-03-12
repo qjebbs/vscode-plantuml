@@ -4,7 +4,8 @@ import * as path from 'path';
 import { Exporter, ExportError } from './exporter';
 import { Diagram, Diagrams } from './diagram';
 import * as child_process from 'child_process';
-import { parseError } from './tools'
+import { parseError } from './tools';
+import * as nls from "vscode-nls";
 
 enum previewStatus {
     default,
@@ -36,7 +37,8 @@ export class Previewer implements vscode.TextDocumentContentProvider {
     constructor(
         public config: vscode.WorkspaceConfiguration,
         public context: vscode.ExtensionContext,
-        public exporter: Exporter
+        public exporter: Exporter,
+        public localize: nls.LocalizeFunc
     ) {
         let tplPath: string = path.join(this.context.extensionPath, "templates");
         let tplPreviewPath: string = path.join(tplPath, "preview.html");
@@ -63,7 +65,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                 return eval(this.templateError);
             case previewStatus.processing:
                 image = path.join(this.context.extensionPath, "images", "icon.png");
-                text = "Processing";
+                text = this.localize(9, "Processing...");
                 return eval(this.templateProcessing);
             default:
                 return "";
@@ -104,7 +106,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         let diagram = new Diagram().GetCurrent();
         if (!diagram.content) {
             this.status = previewStatus.error;
-            this.error = "No valid diagram found here!";
+            this.error = this.localize(3, "No valid diagram found here!");
             this.image = "";
             this.Emittor.fire(this.Uri);
             return;

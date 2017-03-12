@@ -4,6 +4,8 @@ import { Previewer } from './previewer';
 import { Builder } from "./builder";
 import { Symbol } from "./symboler";
 import { URLMaker } from "./url";
+import { join } from "path";
+import * as nls from "vscode-nls";
 
 export class PlantUML {
     private config: vscode.WorkspaceConfiguration;
@@ -13,12 +15,17 @@ export class PlantUML {
     private symboler: Symbol;
     private URLMaker: URLMaker;
     private outputPanel: vscode.OutputChannel;
+
+    private localize: nls.LocalizeFunc;
+
     constructor(public context: vscode.ExtensionContext) {
+        nls.config(<nls.Options>{ locale: vscode.env.language });
+        this.localize = nls.loadMessageBundle(join(context.extensionPath, "langs", "lang.json"));
         this.outputPanel = vscode.window.createOutputChannel("PlantUML");
-        this.exporter = new Exporter(this.config, this.context, this.outputPanel);
-        this.previewer = new Previewer(this.config, this.context, this.exporter);
-        this.builder = new Builder(this.config, this.context, this.exporter, this.outputPanel);
-        this.URLMaker = new URLMaker(this.config, this.context, this.outputPanel);
+        this.exporter = new Exporter(this.config, this.context, this.outputPanel, this.localize);
+        this.previewer = new Previewer(this.config, this.context, this.exporter, this.localize);
+        this.builder = new Builder(this.config, this.context, this.exporter, this.outputPanel, this.localize);
+        this.URLMaker = new URLMaker(this.config, this.context, this.outputPanel, this.localize);
         this.symboler = new Symbol();
         this.updateConfig();
     }
