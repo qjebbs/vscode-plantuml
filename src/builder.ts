@@ -57,7 +57,7 @@ export class Builder {
     }
     private doBuild(uris: vscode.Uri[], format: string) {
         if (!uris.length) {
-            vscode.window.showInformationMessage(this.localize(8, "No file to export."));
+            vscode.window.showInformationMessage(this.localize(8, null));
             return;
         }
         let concurrency = this.config.get("exportConcurrency") as number;
@@ -71,7 +71,7 @@ export class Builder {
                     return this.exporter.exportURI(uri, format, dir, concurrency, bar);
                 },
                 error => {
-                    errors.push(...parseError(this.localize(11, "{0} errors found in file {1}\n", error.length, uris[index - 1].fsPath)))
+                    errors.push(...parseError(this.localize(11, null, error.length, uris[index - 1].fsPath)))
                     errors.push(...parseError(error));
                     // continue next file
                     return this.exporter.exportURI(uri, format, dir, concurrency, bar);
@@ -81,19 +81,19 @@ export class Builder {
                 bar.dispose();
                 if (uris.length) {
                     if (errors.length) {
-                        vscode.window.showInformationMessage(this.localize(12, "Export {0} files finish with error.", uris.length));
+                        vscode.window.showInformationMessage(this.localize(12, null, uris.length));
                         showError(this.outputPanel, errors);
                     } else {
-                        vscode.window.showInformationMessage(this.localize(13, "Export {0} files finish.", uris.length));
+                        vscode.window.showInformationMessage(this.localize(13, null, uris.length));
                     }
                 }
             },
             error => {
                 bar.dispose();
-                errors.push(...parseError(this.localize(11, "{0} errors found in file {1}\n", error.length, uris[uris.length - 1].fsPath)));
+                errors.push(...parseError(this.localize(11, null, error.length, uris[uris.length - 1].fsPath)));
                 errors.push(...parseError(error));
                 if (uris.length) {
-                    vscode.window.showInformationMessage(this.localize(12, "Export {0} files finish with error.", uris.length));
+                    vscode.window.showInformationMessage(this.localize(12, null, uris.length));
                     showError(this.outputPanel, errors);
                 }
             }

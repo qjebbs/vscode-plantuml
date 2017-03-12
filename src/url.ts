@@ -47,7 +47,7 @@ export class URLMaker {
     private async makeDocumentURL(all: boolean) {
         let editor = vscode.window.activeTextEditor;
         if (!editor) {
-            vscode.window.showWarningMessage(this.localize(14, "No active document."));
+            vscode.window.showWarningMessage(this.localize(14, null));
             return;
         }
 
@@ -62,13 +62,13 @@ export class URLMaker {
         if (all) {
             ds.AddDocument();
             if (!ds.diagrams.length) {
-                vscode.window.showWarningMessage(this.localize(15, "No valid diagram found!"));
+                vscode.window.showWarningMessage(this.localize(15, null));
                 return;
             }
         } else {
             let dg = new Diagram().GetCurrent();
             if (!dg.content) {
-                vscode.window.showWarningMessage(this.localize(3, "No valid diagram found here!"));
+                vscode.window.showWarningMessage(this.localize(3, null));
                 return;
             }
             ds.Add(dg);
@@ -95,7 +95,7 @@ export class URLMaker {
     private makeURL(diagram: Diagram, server: string, format: string, bar: vscode.StatusBarItem): pURL {
         if (bar) {
             bar.show();
-            bar.text = this.localize(16, "PlantUML Making URL: {0}", diagram.title);
+            bar.text = this.localize(16, null, diagram.title);
         }
         let c = URLTextFrom(diagram.content);
 

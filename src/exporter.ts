@@ -73,11 +73,11 @@ export class Exporter {
         try {
             let editor = vscode.window.activeTextEditor;
             if (!editor) {
-                vscode.window.showInformationMessage(this.localize(0, "No text document to export."));
+                vscode.window.showInformationMessage(this.localize(0, null));
                 return;
             }
             if (!path.isAbsolute(editor.document.fileName)) {
-                vscode.window.showInformationMessage(this.localize(1, "Please save the file before you export its diagrams."));
+                vscode.window.showInformationMessage(this.localize(1, null));
                 return;
             };
             let format = this.config.get("exportFormat") as string;
@@ -90,13 +90,13 @@ export class Exporter {
             if (all) {
                 ds.AddDocument();
                 if (!ds.diagrams.length) {
-                    vscode.window.showInformationMessage(this.localize(2, "No diagram to export."));
+                    vscode.window.showInformationMessage(this.localize(2, null));
                     return;
                 }
             } else {
                 let dg = new Diagram().GetCurrent();
                 if (!dg.content) {
-                    vscode.window.showInformationMessage(this.localize(3, "No valid diagram found here!"));
+                    vscode.window.showInformationMessage(this.localize(3, null));
                     return;
                 }
                 ds.Add(dg);
@@ -114,7 +114,7 @@ export class Exporter {
                 results => {
                     bar.dispose();
                     if (results.length) {
-                        vscode.window.showInformationMessage(this.localize(4, "Export diagram(s) success."));
+                        vscode.window.showInformationMessage(this.localize(4, null));
                     }
                 },
                 error => {
@@ -138,16 +138,16 @@ export class Exporter {
      */
     private doExport(diagram: Diagram, format: string, savePath: string, bar: vscode.StatusBarItem): ExportTask {
         if (!this.javeInstalled) {
-            let pms = Promise.reject(this.localize(5, "java not installed!\nIf you've installed java, please add java bin path to PATH environment variable."));
+            let pms = Promise.reject(this.localize(5, null));
             return <ExportTask>{ promise: pms };
         }
         if (!fs.existsSync(this.jar)) {
-            let pms = Promise.reject(this.localize(6, "Can't find 'plantuml.jar'.\nPlease download and place it here: \n{0}", this.context.extensionPath));
+            let pms = Promise.reject(this.localize(6, null, this.context.extensionPath));
             return <ExportTask>{ promise: pms };
         }
         if (bar) {
             bar.show();
-            bar.text = this.localize(7, "PlantUML Exporting: {0}", diagram.title + "." + format.split(":")[0]);
+            bar.text = this.localize(7, null, diagram.title + "." + format.split(":")[0]);
         }
         let params = [
             '-Djava.awt.headless=true',
@@ -183,7 +183,7 @@ export class Exporter {
                 if (!stderror) {
                     resolve(stdout);
                 } else {
-                    stderror = this.localize(10, "Error found in diagram {0}\n{1}", diagram.title, stderror);
+                    stderror = this.localize(10, null, diagram.title, stderror);
                     reject(<ExportError>{ error: stderror, out: stdout });
                 }
             })
@@ -214,7 +214,7 @@ export class Exporter {
                         return prev;
                     }
                     let exportDir = diagram.dir;
-                    if (!path.isAbsolute(exportDir)) return Promise.reject(this.localize(1, "Please save the file before you export its diagrams."));
+                    if (!path.isAbsolute(exportDir)) return Promise.reject(this.localize(1, null));
                     let wkDir = vscode.workspace.rootPath;
                     if (dir && wkDir) {
                         let temp = path.relative(wkDir, exportDir);

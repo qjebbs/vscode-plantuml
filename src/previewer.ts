@@ -65,7 +65,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                 return eval(this.templateError);
             case previewStatus.processing:
                 image = path.join(this.context.extensionPath, "images", "icon.png");
-                text = this.localize(9, "Processing...");
+                text = this.localize(9, null);
                 return eval(this.templateProcessing);
             default:
                 return "";
@@ -106,7 +106,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         let diagram = new Diagram().GetCurrent();
         if (!diagram.content) {
             this.status = previewStatus.error;
-            this.error = this.localize(3, "No valid diagram found here!");
+            this.error = this.localize(3, null);
             this.image = "";
             this.Emittor.fire(this.Uri);
             return;
