@@ -15,5 +15,6 @@
 	"Export {0} files finish.",
 	"No active document.",
 	"No valid diagram found!",
-	"PlantUML Making URL: {0}"
+	"PlantUML Making URL: {0}",
+	"PlantUML Preview"
 ]

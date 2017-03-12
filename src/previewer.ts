@@ -156,7 +156,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             let ds = new Diagrams().AddDocument(editor.document);
             if (!ds.diagrams.length) return;
 
-            return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, 'PlantUML Preview')
+            return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, this.localize(17, null))
                 .then(
                 success => {
                     //active source editor
