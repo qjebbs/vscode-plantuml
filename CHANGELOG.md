@@ -1,3 +1,9 @@
+### 1.3.0
+- New Feature: Localization support & add translation of "zh-cn" and "ja". Any translations are welcome.
+- Fix some syntax highlight.
+
+> Thanks to [koara-local](https://github.com/koara-local) for the "ja" translation and syntax fixes.
+
 ### 1.2.5
 - Improvement: Preview don't show when no diagram found in document. Resolve [#7](https://github.com/qjebbs/vscode-plantuml/issues/7).
 - Fix: "note top|bottom of" highlight. fix [#8](https://github.com/qjebbs/vscode-plantuml/issues/8).
