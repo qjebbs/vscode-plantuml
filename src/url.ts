@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { Diagram, Diagrams } from './diagram';
 import { urlFormats } from './settings';
 import { URLTextFrom } from './tools';
+import * as nls from "vscode-nls";
 
 
 interface pURL {
@@ -10,7 +11,12 @@ interface pURL {
 }
 
 export class URLMaker {
-    constructor(public config: vscode.WorkspaceConfiguration, public context: vscode.ExtensionContext, public outputPanel: vscode.OutputChannel) {
+    constructor(
+        public config: vscode.WorkspaceConfiguration,
+        public context: vscode.ExtensionContext,
+        public outputPanel: vscode.OutputChannel,
+        public localize: nls.LocalizeFunc
+    ) {
     }
     register(): vscode.Disposable[] {
         function showError(error) {
@@ -41,7 +47,7 @@ export class URLMaker {
     private async makeDocumentURL(all: boolean) {
         let editor = vscode.window.activeTextEditor;
         if (!editor) {
-            vscode.window.showWarningMessage("No active document.");
+            vscode.window.showWarningMessage(this.localize(14, null));
             return;
         }
 
@@ -56,13 +62,13 @@ export class URLMaker {
         if (all) {
             ds.AddDocument();
             if (!ds.diagrams.length) {
-                vscode.window.showWarningMessage("No valid diagram found!");
+                vscode.window.showWarningMessage(this.localize(15, null));
                 return;
             }
         } else {
             let dg = new Diagram().GetCurrent();
             if (!dg.content) {
-                vscode.window.showWarningMessage("No valid diagram found here!");
+                vscode.window.showWarningMessage(this.localize(3, null));
                 return;
             }
             ds.Add(dg);
@@ -75,9 +81,9 @@ export class URLMaker {
         this.outputPanel.clear();
         urls.map(url => {
             this.outputPanel.appendLine(url.name);
-            if(resultFormat=="MarkDown"){
+            if (resultFormat == "MarkDown") {
                 this.outputPanel.appendLine(`\n![${url.name}](${url.url} "${url.name}")`);
-            }else{
+            } else {
                 this.outputPanel.appendLine(url.url);
             }
             this.outputPanel.appendLine("");
@@ -89,7 +95,7 @@ export class URLMaker {
     private makeURL(diagram: Diagram, server: string, format: string, bar: vscode.StatusBarItem): pURL {
         if (bar) {
             bar.show();
-            bar.text = "PlantUML Making URL: " + diagram.title + "." + format.split(":")[0];
+            bar.text = this.localize(16, null, diagram.title);
         }
         let c = URLTextFrom(diagram.content);
 

@@ -88,25 +88,25 @@
         "category": "PlantUML"
       }
     ],
-		"menus": {
-			"editor/context": [
-				{
-					"when": "editorLangId == diagram",
-					"command": "plantuml.preview",
-					"group": "PlantUML"
-				},
+    "menus": {
+      "editor/context": [
         {
-					"when": "editorLangId == diagram",
-					"command": "plantuml.exportCurrent",
-					"group": "PlantUML"
-				},
-				{
-					"when": "editorLangId == diagram",
-					"command": "plantuml.URLCurrent",
-					"group": "PlantUML"
-				}
-			]
-		},
+          "when": "editorLangId == diagram",
+          "command": "plantuml.preview",
+          "group": "PlantUML"
+        },
+        {
+          "when": "editorLangId == diagram",
+          "command": "plantuml.exportCurrent",
+          "group": "PlantUML"
+        },
+        {
+          "when": "editorLangId == diagram",
+          "command": "plantuml.URLCurrent",
+          "group": "PlantUML"
+        }
+      ]
+    },
     "keybindings": [
       {
         "command": "plantuml.preview",
@@ -210,5 +210,8 @@
     "mocha": "^2.3.3",
     "@types/node": "^6.0.40",
     "@types/mocha": "^2.2.32"
+  },
+  "dependencies": {
+    "vscode-nls": "^2.0.2"
   }
 }

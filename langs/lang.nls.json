@@ -1,0 +1,20 @@
+[
+	"No text document to export.",
+	"Please save the file before you export its diagrams.",
+	"No diagram to export.",
+	"No valid diagram found here!",
+	"Export diagram(s) success.",
+	"java not installed!\nIf you've installed java, please add java bin path to PATH environment variable.",
+	"Can't find 'plantuml.jar'.\nPlease download and place it here: \n{0}",
+	"PlantUML Exporting: {0}",
+	"No file to export.",
+	"Processing...",
+	"Error found in diagram {0}\n{1}",
+	"{0} errors found in file {1}\n",
+	"Export {0} files finish with error.",
+	"Export {0} files finish.",
+	"No active document.",
+	"No valid diagram found!",
+	"PlantUML Making URL: {0}",
+	"PlantUML Preview"
+]

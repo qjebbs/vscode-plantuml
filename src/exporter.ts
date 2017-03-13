@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as child_process from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as nls from "vscode-nls";
 import { Diagram, Diagrams } from './diagram';
 import { ExportFormats } from './settings';
 import { mkdirsSync, isSubPath, showError, parseError } from './tools';
@@ -21,7 +22,12 @@ export class Exporter {
     private java: string = "java";
     private javeInstalled: boolean = true;
 
-    constructor(public config: vscode.WorkspaceConfiguration, public context: vscode.ExtensionContext, public outputPanel: vscode.OutputChannel) {
+    constructor(
+        public config: vscode.WorkspaceConfiguration,
+        public context: vscode.ExtensionContext,
+        public outputPanel: vscode.OutputChannel,
+        public localize: nls.LocalizeFunc
+    ) {
         this.testJava();
         this.jar = path.join(context.extensionPath, "plantuml.jar");
     }
@@ -67,11 +73,11 @@ export class Exporter {
         try {
             let editor = vscode.window.activeTextEditor;
             if (!editor) {
-                vscode.window.showInformationMessage("No text document to export.");
+                vscode.window.showInformationMessage(this.localize(0, null));
                 return;
             }
             if (!path.isAbsolute(editor.document.fileName)) {
-                vscode.window.showInformationMessage("Please save the file before you export its diagrams.");
+                vscode.window.showInformationMessage(this.localize(1, null));
                 return;
             };
             let format = this.config.get("exportFormat") as string;
@@ -84,13 +90,13 @@ export class Exporter {
             if (all) {
                 ds.AddDocument();
                 if (!ds.diagrams.length) {
-                    vscode.window.showInformationMessage("No diagram to export.");
+                    vscode.window.showInformationMessage(this.localize(2, null));
                     return;
                 }
             } else {
                 let dg = new Diagram().GetCurrent();
                 if (!dg.content) {
-                    vscode.window.showInformationMessage("No valid diagram found here!");
+                    vscode.window.showInformationMessage(this.localize(3, null));
                     return;
                 }
                 ds.Add(dg);
@@ -108,7 +114,7 @@ export class Exporter {
                 results => {
                     bar.dispose();
                     if (results.length) {
-                        vscode.window.showInformationMessage("Export document success.");
+                        vscode.window.showInformationMessage(this.localize(4, null));
                     }
                 },
                 error => {
@@ -132,16 +138,16 @@ export class Exporter {
      */
     private doExport(diagram: Diagram, format: string, savePath: string, bar: vscode.StatusBarItem): ExportTask {
         if (!this.javeInstalled) {
-            let pms = Promise.reject("java not installed!\nIf you've installed java, please add java bin path to PATH environment variable.");
+            let pms = Promise.reject(this.localize(5, null));
             return <ExportTask>{ promise: pms };
         }
         if (!fs.existsSync(this.jar)) {
-            let pms = Promise.reject("Can't find 'plantuml.jar'.Please download and place it here: \n" + this.context.extensionPath);
+            let pms = Promise.reject(this.localize(6, null, this.context.extensionPath));
             return <ExportTask>{ promise: pms };
         }
         if (bar) {
             bar.show();
-            bar.text = "PlantUML Exporting: " + diagram.title + "." + format.split(":")[0];
+            bar.text = this.localize(7, null, diagram.title + "." + format.split(":")[0]);
         }
         let params = [
             '-Djava.awt.headless=true',
@@ -172,12 +178,12 @@ export class Exporter {
                     bufflen += x.length;
                 });
             }
-            process.stdout.on('close', function () {
+            process.stdout.on('close', () => {
                 let stdout = Buffer.concat(buffs, bufflen)
                 if (!stderror) {
                     resolve(stdout);
                 } else {
-                    stderror = `In diagram ${diagram.title}:\n${stderror}`;
+                    stderror = this.localize(10, null, diagram.title, stderror);
                     reject(<ExportError>{ error: stderror, out: stdout });
                 }
             })
@@ -208,7 +214,7 @@ export class Exporter {
                         return prev;
                     }
                     let exportDir = diagram.dir;
-                    if (!path.isAbsolute(exportDir)) return Promise.reject("Please save the file before you export its diagrams.");
+                    if (!path.isAbsolute(exportDir)) return Promise.reject(this.localize(1, null));
                     let wkDir = vscode.workspace.rootPath;
                     if (dir && wkDir) {
                         let temp = path.relative(wkDir, exportDir);
