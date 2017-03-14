@@ -102,7 +102,17 @@
         },
         {
           "when": "editorLangId == diagram",
+          "command": "plantuml.exportDocument",
+          "group": "PlantUML"
+        },
+        {
+          "when": "editorLangId == diagram",
           "command": "plantuml.URLCurrent",
+          "group": "PlantUML"
+        },
+        {
+          "when": "editorLangId == diagram",
+          "command": "plantuml.URLDocument",
           "group": "PlantUML"
         }
       ]
