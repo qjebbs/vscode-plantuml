@@ -126,11 +126,35 @@
     "snippets": [
       {
         "language": "diagram",
-        "path": "./snippets/common.json"
+        "path": "./snippets/general.json"
       },
       {
         "language": "diagram",
         "path": "./snippets/activity.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/usecase.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/sequence.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/class.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/state.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/component.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/salt.json"
       },
       {
         "language": "diagram",

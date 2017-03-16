@@ -1,0 +1,98 @@
+{
+    "General Diagram Start/End": {
+        "prefix": "diagram start",
+        "body": "@startuml\n$0\n@enduml",
+        "description": "Adds the declarative boundaries between which a PlantUML artifact is specified"
+    },
+    "General Diagram Scale": {
+        "prefix": "diagram scale",
+        "body": [
+            "scale ${1:1.5}",
+            "${2:'scale 1.5 | scale 200 width | scale 100 height | scale [max] 200x100}"
+        ],
+        "description": "Changes the zooming extent of the diagram with either a fraction/decimal factor (eg1. scale 2.5) (eg2 scale 2/3) or with a width/height size or with nominated dimensions"
+    },
+    "General Diagram Title": {
+        "prefix": "diagram title",
+        "body": [
+            "title",
+            "${multi-line text}$0",
+            "end title\n"
+        ],
+        "description": "Adds a title to the top of the diagram with the multi-line text"
+    },
+    "General Diagram Caption": {
+        "prefix": "diagram caption text",
+        "body": "caption ${Figure x.x description...}\n$0",
+        "description": "Adds a caption under the diagram where figure descriptions can be documented"
+    },
+    "General Diagram Legend": {
+        "prefix": "diagram legend text",
+        "body": [
+            "legend ${1:left}",
+            "\t${2:'text-justified options, left|right|center}",
+            "endlegend\n"
+        ],
+        "description": "Adds a legend to the bottom of the diagram with the text left|right|center justified. Use this feature to document the symbols for an overrall context"
+    },
+    "General Diagram Note Independent": {
+        "prefix": "diagram note independent",
+        "body": "note \"${single-line note}\" as ${noteAlias}\n$0",
+        "description": "Declares a note in the diagram which is subsequently attached to an object using the independent link"
+    },
+    "General Diagram Note Independent Link": {
+        "prefix": "diagram note independent link",
+        "body": "${objAlias} ${.}. ${noteAlias}\n$0",
+        "description": "Adds a reference link between an object and an independent note in the diagram. Be aware that the length of the line can be forced to change size by adding/removing extra dots"
+    },
+    "General Diagram Note For Object": {
+        "prefix": "diagram note for object",
+        "body": [
+            "note ${1:left} of ${2:objAlias}: ${3:single-line note}",
+            "${4:'position options, left|right|top|bottom}"
+        ],
+        "description": "Appends a text note directly left|right|top|bottom of the referenced object in the diagram"
+    },
+    "General Diagram Multi-Line Note For Object": {
+        "prefix": "diagram note for object multi line",
+        "body": [
+            "note ${1:left} of ${2:objAlias}",
+            "\t${3:'position options, left|right|top|bottom}",
+            "end note\n"
+        ],
+        "description": "Appends a text note directly left|right|top|bottom of the referenced object in the diagram"
+    },
+    "General Diagram Header": {
+        "prefix": "diagram header region text",
+        "body": "header ${last-updated xx/xx/xxxx}\n$0",
+        "description": "Appends a text header to the header region of the diagram. This may be used to provide a date/time stamp of when the diagram was authored/reviewed"
+    },
+    "General Diagram Multi-Line Header": {
+        "prefix": "diagram header region text multi line",
+        "body": [
+            "header",
+            "${last-updated xx/xx/xxxx}$0",
+            "end header\n"
+        ],
+        "description": "Appends a text header to the header region of the diagram. This may be used to provide a date/time stamp of when the diagram was authored/reviewed"
+    },
+    "General Diagram Footer": {
+        "prefix": "diagram footer region text",
+        "body": "footer ${authored by xxx}\n$0",
+        "description": "Appends a text footer to the footer region of the diagram. This may be used to provide a reference to the author for further clarification"
+    },
+    "General Diagram Multi-Line Footer": {
+        "prefix": "diagram footer region text multi line",
+        "body": [
+            "footer",
+            "${authored by xxx}$0",
+            "end footer\n"
+        ],
+        "description": "Appends a text footer to the footer region of the diagram. This may be used to provide a reference to the author for further clarification"
+    },
+    "General Diagram Newpage": {
+        "prefix": "diagram newpage separator",
+        "body": "newpage ${title text}\n$0",
+        "description": "Adds a new page separator with an optional title to split the diagram into sections for embedding into word processing documents"
+    }
+}
