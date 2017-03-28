@@ -1,0 +1,140 @@
+{
+    "Class Diagram Aggregation Relationship": {
+        "prefix": "class aggregation relationship",
+        "body": "${1:classAlias} \"${3:multiplicityRole1}\" o-${5:-}${6:>} \"${4:multiplicityRole2}\" ${2:typeAlias}${7: : ${8:label} ${9:<<stereotype>>} ${10:>}}\n$0",
+        "description": "Creates an aggregation association between a class and another type. The relationship may include multiplicities, role names, navigability indicators, label and/or stereotypes. Note, the length of the line can be forced to change size by adding/removing extra dashes"
+    },
+    "Class Diagram Composition Relationship": {
+        "prefix": "class composition relationship",
+        "body": "${1:classAlias} \"${3:multiplicityRole1}\" *-${5:-}${6:>} \"${4:multiplicityRole2}\" ${2:typeAlias}${7: : ${8:label} ${9:<<stereotype>>} ${10:>}}\n$0",
+        "description": "Creates an composition association between a class and another type. The relationship may include multiplicities, role names, navigability indicators, label and/or stereotypes. Note, the length of the line can be forced to change size by adding/removing extra dashes"
+    },
+    "Class Diagram Association Relationship": {
+        "prefix": "class association relationship",
+        "body": "${1:classAlias} \"${3:multiplicityRole1}\" -${5:-}${6:>} \"${4:multiplicityRole2}\" ${2:typeAlias}${7: : ${8:label} ${9:<<stereotype>>} ${10:>}}\n$0",
+        "description": "Creates an association between two types. Be aware types could be classes, interfaces and/or enumerations. The relationship may include multiplicities, role names, navigability indicators, label and/or stereotypes. Note, the following arrow head rules:\n- 'no arrow head' implies an unspecified navigability from class to type\n - '>' implies that class navigates the features of type\n- 'x' implies that class cannot navigate into the features of type. Furthermore, the length of the line can be forced to change size by adding/removing extra dashes"
+    },
+    "Class Diagram Association Class Relationship": {
+        "prefix": "class association class relationship",
+        "body": "(${1:type1}, ${2:type2}) ${3:.}. ${4:assocClass}${5: : ${6:label} ${7:<<stereotype>>}}\n$0",
+        "description": "Creates an associated class relationship between two types. The resulting class represents a marriage between type1 and type2, and is may be implemented as attributes to each respective class in the assocClass"
+    },
+    "Class Diagram Dependency Relationship": {
+        "prefix": "class dependency relationship",
+        "body": "${1:ref1} ${2:.}.> ${3:ref2}${4: : ${5:label} ${6:<<stereotype>>}}\n$0",
+        "description": "Creates a dependency between two references. The relationship may include a label and/or stereotypes"
+    },
+    "Class Diagram Generalisation Relationship": {
+        "prefix": "class generalisation relationship",
+        "body": "${1:class1} <|-${2:-} ${3:class2}${4: : ${5:label} ${6:<<stereotype>>}}\n$0",
+        "description": "Creates a generalisation between two classes such that class2 extends the capabilities of class1. The relationship may include a label and/or stereotypes"
+    },
+    "Class Diagram Realisation Relationship": {
+        "prefix": "class realisation relationship",
+        "body": "${1:interfaceAlias} <|.${2:.} ${3:classAlias}${4: : ${5:label} ${6:<<stereotype>>}}\n$0",
+        "description": "Creates a realisation of an interface such that class implements the specification of the interface. The relationship may include a label and/or stereotypes"
+    },
+    "Class Diagram Realisation Lollipop Relationship": {
+        "prefix": "class realisation lollipop relationship",
+        "body": "${1:interfaceAlias} ()-${2:-} ${3:classAlias}${4: : ${5:label} ${6:<<stereotype>>}}\n$0",
+        "description": "Creates a realisation of an interface such that class implements the specification of the interface. The relationship may include a label and/or stereotypes"
+    },
+    "Class Diagram Relationship Note": {
+        "prefix": "class note on relationship",
+        "body": [
+            "note ${1:left} on link ${2:#Khaki} : ${3:single-line note}",
+            "${4:'position options: left|right|top|bottom}"
+        ],
+        "description": "Appends a text note directly left|right|top|bottom of the previously defined relationship. Use the color name guide to identify colors or use #hexCodes"
+    },
+    "Class Diagram Link Multi-Line Note": {
+        "prefix": "class note on relationship multi line",
+        "body": [
+            "note ${1:left} on link ${2:#Khaki}",
+            "${3:'position options: left|right|top|bottom}$0",
+            "end note\n"
+        ],
+        "description": "Appends a text note directly left|right|top|bottom of the previously defined relationship. Use the color name guide to identify colors or use #hexCodes"
+    },
+    "Class Diagram Class Definition With Stereotype": {
+        "prefix": "class definition with stereotype",
+        "body": [
+            "${1:abstract }class ${2:alias}${3: as \"${4:longName}\"}${5: <<(${6:X},${7:#ADD1B2}) ${8:stereotype}>>}{",
+            "\t$0+{static} int PUBLIC_CLASS_VARIABLE",
+            "\t-string privateVariable",
+            "\t~void packagePrivateMethod()",
+            "\t#{abstract} char protectedMethod(int param)",
+            "}\n"
+        ],
+        "description": "Adds a class with a stereotype and an optional letter icon with color to the class (eg. class Stream <<(O,#ADD1B2) io>>). Class declarations are useful when you are either: 1. modeling the domain, 2. the class names are long or you want them more human readable, or 3. there are no implementation details requiring specification"
+    },
+    "Class Diagram Class Definition": {
+        "prefix": "class definition",
+        "body": [
+            "${abstract }class ${alias} {",
+            "\t$0+{static} int PUBLIC_CLASS_VARIABLE",
+            "\t-string privateVariable",
+            "\t~void packagePrivateMethod()",
+            "\t#{abstract} char protectedMethod(int param)",
+            "}\n"
+        ],
+        "description": "Adds a class definition type to the class diagram. You can add instance variable/methods, abstract methods, class variables/methods and also specify member access and abstract modifiers. Note, you may also just choose to add free form text between the braces without any member signatures at all. In such cases you can use .. or -- or == as separators within the compartment. Note, class definition and declaration are not mutually exclusive; they can both be used together very effectively to model a rich and optimised diagram via aliasing"
+    },
+    "Class Diagram Interface": {
+        "prefix": "class interface definition",
+        "body": [
+            "interface ${1:alias}${2: as \"${3:longName}\"}${4: <<${5:stereotype}>>} {",
+            "\t$0",
+            "}\n"
+        ],
+        "description": "Adds an interface type definition to the class diagram. You can typically add constants and method specification"
+    },
+    "Class Diagram Enumeration": {
+        "prefix": "class enumeration definition",
+        "body": [
+            "enum ${1:alias}${2: as \"${3:longName}\"}${4: <<${5:stereotype}>>} {",
+            "\t$0",
+            "}\n"
+        ],
+        "description": "Adds an enumeration definition to the class diagram"
+    },
+    "Class Diagram Annotation": {
+        "prefix": "class annotation declaration",
+        "body": "annotation ${1:alias}${2: <<${3:stereotype}>>}\n$0",
+        "description": "Adds an annotation definition to the class diagram"
+    },
+    "Class Diagram Package": {
+        "prefix": "class package definition",
+        "body": [
+            "package \"${1:longName}\"${2: as ${3:alias}}${4: <<${5:stereotype}>>} {",
+            "\t$0",
+            "}\n"
+        ],
+        "description": "Adds a package definition to the class diagram"
+    },
+    "Class Diagram Object Instance": {
+        "prefix": "class object definition",
+        "body": [
+            "object \"${1:longName}\"${2: as ${3:alias}}${4: <<${5:stereotype}>>} {",
+            "\t$0",
+            "}\n"
+        ],
+        "description": "!Note, an object interaction diagram (like a package diagram) is essentially a restricted class diagram. Therefore, to create an object diagram use objects (ie. class instances) and classes with associations to model the intended dynamic behavior.\n\nThis snippet adds an object to the diagram to represent the current state of nominated object. \n\nEnter Key=Value pairs in the compartment"
+    },
+    "Class Diagram Hide Features": {
+        "prefix": "class hide features",
+        "body": [
+            "hide ${empty members}",
+            "${'hide [<<stereotype>> or alias] [empty members,members,empty attributes,attributes,empty methods,methods,circle,stereotype,class,interface,enum]}"
+        ],
+        "description": "Hide matching stereotype, alias, members or features that match the nominated option. This feature is useful when you dont want to distract the reviewer with various implementation details in the model without the need for re-modeling. Consider 'Detail.pu' as a PlantUML diagram that includes a fully detailed model with all relationship and member signatures. Rather than reproduce the same model, you could use the !include feature and then hide various model features"
+    },
+    "Class Diagram Show": {
+        "prefix": "class show features",
+        "body": [
+            "show ${empty members}",
+            "${'show [<<stereotype>> or alias] [empty members,members,empty attributes,attributes,empty methods,methods,circle,stereotype,class,interface,enum]}"
+        ],
+        "description": "show matching stereotype, alias, members or features that match the nominated option. This feature is used in conjuction with the hidden feature. Consider using the hide for a broad brush approach detail remover, then apply show to expose those interesting details for this diagram."
+    }
+}

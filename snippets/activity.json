@@ -1,44 +1,105 @@
 {
-    "ifelse": {
-        "prefix": "ifelse",
-        "body": "if (${1:condition}) then (${2:result})\n\t:${4:do something};\nelse (${3:result})\n\t:${5:do something};\nendif",
-        "description": "activity: if-else",
-        "scope": ""
-    },
-    "ifelseif": {
-        "prefix": "ifelseif",
-        "body": "if (${1:condition}) then (${2:result})\n\t:${6:do something};\nelse if (${3:condition}) then (${4:result})\n\t:${7:do something};\nelse (${5:result})\n\t:${8:do something};\nendif",
-        "description": "activity: if-elseif",
-        "scope": ""
-    },
-    "split": {
-        "prefix": "split",
-        "body": "split\n\t:${1:do something};\nsplit again\n\t:${2:do something};\nend split",
-        "description": "activity: split",
-        "scope": ""
-    },
-    "repeat": {
-        "prefix": "repeat",
-        "body": "repeat\n\t:${1:do something};\nrepeat while (${2:condition}) is (${3:result})",
-        "description": "activity: repeat",
-        "scope": ""
-    },
-    "while": {
-        "prefix": "while",
-        "body": "while (${1:condition}) is (${2:result})\n\t:${3:do something};\nendwhile (${4:resultOther})",
-        "description": "activity: while",
-        "scope": ""
-    },
-    "fork": {
-        "prefix": "fork",
-        "body": "fork\n\t:${1:do something};\nfork again\n\t:${2:do something};\nend fork",
-        "description": "activity: fork",
-        "scope": ""
-    },
-    "partition": {
-        "prefix": "partition",
-        "body": "partition ${1:\"Group Name\"} {\n\t:${2:do something};\n\t:${3:do something};\n}",
-        "description": "activity: partition",
-        "scope": ""
-    }
+    "Activity Diagram Start": {
+		"prefix": "activity start",
+		"body": "start\n",
+		"description": "Adds the starting/initial step from which all paths start from in the activity diagram"
+	},
+	"Activity Diagram Stop": {
+		"prefix": "activity stop",
+		"body": "stop\n",
+		"description": "Adds the termination step from which all (or a) path(s) should lead in the activity diagram"
+	},
+	"Activity Diagram Activity": {
+		"prefix": "activity definition",
+		"body": ":${do something};$0",
+		"description": "Adds an activity that follows on from the previous control statement.\n Note, to use SDL sterotyped activities replace the terminating ';' with one of the following characters: |,<,>,/,],}"
+	},
+	"Activity Diagram If Condition": {
+		"prefix": "activity if else condition",
+		"body": [
+			"if (${cond1}?) then (${val1})",
+			"\t$0",
+			"else (${val2})",
+			"\t",
+			"endif"
+		],
+		"description": "Adds an if-then-elseif-else condition to the activity diagram. Add/remove the elseif/else blocks as required"
+	},
+	"Activity Diagram If-elseif Condition": {
+		"prefix": "activity if elseif else condition",
+		"body": [
+			"if (${cond1}?) then (${val1})",
+			"\t$0",
+			"elseif (${cond2}?) then (${val2})",
+			"\t",
+			"else (${val3})",
+			"\t",
+			"endif"
+		],
+		"description": "Adds an if-then-elseif-else condition to the activity diagram. Add/remove the elseif/else blocks as required"
+	},
+	"Activity Diagram Repeat": {
+		"prefix": "activity repeat loop",
+		"body": [
+			"repeat",
+			"\t$0",
+			"repeat while (${cond}?) is (${val})"
+		],
+		"description": "Adds a repeat while loop to the activity diagram"
+	},
+	"Activity Diagram While": {
+		"prefix": "activity while loop",
+		"body": [
+			"while (${cond}?) is (not ${val})",
+			"\t$0",
+			"endwhile (${val}) "
+		],
+		"description": "Adds a while loop to the activity diagram"
+	},
+	"Activity Diagram Fork": {
+		"prefix": "activity fork concurrent activities",
+		"body": [
+			"fork",
+			"\t$0",
+			"fork again",
+			"\t",
+			"end fork"
+		],
+		"description": "Adds a fork segment to represent parallel processing within the activity diagram"
+	},
+	"Activity Diagram Activity Note": {
+		"prefix": "activity note on activity",
+		"body": [
+			"${floating }note ${right}${left} : ${single-line note}$0"
+		],
+		"description": "Appends a text note directly left|right of the preceding activity"
+	},
+	"Activity Diagram Activity Multi-Line Note": {
+		"prefix": "activity note on activity multi line",
+		"body": [
+			"${floating }note ${right}${left}",
+			"${multi-line note}$0",
+			"end note\n"
+		],
+		"description": "Appends a text note directly left|right of the preceding activity"
+	},
+	"Activity Diagram Partition": {
+		"prefix": "activity partition grouping",
+		"body": [
+			"partition ${name} {",
+			"\t$0",
+			"}\n"
+		],
+		"description": "Add a group that encloses a set of related activities within the activity diagram"
+	},
+	"Activity Diagram Swimlane": {
+		"prefix": "activity swimlane grouping",
+		"body": "${|#AntiqueWhite}|${laneName}|$0",
+		"description": "Creates a new vertical lane for all subsequent activities to be enclosed in. Use the color names guide to identify colors or use #hexCodes"
+	},
+	"Activity Diagram Detach": {
+		"prefix": "activity detach",
+		"body": "detach$0",
+		"description": "Causes an abrupt end immediately following the preceding activity"
+	}
 }

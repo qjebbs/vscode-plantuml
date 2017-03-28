@@ -3,7 +3,7 @@
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
   "icon": "images/icon.png",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.5.0"
@@ -102,7 +102,17 @@
         },
         {
           "when": "editorLangId == diagram",
+          "command": "plantuml.exportDocument",
+          "group": "PlantUML"
+        },
+        {
+          "when": "editorLangId == diagram",
           "command": "plantuml.URLCurrent",
+          "group": "PlantUML"
+        },
+        {
+          "when": "editorLangId == diagram",
+          "command": "plantuml.URLDocument",
           "group": "PlantUML"
         }
       ]
@@ -116,11 +126,35 @@
     "snippets": [
       {
         "language": "diagram",
-        "path": "./snippets/common.json"
+        "path": "./snippets/general.json"
       },
       {
         "language": "diagram",
         "path": "./snippets/activity.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/usecase.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/sequence.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/class.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/state.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/component.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/salt.json"
       },
       {
         "language": "diagram",

@@ -1,3 +1,8 @@
+### 1.4.0
+- New snippets, cover all type diagrams. Modified from [zhleonix](https://github.com/zhleonix) / [vscode-plantuml-ext](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json) with many fixes.
+- Fix: Invalid characters are not fully cleared in export file name. [#17](https://github.com/qjebbs/vscode-plantuml/issues/17)
+- Add 2 file commands in context menu.
+
 ### 1.3.0
 - New Feature: Localization support & add translation of "zh-cn" and "ja". Any translations are welcome.
 - Fix some syntax highlight.

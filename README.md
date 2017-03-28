@@ -31,7 +31,7 @@ Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram 
 - Concurrent export.
 - Generate compressed URLs.
 - New syntax file, support all diagram types.
-- Snippets for activity diagrams and `Eggs`.
+- Snippets for all type diagrams and `Eggs`. Thanks to [zhleonix](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json).
 
 ![demo](images/demo.gif "demo")
 
@@ -47,11 +47,9 @@ Before you can use the plugin, it's necessary to have following installed:
 
 * [Java][Java] : Platform for PlantUML running.
 * [Graphviz][Graphviz] : PlantUML requires it to calculate positions in diagram.
-* [PlantUML][PlantUML] : Download and place it in extension root folder.
 
 [Java]: http://java.com/en/download/ "Download Java"
 [Graphviz]: http://www.graphviz.org/Download..php "Download Graphviz"
-[PlantUML]: http://plantuml.com/download "Download PlantUML"
 
 > If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
 
@@ -68,6 +66,29 @@ This extension contributes the following settings:
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.
 - `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
 
+## About Snippets
+
+This plugin integrates all type diagram snippets. They are splitted into 9 sections:
+
+- `diagram`: snippets for general diagrams elements.
+- `activity`: snippets for activity diagrams.
+- `class`: snippets for class diagrams.
+- `component`: snippets for component diagrams.
+- `state`: snippets for state diagrams.
+- `usecase`: snippets for usecase diagrams.
+- `sequence`: snippets for sequence diagrams.
+- `ui`: snippets for salt diagrams.
+- `egg`: snippets for some funny diagrams, like sudoku, earth.
+
+For exsample, type `activity if else condition` or `acif` (short version) to trigge following snippet:
+
+```
+if (cond1?) then (val1)
+    
+else (val2)
+    
+endif
+```
 
 ## Known Issues
 
