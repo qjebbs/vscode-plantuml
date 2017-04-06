@@ -92,7 +92,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
     }
     get TargetChanged(): boolean {
         let current = new Diagram().GetCurrent();
-        let changed = (!this.rendered || this.rendered.title != current.title || this.rendered.fileName != current.fileName);
+        let changed = (!this.rendered || this.rendered.start.line != current.start.line || this.rendered.fileName != current.fileName);
         if (changed) {
             this.rendered = current;
             this.error = "";
