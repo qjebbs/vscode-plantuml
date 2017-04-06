@@ -63,18 +63,16 @@ export class Builder {
         let concurrency = this.config.get("exportConcurrency") as number;
         let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
         let errors: ExportError[] = [];
-        let outDirName = this.config.get("exportOutDirName") as number;
-        let dir = path.join(vscode.workspace.rootPath, outDirName);
         uris.reduce((prev: Promise<Buffer[]>, uri: vscode.Uri, index: number) => {
             return prev.then(
                 () => {
-                    return this.exporter.exportURI(uri, format, dir, concurrency, bar);
+                    return this.exporter.exportURI(uri, format, concurrency, bar);
                 },
                 error => {
                     errors.push(...parseError(this.localize(11, null, error.length, uris[index - 1].fsPath)))
                     errors.push(...parseError(error));
                     // continue next file
-                    return this.exporter.exportURI(uri, format, dir, concurrency, bar);
+                    return this.exporter.exportURI(uri, format, concurrency, bar);
                 });
         }, Promise.resolve([])).then(
             () => {
