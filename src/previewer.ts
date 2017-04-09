@@ -4,7 +4,7 @@ import * as path from 'path';
 import { Exporter, ExportError } from './exporter';
 import { Diagram, Diagrams } from './diagram';
 import * as child_process from 'child_process';
-import { parseError, isSubPath } from './tools';
+import { parseError } from './tools';
 import * as nls from "vscode-nls";
 
 enum previewStatus {

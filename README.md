@@ -26,12 +26,18 @@ Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram 
 
 ## Features
 
-- Preview and auto update.
-- Export diagram at cursor, or diagrams in current file or whole workspace.
-- Concurrent export.
-- Generate compressed URLs.
-- New syntax file, support all diagram types.
-- Snippets for all type diagrams and `Eggs`. Thanks to [zhleonix](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json).
+- Preview Diagram
+    - Auto update.
+    - Instant preview, if diagram's been exported.
+- Export Diagrams
+    - At cursor, in current file, in whole workspace.
+    - Concurrent export.
+- Generate URLs.
+- All Type Syntax Highlight.
+- All Type Snippets.
+    - Support all type diagrams. Thanks to [zhleonix](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json).
+    - Eggs like sudoku, font, earth...
+- Multiple languages support. [Translations](https://github.com/qjebbs/vscode-plantuml/tree/develop/langs) are welcome.
 
 ![demo](images/demo.gif "demo")
 
