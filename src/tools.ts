@@ -1,8 +1,8 @@
+import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as zlib from 'zlib';
 import { ExportError } from './exporter';
-import * as vscode from 'vscode';
 
 export function mkdirs(dirname, callback) {
     fs.exists(dirname, function (exists) {

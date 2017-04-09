@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
-import { Diagram, Diagrams } from './diagram'
-
-export class Symbol implements vscode.DocumentSymbolProvider {
+import { Diagrams } from './diagram'
+class Symbol implements vscode.DocumentSymbolProvider {
     register() {
         //register Symbol provider
         let ds: vscode.Disposable[] = [];
@@ -27,3 +26,4 @@ export class Symbol implements vscode.DocumentSymbolProvider {
         return results;
     }
 }
+export const symboler = new Symbol();

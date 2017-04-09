@@ -3,8 +3,10 @@ import * as child_process from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as nls from "vscode-nls";
+
 import { Diagram, Diagrams } from './diagram';
-import { ExportFormats } from './settings';
+import { config } from './config';
+import { outputPanel, context, localize } from './planuml';
 import { mkdirsSync, isSubPath, showError, parseError } from './tools';
 
 export interface ExportError {
@@ -17,17 +19,12 @@ export interface ExportTask {
     promise: Promise<Buffer>;
 }
 
-export class Exporter {
+class Exporter {
     private jar: string;
     private java: string = "java";
     private javeInstalled: boolean = true;
 
-    constructor(
-        public config: vscode.WorkspaceConfiguration,
-        public context: vscode.ExtensionContext,
-        public outputPanel: vscode.OutputChannel,
-        public localize: nls.LocalizeFunc
-    ) {
+    initialize() {
         this.testJava();
         this.jar = path.join(context.extensionPath, "plantuml.jar");
     }
@@ -39,6 +36,7 @@ export class Exporter {
         });
     }
     register(): vscode.Disposable[] {
+        this.initialize();
         //register export
         let ds: vscode.Disposable[] = [];
         let d = vscode.commands.registerCommand('plantuml.exportCurrent', () => {
@@ -70,8 +68,8 @@ export class Exporter {
         return this.doExport(diagram, format, "", bar);
     }
     calculateExportPath(diagram: Diagram, format: string): string {
-        let outDirName = this.config.get("exportOutDirName") as number;
-        let subDir = this.config.get("exportSubFolder") as boolean;
+        let outDirName = config.exportOutDirName;
+        let subDir = config.exportSubFolder;
         let dir = "";
         let wkdir = vscode.workspace.rootPath;
         //if current document is in workspace, organize exports in 'out' directory.
@@ -93,53 +91,53 @@ export class Exporter {
         try {
             let editor = vscode.window.activeTextEditor;
             if (!editor) {
-                vscode.window.showInformationMessage(this.localize(0, null));
+                vscode.window.showInformationMessage(localize(0, null));
                 return;
             }
             if (!path.isAbsolute(editor.document.fileName)) {
-                vscode.window.showInformationMessage(this.localize(1, null));
+                vscode.window.showInformationMessage(localize(1, null));
                 return;
             };
-            let format = this.config.get("exportFormat") as string;
+            let format = config.exportFormat;
             if (!format) {
-                format = await vscode.window.showQuickPick(ExportFormats);
+                format = await vscode.window.showQuickPick(config.exportFormats);
                 if (!format) return;
             }
-            this.outputPanel.clear();
+            outputPanel.clear();
             let ds = new Diagrams();
             if (all) {
                 ds.AddDocument();
                 if (!ds.diagrams.length) {
-                    vscode.window.showInformationMessage(this.localize(2, null));
+                    vscode.window.showInformationMessage(localize(2, null));
                     return;
                 }
             } else {
                 let dg = new Diagram().GetCurrent();
                 if (!dg.content) {
-                    vscode.window.showInformationMessage(this.localize(3, null));
+                    vscode.window.showInformationMessage(localize(3, null));
                     return;
                 }
                 ds.Add(dg);
                 editor.selections = [new vscode.Selection(dg.start, dg.end)];
             }
             let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-            let concurrency = this.config.get("exportConcurrency") as number;
+            let concurrency = config.exportConcurrency;
             this.doExports(ds.diagrams, format, concurrency, bar).then(
                 results => {
                     bar.dispose();
                     if (results.length) {
-                        vscode.window.showInformationMessage(this.localize(4, null));
+                        vscode.window.showInformationMessage(localize(4, null));
                     }
                 },
                 error => {
                     bar.dispose();
                     let err = parseError(error);
-                    showError(this.outputPanel, err);
+                    showError(outputPanel, err);
                 }
             );
         } catch (error) {
             let err = parseError(error);
-            showError(this.outputPanel, err);
+            showError(outputPanel, err);
         }
         return;
     }
@@ -152,16 +150,16 @@ export class Exporter {
      */
     private doExport(diagram: Diagram, format: string, savePath: string, bar: vscode.StatusBarItem): ExportTask {
         if (!this.javeInstalled) {
-            let pms = Promise.reject(this.localize(5, null));
+            let pms = Promise.reject(localize(5, null));
             return <ExportTask>{ promise: pms };
         }
         if (!fs.existsSync(this.jar)) {
-            let pms = Promise.reject(this.localize(6, null, this.context.extensionPath));
+            let pms = Promise.reject(localize(6, null, context.extensionPath));
             return <ExportTask>{ promise: pms };
         }
         if (bar) {
             bar.show();
-            bar.text = this.localize(7, null, diagram.title + "." + format.split(":")[0]);
+            bar.text = localize(7, null, diagram.title + "." + format.split(":")[0]);
         }
         let params = [
             '-Djava.awt.headless=true',
@@ -197,7 +195,7 @@ export class Exporter {
                 if (!stderror) {
                     resolve(stdout);
                 } else {
-                    stderror = this.localize(10, null, diagram.title, stderror);
+                    stderror = localize(10, null, diagram.title, stderror);
                     reject(<ExportError>{ error: stderror, out: stdout });
                 }
             })
@@ -227,7 +225,7 @@ export class Exporter {
                         // ignore indexes belongs to other task chain
                         return prev;
                     }
-                    if (!path.isAbsolute(diagram.dir)) return Promise.reject(this.localize(1, null));
+                    if (!path.isAbsolute(diagram.dir)) return Promise.reject(localize(1, null));
 
                     let savePath = this.calculateExportPath(diagram, format.split(":")[0]);
                     mkdirsSync(path.dirname(savePath));
@@ -262,3 +260,5 @@ export class Exporter {
         });
     }
 }
+
+export const exporter = new Exporter();
