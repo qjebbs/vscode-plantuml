@@ -51,11 +51,11 @@ export class Exporter {
         ds.push(d);
         return ds;
     }
-    async exportURI(uri: vscode.Uri, format: string, dir?: string, concurrency?: number, bar?: vscode.StatusBarItem) {
+    async exportURI(uri: vscode.Uri, format: string, concurrency?: number, bar?: vscode.StatusBarItem) {
         let doc = await vscode.workspace.openTextDocument(uri);
         let ds = new Diagrams().AddDocument(doc)
         if (!ds.diagrams.length) return Promise.resolve(<Buffer[]>[]);
-        let p = this.doExports(ds.diagrams, format, dir, concurrency, bar);
+        let p = this.doExports(ds.diagrams, format, concurrency, bar);
         return new Promise<Buffer[]>((resolve, reject) => {
             p.then(
                 r => { resolve(r) },
@@ -68,6 +68,26 @@ export class Exporter {
     }
     exportToBuffer(diagram: Diagram, format: string, bar?: vscode.StatusBarItem): ExportTask {
         return this.doExport(diagram, format, "", bar);
+    }
+    calculateExportPath(diagram: Diagram, format: string): string {
+        let outDirName = this.config.get("exportOutDirName") as number;
+        let subDir = this.config.get("exportSubFolder") as boolean;
+        let dir = "";
+        let wkdir = vscode.workspace.rootPath;
+        //if current document is in workspace, organize exports in 'out' directory.
+        //if not, export beside the document.
+        if (wkdir && isSubPath(diagram.path, wkdir)) dir = path.join(wkdir, outDirName);
+
+        let exportDir = diagram.dir;
+        if (!path.isAbsolute(exportDir)) return "";
+        if (dir && wkdir) {
+            let temp = path.relative(wkdir, exportDir);
+            exportDir = path.join(dir, temp);
+        }
+        if (subDir) {
+            exportDir = path.join(exportDir, diagram.fileName);
+        }
+        return path.join(exportDir, diagram.title + "." + format);
     }
     private async exportDocument(all: boolean) {
         try {
@@ -104,13 +124,7 @@ export class Exporter {
             }
             let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
             let concurrency = this.config.get("exportConcurrency") as number;
-            let outDirName = this.config.get("exportOutDirName") as number;
-            let dir = "";
-            let wkdir = vscode.workspace.rootPath;
-            //if current document is in workspace, organize exports in 'out' directory.
-            //if not, export beside the document.
-            if (wkdir && isSubPath(editor.document.fileName, wkdir)) dir = path.join(wkdir, outDirName);
-            this.doExports(ds.diagrams, format, dir, concurrency, bar).then(
+            this.doExports(ds.diagrams, format, concurrency, bar).then(
                 results => {
                     bar.dispose();
                     if (results.length) {
@@ -200,7 +214,7 @@ export class Exporter {
      * @param dir if dir is given, it exports files to this dir which has same structure to files in workspace. Or, directly to workspace dir.
      * @returns A Promise of Buffer array.
      */
-    private doExports(diagrams: Diagram[], format: string, dir: string, concurrency: number, bar: vscode.StatusBarItem): Promise<Buffer[]> {
+    private doExports(diagrams: Diagram[], format: string, concurrency: number, bar: vscode.StatusBarItem): Promise<Buffer[]> {
         concurrency = concurrency > 0 ? concurrency : 1
         concurrency = concurrency > diagrams.length ? diagrams.length : concurrency;
         let promises: Promise<Buffer>[] = [];
@@ -213,19 +227,10 @@ export class Exporter {
                         // ignore indexes belongs to other task chain
                         return prev;
                     }
-                    let exportDir = diagram.dir;
-                    if (!path.isAbsolute(exportDir)) return Promise.reject(this.localize(1, null));
-                    let wkDir = vscode.workspace.rootPath;
-                    if (dir && wkDir) {
-                        let temp = path.relative(wkDir, exportDir);
-                        exportDir = path.join(dir, temp);
-                    }
-                    let subDir = this.config.get("exportSubFolder") as boolean;
-                    if (subDir) {
-                        exportDir = path.join(exportDir, diagram.fileName);
-                    }
-                    mkdirsSync(exportDir);
-                    let savePath = path.join(exportDir, diagram.title + "." + format.split(":")[0])
+                    if (!path.isAbsolute(diagram.dir)) return Promise.reject(this.localize(1, null));
+
+                    let savePath = this.calculateExportPath(diagram, format.split(":")[0]);
+                    mkdirsSync(path.dirname(savePath));
                     return prev.then(
                         () => {
                             return this.exportToFile(diagram, format, savePath, bar).promise;

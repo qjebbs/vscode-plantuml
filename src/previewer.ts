@@ -20,7 +20,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
     Uri = vscode.Uri.parse('plantuml://preview');
 
     private status: previewStatus;
-    private rendered: string = "";
+    private rendered: Diagram;
     private process: child_process.ChildProcess = null;
     private watchDisposables: vscode.Disposable[] = [];
 
@@ -53,7 +53,6 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         let image: string;
         let imageError: string;
         let error: string;
-        let text: string;
         switch (this.status) {
             case previewStatus.default:
                 image = this.image
@@ -64,8 +63,10 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                 error = this.error.replace(/\n/g, "<br />");
                 return eval(this.templateError);
             case previewStatus.processing:
-                image = path.join(this.context.extensionPath, "images", "icon.png");
-                text = this.localize(9, null);
+                let icon = "file:///" + path.join(this.context.extensionPath, "images", "icon.png");
+                let processingTip = this.localize(9, null);
+                image = this.exporter.calculateExportPath(this.rendered, "png");
+                if (!fs.existsSync(image)) image = ""; else image = "file:///" + image;
                 return eval(this.templateProcessing);
             default:
                 return "";
@@ -91,11 +92,9 @@ export class Previewer implements vscode.TextDocumentContentProvider {
     }
     get TargetChanged(): boolean {
         let current = new Diagram().GetCurrent();
-        let cur = "";
-        if (current.start) cur = current.path + "@" + current.start.line;
-        let changed = this.rendered != cur;
+        let changed = (!this.rendered || this.rendered.start.line != current.start.line || this.rendered.fileName != current.fileName);
         if (changed) {
-            this.rendered = cur;
+            this.rendered = current;
             this.error = "";
             this.image = "";
             this.imageError = ""
@@ -156,6 +155,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             let ds = new Diagrams().AddDocument(editor.document);
             if (!ds.diagrams.length) return;
 
+            this.TargetChanged;
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, this.localize(17, null))
                 .then(
                 success => {
@@ -165,7 +165,6 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                     let auto = this.config.get("autoUpdatePreview") as boolean
                     if (auto) this.startWatch(); else this.stopWatch();
                     this.update(true);
-                    this.TargetChanged;
                     return;
                 },
                 reason => {
