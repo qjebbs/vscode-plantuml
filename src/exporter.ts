@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 import * as child_process from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as nls from "vscode-nls";
 
 import { Diagram, Diagrams } from './diagram';
 import { config } from './config';

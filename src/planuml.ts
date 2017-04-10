@@ -7,7 +7,7 @@ import { exporter } from './exporter';
 import { previewer } from './previewer';
 import { builder } from "./builder";
 import { symboler } from "./symboler";
-import { urlMaker } from "./url";
+import { urlMaker } from "./urlMaker";
 
 export var outputPanel = vscode.window.createOutputChannel("PlantUML");
 export var context: vscode.ExtensionContext;

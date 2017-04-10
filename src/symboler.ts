@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { Diagrams } from './diagram'
+
 class Symbol implements vscode.DocumentSymbolProvider {
     register() {
         //register Symbol provider

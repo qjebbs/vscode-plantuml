@@ -27,22 +27,6 @@ class ConfigReader {
         return this._read<number>('exportConcurrency');
     }
 
-    get autoUpdatePreview(): boolean {
-        return this._read<boolean>('autoUpdatePreview');
-    }
-
-    get urlServer(): string {
-        return this._read<string>('urlServer');
-    }
-
-    get urlFormat(): string {
-        return this._read<string>('urlFormat');
-    }
-
-    get urlResult(): string {
-        return this._read<string>('urlResult');
-    }
-
     get exportFormats(): string[] {
         return [
             "png",
@@ -58,6 +42,22 @@ class ConfigReader {
             "latex",
             "latex:nopreamble"
         ];
+    }
+
+    get autoUpdatePreview(): boolean {
+        return this._read<boolean>('autoUpdatePreview');
+    }
+
+    get urlServer(): string {
+        return this._read<string>('urlServer');
+    }
+
+    get urlFormat(): string {
+        return this._read<string>('urlFormat');
+    }
+
+    get urlResult(): string {
+        return this._read<string>('urlResult');
     }
 
     get urlFormats(): string[] {

@@ -1,6 +1,4 @@
 import * as vscode from 'vscode';
-import * as path from 'path';
-import * as nls from "vscode-nls";
 
 import { exporter, ExportError } from './exporter';
 import { Diagram } from './diagram';
