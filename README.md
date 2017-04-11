@@ -71,6 +71,7 @@ This extension contributes the following settings:
 - `plantuml.urlServer`: plantuml server to generate UML diagrams on-the-fly.
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.
 - `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
+- `plantuml.previewFileType`: Preview file type, png or svg support.
 
 ## About Snippets
 

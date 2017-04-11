@@ -229,6 +229,15 @@
             "SimpleURL"
           ],
           "description": "URL result type. Simple URL or ready for MarkDown use."
+        },
+        "plantuml.previewFileType": {
+          "type": "string",
+          "default": "png",
+          "enum": [
+            "png",
+            "svg"
+          ],
+          "description": "Preview file type. Png or svg support."
         }
       }
     }
