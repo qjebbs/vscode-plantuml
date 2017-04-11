@@ -61,7 +61,8 @@ class Previewer implements vscode.TextDocumentContentProvider {
             case previewStatus.processing:
                 let icon = "file:///" + path.join(context.extensionPath, "images", "icon.png");
                 let processingTip = localize(9, null);
-                image = exporter.calculateExportPath(this.rendered, "png");
+                let previewFileType = config.previewFileType;
+                image = exporter.calculateExportPath(this.rendered, previewFileType || "png");
                 if (!fs.existsSync(image)) image = ""; else image = "file:///" + image;
                 return eval(this.templateProcessing);
             default:
@@ -106,7 +107,10 @@ class Previewer implements vscode.TextDocumentContentProvider {
             this.Emittor.fire(this.Uri);
             return;
         }
-        let task = exporter.exportToBuffer(diagram, "png");
+        const previewFileType = config.previewFileType || "png";
+        const previewMimeType = previewFileType === 'png' ? 'png' : "svg+xml";
+
+        let task = exporter.exportToBuffer(diagram, previewFileType);
         this.process = task.process;
         // console.log(`start pid ${this.process.pid}!`);
         if (processingTip) this.processing();
@@ -116,7 +120,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
                 this.status = previewStatus.default;
                 let b64 = result.toString('base64');
                 if (!b64) return;
-                this.image = `data:image/png;base64,${b64}`
+                this.image = `data:image/${previewMimeType};base64,${b64}`
                 this.Emittor.fire(this.Uri);
             },
             error => {
@@ -126,7 +130,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
                 this.error = err.error;
                 let b64 = err.out.toString('base64');
                 if (!(b64 || err.error)) return;
-                this.imageError = `data:image/png;base64,${b64}`
+                this.imageError = `data:image/${previewMimeType};base64,${b64}`
                 this.Emittor.fire(this.Uri);
             }
         );

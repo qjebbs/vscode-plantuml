@@ -48,6 +48,10 @@ class ConfigReader {
         return this._read<boolean>('autoUpdatePreview');
     }
 
+    get previewFileType(): string {
+        return this._read<string>('previewFileType');
+    }
+
     get urlServer(): string {
         return this._read<string>('urlServer');
     }
