@@ -200,10 +200,19 @@
           "default": "out",
           "description": "export workspace diagrams will be organized in a directory named with value specified here."
         },
-        "plantuml.autoUpdatePreview": {
+        "plantuml.previewAutoUpdate": {
           "type": "boolean",
           "default": true,
           "description": "decides if automatically update the preview window."
+        },
+        "plantuml.previewFileType": {
+          "type": "string",
+          "default": "png",
+          "enum": [
+            "png",
+            "svg"
+          ],
+          "description": "Preview file type. Png or svg support."
         },
         "plantuml.urlServer": {
           "type": "string",
@@ -229,15 +238,6 @@
             "SimpleURL"
           ],
           "description": "URL result type. Simple URL or ready for MarkDown use."
-        },
-        "plantuml.previewFileType": {
-          "type": "string",
-          "default": "png",
-          "enum": [
-            "png",
-            "svg"
-          ],
-          "description": "Preview file type. Png or svg support."
         }
       }
     }

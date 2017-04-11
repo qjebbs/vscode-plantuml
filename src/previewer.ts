@@ -163,7 +163,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
                     //active source editor
                     vscode.window.showTextDocument(editor.document);
                     //update preview
-                    if (config.autoUpdatePreview) this.startWatch(); else this.stopWatch();
+                    if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
                     this.update(true);
                     return;
                 },

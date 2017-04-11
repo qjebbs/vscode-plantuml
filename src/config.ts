@@ -44,8 +44,8 @@ class ConfigReader {
         ];
     }
 
-    get autoUpdatePreview(): boolean {
-        return this._read<boolean>('autoUpdatePreview');
+    get previewAutoUpdate(): boolean {
+        return this._read<boolean>('previewAutoUpdate');
     }
 
     get previewFileType(): string {
