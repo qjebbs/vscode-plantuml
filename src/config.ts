@@ -12,7 +12,7 @@ class ConfigReader {
         })
     }
     get exportOutDirName(): string {
-        return this._read<string>('exportOutDirName');
+        return this._read<string>('exportOutDirName') || "out";
     }
 
     get exportFormat(): string {
@@ -24,7 +24,7 @@ class ConfigReader {
     }
 
     get exportConcurrency(): number {
-        return this._read<number>('exportConcurrency');
+        return this._read<number>('exportConcurrency') || 3;
     }
 
     get exportFormats(): string[] {
@@ -49,11 +49,11 @@ class ConfigReader {
     }
 
     get previewFileType(): string {
-        return this._read<string>('previewFileType');
+        return this._read<string>('previewFileType') || "png";
     }
 
     get urlServer(): string {
-        return this._read<string>('urlServer');
+        return this._read<string>('urlServer') || "http://www.plantuml.com/plantuml";
     }
 
     get urlFormat(): string {
@@ -61,7 +61,7 @@ class ConfigReader {
     }
 
     get urlResult(): string {
-        return this._read<string>('urlResult');
+        return this._read<string>('urlResult') || "MarkDown";
     }
 
     get urlFormats(): string[] {
