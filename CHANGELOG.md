@@ -1,3 +1,6 @@
+### 1.4.2
+- Improvement: Preview now supports svg to improve display in high DPI situation, though it doesn't support some diagrams. Thanks to [shepherdwind](https://github.com/shepherdwind).
+
 ### 1.4.1
 - New Feature: Instant preview. 
 

@@ -3,7 +3,7 @@
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
   "icon": "images/icon.png",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.4.1"
@@ -200,10 +200,19 @@
           "default": "out",
           "description": "export workspace diagrams will be organized in a directory named with value specified here."
         },
-        "plantuml.autoUpdatePreview": {
+        "plantuml.previewAutoUpdate": {
           "type": "boolean",
           "default": true,
           "description": "decides if automatically update the preview window."
+        },
+        "plantuml.previewFileType": {
+          "type": "string",
+          "default": "png",
+          "enum": [
+            "png",
+            "svg"
+          ],
+          "description": "Preview file type. Png or svg support."
         },
         "plantuml.urlServer": {
           "type": "string",

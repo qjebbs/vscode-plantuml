@@ -1,19 +1,20 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { Exporter, ExportError } from './exporter';
-import { Diagram, Diagrams } from './diagram';
 import * as child_process from 'child_process';
+
+import { exporter } from './exporter';
+import { Diagram, Diagrams } from './diagram';
+import { config } from './config';
+import { context, localize } from './planuml';
 import { parseError } from './tools';
-import * as nls from "vscode-nls";
 
 enum previewStatus {
     default,
     error,
     processing,
 }
-
-export class Previewer implements vscode.TextDocumentContentProvider {
+class Previewer implements vscode.TextDocumentContentProvider {
 
     Emittor = new vscode.EventEmitter<vscode.Uri>();
     onDidChange = this.Emittor.event;
@@ -34,13 +35,8 @@ export class Previewer implements vscode.TextDocumentContentProvider {
 
     private killingLock: boolean = false;
 
-    constructor(
-        public config: vscode.WorkspaceConfiguration,
-        public context: vscode.ExtensionContext,
-        public exporter: Exporter,
-        public localize: nls.LocalizeFunc
-    ) {
-        let tplPath: string = path.join(this.context.extensionPath, "templates");
+    initialize() {
+        let tplPath: string = path.join(context.extensionPath, "templates");
         let tplPreviewPath: string = path.join(tplPath, "preview.html");
         let tplPreviewErrorPath: string = path.join(tplPath, "preview-error.html");
         let tplPreviewProcessingPath: string = path.join(tplPath, "preview-processing.html");
@@ -63,9 +59,10 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                 error = this.error.replace(/\n/g, "<br />");
                 return eval(this.templateError);
             case previewStatus.processing:
-                let icon = "file:///" + path.join(this.context.extensionPath, "images", "icon.png");
-                let processingTip = this.localize(9, null);
-                image = this.exporter.calculateExportPath(this.rendered, "png");
+                let icon = "file:///" + path.join(context.extensionPath, "images", "icon.png");
+                let processingTip = localize(9, null);
+                let previewFileType = config.previewFileType;
+                image = exporter.calculateExportPath(this.rendered, previewFileType || "png");
                 if (!fs.existsSync(image)) image = ""; else image = "file:///" + image;
                 return eval(this.templateProcessing);
             default:
@@ -105,12 +102,15 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         let diagram = new Diagram().GetCurrent();
         if (!diagram.content) {
             this.status = previewStatus.error;
-            this.error = this.localize(3, null);
+            this.error = localize(3, null);
             this.image = "";
             this.Emittor.fire(this.Uri);
             return;
         }
-        let task = this.exporter.exportToBuffer(diagram, "png");
+        const previewFileType = config.previewFileType || "png";
+        const previewMimeType = previewFileType === 'png' ? 'png' : "svg+xml";
+
+        let task = exporter.exportToBuffer(diagram, previewFileType);
         this.process = task.process;
         // console.log(`start pid ${this.process.pid}!`);
         if (processingTip) this.processing();
@@ -120,7 +120,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                 this.status = previewStatus.default;
                 let b64 = result.toString('base64');
                 if (!b64) return;
-                this.image = `data:image/png;base64,${b64}`
+                this.image = `data:image/${previewMimeType};base64,${b64}`
                 this.Emittor.fire(this.Uri);
             },
             error => {
@@ -130,7 +130,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
                 this.error = err.error;
                 let b64 = err.out.toString('base64');
                 if (!(b64 || err.error)) return;
-                this.imageError = `data:image/png;base64,${b64}`
+                this.imageError = `data:image/${previewMimeType};base64,${b64}`
                 this.Emittor.fire(this.Uri);
             }
         );
@@ -141,6 +141,7 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         this.Emittor.fire(this.Uri);
     }
     register(): vscode.Disposable[] {
+        this.initialize();
         let disposable: vscode.Disposable;
         let disposables: vscode.Disposable[] = [];
 
@@ -156,14 +157,13 @@ export class Previewer implements vscode.TextDocumentContentProvider {
             if (!ds.diagrams.length) return;
 
             this.TargetChanged;
-            return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, this.localize(17, null))
+            return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, localize(17, null))
                 .then(
                 success => {
                     //active source editor
                     vscode.window.showTextDocument(editor.document);
                     //update preview
-                    let auto = this.config.get("autoUpdatePreview") as boolean
-                    if (auto) this.startWatch(); else this.stopWatch();
+                    if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
                     this.update(true);
                     return;
                 },
@@ -224,3 +224,4 @@ export class Previewer implements vscode.TextDocumentContentProvider {
         this.watchDisposables = [];
     }
 }
+export const previewer = new Previewer();
