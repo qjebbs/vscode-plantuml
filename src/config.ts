@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { localize } from './planuml';
 
 let conf = vscode.workspace.getConfiguration('plantuml');
 
@@ -11,6 +12,18 @@ class ConfigReader {
             conf = vscode.workspace.getConfiguration('plantuml');
         })
     }
+
+    get fileExtensions(): string {
+        let extReaded = this._read<string>('fileExtensions').replace(/\s/g, "")
+        let exts = extReaded || ".*";
+        if (exts.indexOf(",") > 0) exts = `{${exts}}`;
+        //REG: .* | .wsd | {.wsd,.java}
+        if (!exts.match(/^(.\*|\.\w+|\{\.\w+(,\.\w+)*\})$/)) {
+            throw new Error(localize(18, null, extReaded));
+        }
+        return exts;
+    }
+
     get exportOutDirName(): string {
         return this._read<string>('exportOutDirName') || "out";
     }
@@ -69,16 +82,6 @@ class ConfigReader {
             "png",
             "svg",
             "txt"
-        ];
-    }
-
-    get fileSuffixes(): string[] {
-        return [
-            ".wsd",
-            ".pu",
-            ".puml",
-            ".plantuml",
-            ".iuml"
         ];
     }
 }

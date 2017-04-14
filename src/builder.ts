@@ -13,11 +13,7 @@ class Builder {
         //register export
         let ds: vscode.Disposable[] = [];
         let d = vscode.commands.registerCommand('plantuml.exportWorkspace', (fileUri) => {
-            try {
-                this.build(fileUri);
-            } catch (error) {
-                showError(outputPanel, parseError(error));
-            }
+            this.build(fileUri);
         });
         ds.push(d);
         return ds;
@@ -25,35 +21,37 @@ class Builder {
     build(uri: vscode.Uri);
     build(uris: vscode.Uri[]);
     async build(para) {
-        if (!vscode.workspace.rootPath) { return; }
-        let format = config.exportFormat;
-        if (!format) {
-            format = await vscode.window.showQuickPick(config.exportFormats);
-            if (!format) return;
-        }
-        outputPanel.clear();
-        let exts = config.fileSuffixes.reduce((prev, cur) => {
-            return prev + (prev ? "," : "") + cur;
-        }, "");
-        if (!para) {
-            this.doBuild(await vscode.workspace.findFiles(`**/*{${exts}}`, ""), format);
-        } else if (para instanceof vscode.Uri) {
-            if (fs.statSync(para.fsPath).isDirectory()) {
-                let relPath = path.relative(vscode.workspace.rootPath,para.fsPath);
+        try {
+            if (!vscode.workspace.rootPath) { return; }
+            let format = config.exportFormat;
+            if (!format) {
+                format = await vscode.window.showQuickPick(config.exportFormats);
+                if (!format) return;
+            }
+            outputPanel.clear();
+            let exts = config.fileExtensions;
+            if (!para) {
+                this.doBuild(await vscode.workspace.findFiles(`**/*${exts}`, ""), format);
+            } else if (para instanceof vscode.Uri) {
                 //commnad from the explorer/context
-                this.doBuild(await vscode.workspace.findFiles(`${relPath}/**/*{${exts}}`, ""), format);
-            } else {
-                this.doBuild([para], format);
-            }
-        } else if (para instanceof Array) {
-            //FIXME: directory uri(s) in array
-            let uris: vscode.Uri[] = [];
-            for (let p of para) {
-                if (p instanceof vscode.Uri) {
-                    uris.push(p);
+                if (fs.statSync(para.fsPath).isDirectory()) {
+                    let relPath = path.relative(vscode.workspace.rootPath, para.fsPath);
+                    this.doBuild(await vscode.workspace.findFiles(`${relPath}/**/*${exts}`, ""), format);
+                } else {
+                    this.doBuild([para], format);
                 }
+            } else if (para instanceof Array) {
+                //FIXME: directory uri(s) in array
+                let uris: vscode.Uri[] = [];
+                for (let p of para) {
+                    if (p instanceof vscode.Uri) {
+                        uris.push(p);
+                    }
+                }
+                this.doBuild(uris, format);
             }
-            this.doBuild(uris, format);
+        } catch (error) {
+            showError(outputPanel, parseError(error));
         }
     }
     private doBuild(uris: vscode.Uri[], format: string) {
