@@ -1,8 +1,16 @@
 <html>
-<body style="text-align: center; background-color: #fff;">
-    <div style="margin:1em;">
-        <img src="${image}" alt="">
+
+<head>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'nonce-${nonce}';">
+</head>
+
+<body id="body" class="dragscroll" style="text-align: center; background-color: #fff; cursor:move;">
+    <div style="margin:20px;">
+        <img id="image" src="${image}">
     </div>
+    <!--<p id="debug"></p>-->
+    <script nonce="${nonce}" src="${jsPath}/zoom.js"></script>
+    <script nonce="${nonce}" src="${jsPath}/dragscroll.js"></script>
 </body>
 
 </html>
