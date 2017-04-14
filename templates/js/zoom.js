@@ -9,7 +9,6 @@ window.onload = () => {
     })
     window.onmousewheel = function () { return false };
     function zoomImage() {
-        let naturalWidth = img.naturalWidth;
         let winWidth = window.innerWidth;
         let contentWidth = winWidth - marginPixels
         let minWidth = contentWidth < naturalWidth ? contentWidth : naturalWidth;
@@ -22,7 +21,7 @@ window.onload = () => {
         img.style.width = imgWidth + 'px';
         let body = document.getElementById("body");
         let bodyWidth = imgWidth + marginPixels < winWidth ? winWidth : imgWidth + marginPixels;
-        body.parentElement.style.width = bodyWidth + 'px';
+        body.style.width = bodyWidth + 'px';
         if (body.offsetHeight < window.innerHeight) body.style.height = window.innerHeight - marginPixels + "px";
 
         // let debugPar = document.getElementById("debug");
