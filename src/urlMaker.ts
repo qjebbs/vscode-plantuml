@@ -14,7 +14,6 @@ class URLMaker {
     register(): vscode.Disposable[] {
         function showError(error) {
             let err = error as TypeError;
-            console.log(error);
             vscode.window.showErrorMessage(err.message);
         }
         //register url maker

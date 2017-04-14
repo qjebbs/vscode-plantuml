@@ -20,7 +20,7 @@ window.onload = () => {
         let imgWidth = parseInt(naturalWidth * zoom / 100);
         img.style.width = imgWidth + 'px';
         let body = document.getElementById("body");
-        let bodyWidth = imgWidth + marginPixels < winWidth ? winWidth : imgWidth + marginPixels;
+        let bodyWidth = imgWidth + marginPixels < contentWidth ? contentWidth : imgWidth + marginPixels;
         body.style.width = bodyWidth + 'px';
         if (body.offsetHeight < window.innerHeight) body.style.height = window.innerHeight - marginPixels + "px";
 
