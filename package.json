@@ -115,7 +115,13 @@
           "command": "plantuml.URLDocument",
           "group": "PlantUML"
         }
-      ]
+      ],
+			"explorer/context": [
+				{
+					"command": "plantuml.exportWorkspace",
+					"group": "PlantUML"
+				}
+			]
     },
     "keybindings": [
       {
