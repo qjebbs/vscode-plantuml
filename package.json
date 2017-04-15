@@ -3,7 +3,7 @@
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
   "icon": "images/icon.png",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.10.2"
@@ -194,7 +194,7 @@
         "plantuml.fileExtensions": {
           "type": "string",
           "default": ".wsd,.pu,.puml,.plantuml,.iuml",
-          "description": "File extensions that find to export. Especially in workspace settings, you may add you own extensions so as to export diagrams in source code files, like \".java\"."
+          "description": "File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like \".java\"."
         },
         "plantuml.exportSubFolder": {
           "type": "boolean",
