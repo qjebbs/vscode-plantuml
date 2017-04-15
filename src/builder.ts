@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
+import * as fs from 'fs';
 
 import { exporter, ExportError } from './exporter';
 import { Diagram } from './diagram';
@@ -10,12 +12,8 @@ class Builder {
     register(): vscode.Disposable[] {
         //register export
         let ds: vscode.Disposable[] = [];
-        let d = vscode.commands.registerCommand('plantuml.exportWorkspace', () => {
-            try {
-                this.build(null);
-            } catch (error) {
-                showError(outputPanel, parseError(error));
-            }
+        let d = vscode.commands.registerCommand('plantuml.exportWorkspace', (fileUri) => {
+            this.build(fileUri);
         });
         ds.push(d);
         return ds;
@@ -23,28 +21,37 @@ class Builder {
     build(uri: vscode.Uri);
     build(uris: vscode.Uri[]);
     async build(para) {
-        if (!vscode.workspace.rootPath) { return; }
-        let format = config.exportFormat;
-        if (!format) {
-            format = await vscode.window.showQuickPick(config.exportFormats);
-            if (!format) return;
-        }
-        outputPanel.clear();
-        if (!para) {
-            let exts = config.fileSuffixes.reduce((prev, cur) => {
-                return prev + (prev ? "," : "") + cur;
-            }, "");
-            this.doBuild(await vscode.workspace.findFiles(`**/*{${exts}}`, ""), format);
-        } else if (para instanceof vscode.Uri) {
-            this.doBuild([para], format);
-        } else if (para instanceof Array) {
-            let uris: vscode.Uri[] = [];
-            for (let p of para) {
-                if (p instanceof vscode.Uri) {
-                    uris.push(p);
-                }
+        try {
+            if (!vscode.workspace.rootPath) { return; }
+            let format = config.exportFormat;
+            if (!format) {
+                format = await vscode.window.showQuickPick(config.exportFormats);
+                if (!format) return;
             }
-            this.doBuild(uris, format);
+            outputPanel.clear();
+            let exts = config.fileExtensions;
+            if (!para) {
+                this.doBuild(await vscode.workspace.findFiles(`**/*${exts}`, ""), format);
+            } else if (para instanceof vscode.Uri) {
+                //commnad from the explorer/context
+                if (fs.statSync(para.fsPath).isDirectory()) {
+                    let relPath = path.relative(vscode.workspace.rootPath, para.fsPath);
+                    this.doBuild(await vscode.workspace.findFiles(`${relPath}/**/*${exts}`, ""), format);
+                } else {
+                    this.doBuild([para], format);
+                }
+            } else if (para instanceof Array) {
+                //FIXME: directory uri(s) in array
+                let uris: vscode.Uri[] = [];
+                for (let p of para) {
+                    if (p instanceof vscode.Uri) {
+                        uris.push(p);
+                    }
+                }
+                this.doBuild(uris, format);
+            }
+        } catch (error) {
+            showError(outputPanel, parseError(error));
         }
     }
     private doBuild(uris: vscode.Uri[], format: string) {

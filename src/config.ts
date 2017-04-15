@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { localize } from './planuml';
 
 let conf = vscode.workspace.getConfiguration('plantuml');
 
@@ -11,8 +12,20 @@ class ConfigReader {
             conf = vscode.workspace.getConfiguration('plantuml');
         })
     }
+
+    get fileExtensions(): string {
+        let extReaded = this._read<string>('fileExtensions').replace(/\s/g, "")
+        let exts = extReaded || ".*";
+        if (exts.indexOf(",") > 0) exts = `{${exts}}`;
+        //REG: .* | .wsd | {.wsd,.java}
+        if (!exts.match(/^(.\*|\.\w+|\{\.\w+(,\.\w+)*\})$/)) {
+            throw new Error(localize(18, null, extReaded));
+        }
+        return exts;
+    }
+
     get exportOutDirName(): string {
-        return this._read<string>('exportOutDirName');
+        return this._read<string>('exportOutDirName') || "out";
     }
 
     get exportFormat(): string {
@@ -24,7 +37,7 @@ class ConfigReader {
     }
 
     get exportConcurrency(): number {
-        return this._read<number>('exportConcurrency');
+        return this._read<number>('exportConcurrency') || 3;
     }
 
     get exportFormats(): string[] {
@@ -49,11 +62,11 @@ class ConfigReader {
     }
 
     get previewFileType(): string {
-        return this._read<string>('previewFileType');
+        return this._read<string>('previewFileType') || "png";
     }
 
     get urlServer(): string {
-        return this._read<string>('urlServer');
+        return this._read<string>('urlServer') || "http://www.plantuml.com/plantuml";
     }
 
     get urlFormat(): string {
@@ -61,7 +74,7 @@ class ConfigReader {
     }
 
     get urlResult(): string {
-        return this._read<string>('urlResult');
+        return this._read<string>('urlResult') || "MarkDown";
     }
 
     get urlFormats(): string[] {
@@ -69,16 +82,6 @@ class ConfigReader {
             "png",
             "svg",
             "txt"
-        ];
-    }
-
-    get fileSuffixes(): string[] {
-        return [
-            ".wsd",
-            ".pu",
-            ".puml",
-            ".plantuml",
-            ".iuml"
         ];
     }
 }

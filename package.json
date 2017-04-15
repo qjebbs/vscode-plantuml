@@ -3,10 +3,10 @@
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
   "icon": "images/icon.png",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "publisher": "jebbs",
   "engines": {
-    "vscode": "^1.4.1"
+    "vscode": "^1.10.2"
   },
   "license": "SEE LICENSE IN LICENSE.txt",
   "bugs": {
@@ -115,7 +115,13 @@
           "command": "plantuml.URLDocument",
           "group": "PlantUML"
         }
-      ]
+      ],
+			"explorer/context": [
+				{
+					"command": "plantuml.exportWorkspace",
+					"group": "PlantUML"
+				}
+			]
     },
     "keybindings": [
       {
@@ -183,27 +189,32 @@
             "latex",
             "latex:nopreamble"
           ],
-          "description": "export format. Leave it blank to pick format everytime you export."
+          "description": "Export format. Leave it blank to pick format everytime you export."
+        },
+        "plantuml.fileExtensions": {
+          "type": "string",
+          "default": ".wsd,.pu,.puml,.plantuml,.iuml",
+          "description": "File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like \".java\"."
         },
         "plantuml.exportSubFolder": {
           "type": "boolean",
           "default": true,
-          "description": "export diagrams to a folder which has same name with host file."
+          "description": "Export diagrams to a folder which has same name with host file."
         },
         "plantuml.exportConcurrency": {
           "type": "number",
           "default": 3,
-          "description": "decides concurrency count when export multiple diagrams."
+          "description": "Decides concurrency count when export multiple diagrams."
         },
         "plantuml.exportOutDirName": {
           "type": "string",
           "default": "out",
-          "description": "export workspace diagrams will be organized in a directory named with value specified here."
+          "description": "Export workspace diagrams will be organized in a directory named with value specified here."
         },
         "plantuml.previewAutoUpdate": {
           "type": "boolean",
           "default": true,
-          "description": "decides if automatically update the preview window."
+          "description": "Decides if automatically update the preview window."
         },
         "plantuml.previewFileType": {
           "type": "string",
@@ -217,7 +228,7 @@
         "plantuml.urlServer": {
           "type": "string",
           "default": "http://www.plantuml.com/plantuml",
-          "description": "plantuml server to generate UML diagrams on-the-fly."
+          "description": "Plantuml server to generate UML diagrams on-the-fly."
         },
         "plantuml.urlFormat": {
           "type": "string",

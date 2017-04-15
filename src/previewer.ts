@@ -51,6 +51,8 @@ class Previewer implements vscode.TextDocumentContentProvider {
         let error: string;
         switch (this.status) {
             case previewStatus.default:
+                let nonce = Math.random().toString(36).substr(2);
+                let jsPath = "file:///" + path.join(context.extensionPath, "templates", "js");
                 image = this.image
                 return eval(this.template);
             case previewStatus.error:
@@ -61,8 +63,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
             case previewStatus.processing:
                 let icon = "file:///" + path.join(context.extensionPath, "images", "icon.png");
                 let processingTip = localize(9, null);
-                let previewFileType = config.previewFileType;
-                image = exporter.calculateExportPath(this.rendered, previewFileType || "png");
+                image = exporter.calculateExportPath(this.rendered, config.previewFileType);
                 if (!fs.existsSync(image)) image = ""; else image = "file:///" + image;
                 return eval(this.templateProcessing);
             default:
@@ -107,7 +108,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
             this.Emittor.fire(this.Uri);
             return;
         }
-        const previewFileType = config.previewFileType || "png";
+        const previewFileType = config.previewFileType;
         const previewMimeType = previewFileType === 'png' ? 'png' : "svg+xml";
 
         let task = exporter.exportToBuffer(diagram, previewFileType);

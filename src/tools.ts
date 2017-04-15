@@ -36,7 +36,7 @@ export function parseError(error: any): ExportError[] {
     let nb = new Buffer("");
     if (typeof (error) === "string") {
         return [<ExportError>{ error: error, out: nb }];
-    } else if (error instanceof TypeError) {
+    } else if (error instanceof TypeError || error instanceof Error) {
         let err = error as TypeError;
         return [<ExportError>{ error: err.message, out: nb }];
     } else if (error instanceof Array) {

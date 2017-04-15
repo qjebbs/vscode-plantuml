@@ -16,5 +16,6 @@
 	"アクティブなドキュメントがありません",
 	"有効なダイアグラムが見つかりません",
 	"PlantUML URLを生成中: {0}",
-	"PlantUML プレビュー"
+	"PlantUML プレビュー",
+	"Invalid file extension config:\n{0}\nConfig examples:\n.*\n.wsd\n.wsd,.java\n"
 ]

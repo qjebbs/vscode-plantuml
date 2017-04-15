@@ -16,5 +16,6 @@
 	"No active document.",
 	"No valid diagram found!",
 	"PlantUML Making URL: {0}",
-	"PlantUML Preview"
+	"PlantUML Preview",
+	"Invalid file extension config:\n{0}\nConfig examples:\n.*\n.wsd\n.wsd,.java\n"
 ]

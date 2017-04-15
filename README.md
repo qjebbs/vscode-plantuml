@@ -12,6 +12,8 @@ To export diagrams, go to Command Palette, find and execute command:
 - `PlantUML: Export Current File Diagrams`.
 - `PlantUML: Export Workspace Diagrams`.
 
+To export part of workspace, go to explorer panel, right click a workspace file or folder and select `Export Workspace Diagrams`.
+
 To Generate URL for diagrams on-the-fly, find and execute command:
 - `PlantUML: Generate URL for Current Diagram` 
 - `PlantUML: Generate URLs for Current File Diagrams`.
@@ -28,9 +30,10 @@ Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram 
 
 - Preview Diagram
     - Auto update.
+    - Zoom & scroll support.
     - Instant preview, if diagram's been exported.
 - Export Diagrams
-    - At cursor, in current file, in whole workspace.
+    - At cursor, in current file, in whole workspace, in workspace selected.
     - Concurrent export.
 - Generate URLs.
 - All Type Syntax Highlight.
@@ -63,6 +66,7 @@ Before you can use the plugin, it's necessary to have following installed:
 
 This extension contributes the following settings:
 
+- `plantuml.fileExtensions`: File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like ".java".
 - `plantuml.exportFormat`: format to export. default is not set, user may pick one format everytime exports. You can still set a format for it if you don't want to pick.
 - `plantuml.exportSubFolder`: export diagrams to a folder which has same name with host file.
 - `plantuml.exportConcurrency`: decides concurrency count when export multiple diagrams.
