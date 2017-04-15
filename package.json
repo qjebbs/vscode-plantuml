@@ -6,7 +6,7 @@
   "version": "1.4.2",
   "publisher": "jebbs",
   "engines": {
-    "vscode": "^1.4.1"
+    "vscode": "^1.10.2"
   },
   "license": "SEE LICENSE IN LICENSE.txt",
   "bugs": {
