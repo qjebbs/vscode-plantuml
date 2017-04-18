@@ -291,10 +291,10 @@ repository:
         '1': {name: keyword.other.sequence.lifeline.source.wsd}
         '2': {name: entity.other.sequence.lifeline.source.wsd}
     - comment: divider
-      match: (?i)^\s*(={2,})\s*([^\s]+)\s*(={2,})
+      match: (?i)^\s*(={2,})\s*(.+?)\s*(={2,})\s*$
       captures:
         '1': {name: keyword.operator.sequence.divider.source.wsd}
-        '2': {name: constant.numeric.sequence.divider.source.wsd}
+        '2': {name: string.quoted.double.sequence.divider.source.wsd}
         '3': {name: keyword.operator.sequence.divider.source.wsd}
     - comment: ...
       match: (?i)^\s*(\.{3,})\s*$

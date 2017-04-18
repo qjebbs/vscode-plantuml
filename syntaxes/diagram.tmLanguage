@@ -1065,7 +1065,7 @@
             <key>comment</key>
             <string>divider</string>
             <key>match</key>
-            <string>(?i)^\s*(={2,})\s*([^\s]+)\s*(={2,})</string>
+            <string>(?i)^\s*(={2,})\s*(.+?)\s*(={2,})\s*$</string>
             <key>captures</key>
             <dict>
               <key>1</key>
@@ -1076,7 +1076,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>constant.numeric.sequence.divider.source.wsd</string>
+                <string>string.quoted.double.sequence.divider.source.wsd</string>
               </dict>
               <key>3</key>
               <dict>
