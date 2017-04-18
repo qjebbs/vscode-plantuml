@@ -12,21 +12,6 @@ class ConfigReader {
         return conf.get<T>(key);
     }
 
-    private _updateJar(): string {
-        let jar = this._read<string>('jar');
-        let intJar = path.join(context.extensionPath, "plantuml.jar");
-        if (!jar) {
-            jar = intJar;
-        } else {
-            if (!fs.existsSync(jar)) {
-                vscode.window.showWarningMessage(localize(19, null));
-                jar = intJar;
-            }
-        }
-        this._jar = jar;
-        return jar;
-    }
-
     watch(): vscode.Disposable {
         return vscode.workspace.onDidChangeConfiguration(() => {
             conf = vscode.workspace.getConfiguration('plantuml');
@@ -35,7 +20,20 @@ class ConfigReader {
     }
 
     get jar(): string {
-        return this._jar || this._updateJar();
+        return this._jar || (() => {
+            let jar = this._read<string>('jar');
+            let intJar = path.join(context.extensionPath, "plantuml.jar");
+            if (!jar) {
+                jar = intJar;
+            } else {
+                if (!fs.existsSync(jar)) {
+                    vscode.window.showWarningMessage(localize(19, null));
+                    jar = intJar;
+                }
+            }
+            this._jar = jar;
+            return jar;
+        })();
     }
 
     get fileExtensions(): string {
