@@ -17,5 +17,6 @@
 	"No valid diagram found!",
 	"PlantUML Making URL: {0}",
 	"PlantUML Preview",
-	"Invalid file extension config:\n{0}\nConfig examples:\n.*\n.wsd\n.wsd,.java\n"
+	"Invalid file extension config:\n{0}\nConfig examples:\n.*\n.wsd\n.wsd,.java\n",
+	"PlantUML JAR specified not found, use integrated JAR instead. Please config \"plantuml.jar\" with a valid JAR location."
 ]

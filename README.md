@@ -60,6 +60,8 @@ Before you can use the plugin, it's necessary to have following installed:
 [Java]: http://java.com/en/download/ "Download Java"
 [Graphviz]: http://www.graphviz.org/Download..php "Download Graphviz"
 
+> Plugin has integrated a copy of "plantuml.jar", you are good to go now. But if you want to use your own jar (maybe a newer version, or with many dependent jars), specify the jar location with setting `plantuml.jar`.
+
 > If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
 
 ## Extension Settings

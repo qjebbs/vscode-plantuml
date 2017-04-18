@@ -191,6 +191,11 @@
           ],
           "description": "Export format. Leave it blank to pick format everytime you export."
         },
+        "plantuml.jar": {
+          "type": "string",
+          "default": "",
+          "description": "Alternate plantuml.jar location. Leave it blank to use integrated jar."
+        },
         "plantuml.fileExtensions": {
           "type": "string",
           "default": ".wsd,.pu,.puml,.plantuml,.iuml",

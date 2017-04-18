@@ -17,5 +17,6 @@
 	"没有找到图表。",
 	"PlantUML 正在生成网址: {0}",
 	"PlantUML 预览",
-	"无效的文件后缀配置:\n{0}\n配置示例:\n.*\n.wsd\n.wsd,.java\n"
+	"无效的文件后缀配置:\n{0}\n配置示例:\n.*\n.wsd\n.wsd,.java\n",
+	"没有找到指定的 PlantUML JAR，将使用插件内集成的 JAR。请将 \"plantuml.jar\" 配置为有效的 JAR 位置。"
 ]

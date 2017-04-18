@@ -1,20 +1,45 @@
 import * as vscode from 'vscode';
-import { localize } from './planuml';
+import * as fs from 'fs';
+import * as path from 'path';
+import { localize, context } from './planuml';
 
 let conf = vscode.workspace.getConfiguration('plantuml');
 
 class ConfigReader {
+    private _jar: string;
+
     private _read<T>(key: string): T {
         return conf.get<T>(key);
     }
+
+    private _updateJar(): string {
+        let jar = this._read<string>('jar');
+        let intJar = path.join(context.extensionPath, "plantuml.jar");
+        if (!jar) {
+            jar = intJar;
+        } else {
+            if (!fs.existsSync(jar)) {
+                vscode.window.showWarningMessage(localize(19, null));
+                jar = intJar;
+            }
+        }
+        this._jar = jar;
+        return jar;
+    }
+
     watch(): vscode.Disposable {
         return vscode.workspace.onDidChangeConfiguration(() => {
             conf = vscode.workspace.getConfiguration('plantuml');
+            this._jar = "";
         })
     }
 
+    get jar(): string {
+        return this._jar || this._updateJar();
+    }
+
     get fileExtensions(): string {
-        let extReaded = this._read<string>('fileExtensions').replace(/\s/g, "")
+        let extReaded = this._read<string>('fileExtensions').replace(/\s/g, "");
         let exts = extReaded || ".*";
         if (exts.indexOf(",") > 0) exts = `{${exts}}`;
         //REG: .* | .wsd | {.wsd,.java}
