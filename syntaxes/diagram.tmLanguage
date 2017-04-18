@@ -804,7 +804,7 @@
               </dict>
             </dict>
             <key>end</key>
-            <string>(?i)^\s*(end\s+note)</string>
+            <string>(?i)^\s*(end\s+[rh]?note)</string>
             <key>endCaptures</key>
             <dict>
               <key>1</key>
@@ -2373,7 +2373,7 @@
               </dict>
             </dict>
             <key>end</key>
-            <string>(?i)^\s*(end\s+note)</string>
+            <string>(?i)^\s*(end\s+[rh]?note)</string>
             <key>endCaptures</key>
             <dict>
               <key>1</key>
