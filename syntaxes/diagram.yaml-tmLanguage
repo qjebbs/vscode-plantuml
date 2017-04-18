@@ -504,7 +504,6 @@ repository:
         '5': {name: keyword.operator.component.link.source.wsd}
         '7': {name: support.class.component.link.component.source.wsd}
         '9': {name: entity.other.component.link.interface.source.wsd}
-        '5': {name: keyword.operator.component.link.source.wsd}
         '10': {name: comment.line.component.link.source.wsd}  
     - comment: links between component&interface (assign dirct)
       match: (?i)^\s*((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))\s+([-\.]{1,}(left|right|up|down)[-\.]{1,}\|?>?)\s+((\[[^\]]+?\])|(\(\)\s+)?([^\s\\:]+|"[^\]]+?"))(\s*:\s*.+?)?\s*$
@@ -516,7 +515,6 @@ repository:
         '6': {name: constant.numeric.component.link.source.wsd}
         '8': {name: support.class.component.link.component.source.wsd}
         '9': {name: entity.other.component.link.interface.source.wsd}
-        '5': {name: keyword.operator.component.link.source.wsd}
         '10': {name: entity.other.component.link.interface.source.wsd}
         '11': {name: comment.line.component.link.source.wsd}  
     - comment: inline note for component
