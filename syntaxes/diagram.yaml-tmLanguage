@@ -281,7 +281,7 @@ repository:
         '1': {name: keyword.other.sequence.newpage.source.wsd}
         '2': {name: string.quoted.double.sequence.newpage.source.wsd}
     - comment: alt/else, opt, loop, par, break, critical, group
-      match: (?i)^\s*(alt|else|opt|loop|par|break|critical|group)(\s+([^\(\)]+?))?\s*$
+      match: (?i)^\s*(alt|else|opt|loop|par|break|critical|group)(\s+(.+?))?\s*$
       captures:
         '1': {name: keyword.other.sequence.other.source.wsd}
         '2': {name: string.quoted.double.sequence.other.source.wsd}

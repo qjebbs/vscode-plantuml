@@ -1027,7 +1027,7 @@
             <key>comment</key>
             <string>alt/else, opt, loop, par, break, critical, group</string>
             <key>match</key>
-            <string>(?i)^\s*(alt|else|opt|loop|par|break|critical|group)(\s+([^\(\)]+?))?\s*$</string>
+            <string>(?i)^\s*(alt|else|opt|loop|par|break|critical|group)(\s+(.+?))?\s*$</string>
             <key>captures</key>
             <dict>
               <key>1</key>
