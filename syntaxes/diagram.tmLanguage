@@ -886,7 +886,7 @@
             <key>comment</key>
             <string>participant definition</string>
             <key>match</key>
-            <string>(?i)^\s*(actor|participant|boundary|control|entity|database)\s+(".+?"|[^\s\\]+?)\s*(\s(as)\s([\w\d_]+)\s*)?(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\s*)?$</string>
+            <string>(?i)^\s*(actor|participant|boundary|control|entity|database)\s+((".+?")|[\w\d_]+)\s*(\s(as)\s((".+?")|[\w\d_]+)\s*)?(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\s*)?$</string>
             <key>captures</key>
             <dict>
               <key>1</key>
@@ -899,17 +899,27 @@
                 <key>name</key>
                 <string>entity.other.sequence.definition.source.wsd</string>
               </dict>
-              <key>4</key>
+              <key>3</key>
               <dict>
                 <key>name</key>
-                <string>keyword.other.sequence.definition.source.wsd</string>
+                <string>string.quoted.double.sequence.definition.source.wsd</string>
               </dict>
               <key>5</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.definition.source.wsd</string>
+                <string>keyword.other.sequence.definition.source.wsd</string>
               </dict>
               <key>6</key>
+              <dict>
+                <key>name</key>
+                <string>entity.other.sequence.definition.source.wsd</string>
+              </dict>
+              <key>7</key>
+              <dict>
+                <key>name</key>
+                <string>string.quoted.double.sequence.definition.source.wsd</string>
+              </dict>
+              <key>8</key>
               <dict>
                 <key>name</key>
                 <string>constant.numeric.sequence.definition.source.wsd</string>
@@ -920,7 +930,7 @@
             <key>comment</key>
             <string>create participant</string>
             <key>match</key>
-            <string>(?i)^\s*(create)(\s+(actor|participant|boundary|control|entity|database))?\s+(".+?"|.+?\b)\s*(\s(as)\s([\w\d_]+)\s*)?(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\s*)?$</string>
+            <string>(?i)^\s*(create)(\s+(actor|participant|boundary|control|entity|database))?\s+((".+?")|[\w\d_]+)\s*(\s(as)\s((".+?")|[\w\d_]+)\s*)?(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\s*)?$</string>
             <key>captures</key>
             <dict>
               <key>1</key>
@@ -938,17 +948,27 @@
                 <key>name</key>
                 <string>entity.other.sequence.create.source.wsd</string>
               </dict>
-              <key>6</key>
+              <key>5</key>
               <dict>
                 <key>name</key>
-                <string>keyword.other.sequence.create.source.wsd</string>
+                <string>string.quoted.double.sequence.create.source.wsd</string>
               </dict>
               <key>7</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.create.source.wsd</string>
+                <string>keyword.other.sequence.create.source.wsd</string>
               </dict>
               <key>8</key>
+              <dict>
+                <key>name</key>
+                <string>entity.other.sequence.create.source.wsd</string>
+              </dict>
+              <key>9</key>
+              <dict>
+                <key>name</key>
+                <string>string.quoted.double.sequence.create.source.wsd</string>
+              </dict>
+              <key>10</key>
               <dict>
                 <key>name</key>
                 <string>constant.numeric.sequence.create.source.wsd</string>
