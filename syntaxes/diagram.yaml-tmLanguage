@@ -248,22 +248,26 @@ repository:
         '20': {name: keyword.operator.sequence.message.source.wsd}
         '21': {name: comment.line.sequence.message.source.wsd}
     - comment: participant definition
-      match: (?i)^\s*(actor|participant|boundary|control|entity|database)\s+(".+?"|[^\s\\]+?)\s*(\s(as)\s([\w\d_]+)\s*)?(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\s*)?$
+      match: (?i)^\s*(actor|participant|boundary|control|entity|database)\s+((".+?")|[\w\d_]+)\s*(\s(as)\s((".+?")|[\w\d_]+)\s*)?(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\s*)?$
       captures:
         '1': {name: keyword.other.sequence.definition.source.wsd}
         '2': {name: entity.other.sequence.definition.source.wsd}
-        '4': {name: keyword.other.sequence.definition.source.wsd}
-        '5': {name: entity.other.sequence.definition.source.wsd}
-        '6': {name: constant.numeric.sequence.definition.source.wsd}
+        '3': {name: string.quoted.double.sequence.definition.source.wsd}
+        '5': {name: keyword.other.sequence.definition.source.wsd}
+        '6': {name: entity.other.sequence.definition.source.wsd}
+        '7': {name: string.quoted.double.sequence.definition.source.wsd}
+        '8': {name: constant.numeric.sequence.definition.source.wsd}
     - comment: create participant
-      match: (?i)^\s*(create)(\s+(actor|participant|boundary|control|entity|database))?\s+(".+?"|.+?\b)\s*(\s(as)\s([\w\d_]+)\s*)?(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\s*)?$
+      match: (?i)^\s*(create)(\s+(actor|participant|boundary|control|entity|database))?\s+((".+?")|[\w\d_]+)\s*(\s(as)\s((".+?")|[\w\d_]+)\s*)?(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\s*)?$
       captures:
         '1': {name: keyword.other.sequence.create.source.wsd}
         '3': {name: keyword.other.sequence.create.source.wsd}
         '4': {name: entity.other.sequence.create.source.wsd}
-        '6': {name: keyword.other.sequence.create.source.wsd}
-        '7': {name: entity.other.sequence.create.source.wsd}
-        '8': {name: constant.numeric.sequence.create.source.wsd}
+        '5': {name: string.quoted.double.sequence.create.source.wsd}
+        '7': {name: keyword.other.sequence.create.source.wsd}
+        '8': {name: entity.other.sequence.create.source.wsd}
+        '9': {name: string.quoted.double.sequence.create.source.wsd}
+        '10': {name: constant.numeric.sequence.create.source.wsd}
     - comment: autonumber
       match: (?i)^\s*(autonumber)(\s+(\d+(\s+(\d+)?)?(\s+(".+?"))?|(stop)|(resume)(\s+(\d+))?(\s+".+?")?))?
       captures:
@@ -281,7 +285,7 @@ repository:
         '1': {name: keyword.other.sequence.newpage.source.wsd}
         '2': {name: string.quoted.double.sequence.newpage.source.wsd}
     - comment: alt/else, opt, loop, par, break, critical, group
-      match: (?i)^\s*(alt|else|opt|loop|par|break|critical|group)(\s+([^\(\)]+?))?\s*$
+      match: (?i)^\s*(alt|else|opt|loop|par|break|critical|group)(\s+(.+?))?\s*$
       captures:
         '1': {name: keyword.other.sequence.other.source.wsd}
         '2': {name: string.quoted.double.sequence.other.source.wsd}

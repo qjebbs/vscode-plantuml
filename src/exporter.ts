@@ -19,13 +19,11 @@ export interface ExportTask {
 }
 
 class Exporter {
-    private jar: string;
     private java: string = "java";
     private javeInstalled: boolean = true;
 
     initialize() {
         this.testJava();
-        this.jar = path.join(context.extensionPath, "plantuml.jar");
     }
     private testJava() {
         var process = child_process.exec(this.java + " -version", (e, stdout, stderr) => {
@@ -152,7 +150,7 @@ class Exporter {
             let pms = Promise.reject(localize(5, null));
             return <ExportTask>{ promise: pms };
         }
-        if (!fs.existsSync(this.jar)) {
+        if (!fs.existsSync(config.jar)) {
             let pms = Promise.reject(localize(6, null, context.extensionPath));
             return <ExportTask>{ promise: pms };
         }
@@ -163,7 +161,7 @@ class Exporter {
         let params = [
             '-Djava.awt.headless=true',
             '-jar',
-            this.jar,
+            config.jar,
             "-t" + format,
             '-pipe',
             '-charset',
