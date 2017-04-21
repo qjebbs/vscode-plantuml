@@ -136,6 +136,16 @@ repository:
     - comment: Preprocessings
       name: support.class.preprocessings.source.wsd
       match: (?i)(!include|!enddefinelong|!definelong|!define|!ifdef|!else|!endif)
+    - comment: links
+      match: ((?:(?:[ox+*]?(?:<\|?|<<|\\\\|\\|//)?)(?=[-.]))[-.]+(\[(?:\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\w+)(?:[-\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\w+))?\b)\])?(?:(left|right|up|down)(?:[-.]))?[-.]*(?:(?:\|?>|>>|\\\\|\\|//)?[ox+*]?))
+      captures:
+        '1': {name: keyword.control.note.source.wsd}
+        '2': {name: constant.numeric.link.color.source.wsd}
+        '3': {name: constant.language.link.source.wsd}
+    - comment: link message
+      match: (?i):(.+)$
+      captures:
+        '1': {name: comment.line.note.source.wsd}
     - comment: all color names
       match: (?i)\b(AliceBlue|AntiqueWhite|Aqua|Aquamarine|Azure|Beige|Bisque|Black|BlanchedAlmond|Blue|BlueViolet|Brown|BurlyWood|CadetBlue|Chartreuse|Chocolate|Coral|CornflowerBlue|Cornsilk|Crimson|Cyan|DarkBlue|DarkCyan|DarkGoldenRod|DarkGray|DarkGreen|DarkGrey|DarkKhaki|DarkMagenta|DarkOliveGreen|DarkOrchid|DarkRed|DarkSalmon|DarkSeaGreen|DarkSlateBlue|DarkSlateGray|DarkSlateGrey|DarkTurquoise|DarkViolet|Darkorange|DeepPink|DeepSkyBlue|DimGray|DimGrey|DodgerBlue|FireBrick|FloralWhite|ForestGreen|Fuchsia|Gainsboro|GhostWhite|Gold|GoldenRod|Gray|Green|GreenYellow|Grey|HoneyDew|HotPink|IndianRed|Indigo|Ivory|Khaki|Lavender|LavenderBlush|LawnGreen|LemonChiffon|LightBlue|LightCoral|LightCyan|LightGoldenRodYellow|LightGray|LightGreen|LightGrey|LightPink|LightSalmon|LightSeaGreen|LightSkyBlue|LightSlateGray|LightSlateGrey|LightSteelBlue|LightYellow|Lime|LimeGreen|Linen|Magenta|Maroon|MediumAquaMarine|MediumBlue|MediumOrchid|MediumPurple|MediumSeaGreen|MediumSlateBlue|MediumSpringGreen|MediumTurquoise|MediumVioletRed|MidnightBlue|MintCream|MistyRose|Moccasin|NavajoWhite|Navy|OldLace|Olive|OliveDrab|Orange|OrangeRed|Orchid|PaleGoldenRod|PaleGreen|PaleTurquoise|PaleVioletRed|PapayaWhip|PeachPuff|Peru|Pink|Plum|PowderBlue|Purple|Red|RosyBrown|RoyalBlue|SaddleBrown|Salmon|SandyBrown|SeaGreen|SeaShell|Sienna|Silver|SkyBlue|SlateBlue|SlateGray|SlateGrey|Snow|SpringGreen|SteelBlue|Tan|Teal|Thistle|Tomato|Turquoise|Violet|Wheat|White|WhiteSmoke|Yellow|YellowGreen)\b
       name: constant.numeric.colors.source.wsd
@@ -209,9 +219,12 @@ repository:
         '1': {name: keyword.other.activity.endwhile.source.wsd}
         '2': {name: keyword.other.activity.endwhile.source.wsd}
         '4': {name: comment.line.activity.endwhile.source.wsd}
-    - comment: other keywords
+    - comment: other keywords whole line
       name: keyword.other.activity.other.source.wsd
       match: (?i)^\s*(split( again)?|endif|repeat|start|stop|end|end\s+fork|end\s+split|fork( again)?|detach)\s*$
+    - comment: other keywords
+      name: keyword.other.activity.other.source.wsd
+      match: (?i)\b(as)\b
   Sequence:
     patterns:
     - comment: inline note for Sequence
@@ -234,19 +247,6 @@ repository:
       patterns:
       - name: comment.line.sequence.note.source.wsd
         match: .+?
-    - comment: participant message
-      match: (?i)^\s*(".+?"|[\w\d_]+?\b)\s*(\s(as)\s([\w\d_]+)\s*)?\s*((([ox])?(<|<<|\\|\\\\|//))?-(\[#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\])?-?((>|>>|\\|\\\\|//)([ox])?)?)\s*(".+?"|[\w\d_]+?\b)\s*(\s(as)\s([\w\d_]+)\s*)?(\s*(:)\s*(.+?))?\s*$
-      captures:
-        '1': {name: entity.other.sequence.message.source.wsd}
-        '3': {name: keyword.operator.sequence.message.source.wsd}
-        '4': {name: entity.other.sequence.message.source.wsd}
-        '5': {name: keyword.operator.sequence.message.source.wsd}
-        '9': {name: constant.numeric.sequence.message.source.wsd}
-        '15': {name: entity.other.sequence.message.source.wsd}
-        '17': {name: keyword.operator.sequence.message.source.wsd}
-        '18': {name: entity.other.sequence.message.source.wsd}
-        '20': {name: keyword.operator.sequence.message.source.wsd}
-        '21': {name: comment.line.sequence.message.source.wsd}
     - comment: participant definition
       match: (?i)^\s*(actor|participant|boundary|control|entity|database)\s+((".+?")|[\w\d_]+)\s*(\s(as)\s((".+?")|[\w\d_]+)\s*)?(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\s*)?$
       captures:
@@ -333,14 +333,6 @@ repository:
         '1': {name: keyword.operator.sequence.space.source.wsd}
         '2': {name: constant.numeric.sequence.space.source.wsd}
         '3': {name: keyword.operator.sequence.space.source.wsd}
-    - comment: incomming & outcomming message
-      match: (?i)^\s*(((.+?)\s*(--?>\]|<--?\]))|((\[--?>|\[<--?)\s*(.+?)))\s*:\s*(.+?)\s*$
-      captures:
-        '3': {name: entity.other.sequence.message.source.wsd}
-        '7': {name: entity.other.sequence.message.source.wsd}
-        '4': {name: keyword.operator.sequence.message.source.wsd}
-        '6': {name: keyword.operator.sequence.message.source.wsd}
-        '8': {name: comment.line.sequence.message.source.wsd}
     - comment: box
       match: (?i)^\s*(box)(\s".+")?(\s+#(([\w\|\\\/\-]+)))?\s*$
       captures:
@@ -384,14 +376,11 @@ repository:
         '5': {name: entity.other.usecase.definition.source.wsd}
         '7': {name: constant.numeric.usecase.definition.source.wsd}
     - comment: actor simple definition
-      match: (?i)^\s*(:.+:)(\s*(as)\s+([\w\d]+))?(\s*(<<.+?>>))?\s*$
+      match: (?i)(:[^:]+?:)
       captures:
         '1': {name: entity.other.usecase.actor.source.wsd}
-        '3': {name: keyword.other.usecase.actor.source.wsd}
-        '4': {name: entity.other.usecase.actor.source.wsd}
-        '6': {name: constant.numeric.usecase.definition.source.wsd}
     - comment: actor definition
-      match: (?i)^\s*(actor)\s+(([^\s\\]+)|:.+?:|".+?")(\s*(as)\s+([\w\d]+))?(\s*(<<.+?>>))?\s*$
+      match: (?i)^\s*(actor)\s+(([^\s\\]+)|:[^:]+?:|".+?")(\s*(as)\s+([\w\d]+))?(\s*(<<.+?>>))?\s*$
       captures:
         '1': {name: keyword.other.usecase.actor.source.wsd}
         '2': {name: entity.other.usecase.actor.source.wsd}
@@ -403,20 +392,6 @@ repository:
       captures:
         '1': {name: entity.other.usecase.definition.source.wsd}
         '2': {name: constant.numeric.usecase.definition.source.wsd}
-    - comment: links between actor&usecase&notes
-      match: (?i)^\s*([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))\s+([-\.]{1,}\|?>?|<?\|?[-\.]{1,})\s+([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))(\s*:\s*.+?)?\s*$
-      captures:
-        '1': {name: entity.other.usecase.link.source.wsd}
-        '2': {name: keyword.operator.usecase.link.source.wsd}
-        '3': {name: entity.other.usecase.link.source.wsd}
-        '4': {name: comment.line.usecase.link.source.wsd}
-    - comment: links between actor&usecase&notes (assign dirct)
-      match: (?i)^\s*([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))\s+([-\.]{1,}(left|right|up|down)[-\.]{1,}\|?>)\s+([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))(\s*:\s*.+?)?\s*$
-      captures:
-        '1': {name: entity.other.usecase.link.source.wsd}
-        '2': {name: keyword.operator.usecase.link.source.wsd}
-        '4': {name: entity.other.usecase.link.source.wsd}
-        '5': {name: comment.line.usecase.link.source.wsd}
     - comment: inline note for Sequence
       match: (?i)^\s*(note ((right|left|top|bottom)\s+of|over))\s+(\(.+?\)|[^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:
@@ -442,13 +417,6 @@ repository:
         '3': {name: keyword.other.usecase.noteas.source.wsd}
         '2': {name: comment.line.usecase.noteas.source.wsd}
         '4': {name: entity.other.usecase.noteas.source.wsd}
-    - comment: note between actor&usecase
-      match: (?i)^\s*([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))\s+(-{1,}\|?>|<\|?-{1,})\s+([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))(\s*:\s*.+?)?\s*$
-      captures:
-        '1': {name: entity.other.usecase.note.source.wsd}
-        '2': {name: keyword.other.usecase.note.source.wsd}
-        '3': {name: entity.other.usecase.note.source.wsd}
-        '4': {name: comment.line.usecase.note.source.wsd}
     - comment: new page
       match: (?i)^\s*(newpage)(.+?)?\s*$
       captures:
@@ -499,28 +467,6 @@ repository:
         '4': {name: keyword.other.component.interface.definition.source.wsd}
         '5': {name: entity.other.component.interface.definition.source.wsd}
         '6': {name: constant.numeric.component.interface.definition.source.wsd}
-    - comment: links between component&interface
-      match: (?i)^\s*((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))\s+([-\.]{1,}\|?>?|<?\|?[-\.]{1,})\s+((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))(\s*:\s*.+?)?\s*$
-      captures:
-        '3': {name: keyword.operator.component.link.source.wsd}
-        '2': {name: support.class.component.link.component.source.wsd}
-        '4': {name: entity.other.component.link.interface.source.wsd}
-        '5': {name: keyword.operator.component.link.source.wsd}
-        '7': {name: support.class.component.link.component.source.wsd}
-        '9': {name: entity.other.component.link.interface.source.wsd}
-        '10': {name: comment.line.component.link.source.wsd}  
-    - comment: links between component&interface (assign dirct)
-      match: (?i)^\s*((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))\s+([-\.]{1,}(left|right|up|down)[-\.]{1,}\|?>?)\s+((\[[^\]]+?\])|(\(\)\s+)?([^\s\\:]+|"[^\]]+?"))(\s*:\s*.+?)?\s*$
-      captures:
-        '3': {name: keyword.operator.component.link.source.wsd}
-        '2': {name: support.class.component.link.component.source.wsd}
-        '4': {name: entity.other.component.link.interface.source.wsd}
-        '5': {name: keyword.operator.component.link.source.wsd}
-        '6': {name: constant.numeric.component.link.source.wsd}
-        '8': {name: support.class.component.link.component.source.wsd}
-        '9': {name: entity.other.component.link.interface.source.wsd}
-        '10': {name: entity.other.component.link.interface.source.wsd}
-        '11': {name: comment.line.component.link.source.wsd}  
     - comment: inline note for component
       match: (?i)^\s*(note\s+(right|left)\s+of)\s+((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:
@@ -583,29 +529,6 @@ repository:
       patterns:
       - include: $self
       - include: '#State'
-    - comment: links between state
-      match: (?i)^\s*((\[\*\])|[\w\d_]+)(\s+#(([\w\|\\\/\-]+)))?\s+([-\.]{1,}\|?>?|<?\|?[-\.]{1,})\s+((\[\*\])|[\w\d_]+)(\s+#(([\w\|\\\/\-]+)))?(\s*:\s*.+?)?\s*$
-      captures:
-        '1': {name: entity.other.state.link.state.source.wsd}
-        '2': {name: keyword.other.state.link.source.wsd}
-        '3': {name: constant.numeric.state.link.source.wsd}  
-        '6': {name: keyword.operator.state.link.source.wsd}
-        '7': {name: entity.other.state.link.state.source.wsd}
-        '8': {name: keyword.other.state.link.source.wsd}
-        '9': {name: constant.numeric.state.link.source.wsd} 
-        '12': {name: comment.line.state.link.source.wsd}  
-    - comment: links between state (assign dirct)
-      match: (?i)^\s*((\[\*\])|[\w\d_]+)(\s+#(([\w\|\\\/\-]+)))?\s+([-\.]{1,}(left|right|up|down)[-\.]{1,}\|?>?)\s+((\[\*\])|[\w\d_]+)(\s+#(([\w\|\\\/\-]+)))?(\s*:\s*.+?)?\s*$
-      captures:
-        '1': {name: entity.other.state.link.state.source.wsd}
-        '2': {name: keyword.other.state.link.source.wsd}
-        '3': {name: constant.numeric.state.link.source.wsd}  
-        '6': {name: keyword.operator.state.link.source.wsd}
-        '7': {name: constant.numeric.state.link.source.wsd} 
-        '8': {name: entity.other.state.link.state.source.wsd}
-        '9': {name: keyword.other.state.link.source.wsd}
-        '10': {name: constant.numeric.state.link.source.wsd} 
-        '13': {name: comment.line.state.link.source.wsd}  
     - comment: concurrent
       match: (?i)^\s*(-{2,})\s*$
       captures:
@@ -667,15 +590,6 @@ repository:
       - comment: fields other
         match: (?i)^\s*(.+?)\s$
         name: constant.numeric.object.definition.source.wsd
-    - comment: links between object
-      match: (?i)^\s*([\w\d_]+|"[^"]+")(\s+("[^"]+"))?\s*(([<o*+]|<\|)?[-\.]{1,}([>o*+]|\|>)?)\s*(\s+("[^"]+")\s+)?([\w\d_]+|"[^"]+")(\s*:\s*(.+))?\s*$
-      captures:
-        '1': {name: entity.other.object.link.object.source.wsd}
-        '3': {name: comment.line.object.link.source.wsd}
-        '4': {name: keyword.operator.object.link.source.wsd}
-        '8': {name: comment.line.object.link.source.wsd}
-        '9': {name: entity.other.object.link.object.source.wsd}
-        '11': {name: comment.line.object.link.source.wsd}  
     - comment: add object fileds
       match: (?i)^\s*([\w\d_]+)\s+:\s+s*$
       captures:
@@ -756,27 +670,6 @@ repository:
       end: ^\s*(?<!\\)\}\s*$
       patterns:
       - include: '#Class'
-    - comment: links between class
-      match: (?i)^\s*([\w\d_\.]+(\s*\(\))?)(\s+("[^"]+"))?\s*(([<o*+]|<\|)?[-\.]{1,}([>o*+]|\|>)?)\s*("[^"]+")?\s*([\w\d_\.]+(\s*\(\))?)(\s+#(([\w\|\\\/\-]+)))?(\s*:\s*.+?)?\s*$
-      captures:
-        '1': {name: entity.other.class.link.class.source.wsd}
-        '4': {name: string.quoted.double.class.link.source.wsd}  
-        '5': {name: keyword.operator.class.link.source.wsd}
-        '8': {name: string.quoted.double.class.link.source.wsd}  
-        '9': {name: entity.other.class.link.class.source.wsd}
-        '11': {name: constant.numeric.class.link.source.wsd} 
-        '14': {name: comment.line.class.link.source.wsd}  
-    - comment: links between class (assign dirct)
-      match: (?i)^\s*([\w\d_\.]+(\s*\(\))?)(\s+("[^"]+"))?\s*(([<o*+]|\|<)?[-\.]{1,}(left|right|up|down)[-\.]*([>o*+]|\|>)?)\s*("[^"]+")?\s*([\w\d_\.]+(\s*\(\))?)(\s+#(([\w\|\\\/\-]+)))?(\s*:\s*.+?)?\s*$
-      captures:
-        '1': {name: entity.other.class.link.class.source.wsd}
-        '4': {name: string.quoted.double.class.link.source.wsd}  
-        '5': {name: keyword.operator.class.link.source.wsd}
-        '7': {name: constant.numeric.class.link.source.wsd} 
-        '9': {name: string.quoted.double.class.link.source.wsd}  
-        '10': {name: entity.other.class.link.class.source.wsd}
-        '12': {name: constant.numeric.class.link.source.wsd} 
-        '15': {name: comment.line.class.link.source.wsd} 
     - comment: inline note for class
       match: (?i)^\s*(note\s+(right|left|top|bottom)\s+of)\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:

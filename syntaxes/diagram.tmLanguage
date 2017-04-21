@@ -479,6 +479,44 @@
           </dict>
           <dict>
             <key>comment</key>
+            <string>links</string>
+            <key>match</key>
+            <string>((?:(?:[ox+*]?(?:&lt;\|?|&lt;&lt;|\\\\|\\|//)?)(?=[-.]))[-.]+(\[(?:\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\w+)(?:[-\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\w+))?\b)\])?(?:(left|right|up|down)(?:[-.]))?[-.]*(?:(?:\|?&gt;|&gt;&gt;|\\\\|\\|//)?[ox+*]?))</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.control.note.source.wsd</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.link.color.source.wsd</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>constant.language.link.source.wsd</string>
+              </dict>
+            </dict>
+          </dict>
+          <dict>
+            <key>comment</key>
+            <string>link message</string>
+            <key>match</key>
+            <string>(?i):(.+)$</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>comment.line.note.source.wsd</string>
+              </dict>
+            </dict>
+          </dict>
+          <dict>
+            <key>comment</key>
             <string>all color names</string>
             <key>match</key>
             <string>(?i)\b(AliceBlue|AntiqueWhite|Aqua|Aquamarine|Azure|Beige|Bisque|Black|BlanchedAlmond|Blue|BlueViolet|Brown|BurlyWood|CadetBlue|Chartreuse|Chocolate|Coral|CornflowerBlue|Cornsilk|Crimson|Cyan|DarkBlue|DarkCyan|DarkGoldenRod|DarkGray|DarkGreen|DarkGrey|DarkKhaki|DarkMagenta|DarkOliveGreen|DarkOrchid|DarkRed|DarkSalmon|DarkSeaGreen|DarkSlateBlue|DarkSlateGray|DarkSlateGrey|DarkTurquoise|DarkViolet|Darkorange|DeepPink|DeepSkyBlue|DimGray|DimGrey|DodgerBlue|FireBrick|FloralWhite|ForestGreen|Fuchsia|Gainsboro|GhostWhite|Gold|GoldenRod|Gray|Green|GreenYellow|Grey|HoneyDew|HotPink|IndianRed|Indigo|Ivory|Khaki|Lavender|LavenderBlush|LawnGreen|LemonChiffon|LightBlue|LightCoral|LightCyan|LightGoldenRodYellow|LightGray|LightGreen|LightGrey|LightPink|LightSalmon|LightSeaGreen|LightSkyBlue|LightSlateGray|LightSlateGrey|LightSteelBlue|LightYellow|Lime|LimeGreen|Linen|Magenta|Maroon|MediumAquaMarine|MediumBlue|MediumOrchid|MediumPurple|MediumSeaGreen|MediumSlateBlue|MediumSpringGreen|MediumTurquoise|MediumVioletRed|MidnightBlue|MintCream|MistyRose|Moccasin|NavajoWhite|Navy|OldLace|Olive|OliveDrab|Orange|OrangeRed|Orchid|PaleGoldenRod|PaleGreen|PaleTurquoise|PaleVioletRed|PapayaWhip|PeachPuff|Peru|Pink|Plum|PowderBlue|Purple|Red|RosyBrown|RoyalBlue|SaddleBrown|Salmon|SandyBrown|SeaGreen|SeaShell|Sienna|Silver|SkyBlue|SlateBlue|SlateGray|SlateGrey|Snow|SpringGreen|SteelBlue|Tan|Teal|Thistle|Tomato|Turquoise|Violet|Wheat|White|WhiteSmoke|Yellow|YellowGreen)\b</string>
@@ -734,11 +772,19 @@
           </dict>
           <dict>
             <key>comment</key>
-            <string>other keywords</string>
+            <string>other keywords whole line</string>
             <key>name</key>
             <string>keyword.other.activity.other.source.wsd</string>
             <key>match</key>
             <string>(?i)^\s*(split( again)?|endif|repeat|start|stop|end|end\s+fork|end\s+split|fork( again)?|detach)\s*$</string>
+          </dict>
+          <dict>
+            <key>comment</key>
+            <string>other keywords</string>
+            <key>name</key>
+            <string>keyword.other.activity.other.source.wsd</string>
+            <key>match</key>
+            <string>(?i)\b(as)\b</string>
           </dict>
         </array>
       </dict>
@@ -822,65 +868,6 @@
                 <string>.+?</string>
               </dict>
             </array>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>participant message</string>
-            <key>match</key>
-            <string>(?i)^\s*(".+?"|[\w\d_]+?\b)\s*(\s(as)\s([\w\d_]+)\s*)?\s*((([ox])?(&lt;|&lt;&lt;|\\|\\\\|//))?-(\[#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\])?-?((&gt;|&gt;&gt;|\\|\\\\|//)([ox])?)?)\s*(".+?"|[\w\d_]+?\b)\s*(\s(as)\s([\w\d_]+)\s*)?(\s*(:)\s*(.+?))?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.sequence.message.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.sequence.message.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.sequence.message.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.sequence.message.source.wsd</string>
-              </dict>
-              <key>9</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.sequence.message.source.wsd</string>
-              </dict>
-              <key>15</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.sequence.message.source.wsd</string>
-              </dict>
-              <key>17</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.sequence.message.source.wsd</string>
-              </dict>
-              <key>18</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.sequence.message.source.wsd</string>
-              </dict>
-              <key>20</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.sequence.message.source.wsd</string>
-              </dict>
-              <key>21</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.sequence.message.source.wsd</string>
-              </dict>
-            </dict>
           </dict>
           <dict>
             <key>comment</key>
@@ -1231,40 +1218,6 @@
           </dict>
           <dict>
             <key>comment</key>
-            <string>incomming &amp; outcomming message</string>
-            <key>match</key>
-            <string>(?i)^\s*(((.+?)\s*(--?&gt;\]|&lt;--?\]))|((\[--?&gt;|\[&lt;--?)\s*(.+?)))\s*:\s*(.+?)\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.sequence.message.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.sequence.message.source.wsd</string>
-              </dict>
-              <key>6</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.sequence.message.source.wsd</string>
-              </dict>
-              <key>7</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.sequence.message.source.wsd</string>
-              </dict>
-              <key>8</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.sequence.message.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
             <string>box</string>
             <key>match</key>
             <string>(?i)^\s*(box)(\s".+")?(\s+#(([\w\|\\\/\-]+)))?\s*$</string>
@@ -1424,7 +1377,7 @@
             <key>comment</key>
             <string>actor simple definition</string>
             <key>match</key>
-            <string>(?i)^\s*(:.+:)(\s*(as)\s+([\w\d]+))?(\s*(&lt;&lt;.+?&gt;&gt;))?\s*$</string>
+            <string>(?i)(:[^:]+?:)</string>
             <key>captures</key>
             <dict>
               <key>1</key>
@@ -1432,28 +1385,13 @@
                 <key>name</key>
                 <string>entity.other.usecase.actor.source.wsd</string>
               </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.usecase.actor.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.usecase.actor.source.wsd</string>
-              </dict>
-              <key>6</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.usecase.definition.source.wsd</string>
-              </dict>
             </dict>
           </dict>
           <dict>
             <key>comment</key>
             <string>actor definition</string>
             <key>match</key>
-            <string>(?i)^\s*(actor)\s+(([^\s\\]+)|:.+?:|".+?")(\s*(as)\s+([\w\d]+))?(\s*(&lt;&lt;.+?&gt;&gt;))?\s*$</string>
+            <string>(?i)^\s*(actor)\s+(([^\s\\]+)|:[^:]+?:|".+?")(\s*(as)\s+([\w\d]+))?(\s*(&lt;&lt;.+?&gt;&gt;))?\s*$</string>
             <key>captures</key>
             <dict>
               <key>1</key>
@@ -1499,64 +1437,6 @@
               <dict>
                 <key>name</key>
                 <string>constant.numeric.usecase.definition.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>links between actor&amp;usecase&amp;notes</string>
-            <key>match</key>
-            <string>(?i)^\s*([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))\s+([-\.]{1,}\|?&gt;?|&lt;?\|?[-\.]{1,})\s+([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))(\s*:\s*.+?)?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.usecase.link.source.wsd</string>
-              </dict>
-              <key>2</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.usecase.link.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.usecase.link.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.usecase.link.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>links between actor&amp;usecase&amp;notes (assign dirct)</string>
-            <key>match</key>
-            <string>(?i)^\s*([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))\s+([-\.]{1,}(left|right|up|down)[-\.]{1,}\|?&gt;)\s+([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))(\s*:\s*.+?)?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.usecase.link.source.wsd</string>
-              </dict>
-              <key>2</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.usecase.link.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.usecase.link.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.usecase.link.source.wsd</string>
               </dict>
             </dict>
           </dict>
@@ -1653,35 +1533,6 @@
               <dict>
                 <key>name</key>
                 <string>entity.other.usecase.noteas.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>note between actor&amp;usecase</string>
-            <key>match</key>
-            <string>(?i)^\s*([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))\s+(-{1,}\|?&gt;|&lt;\|?-{1,})\s+([^\s\[\]\(\)\\]+|:[^:]+?:|\([^\)]+?\))(\s*:\s*.+?)?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.usecase.note.source.wsd</string>
-              </dict>
-              <key>2</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.usecase.note.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.usecase.note.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.usecase.note.source.wsd</string>
               </dict>
             </dict>
           </dict>
@@ -1878,104 +1729,6 @@
               <dict>
                 <key>name</key>
                 <string>constant.numeric.component.interface.definition.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>links between component&amp;interface</string>
-            <key>match</key>
-            <string>(?i)^\s*((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))\s+([-\.]{1,}\|?&gt;?|&lt;?\|?[-\.]{1,})\s+((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))(\s*:\s*.+?)?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>2</key>
-              <dict>
-                <key>name</key>
-                <string>support.class.component.link.component.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.component.link.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.component.link.interface.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.component.link.source.wsd</string>
-              </dict>
-              <key>7</key>
-              <dict>
-                <key>name</key>
-                <string>support.class.component.link.component.source.wsd</string>
-              </dict>
-              <key>9</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.component.link.interface.source.wsd</string>
-              </dict>
-              <key>10</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.component.link.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>links between component&amp;interface (assign dirct)</string>
-            <key>match</key>
-            <string>(?i)^\s*((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))\s+([-\.]{1,}(left|right|up|down)[-\.]{1,}\|?&gt;?)\s+((\[[^\]]+?\])|(\(\)\s+)?([^\s\\:]+|"[^\]]+?"))(\s*:\s*.+?)?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>2</key>
-              <dict>
-                <key>name</key>
-                <string>support.class.component.link.component.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.component.link.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.component.link.interface.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.component.link.source.wsd</string>
-              </dict>
-              <key>6</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.component.link.source.wsd</string>
-              </dict>
-              <key>8</key>
-              <dict>
-                <key>name</key>
-                <string>support.class.component.link.component.source.wsd</string>
-              </dict>
-              <key>9</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.component.link.interface.source.wsd</string>
-              </dict>
-              <key>10</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.component.link.interface.source.wsd</string>
-              </dict>
-              <key>11</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.component.link.source.wsd</string>
               </dict>
             </dict>
           </dict>
@@ -2220,109 +1973,6 @@
           </dict>
           <dict>
             <key>comment</key>
-            <string>links between state</string>
-            <key>match</key>
-            <string>(?i)^\s*((\[\*\])|[\w\d_]+)(\s+#(([\w\|\\\/\-]+)))?\s+([-\.]{1,}\|?&gt;?|&lt;?\|?[-\.]{1,})\s+((\[\*\])|[\w\d_]+)(\s+#(([\w\|\\\/\-]+)))?(\s*:\s*.+?)?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.state.link.state.source.wsd</string>
-              </dict>
-              <key>2</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.state.link.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.state.link.source.wsd</string>
-              </dict>
-              <key>6</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.state.link.source.wsd</string>
-              </dict>
-              <key>7</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.state.link.state.source.wsd</string>
-              </dict>
-              <key>8</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.state.link.source.wsd</string>
-              </dict>
-              <key>9</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.state.link.source.wsd</string>
-              </dict>
-              <key>12</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.state.link.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>links between state (assign dirct)</string>
-            <key>match</key>
-            <string>(?i)^\s*((\[\*\])|[\w\d_]+)(\s+#(([\w\|\\\/\-]+)))?\s+([-\.]{1,}(left|right|up|down)[-\.]{1,}\|?&gt;?)\s+((\[\*\])|[\w\d_]+)(\s+#(([\w\|\\\/\-]+)))?(\s*:\s*.+?)?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.state.link.state.source.wsd</string>
-              </dict>
-              <key>2</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.state.link.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.state.link.source.wsd</string>
-              </dict>
-              <key>6</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.state.link.source.wsd</string>
-              </dict>
-              <key>7</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.state.link.source.wsd</string>
-              </dict>
-              <key>8</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.state.link.state.source.wsd</string>
-              </dict>
-              <key>9</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.state.link.source.wsd</string>
-              </dict>
-              <key>10</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.state.link.source.wsd</string>
-              </dict>
-              <key>13</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.state.link.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
             <string>concurrent</string>
             <key>match</key>
             <string>(?i)^\s*(-{2,})\s*$</string>
@@ -2555,45 +2205,6 @@
                 <string>constant.numeric.object.definition.source.wsd</string>
               </dict>
             </array>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>links between object</string>
-            <key>match</key>
-            <string>(?i)^\s*([\w\d_]+|"[^"]+")(\s+("[^"]+"))?\s*(([&lt;o*+]|&lt;\|)?[-\.]{1,}([&gt;o*+]|\|&gt;)?)\s*(\s+("[^"]+")\s+)?([\w\d_]+|"[^"]+")(\s*:\s*(.+))?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.object.link.object.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.object.link.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.object.link.source.wsd</string>
-              </dict>
-              <key>8</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.object.link.source.wsd</string>
-              </dict>
-              <key>9</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.object.link.object.source.wsd</string>
-              </dict>
-              <key>11</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.object.link.source.wsd</string>
-              </dict>
-            </dict>
           </dict>
           <dict>
             <key>comment</key>
@@ -2925,99 +2536,6 @@
                 <string>#Class</string>
               </dict>
             </array>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>links between class</string>
-            <key>match</key>
-            <string>(?i)^\s*([\w\d_\.]+(\s*\(\))?)(\s+("[^"]+"))?\s*(([&lt;o*+]|&lt;\|)?[-\.]{1,}([&gt;o*+]|\|&gt;)?)\s*("[^"]+")?\s*([\w\d_\.]+(\s*\(\))?)(\s+#(([\w\|\\\/\-]+)))?(\s*:\s*.+?)?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.class.link.class.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>string.quoted.double.class.link.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.class.link.source.wsd</string>
-              </dict>
-              <key>8</key>
-              <dict>
-                <key>name</key>
-                <string>string.quoted.double.class.link.source.wsd</string>
-              </dict>
-              <key>9</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.class.link.class.source.wsd</string>
-              </dict>
-              <key>11</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.class.link.source.wsd</string>
-              </dict>
-              <key>14</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.class.link.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>links between class (assign dirct)</string>
-            <key>match</key>
-            <string>(?i)^\s*([\w\d_\.]+(\s*\(\))?)(\s+("[^"]+"))?\s*(([&lt;o*+]|\|&lt;)?[-\.]{1,}(left|right|up|down)[-\.]*([&gt;o*+]|\|&gt;)?)\s*("[^"]+")?\s*([\w\d_\.]+(\s*\(\))?)(\s+#(([\w\|\\\/\-]+)))?(\s*:\s*.+?)?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.class.link.class.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>string.quoted.double.class.link.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.operator.class.link.source.wsd</string>
-              </dict>
-              <key>7</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.class.link.source.wsd</string>
-              </dict>
-              <key>9</key>
-              <dict>
-                <key>name</key>
-                <string>string.quoted.double.class.link.source.wsd</string>
-              </dict>
-              <key>10</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.class.link.class.source.wsd</string>
-              </dict>
-              <key>12</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.class.link.source.wsd</string>
-              </dict>
-              <key>15</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.class.link.source.wsd</string>
-              </dict>
-            </dict>
           </dict>
           <dict>
             <key>comment</key>
