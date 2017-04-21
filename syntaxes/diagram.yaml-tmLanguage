@@ -20,10 +20,10 @@ patterns:
   - include: '#Style'
   - include: '#Class'
   - include: '#Object'
+  - include: '#Activity'
   - include: '#Sequence'
   - include: '#Usecase'
   - include: '#State'
-  - include: '#Activity'
   - include: '#Component'
   - include: '#Gerneral'
 
@@ -32,10 +32,10 @@ patterns:
 - include: '#Style'
 - include: '#Class'
 - include: '#Object'
+- include: '#Activity'
 - include: '#Sequence'
 - include: '#Usecase'
 - include: '#State'
-- include: '#Activity'
 - include: '#Component'
 - include: '#Gerneral'
 
@@ -157,24 +157,16 @@ repository:
       name: string.quoted.single.source.wsd
       begin: ''''
       end: ''''
-    - comment: CONSTANT
-      name: support.constant.source.wsd
-      match: \b[A-Z]+[A-Z_0-9]+\b
+    - comment: Variables
+      name: support.variable.source.wsd
+      match: \b[_0-9\w]+
   Activity:
     patterns:
     - comment: inline items
       match: (?i)^\s*(#[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|(\w+))?(:)(.+)([;|<>/\]\}])\s*$
       captures:
         '1': {name: constant.numeric.activity.items.source.wsd}
-        '4': {name: entity.other.activity.items.source.wsd}
-    - comment: multi-line items
-      begin: ^\s*(#.+)?(:)
-      beginCaptures:
-        '1': {name: constant.numeric.activity.items.source.wsd}
-      end: ([;|<>/\]\}])\s*$
-      patterns:
-      - name: entity.other.activity.items.source.wsd
-        match: .+?
+        '4': {name: support.variable.activity.items.source.wsd}
     - comment: Swimlanes
       match: (?i)(\|(#.+))?\|([^\|]+)\|\s*$
       captures:
@@ -231,15 +223,15 @@ repository:
       match: (?i)^\s*([rh]?note ((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:
         '1': {name: keyword.other.sequence.note.source.wsd}
-        '4': {name: entity.other.sequence.note.source.wsd}
+        '4': {name: support.variable.sequence.note.source.wsd}
         '5': {name: constant.numeric.sequence.note.source.wsd}
         '8': {name: comment.line.sequence.note.source.wsd}
     - comment: multi-line note for Sequence
       begin: (?i)^\s*([rh]?note\s+((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$
       beginCaptures:
         '1': {name: keyword.other.sequence.note.source.wsd}
-        '2': {name: entity.other.sequence.note.source.wsd}
-        '4': {name: entity.other.sequence.note.source.wsd}
+        '2': {name: support.variable.sequence.note.source.wsd}
+        '4': {name: support.variable.sequence.note.source.wsd}
         '5': {name: constant.numeric.sequence.note.source.wsd}
       end: (?i)^\s*(end\s+[rh]?note)
       endCaptures:
@@ -251,10 +243,10 @@ repository:
       match: (?i)^\s*(actor|participant|boundary|control|entity|database)\s+((".+?")|[\w\d_]+)\s*(\s(as)\s((".+?")|[\w\d_]+)\s*)?(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|([\w\|\\\/\-]+))\s*)?$
       captures:
         '1': {name: keyword.other.sequence.definition.source.wsd}
-        '2': {name: entity.other.sequence.definition.source.wsd}
+        '2': {name: support.variable.sequence.definition.source.wsd}
         '3': {name: string.quoted.double.sequence.definition.source.wsd}
         '5': {name: keyword.other.sequence.definition.source.wsd}
-        '6': {name: entity.other.sequence.definition.source.wsd}
+        '6': {name: support.variable.sequence.definition.source.wsd}
         '7': {name: string.quoted.double.sequence.definition.source.wsd}
         '8': {name: constant.numeric.sequence.definition.source.wsd}
     - comment: create participant
@@ -262,10 +254,10 @@ repository:
       captures:
         '1': {name: keyword.other.sequence.create.source.wsd}
         '3': {name: keyword.other.sequence.create.source.wsd}
-        '4': {name: entity.other.sequence.create.source.wsd}
+        '4': {name: support.variable.sequence.create.source.wsd}
         '5': {name: string.quoted.double.sequence.create.source.wsd}
         '7': {name: keyword.other.sequence.create.source.wsd}
-        '8': {name: entity.other.sequence.create.source.wsd}
+        '8': {name: support.variable.sequence.create.source.wsd}
         '9': {name: string.quoted.double.sequence.create.source.wsd}
         '10': {name: constant.numeric.sequence.create.source.wsd}
     - comment: autonumber
@@ -288,12 +280,12 @@ repository:
       match: (?i)^\s*(alt|else|opt|loop|par|break|critical|group)(\s+(.+?))?\s*$
       captures:
         '1': {name: keyword.other.sequence.other.source.wsd}
-        '2': {name: string.quoted.double.sequence.other.source.wsd}
+        '3': {name: string.quoted.double.sequence.other.source.wsd}
     - comment: lifeline
       match: (?i)^\s*(activate|deactivate|destroy)(\s+(.+?))?\s*$
       captures:
         '1': {name: keyword.other.sequence.lifeline.source.wsd}
-        '2': {name: entity.other.sequence.lifeline.source.wsd}
+        '2': {name: support.variable.sequence.lifeline.source.wsd}
     - comment: divider
       match: (?i)^\s*(={2,})\s*(.+?)\s*(={2,})\s*$
       captures:
@@ -308,13 +300,13 @@ repository:
       match: (?i)^\s*(ref\s+over)\s+(.+?)\s*:\s*(.+)\s*$
       captures:
         '1': {name: keyword.other.sequence.ref.source.wsd}
-        '2': {name: entity.other.sequence.ref.source.wsd}
+        '2': {name: support.variable.sequence.ref.source.wsd}
         '3': {name: comment.line.sequence.ref.source.wsd}
     - comment: multi-line ref
       begin: (?i)^\s*(ref\s+over)\s+(.+?)\s*$
       beginCaptures:
         '1': {name: keyword.other.sequence.ref.source.wsd}
-        '2': {name: entity.other.sequence.ref.source.wsd}
+        '2': {name: support.variable.sequence.ref.source.wsd}
       end: (?i)end\s+ref
       endCaptures:
         '0': {name: keyword.other.sequence.ref.source.wsd}
@@ -351,59 +343,52 @@ repository:
       begin: (?i)^\s*(usecase)\s+([^\s\\]+)\s+(as)\s+("[^"]+)\s*$
       beginCaptures:
         '1': {name: keyword.other.usecase.definition.source.wsd}
-        '2': {name: entity.other.usecase.definition.source.wsd}
+        '2': {name: support.variable.usecase.definition.source.wsd}
         '3': {name: keyword.other.usecase.definition.source.wsd}
-        '4': {name: entity.other.usecase.definition.source.wsd}
+        '4': {name: support.variable.usecase.definition.source.wsd}
       end: .+"\s*$
       endCaptures:
-        '0': {name: entity.other.usecase.definition.source.wsd}
+        '0': {name: support.variable.usecase.definition.source.wsd}
       patterns:
-        - name: entity.other.usecase.definition.source.wsd
+        - name: support.variable.usecase.definition.source.wsd
           match: (?i).+
-    - comment: usecase simple definition
-      match: (?i)^\s*(\([^\)]+?\))(\s+(as)\s+([^\s\\]+|\([^\)]+?\)))?(\s*(<<.+?>>))?\s*$
-      captures:
-        '1': {name: entity.other.usecase.definition.source.wsd}
-        '3': {name: keyword.other.usecase.definition.source.wsd}
-        '4': {name: entity.other.usecase.definition.source.wsd}
-        '5': {name: constant.numeric.usecase.definition.source.wsd}
     - comment: usecase definition
       match: (?i)^\s*(usecase)\s+([^\s\\]+|\([^\)]+?\))(\s+(as)\s+([^\s\\]+|\([^\)]+?\)))?(\s*(<<.+?>>))?\s*$
       captures:
         '1': {name: keyword.other.usecase.usecase.source.wsd}
-        '2': {name: entity.other.usecase.definition.source.wsd}
+        '2': {name: support.variable.usecase.definition.source.wsd}
         '4': {name: keyword.other.usecase.definition.source.wsd}
-        '5': {name: entity.other.usecase.definition.source.wsd}
+        '5': {name: support.variable.usecase.definition.source.wsd}
         '7': {name: constant.numeric.usecase.definition.source.wsd}
     - comment: actor simple definition
-      match: (?i)(:[^:]+?:)
+      match: (?i)(?::([^:]+?):)
       captures:
-        '1': {name: entity.other.usecase.actor.source.wsd}
+        '1': {name: support.variable.usecase.actor.source.wsd}
     - comment: actor definition
       match: (?i)^\s*(actor)\s+(([^\s\\]+)|:[^:]+?:|".+?")(\s*(as)\s+([\w\d]+))?(\s*(<<.+?>>))?\s*$
       captures:
         '1': {name: keyword.other.usecase.actor.source.wsd}
-        '2': {name: entity.other.usecase.actor.source.wsd}
+        '2': {name: support.variable.usecase.actor.source.wsd}
         '5': {name: keyword.other.usecase.actor.source.wsd}
-        '6': {name: entity.other.usecase.actor.source.wsd}
+        '6': {name: support.variable.usecase.actor.source.wsd}
         '8': {name: constant.numeric.usecase.definition.source.wsd}
     - comment: actor definition with Stereotypes no bracket
       match: (?i)^\s*([^\(\)\\\s]+)\s+(<<.+?>>)\s*$
       captures:
-        '1': {name: entity.other.usecase.definition.source.wsd}
+        '1': {name: support.variable.usecase.definition.source.wsd}
         '2': {name: constant.numeric.usecase.definition.source.wsd}
     - comment: inline note for Sequence
       match: (?i)^\s*(note ((right|left|top|bottom)\s+of|over))\s+(\(.+?\)|[^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:
         '1': {name: keyword.other.usecase.note.source.wsd}
-        '4': {name: entity.other.usecase.note.source.wsd}
+        '4': {name: support.variable.usecase.note.source.wsd}
         '5': {name: constant.numeric.usecase.note.source.wsd}
         '8': {name: comment.line.usecase.note.source.wsd}
     - comment: multi-line note & noteAs for usecase
       begin: (?i)^\s*(note\s+((right|left|top|bottom)\s+of|over|as))\s+([^\s\[\]\(\)]+?|\(.+?\))\s*$
       beginCaptures:
         '1': {name: keyword.other.usecase.note.source.wsd}
-        '4': {name: entity.other.usecase.note.source.wsd}
+        '4': {name: support.variable.usecase.note.source.wsd}
       end: (?i)^\s*(end\s+note)
       endCaptures:
         '1': {name: keyword.other.usecase.note.source.wsd}
@@ -416,7 +401,7 @@ repository:
         '1': {name: keyword.other.usecase.noteas.source.wsd}
         '3': {name: keyword.other.usecase.noteas.source.wsd}
         '2': {name: comment.line.usecase.noteas.source.wsd}
-        '4': {name: entity.other.usecase.noteas.source.wsd}
+        '4': {name: support.variable.usecase.noteas.source.wsd}
     - comment: new page
       match: (?i)^\s*(newpage)(.+?)?\s*$
       captures:
@@ -455,24 +440,24 @@ repository:
       match: (?i)^\s*(\(\))\s+([^\s\\]+|"[^\]]+?")(\s+(as)\s+([^\s\\]+|"[^\]]+?"))?(\s+#(([\w\|\\\/\-]+)))?\s*$
       captures:
         '1': {name: keyword.operator.component.interface.definition.source.wsd}
-        '2': {name: entity.other.component.definition.source.wsd}
+        '2': {name: support.variable.component.definition.source.wsd}
         '4': {name: keyword.other.component.interface.definition.source.wsd}
-        '5': {name: entity.other.component.interface.definition.source.wsd}
+        '5': {name: support.variable.component.interface.definition.source.wsd}
         '6': {name: constant.numeric.component.interface.definition.source.wsd}
     - comment: interface definition
       match: (?i)^\s*(interface)\s+([^\s\\]+|"[^\]]+?")(\s+(as)\s+([^\s\\]+|"[^\]]+?"))?(\s+#(([\w\|\\\/\-]+)))?\s*$
       captures:
         '1': {name: keyword.other.component.interface.source.wsd}
-        '2': {name: entity.other.component.interface.definition.source.wsd}
+        '2': {name: support.variable.component.interface.definition.source.wsd}
         '4': {name: keyword.other.component.interface.definition.source.wsd}
-        '5': {name: entity.other.component.interface.definition.source.wsd}
+        '5': {name: support.variable.component.interface.definition.source.wsd}
         '6': {name: constant.numeric.component.interface.definition.source.wsd}
     - comment: inline note for component
       match: (?i)^\s*(note\s+(right|left)\s+of)\s+((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:
         '1': {name: keyword.other.component.note.source.wsd}
         '4': {name: support.class.component.note.component.source.wsd}
-        '6': {name: entity.other.component.note.interface.source.wsd}
+        '6': {name: support.variable.component.note.interface.source.wsd}
         '7': {name: constant.numeric.component.note.color.source.wsd}
         '10': {name: comment.line.component.note.source.wsd}
     - comment: multi-line note for component
@@ -480,7 +465,7 @@ repository:
       beginCaptures:
         '1': {name: keyword.other.component.note.source.wsd}
         '4': {name: support.class.component.note.component.source.wsd}
-        '6': {name: entity.other.component.note.interface.source.wsd}
+        '6': {name: support.variable.component.note.interface.source.wsd}
         '7': {name: constant.numeric.component.note.source.wsd}
       end: (?i)^\s*(end\s+note)
       endCaptures:
@@ -506,24 +491,24 @@ repository:
     - comment: state simple definition
       match: (?i)^\s*([\w\d_]+)\s*:\s*(.+?)\s*$
       captures:
-        '1': {name: entity.other.state.definition.source.wsd}
+        '1': {name: support.variable.state.definition.source.wsd}
         '2': {name: comment.line.state.definition.source.wsd}
     - comment: state definition
       match: (?i)^\s*(state)\s+([\w\d_]+|"[^"]+")(\s+(as)\s+([\w\d_]+))?(\s+#(([\w\|\\\/\-]+)))?(\s*:\s*(.+?))?\s*$
       captures:
         '1': {name: keyword.other.state.definition.source.wsd}
-        '2': {name: entity.other.state.definition.source.wsd}
+        '2': {name: support.variable.state.definition.source.wsd}
         '4': {name: keyword.other.state.definition.source.wsd}
-        '5': {name: entity.other.state.definition.source.wsd}
+        '5': {name: support.variable.state.definition.source.wsd}
         '6': {name: constant.numeric.state.definition.source.wsd}
         '9': {name: comment.line.state.definition.source.wsd}
     - comment: state group
       begin: (?i)^\s*(state)\s+([\w\d_]+|"[^"]+")(\s+(as)\s+([\w\d_]+))?(\s+#(([\w\|\\\/\-]+)))?\s*\{\s*$
       beginCaptures:
         '1': {name: keyword.other.state.group.source.wsd}
-        '2': {name: entity.other.state.group.source.wsd}
+        '2': {name: support.variable.state.group.source.wsd}
         '4': {name: keyword.other.state.group.source.wsd}
-        '5': {name: entity.other.state.group.source.wsd}
+        '5': {name: support.variable.state.group.source.wsd}
         '6': {name: constant.numeric.state.definition.source.wsd}
       end: ^\s*(?<!\\)\}\s*$
       patterns:
@@ -537,15 +522,14 @@ repository:
       match: (?i)^\s*([rh]?note ((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:
         '1': {name: keyword.other.state.note.source.wsd}
-        '4': {name: entity.other.state.note.source.wsd}
+        '4': {name: support.variable.state.note.source.wsd}
         '5': {name: constant.numeric.state.note.source.wsd}
         '8': {name: comment.line.state.note.source.wsd}
     - comment: multi-line note for state
       begin: (?i)^\s*([rh]?note\s+((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$
       beginCaptures:
         '1': {name: keyword.other.state.note.source.wsd}
-        '2': {name: entity.other.state.note.source.wsd}
-        '4': {name: entity.other.state.note.source.wsd}
+        '4': {name: support.variable.state.note.source.wsd}
         '5': {name: constant.numeric.state.note.source.wsd}
       end: (?i)^\s*(end\s+[rh]?note)
       endCaptures:
@@ -559,24 +543,24 @@ repository:
         '1': {name: keyword.other.state.noteas.source.wsd}
         '3': {name: keyword.other.state.noteas.source.wsd}
         '2': {name: comment.line.state.noteas.source.wsd}
-        '4': {name: entity.other.state.noteas.source.wsd}
+        '4': {name: support.variable.state.noteas.source.wsd}
   Object:
     patterns:
     - comment: object inline definition
       match: (?i)^\s*(object)\s+([\w\d_]+|"[^"]+")(\s+(as)\s+([\w\d_]+))?(\s+#(([\w\|\\\/\-]+)))?\s*$
       captures:
         '1': {name: keyword.other.object.definition.source.wsd}
-        '2': {name: entity.other.object.definition.source.wsd}
+        '2': {name: support.variable.object.definition.source.wsd}
         '4': {name: keyword.other.object.definition.source.wsd}
-        '5': {name: entity.other.object.definition.source.wsd}
+        '5': {name: support.variable.object.definition.source.wsd}
         '6': {name: constant.numeric.object.definition.source.wsd}
     - comment: object multi-line definition
       begin: (?i)^\s*(object)\s+([\w\d_]+|"[^"]+")(\s+(as)\s+([\w\d_]+))?(\s+#(([\w\|\\\/\-]+)))?\s*\{\s*$
       beginCaptures:
         '1': {name: keyword.other.object.definition.source.wsd}
-        '2': {name: entity.other.object.definition.source.wsd}
+        '2': {name: support.variable.object.definition.source.wsd}
         '4': {name: keyword.other.object.definition.source.wsd}
-        '5': {name: entity.other.object.definition.source.wsd}
+        '5': {name: support.variable.object.definition.source.wsd}
         '6': {name: constant.numeric.object.definition.source.wsd}
       end: ^\s*(?<!\\)\}\s*$
       patterns:
@@ -584,7 +568,7 @@ repository:
       - comment: fields
         match: (?i)^\s*([\w\d_].+?)\s*(=)\s*("?.+?"?)\s*$
         captures:
-          '1': {name: entity.other.object.definition.source.wsd}
+          '1': {name: support.variable.object.definition.source.wsd}
           '2': {name: keyword.operator.object.definition.source.wsd}
           '3': {name: constant.numeric.object.definition.source.wsd}
       - comment: fields other
@@ -593,14 +577,14 @@ repository:
     - comment: add object fileds
       match: (?i)^\s*([\w\d_]+)\s+:\s+s*$
       captures:
-        '1': {name: entity.other.object.addfileds.source.wsd}
+        '1': {name: support.variable.object.addfileds.source.wsd}
         '2': {name: comment.line.object.addfileds.source.wsd}
   Class:
     patterns:
     - comment: class simple definition
       match: (?i)^\s*([\w\d_\.]+)\s+:\s+(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?(.+?)\s*$
       captures:
-        '1': {name: entity.other.class.definition.source.wsd}
+        '1': {name: support.variable.class.definition.source.wsd}
         '2': {name: storage.modifier.class.fileds.source.wsd}
         '4': {name: keyword.other.class.definition.source.wsd}
         '5': {name: comment.line.class.definition.source.wsd}
@@ -608,10 +592,10 @@ repository:
       match: (?i)^\s*(annotation|enum|abstract|class|abstract\s+class)\s+([\w\d_\.]+|"[^"]+")(\s*(<<.+?>>))?(\s+(as)\s+([\w\d_\.]+|"[^"]+")(\s*(<<.+?>>))?)?(\s+#(([\w\|\\\/\-]+)))?(\s*:\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?(.+?))?\s*$
       captures:
         '1': {name: keyword.other.class.definition.source.wsd}
-        '2': {name: entity.other.class.definition.source.wsd}
+        '2': {name: support.variable.class.definition.source.wsd}
         '4': {name: string.quoted.double.class.definition.source.wsd}
         '6': {name: keyword.other.class.definition.source.wsd}
-        '7': {name: entity.other.class.definition.source.wsd}
+        '7': {name: support.variable.class.definition.source.wsd}
         '9': {name: string.quoted.double.class.definition.source.wsd}
         '10': {name: constant.numeric.class.definition.source.wsd}
         '14': {name: storage.modifier.class.fileds.source.wsd}
@@ -621,10 +605,10 @@ repository:
       begin: (?i)^\s*(enum|abstract|class|abstract\s+class)\s+([\w\d_\.]+|"[^"]+")(\s*(<<.+?>>))?(\s+(as)\s+([\w\d_\.]+|"[^"]+")(\s*(<<.+?>>))?)?(\s+#(([\w\|\\\/\-]+)))?\s*\{\s*$
       beginCaptures:
         '1': {name: keyword.other.class.group.source.wsd}
-        '2': {name: entity.other.class.group.source.wsd}
+        '2': {name: support.variable.class.group.source.wsd}
         '4': {name: string.quoted.double.class.definition.source.wsd}
         '6': {name: keyword.other.class.group.source.wsd}
-        '7': {name: entity.other.class.group.source.wsd}
+        '7': {name: support.variable.class.group.source.wsd}
         '9': {name: string.quoted.double.class.definition.source.wsd}
         '10': {name: constant.numeric.class.definition.source.wsd}
       end: ^\s*(?<!\\)\}\s*$
@@ -641,15 +625,15 @@ repository:
           '1': {name: storage.modifier.class.fileds.source.wsd}
           '3': {name: keyword.other.class.fileds.source.wsd}
           '5': {name: support.type.class.function.source.wsd}
-          '7': {name: entity.other.class.function.source.wsd}
+          '7': {name: support.variable.class.function.source.wsd}
       - comment: fields
         match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?((\w+(\[\])?)\s+([0-9a-zA-Z_]+)|([0-9a-zA-Z_]+)\s*:\s*(\w+))\s*$
         captures:
           '1': {name: storage.modifier.class.fileds.source.wsd}
           '3': {name: keyword.other.class.fileds.source.wsd}
           '5': {name: support.type.class.fileds.source.wsd}
-          '7': {name: entity.other.class.fileds.source.wsd}
-          '8': {name: entity.other.class.fileds.source.wsd}
+          '7': {name: support.variable.class.fileds.source.wsd}
+          '8': {name: support.variable.class.fileds.source.wsd}
           '9': {name: support.type.class.fileds.source.wsd}
       - comment: other fileds/function
         match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?(.+?)\s*$
@@ -661,10 +645,10 @@ repository:
       begin: (?i)^\s*(namespace)\s+([\w\d_\.]+|"[^"]+")(\s*(<<.+?>>))?(\s+(as)\s+([\w\d_\.]+|"[^"]+")(\s*(<<.+?>>))?)?(\s+#(([\w\|\\\/\-]+)))?\s*\{\s*$
       beginCaptures:
         '1': {name: keyword.other.class.group.source.wsd}
-        '2': {name: entity.other.class.group.source.wsd}
+        '2': {name: support.variable.class.group.source.wsd}
         '4': {name: string.quoted.double.class.definition.source.wsd}
         '6': {name: keyword.other.class.group.source.wsd}
-        '7': {name: entity.other.class.group.source.wsd}
+        '7': {name: support.variable.class.group.source.wsd}
         '9': {name: string.quoted.double.class.definition.source.wsd}
         '10': {name: constant.numeric.class.definition.source.wsd}
       end: ^\s*(?<!\\)\}\s*$
@@ -674,15 +658,14 @@ repository:
       match: (?i)^\s*(note\s+(right|left|top|bottom)\s+of)\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:
         '1': {name: keyword.other.class.note.source.wsd}
-        '3': {name: entity.other.class.note.source.wsd}
+        '3': {name: support.variable.class.note.source.wsd}
         '4': {name: constant.numeric.class.note.source.wsd}
         '7': {name: comment.line.class.note.source.wsd}
     - comment: multi-line note for class
       begin: (?i)^\s*(note\s+(right|left|top|bottom)\s+of)\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$
       beginCaptures:
         '1': {name: keyword.other.class.note.source.wsd}
-        '3': {name: entity.other.class.note.source.wsd}
-        '5': {name: entity.other.class.note.source.wsd}
+        '3': {name: support.variable.class.note.source.wsd}
         '6': {name: constant.numeric.class.note.source.wsd}
       end: (?i)^\s*(end\s+note)
       endCaptures:
@@ -711,13 +694,13 @@ repository:
       match: (?i)^\s*(hide|show)\s+(([\w\d_\.]+|"[^"]+")|<<.+?>>|Stereotypes|class|interface|enum)(\s+(empty fields|empty methods|fields|attributes|methods|members|circle))?\s*$
       captures:
         '1': {name: keyword.other.class.hideshow.source.wsd}
-        '2': {name: entity.other.class.hideshow.source.wsd}
+        '2': {name: support.variable.class.hideshow.source.wsd}
         '5': {name: constant.numeric.class.hideshow.source.wsd}
     - comment: package
       begin: (?i)^\s*(package)\s+([\w\d_\.]+|"[^"]+")(\s+(<<\s*(.+?)\s*>>))?(\s+#(([\w\|\\\/\-]+)))?\s*\{\s*$
       beginCaptures:
         '1': {name: keyword.other.class.package.source.wsd}
-        '2': {name: entity.other.class.package.source.wsd}
+        '2': {name: support.variable.class.package.source.wsd}
         '4': {name: string.quoted.double.class.definition.source.wsd}
         '6': {name: constant.numeric.class.definition.source.wsd}
       end: (?i)^\s*(?<!\\)\}\s*$

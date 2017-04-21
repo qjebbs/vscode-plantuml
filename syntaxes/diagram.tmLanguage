@@ -72,6 +72,10 @@
           </dict>
           <dict>
             <key>include</key>
+            <string>#Activity</string>
+          </dict>
+          <dict>
+            <key>include</key>
             <string>#Sequence</string>
           </dict>
           <dict>
@@ -81,10 +85,6 @@
           <dict>
             <key>include</key>
             <string>#State</string>
-          </dict>
-          <dict>
-            <key>include</key>
-            <string>#Activity</string>
           </dict>
           <dict>
             <key>include</key>
@@ -114,6 +114,10 @@
       </dict>
       <dict>
         <key>include</key>
+        <string>#Activity</string>
+      </dict>
+      <dict>
+        <key>include</key>
         <string>#Sequence</string>
       </dict>
       <dict>
@@ -123,10 +127,6 @@
       <dict>
         <key>include</key>
         <string>#State</string>
-      </dict>
-      <dict>
-        <key>include</key>
-        <string>#Activity</string>
       </dict>
       <dict>
         <key>include</key>
@@ -545,11 +545,11 @@
           </dict>
           <dict>
             <key>comment</key>
-            <string>CONSTANT</string>
+            <string>Variables</string>
             <key>name</key>
-            <string>support.constant.source.wsd</string>
+            <string>support.variable.source.wsd</string>
             <key>match</key>
-            <string>\b[A-Z]+[A-Z_0-9]+\b</string>
+            <string>\b[_0-9\w]+</string>
           </dict>
         </array>
       </dict>
@@ -572,34 +572,9 @@
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.activity.items.source.wsd</string>
+                <string>support.variable.activity.items.source.wsd</string>
               </dict>
             </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>multi-line items</string>
-            <key>begin</key>
-            <string>^\s*(#.+)?(:)</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.activity.items.source.wsd</string>
-              </dict>
-            </dict>
-            <key>end</key>
-            <string>([;|&lt;&gt;/\]\}])\s*$</string>
-            <key>patterns</key>
-            <array>
-              <dict>
-                <key>name</key>
-                <string>entity.other.activity.items.source.wsd</string>
-                <key>match</key>
-                <string>.+?</string>
-              </dict>
-            </array>
           </dict>
           <dict>
             <key>comment</key>
@@ -807,7 +782,7 @@
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.note.source.wsd</string>
+                <string>support.variable.sequence.note.source.wsd</string>
               </dict>
               <key>5</key>
               <dict>
@@ -836,12 +811,12 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.note.source.wsd</string>
+                <string>support.variable.sequence.note.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.note.source.wsd</string>
+                <string>support.variable.sequence.note.source.wsd</string>
               </dict>
               <key>5</key>
               <dict>
@@ -884,7 +859,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.definition.source.wsd</string>
+                <string>support.variable.sequence.definition.source.wsd</string>
               </dict>
               <key>3</key>
               <dict>
@@ -899,7 +874,7 @@
               <key>6</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.definition.source.wsd</string>
+                <string>support.variable.sequence.definition.source.wsd</string>
               </dict>
               <key>7</key>
               <dict>
@@ -933,7 +908,7 @@
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.create.source.wsd</string>
+                <string>support.variable.sequence.create.source.wsd</string>
               </dict>
               <key>5</key>
               <dict>
@@ -948,7 +923,7 @@
               <key>8</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.create.source.wsd</string>
+                <string>support.variable.sequence.create.source.wsd</string>
               </dict>
               <key>9</key>
               <dict>
@@ -1042,7 +1017,7 @@
                 <key>name</key>
                 <string>keyword.other.sequence.other.source.wsd</string>
               </dict>
-              <key>2</key>
+              <key>3</key>
               <dict>
                 <key>name</key>
                 <string>string.quoted.double.sequence.other.source.wsd</string>
@@ -1064,7 +1039,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.lifeline.source.wsd</string>
+                <string>support.variable.sequence.lifeline.source.wsd</string>
               </dict>
             </dict>
           </dict>
@@ -1121,7 +1096,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.ref.source.wsd</string>
+                <string>support.variable.sequence.ref.source.wsd</string>
               </dict>
               <key>3</key>
               <dict>
@@ -1145,7 +1120,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.sequence.ref.source.wsd</string>
+                <string>support.variable.sequence.ref.source.wsd</string>
               </dict>
             </dict>
             <key>end</key>
@@ -1277,7 +1252,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.definition.source.wsd</string>
+                <string>support.variable.usecase.definition.source.wsd</string>
               </dict>
               <key>3</key>
               <dict>
@@ -1287,7 +1262,7 @@
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.definition.source.wsd</string>
+                <string>support.variable.usecase.definition.source.wsd</string>
               </dict>
             </dict>
             <key>end</key>
@@ -1297,47 +1272,18 @@
               <key>0</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.definition.source.wsd</string>
+                <string>support.variable.usecase.definition.source.wsd</string>
               </dict>
             </dict>
             <key>patterns</key>
             <array>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.definition.source.wsd</string>
+                <string>support.variable.usecase.definition.source.wsd</string>
                 <key>match</key>
                 <string>(?i).+</string>
               </dict>
             </array>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>usecase simple definition</string>
-            <key>match</key>
-            <string>(?i)^\s*(\([^\)]+?\))(\s+(as)\s+([^\s\\]+|\([^\)]+?\)))?(\s*(&lt;&lt;.+?&gt;&gt;))?\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.usecase.definition.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.usecase.definition.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.usecase.definition.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.usecase.definition.source.wsd</string>
-              </dict>
-            </dict>
           </dict>
           <dict>
             <key>comment</key>
@@ -1354,7 +1300,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.definition.source.wsd</string>
+                <string>support.variable.usecase.definition.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
@@ -1364,7 +1310,7 @@
               <key>5</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.definition.source.wsd</string>
+                <string>support.variable.usecase.definition.source.wsd</string>
               </dict>
               <key>7</key>
               <dict>
@@ -1377,13 +1323,13 @@
             <key>comment</key>
             <string>actor simple definition</string>
             <key>match</key>
-            <string>(?i)(:[^:]+?:)</string>
+            <string>(?i)(?::([^:]+?):)</string>
             <key>captures</key>
             <dict>
               <key>1</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.actor.source.wsd</string>
+                <string>support.variable.usecase.actor.source.wsd</string>
               </dict>
             </dict>
           </dict>
@@ -1402,7 +1348,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.actor.source.wsd</string>
+                <string>support.variable.usecase.actor.source.wsd</string>
               </dict>
               <key>5</key>
               <dict>
@@ -1412,7 +1358,7 @@
               <key>6</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.actor.source.wsd</string>
+                <string>support.variable.usecase.actor.source.wsd</string>
               </dict>
               <key>8</key>
               <dict>
@@ -1431,7 +1377,7 @@
               <key>1</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.definition.source.wsd</string>
+                <string>support.variable.usecase.definition.source.wsd</string>
               </dict>
               <key>2</key>
               <dict>
@@ -1455,7 +1401,7 @@
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.note.source.wsd</string>
+                <string>support.variable.usecase.note.source.wsd</string>
               </dict>
               <key>5</key>
               <dict>
@@ -1484,7 +1430,7 @@
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.note.source.wsd</string>
+                <string>support.variable.usecase.note.source.wsd</string>
               </dict>
             </dict>
             <key>end</key>
@@ -1532,7 +1478,7 @@
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.usecase.noteas.source.wsd</string>
+                <string>support.variable.usecase.noteas.source.wsd</string>
               </dict>
             </dict>
           </dict>
@@ -1679,7 +1625,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.component.definition.source.wsd</string>
+                <string>support.variable.component.definition.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
@@ -1689,7 +1635,7 @@
               <key>5</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.component.interface.definition.source.wsd</string>
+                <string>support.variable.component.interface.definition.source.wsd</string>
               </dict>
               <key>6</key>
               <dict>
@@ -1713,7 +1659,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.component.interface.definition.source.wsd</string>
+                <string>support.variable.component.interface.definition.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
@@ -1723,7 +1669,7 @@
               <key>5</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.component.interface.definition.source.wsd</string>
+                <string>support.variable.component.interface.definition.source.wsd</string>
               </dict>
               <key>6</key>
               <dict>
@@ -1752,7 +1698,7 @@
               <key>6</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.component.note.interface.source.wsd</string>
+                <string>support.variable.component.note.interface.source.wsd</string>
               </dict>
               <key>7</key>
               <dict>
@@ -1786,7 +1732,7 @@
               <key>6</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.component.note.interface.source.wsd</string>
+                <string>support.variable.component.note.interface.source.wsd</string>
               </dict>
               <key>7</key>
               <dict>
@@ -1876,7 +1822,7 @@
               <key>1</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.state.definition.source.wsd</string>
+                <string>support.variable.state.definition.source.wsd</string>
               </dict>
               <key>2</key>
               <dict>
@@ -1900,7 +1846,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.state.definition.source.wsd</string>
+                <string>support.variable.state.definition.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
@@ -1910,7 +1856,7 @@
               <key>5</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.state.definition.source.wsd</string>
+                <string>support.variable.state.definition.source.wsd</string>
               </dict>
               <key>6</key>
               <dict>
@@ -1939,7 +1885,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.state.group.source.wsd</string>
+                <string>support.variable.state.group.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
@@ -1949,7 +1895,7 @@
               <key>5</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.state.group.source.wsd</string>
+                <string>support.variable.state.group.source.wsd</string>
               </dict>
               <key>6</key>
               <dict>
@@ -2000,7 +1946,7 @@
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.state.note.source.wsd</string>
+                <string>support.variable.state.note.source.wsd</string>
               </dict>
               <key>5</key>
               <dict>
@@ -2026,15 +1972,10 @@
                 <key>name</key>
                 <string>keyword.other.state.note.source.wsd</string>
               </dict>
-              <key>2</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.state.note.source.wsd</string>
-              </dict>
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.state.note.source.wsd</string>
+                <string>support.variable.state.note.source.wsd</string>
               </dict>
               <key>5</key>
               <dict>
@@ -2087,7 +2028,7 @@
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.state.noteas.source.wsd</string>
+                <string>support.variable.state.noteas.source.wsd</string>
               </dict>
             </dict>
           </dict>
@@ -2112,7 +2053,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.object.definition.source.wsd</string>
+                <string>support.variable.object.definition.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
@@ -2122,7 +2063,7 @@
               <key>5</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.object.definition.source.wsd</string>
+                <string>support.variable.object.definition.source.wsd</string>
               </dict>
               <key>6</key>
               <dict>
@@ -2146,7 +2087,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.object.definition.source.wsd</string>
+                <string>support.variable.object.definition.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
@@ -2156,7 +2097,7 @@
               <key>5</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.object.definition.source.wsd</string>
+                <string>support.variable.object.definition.source.wsd</string>
               </dict>
               <key>6</key>
               <dict>
@@ -2182,7 +2123,7 @@
                   <key>1</key>
                   <dict>
                     <key>name</key>
-                    <string>entity.other.object.definition.source.wsd</string>
+                    <string>support.variable.object.definition.source.wsd</string>
                   </dict>
                   <key>2</key>
                   <dict>
@@ -2216,7 +2157,7 @@
               <key>1</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.object.addfileds.source.wsd</string>
+                <string>support.variable.object.addfileds.source.wsd</string>
               </dict>
               <key>2</key>
               <dict>
@@ -2241,7 +2182,7 @@
               <key>1</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.class.definition.source.wsd</string>
+                <string>support.variable.class.definition.source.wsd</string>
               </dict>
               <key>2</key>
               <dict>
@@ -2275,7 +2216,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.class.definition.source.wsd</string>
+                <string>support.variable.class.definition.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
@@ -2290,7 +2231,7 @@
               <key>7</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.class.definition.source.wsd</string>
+                <string>support.variable.class.definition.source.wsd</string>
               </dict>
               <key>9</key>
               <dict>
@@ -2334,7 +2275,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.class.group.source.wsd</string>
+                <string>support.variable.class.group.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
@@ -2349,7 +2290,7 @@
               <key>7</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.class.group.source.wsd</string>
+                <string>support.variable.class.group.source.wsd</string>
               </dict>
               <key>9</key>
               <dict>
@@ -2415,7 +2356,7 @@
                   <key>7</key>
                   <dict>
                     <key>name</key>
-                    <string>entity.other.class.function.source.wsd</string>
+                    <string>support.variable.class.function.source.wsd</string>
                   </dict>
                 </dict>
               </dict>
@@ -2444,12 +2385,12 @@
                   <key>7</key>
                   <dict>
                     <key>name</key>
-                    <string>entity.other.class.fileds.source.wsd</string>
+                    <string>support.variable.class.fileds.source.wsd</string>
                   </dict>
                   <key>8</key>
                   <dict>
                     <key>name</key>
-                    <string>entity.other.class.fileds.source.wsd</string>
+                    <string>support.variable.class.fileds.source.wsd</string>
                   </dict>
                   <key>9</key>
                   <dict>
@@ -2499,7 +2440,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.class.group.source.wsd</string>
+                <string>support.variable.class.group.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
@@ -2514,7 +2455,7 @@
               <key>7</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.class.group.source.wsd</string>
+                <string>support.variable.class.group.source.wsd</string>
               </dict>
               <key>9</key>
               <dict>
@@ -2552,7 +2493,7 @@
               <key>3</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.class.note.source.wsd</string>
+                <string>support.variable.class.note.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
@@ -2581,12 +2522,7 @@
               <key>3</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.class.note.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>entity.other.class.note.source.wsd</string>
+                <string>support.variable.class.note.source.wsd</string>
               </dict>
               <key>6</key>
               <dict>
@@ -2691,7 +2627,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.class.hideshow.source.wsd</string>
+                <string>support.variable.class.hideshow.source.wsd</string>
               </dict>
               <key>5</key>
               <dict>
@@ -2715,7 +2651,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.other.class.package.source.wsd</string>
+                <string>support.variable.class.package.source.wsd</string>
               </dict>
               <key>4</key>
               <dict>
