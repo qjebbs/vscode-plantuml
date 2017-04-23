@@ -125,26 +125,27 @@ Suppose we have 2 files to include: `defines.wsd` and `myStyles.wsd`, and they a
 In the past, we have to include them manually in every single diagram:
 
 ```
-@startuml diagram_name
+@startuml
     !include ../includes/defines.wsd
     !include ../includes/myStyles.wsd
     'contents goes here...
 @enduml
 ```
 
-Now, you can simply open workspace setting, and config:
+Now, you can just replace them with a placehold `'autoinclude`, 
+
+```
+@startuml
+    'autoinclude
+    'contents goes here...
+@enduml
+```
+
+and open workspace setting and config:
 
 ```
 "plantuml.includes": [
     "includes"
-]
-```
-Or,
-
-```
-"plantuml.includes": [
-    "includes/defines.wsd",
-    "includes/myStyles.wsd"
 ]
 ```
 

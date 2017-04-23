@@ -11,8 +11,8 @@ class Includer {
 
     addIncludes(content: string): string {
         if (this._calculated != config.includes.sort().toString()) this._calcIncludes();
-        if (!this._includes || this._canNotInclude(content)) return content;
-        return content.replace(/(@start.+)/i, `$1${this._includes}`);
+        if (!this._includes) return content;
+        return content.replace(/\n\s*'\s*autoinclude\s*\n/i, `${this._includes}\n`);
     }
     private _calcIncludes() {
         let includes = "";
