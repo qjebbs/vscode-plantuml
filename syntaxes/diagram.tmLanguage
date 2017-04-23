@@ -444,7 +444,7 @@
             <array>
               <dict>
                 <key>name</key>
-                <string>comment.line.note.source.wsd</string>
+                <string>comment.line.multiple.note.source.wsd</string>
                 <key>match</key>
                 <string>.+?</string>
               </dict>
@@ -480,9 +480,9 @@
           <dict>
             <key>comment</key>
             <string>links</string>
-            <key>match</key>
-            <string>((?:(?:[ox+*]?(?:&lt;\|?|&lt;&lt;|\\\\|\\|//)?)(?=[-.]))[-.]+(\[(?:\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\w+)(?:[-\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\w+))?\b)\])?(?:(left|right|up|down)(?:[-.]))?[-.]*(?:(?:\|?&gt;|&gt;&gt;|\\\\|\\|//)?[ox+*]?))</string>
-            <key>captures</key>
+            <key>begin</key>
+            <string>((?:(?:[ox+*]?(?:&lt;\|?|&lt;&lt;|\\\\|\\|//|\})?)(?=[-.]))[-.]+(\[(?:\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\w+)(?:[-\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\w+))?\b)\])?(?:(left|right|up|down)(?:[-.]))?[-.]*(?:(?:\|?&gt;|&gt;&gt;|\\\\|\\|//|\{)?[ox+*]?))</string>
+            <key>beginCaptures</key>
             <dict>
               <key>1</key>
               <dict>
@@ -500,20 +500,48 @@
                 <string>constant.language.link.source.wsd</string>
               </dict>
             </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>link message</string>
-            <key>match</key>
-            <string>(?i):(.+)$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
+            <key>end</key>
+            <string>$</string>
+            <key>patterns</key>
+            <array>
               <dict>
-                <key>name</key>
-                <string>comment.line.note.source.wsd</string>
+                <key>include</key>
+                <string>#Gerneral</string>
               </dict>
-            </dict>
+              <dict>
+                <key>comment</key>
+                <string>actor and link message</string>
+                <key>match</key>
+                <string>(?i):([^:]+):\s*:(.+)$</string>
+                <key>captures</key>
+                <dict>
+                  <key>1</key>
+                  <dict>
+                    <key>name</key>
+                    <string>support.variable.actor.link.source.wsd</string>
+                  </dict>
+                  <key>2</key>
+                  <dict>
+                    <key>name</key>
+                    <string>comment.line.message.link.source.wsd</string>
+                  </dict>
+                </dict>
+              </dict>
+              <dict>
+                <key>comment</key>
+                <string>link message</string>
+                <key>match</key>
+                <string>(?i):(.+)$</string>
+                <key>captures</key>
+                <dict>
+                  <key>1</key>
+                  <dict>
+                    <key>name</key>
+                    <string>comment.line.message.link.source.wsd</string>
+                  </dict>
+                </dict>
+              </dict>
+            </array>
           </dict>
           <dict>
             <key>comment</key>
@@ -549,7 +577,7 @@
             <key>name</key>
             <string>support.variable.source.wsd</string>
             <key>match</key>
-            <string>\b[_0-9\w]+</string>
+            <string>\b[\w_]+</string>
           </dict>
         </array>
       </dict>
@@ -1316,20 +1344,6 @@
               <dict>
                 <key>name</key>
                 <string>constant.numeric.usecase.definition.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>actor simple definition</string>
-            <key>match</key>
-            <string>(?i)(?::([^:]+?):)</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.usecase.actor.source.wsd</string>
               </dict>
             </dict>
           </dict>
