@@ -1,3 +1,8 @@
+### 1.6.0
+- New Feature: Auto include. See README for more detail.
+- New Feature: Add setting `plantuml.jar` which allows you use your own jar (maybe a newer version, or with many dependent jars).
+- Fix: Many syntax highlights fixes.
+
 ### 1.5.0
 - New Feature: Zoom & scroll in preview. [#18](https://github.com/qjebbs/vscode-plantuml/issues/18)
 - New Feature: Export selected workspace file in exploer panel.

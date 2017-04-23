@@ -3,7 +3,7 @@
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
   "icon": "images/icon.png",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.10.2"
@@ -254,6 +254,11 @@
             "SimpleURL"
           ],
           "description": "URL result type. Simple URL or ready for MarkDown use."
+        },
+        "plantuml.includes": {
+          "type": "array",
+          "default": [],
+          "description": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more."
         }
       }
     }

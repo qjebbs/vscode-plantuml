@@ -36,6 +36,7 @@ Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram 
     - At cursor, in current file, in whole workspace, in workspace selected.
     - Concurrent export.
 - Generate URLs.
+- Auto Include.
 - All Type Syntax Highlight.
 - All Type Snippets.
     - Support all type diagrams. Thanks to [zhleonix](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json).
@@ -68,6 +69,7 @@ Before you can use the plugin, it's necessary to have following installed:
 
 This extension contributes the following settings:
 
+- `plantuml.jar`: Alternate plantuml.jar location. Leave it blank to use integrated jar.
 - `plantuml.fileExtensions`: File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like ".java".
 - `plantuml.exportFormat`: format to export. default is not set, user may pick one format everytime exports. You can still set a format for it if you don't want to pick.
 - `plantuml.exportSubFolder`: export diagrams to a folder which has same name with host file.
@@ -78,6 +80,7 @@ This extension contributes the following settings:
 - `plantuml.urlServer`: plantuml server to generate UML diagrams on-the-fly.
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.
 - `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
+- `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more.
 
 ## About Snippets
 
@@ -103,12 +106,76 @@ else (val2)
 endif
 ```
 
+## About Auto Include
+
+> Notice: People who don't use `!include` could ignore this chapter.
+
+Auto Include liberates you from writing "!include path/to/include.wsd" everywhere. which is bother & hard to manage.
+
+Suppose we have 2 files to include: `defines.wsd` and `myStyles.wsd`, and they are organized as follow:
+
+```
+├── includes
+│   ├── defines.wsd
+│   └── myStyles.wsd
+├── sources
+│   ├── sourceA.wsd
+│   └── sourceB.wsd
+├── out
+```
+
+In the past, we have to include them manually in every single diagram:
+
+```
+@startuml
+    !include ../includes/defines.wsd
+    !include ../includes/myStyles.wsd
+    'contents goes here...
+@enduml
+```
+
+Now, you can just replace them with a placehold `'autoinclude`, 
+
+```
+@startuml
+    'autoinclude
+    'contents goes here...
+@enduml
+```
+
+and open workspace setting and config:
+
+```
+"plantuml.includes": [
+    "includes"
+]
+```
+
+## About integrated theme
+
+Plugin shipped with a blue diagram theme, to enable it, config like:
+
+```
+"plantuml.includes": [
+    "styles/blue"
+]
+```
+
+Theme preview:
+
+![demo](images/theme_bule.png "demo")
+
 ## Known Issues
 
 Please post and view issues on [GitHub][issues]
 
 [issues]: https://github.com/qjebbs/vscode-plantuml/issues "Post issues"
 
+
+## Thanks
+
+- [koara-local](https://github.com/koara-local)
+- [zhleonix](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json)
 -----------------------------------------------------------------------------------------------------------
 
 **Enjoy!**

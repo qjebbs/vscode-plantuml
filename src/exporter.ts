@@ -7,6 +7,7 @@ import { Diagram, Diagrams } from './diagram';
 import { config } from './config';
 import { outputPanel, context, localize } from './planuml';
 import { mkdirsSync, isSubPath, showError, parseError } from './tools';
+import { includer } from './includer';
 
 export interface ExportError {
     error: string;
@@ -171,7 +172,7 @@ class Exporter {
 
         let process = child_process.spawn(this.java, params);
         if (diagram.content !== null) {
-            process.stdin.write(diagram.content);
+            process.stdin.write(includer.addIncludes(diagram.content));
             process.stdin.end();
         }
         let pms = new Promise<Buffer>((resolve, reject) => {

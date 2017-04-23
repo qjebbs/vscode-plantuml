@@ -107,6 +107,10 @@ class ConfigReader {
             "txt"
         ];
     }
+
+    get includes(): string[] {
+        return this._read<string[]>('includes') || [];
+    }
 }
 
 export const config = new ConfigReader();
