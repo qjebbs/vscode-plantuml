@@ -254,6 +254,11 @@
             "SimpleURL"
           ],
           "description": "URL result type. Simple URL or ready for MarkDown use."
+        },
+        "plantuml.includes": {
+          "type": "array",
+          "default": [],
+          "description": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more."
         }
       }
     }

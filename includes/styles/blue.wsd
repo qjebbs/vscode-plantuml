@@ -1,0 +1,259 @@
+scale 1.2
+
+skinparam {
+    Default {
+        Font {
+            Name Microsoft YaHei UI
+        }
+    }
+    backgroundColor White
+    monochrome false 
+    'Black and White MODE
+    title {
+        Font {
+            Color RoyalBlue
+            Style bold
+            Size 28
+        }
+    }
+    header {
+        Font {
+            Color Red
+            Size 12
+        }
+    }
+    footer {
+    }
+    legend {
+        Font {
+            Size 12
+        }
+    }
+    note {
+        BorderColor Chocolate
+        Font {
+            Size 12
+        }
+    }
+    Activity {
+        StartColor Black
+        EndColor Black
+        BackgroundColor AliceBlue
+        BorderColor SteelBlue
+        BarColor Navy
+        Font {
+            Color Black
+            Style plain 
+            Size 16
+        }
+        Arrow {
+            Color SteelBlue
+            Font {
+                Color DarkGray
+                Style italic 
+                Size 12
+            }
+        }
+    }
+    State {
+        StartColor Black
+        EndColor Black
+        BackgroundColor AliceBlue
+        BorderColor SteelBlue
+        BarColor Navy
+        Font {
+            Color Black
+            Style plain 
+            Size 16
+        }
+        Arrow {
+            Color SteelBlue
+            Font {
+                Color DarkGray
+                Style italic 
+                Size 12
+            }
+        }
+    }
+    Object {
+        BackgroundColor AliceBlue
+        BorderColor SteelBlue
+        BarColor Navy
+        Font {
+            Color Black
+            Style plain 
+            Size 16
+        }
+        Arrow {
+            Color SteelBlue
+            Font {
+                Color DarkGray
+                Style italic 
+                Size 12
+            }
+        }
+    }
+    class {
+        BackgroundColor AliceBlue
+        BorderColor SteelBlue
+        Font {
+            Color Black
+            Style plain 
+            Size 16
+        }
+    }
+    component {
+        BackgroundColor AliceBlue
+        BorderColor SteelBlue
+        Font {
+            Color Black
+            Style plain 
+            Size 16
+        }
+        Interface {
+            BackgroundColor AliceBlue
+            BorderColor SteelBlue
+            Font {
+                Color Black
+                Style plain 
+                Size 16
+            }
+        }
+        node {
+            backgroundColor AliceBlue
+            borderColor SteelBlue
+            Font {
+                Color Black
+                Style plain 
+                Size 16
+            }
+        }
+        database {
+            backgroundColor AliceBlue
+            borderColor SteelBlue
+            Font {
+                Color Black
+                Style plain 
+                Size 16
+            }
+        }
+        Arrow {
+            Color SteelBlue
+            Font {
+                Color DarkGray
+                Style italic 
+                Size 12
+            }
+        }
+    }
+    usecase {
+        BackgroundColor AliceBlue
+        BorderColor SteelBlue
+        Font {
+            Color Black
+            Style plain 
+            Size 16
+        }
+        actor {
+            BackgroundColor LightYellow
+            BorderColor Brown
+            Font {
+                Color Black
+                Style plain 
+                Size 16
+            }
+        }
+        Arrow {
+            Color SteelBlue
+            Font {
+                Color DarkGray
+                Style italic 
+                Size 12
+            }
+        }
+    }
+    sequence {
+        BackgroundColor AliceBlue
+        BorderColor SteelBlue
+        Font {
+            Color Black
+            Style plain 
+            Size 16
+        }
+        LifeLine {
+            BackgroundColor OldLace       
+            BorderColor SteelBlue
+        }
+        actor {
+            BackgroundColor LightYellow
+            BorderColor Brown
+            Font {
+                Color Black
+                Style plain 
+                Size 16
+            }
+        }
+        Participant {
+            BackgroundColor AliceBlue
+            BorderColor SteelBlue
+            Font {
+                Color Black
+                Style plain 
+                Size 16
+            }
+        }
+        boundary {
+            BackgroundColor AliceBlue
+            BorderColor SteelBlue
+            Font {
+                Color Black
+                Style plain 
+                Size 16
+            }
+        }
+        control {
+            BackgroundColor LightYellow
+            BorderColor Brown
+            Font {
+                Color Black
+                Style plain 
+                Size 16
+            }
+        }
+        entity {
+            BackgroundColor LightYellow
+            BorderColor Brown
+            Font {
+                Color Black
+                Style plain 
+                Size 16
+            }
+        }
+        database {
+            BackgroundColor LightYellow
+            BorderColor Brown
+            Font {
+                Color Black
+                Style plain 
+                Size 16
+            }
+        }
+        box {
+            BackgroundColor WhiteSmoke
+            BorderColor SteelBlue
+            Font {
+                Color Black
+                Style plain 
+                Size 16
+            }
+        }
+        Arrow {
+            Color SteelBlue
+            Font {
+                Color DarkGray
+                Style italic 
+                Size 12
+            }
+        }
+    }
+}
