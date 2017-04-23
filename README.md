@@ -36,6 +36,7 @@ Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram 
     - At cursor, in current file, in whole workspace, in workspace selected.
     - Concurrent export.
 - Generate URLs.
+- Auto Include.
 - All Type Syntax Highlight.
 - All Type Snippets.
     - Support all type diagrams. Thanks to [zhleonix](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json).
@@ -78,6 +79,7 @@ This extension contributes the following settings:
 - `plantuml.urlServer`: plantuml server to generate UML diagrams on-the-fly.
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.
 - `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
+- `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more.
 
 ## About Snippets
 
@@ -102,6 +104,62 @@ else (val2)
     
 endif
 ```
+
+## About Auto Include
+
+Auto Include liberates you from writing "!include path/to/include.wsd" everywhere. which is bother & hard to manage.
+
+Suppose we have 2 files to include: `defines.wsd` and `myStyles.wsd`, and they are organized as follow:
+
+```
+├── includes
+│   ├── defines.wsd
+│   └── myStyles.wsd
+├── sources
+│   ├── sourceA.wsd
+│   └── sourceB.wsd
+├── out
+```
+
+In the past, we have to include them manually in every single diagram:
+
+```
+@startuml diagram_name
+    !include ../includes/defines.wsd
+    !include ../includes/myStyles.wsd
+    'contents goes here...
+@enduml
+```
+
+Now, you can simply open workspace setting, and config:
+
+```
+"plantuml.includes": [
+    "includes"
+]
+```
+Or,
+
+```
+"plantuml.includes": [
+    "includes/defines.wsd",
+    "includes/myStyles.wsd"
+]
+```
+
+## About integrated theme
+
+Plugin shipped with a blue diagram theme, to enable it, config like:
+
+```
+"plantuml.includes": [
+    "styles/blue"
+]
+```
+
+Theme preview:
+
+![demo](images/theme_bule.png "demo")
 
 ## Known Issues
 
