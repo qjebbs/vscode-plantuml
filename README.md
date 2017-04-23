@@ -108,6 +108,8 @@ endif
 
 ## About Auto Include
 
+> Notice: People who don't use `!include` could ignore this chapter.
+
 Auto Include liberates you from writing "!include path/to/include.wsd" everywhere. which is bother & hard to manage.
 
 Suppose we have 2 files to include: `defines.wsd` and `myStyles.wsd`, and they are organized as follow:
@@ -169,6 +171,11 @@ Please post and view issues on [GitHub][issues]
 
 [issues]: https://github.com/qjebbs/vscode-plantuml/issues "Post issues"
 
+
+## Thanks
+
+- [koara-local](https://github.com/koara-local)
+- [zhleonix](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json)
 -----------------------------------------------------------------------------------------------------------
 
 **Enjoy!**
