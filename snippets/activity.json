@@ -14,6 +14,17 @@
 		"body": ":${do something};$0",
 		"description": "Adds an activity that follows on from the previous control statement.\n Note, to use SDL sterotyped activities replace the terminating ';' with one of the following characters: |,<,>,/,],}"
 	},
+	"Activity Diagram Split": {
+		"prefix": "activity split",
+		"body": [
+			"split",
+			"\t$0",
+			"split again",
+			"\t",
+			"end split"
+		],
+		"description": "Adds an \"split, split again, end split\" to the activity diagram."
+	},
 	"Activity Diagram If Condition": {
 		"prefix": "activity if else condition",
 		"body": [
