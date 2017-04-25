@@ -284,7 +284,6 @@
     "vscode": "^1.0.0"
   },
   "dependencies": {
-    "vscode-nls": "^2.0.2",
-    "request": "^2.81.0"
+    "vscode-nls": "^2.0.2"
   }
 }
