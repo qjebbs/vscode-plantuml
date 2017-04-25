@@ -255,6 +255,11 @@
           ],
           "description": "URL result type. Simple URL or ready for MarkDown use."
         },
+        "plantuml.previewFromUrlServer": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use plantuml.urlServer to generate preview images."
+        },
         "plantuml.includes": {
           "type": "array",
           "default": [],
@@ -279,6 +284,7 @@
     "vscode": "^1.0.0"
   },
   "dependencies": {
-    "vscode-nls": "^2.0.2"
+    "vscode-nls": "^2.0.2",
+    "request": "^2.81.0"
   }
 }

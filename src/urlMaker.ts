@@ -82,7 +82,7 @@ class URLMaker {
 
         return urls;
     }
-    private makeURL(diagram: Diagram, server: string, format: string, bar: vscode.StatusBarItem): pURL {
+    makeURL(diagram: Diagram, server: string, format: string, bar: vscode.StatusBarItem): pURL {
         if (bar) {
             bar.show();
             bar.text = localize(16, null, diagram.title);
