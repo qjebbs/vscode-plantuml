@@ -88,10 +88,6 @@
           </dict>
           <dict>
             <key>include</key>
-            <string>#Component</string>
-          </dict>
-          <dict>
-            <key>include</key>
             <string>#Keywords</string>
           </dict>
           <dict>
@@ -131,10 +127,6 @@
       <dict>
         <key>include</key>
         <string>#State</string>
-      </dict>
-      <dict>
-        <key>include</key>
-        <string>#Component</string>
       </dict>
       <dict>
         <key>include</key>
@@ -405,6 +397,169 @@
           </dict>
           <dict>
             <key>comment</key>
+            <string>inline note</string>
+            <key>match</key>
+            <string>(?i)^\s*(note\s(left|right))\s*:\s*(.+)\s*$</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.note.source.wsd</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>comment.line.note.source.wsd</string>
+              </dict>
+            </dict>
+          </dict>
+          <dict>
+            <key>comment</key>
+            <string>multiple note</string>
+            <key>begin</key>
+            <string>(?i)^\s*(note\s(left|right))\s*$</string>
+            <key>beginCaptures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.note.source.wsd</string>
+              </dict>
+            </dict>
+            <key>end</key>
+            <string>(?i)^\s*(end\s*note)</string>
+            <key>endCaptures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.note.source.wsd</string>
+              </dict>
+            </dict>
+            <key>patterns</key>
+            <array>
+              <dict>
+                <key>name</key>
+                <string>comment.line.multiple.note.source.wsd</string>
+                <key>match</key>
+                <string>.+?</string>
+              </dict>
+            </array>
+          </dict>
+          <dict>
+            <key>comment</key>
+            <string>inline note of over</string>
+            <key>match</key>
+            <string>(?i)^\s*([rh]?note (?:(?:right|left|top|bottom)\s+of|over))\s*(?:[^\s\w\d]([\w ]+)[^\s\w\d]|(\w+))\s*(#\w+)?\s*:\s*(.+)$</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.noteof.source.wsd</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>support.variable.noteof.source.wsd</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>support.variable.noteof.source.wsd</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.noteof.source.wsd</string>
+              </dict>
+              <key>5</key>
+              <dict>
+                <key>name</key>
+                <string>comment.line.noteof.source.wsd</string>
+              </dict>
+            </dict>
+          </dict>
+          <dict>
+            <key>comment</key>
+            <string>multi-line note of over</string>
+            <key>begin</key>
+            <string>(?i)^\s*([rh]?note\s+(?:(?:right|left|top|bottom)\s+of|over))\s*(?:[^\s\w\d]([\w ]+)[^\s\w\d]|(\w+))\s*(#\w+)?\s*$</string>
+            <key>beginCaptures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.multline.noteof.source.wsd</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>support.variable.multline.noteof.source.wsd</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>support.variable.multline.noteof.source.wsd</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.multline.noteof.source.wsd</string>
+              </dict>
+            </dict>
+            <key>end</key>
+            <string>(?i)^\s*(end\s+[rh]?note)</string>
+            <key>endCaptures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.multline.noteof.source.wsd</string>
+              </dict>
+            </dict>
+            <key>patterns</key>
+            <array>
+              <dict>
+                <key>name</key>
+                <string>comment.line.multline.noteof.source.wsd</string>
+                <key>match</key>
+                <string>.+?</string>
+              </dict>
+            </array>
+          </dict>
+          <dict>
+            <key>comment</key>
+            <string>float note, note as</string>
+            <key>match</key>
+            <string>(?i)^\s*(note)\s+(".+?")\s+(as)\s+([\w\d]+)\s*$</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.noteas.source.wsd</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>comment.line.noteas.source.wsd</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.noteas.source.wsd</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>support.variable.noteas.source.wsd</string>
+              </dict>
+            </dict>
+          </dict>
+          <dict>
+            <key>comment</key>
             <string>multi-line header, legend, footer</string>
             <key>begin</key>
             <string>(?i)^\s*(header|legend|footer)\s*\n</string>
@@ -452,58 +607,6 @@
               <dict>
                 <key>name</key>
                 <string>comment.line.header_legend_footer.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>multiple note</string>
-            <key>begin</key>
-            <string>(?i)^\s*(note\s(left|right))\s*$</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>end</key>
-            <string>(?i)^\s*(end\s+note)</string>
-            <key>endCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>patterns</key>
-            <array>
-              <dict>
-                <key>name</key>
-                <string>comment.line.multiple.note.source.wsd</string>
-                <key>match</key>
-                <string>.+?</string>
-              </dict>
-            </array>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>inline note</string>
-            <key>match</key>
-            <string>(?i)^\s*(note\s(left|right))\s*:\s*(.+)\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.note.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.note.source.wsd</string>
               </dict>
             </dict>
           </dict>
@@ -819,83 +922,6 @@
         <array>
           <dict>
             <key>comment</key>
-            <string>inline note for Sequence</string>
-            <key>match</key>
-            <string>(?i)^\s*([rh]?note ((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.sequence.note.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.sequence.note.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.sequence.note.source.wsd</string>
-              </dict>
-              <key>8</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.sequence.note.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>multi-line note for Sequence</string>
-            <key>begin</key>
-            <string>(?i)^\s*([rh]?note\s+((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.sequence.note.source.wsd</string>
-              </dict>
-              <key>2</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.sequence.note.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.sequence.note.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.sequence.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>end</key>
-            <string>(?i)^\s*(end\s+[rh]?note)</string>
-            <key>endCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.sequence.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>patterns</key>
-            <array>
-              <dict>
-                <key>name</key>
-                <string>comment.line.sequence.note.source.wsd</string>
-                <key>match</key>
-                <string>.+?</string>
-              </dict>
-            </array>
-          </dict>
-          <dict>
-            <key>comment</key>
             <string>autonumber</string>
             <key>match</key>
             <string>(?i)^\s*(autonumber)(\s+(\d+(\s+(\d+)?)?(\s+(".+?"))?|(stop)|(resume)(\s+(\d+))?(\s+".+?")?))?</string>
@@ -1196,102 +1222,6 @@
         <array>
           <dict>
             <key>comment</key>
-            <string>inline note for Sequence</string>
-            <key>match</key>
-            <string>(?i)^\s*(note ((right|left|top|bottom)\s+of|over))\s+(\(.+?\)|[^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.usecase.note.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.usecase.note.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.usecase.note.source.wsd</string>
-              </dict>
-              <key>8</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.usecase.note.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>multi-line note &amp; noteAs for usecase</string>
-            <key>begin</key>
-            <string>(?i)^\s*(note\s+((right|left|top|bottom)\s+of|over|as))\s+([^\s\[\]\(\)]+?|\(.+?\))\s*$</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.usecase.note.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.usecase.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>end</key>
-            <string>(?i)^\s*(end\s+note)</string>
-            <key>endCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.usecase.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>patterns</key>
-            <array>
-              <dict>
-                <key>name</key>
-                <string>comment.line.usecase.note.source.wsd</string>
-                <key>match</key>
-                <string>.+?</string>
-              </dict>
-            </array>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>inline note as</string>
-            <key>match</key>
-            <string>(?i)^\s*(note)\s+(".+?")\s+(as)\s+([\w\d]+)\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.usecase.noteas.source.wsd</string>
-              </dict>
-              <key>2</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.usecase.noteas.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.usecase.noteas.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.usecase.noteas.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
             <string>new page</string>
             <key>match</key>
             <string>(?i)^\s*(newpage)(.+?)?\s*$</string>
@@ -1346,94 +1276,6 @@
               <dict>
                 <key>include</key>
                 <string>#usecase</string>
-              </dict>
-            </array>
-          </dict>
-        </array>
-      </dict>
-      <key>Component</key>
-      <dict>
-        <key>patterns</key>
-        <array>
-          <dict>
-            <key>comment</key>
-            <string>inline note for component</string>
-            <key>match</key>
-            <string>(?i)^\s*(note\s+(right|left)\s+of)\s+((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.component.note.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>support.class.component.note.component.source.wsd</string>
-              </dict>
-              <key>6</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.component.note.interface.source.wsd</string>
-              </dict>
-              <key>7</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.component.note.color.source.wsd</string>
-              </dict>
-              <key>10</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.component.note.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>multi-line note for component</string>
-            <key>begin</key>
-            <string>(?i)^\s*(note\s+(right|left)\s+of)\s+((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))(\s+#(([\w\|\\\/\-]+)))?\s*$</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.component.note.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>support.class.component.note.component.source.wsd</string>
-              </dict>
-              <key>6</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.component.note.interface.source.wsd</string>
-              </dict>
-              <key>7</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.component.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>end</key>
-            <string>(?i)^\s*(end\s+note)</string>
-            <key>endCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.component.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>patterns</key>
-            <array>
-              <dict>
-                <key>name</key>
-                <string>comment.line.component.note.source.wsd</string>
-                <key>match</key>
-                <string>.+?</string>
               </dict>
             </array>
           </dict>
@@ -1501,107 +1343,6 @@
               <dict>
                 <key>name</key>
                 <string>keyword.other.state.concurrent.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>inline note for state</string>
-            <key>match</key>
-            <string>(?i)^\s*([rh]?note ((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.state.note.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.state.note.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.state.note.source.wsd</string>
-              </dict>
-              <key>8</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.state.note.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>multi-line note for state</string>
-            <key>begin</key>
-            <string>(?i)^\s*([rh]?note\s+((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.state.note.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.state.note.source.wsd</string>
-              </dict>
-              <key>5</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.state.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>end</key>
-            <string>(?i)^\s*(end\s+[rh]?note)</string>
-            <key>endCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.sequence.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>patterns</key>
-            <array>
-              <dict>
-                <key>name</key>
-                <string>comment.line.sequence.note.source.wsd</string>
-                <key>match</key>
-                <string>.+?</string>
-              </dict>
-            </array>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>float note, note as</string>
-            <key>match</key>
-            <string>(?i)^\s*(note)\s+(".+?")\s+(as)\s+([\w\d]+)\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.state.noteas.source.wsd</string>
-              </dict>
-              <key>2</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.state.noteas.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.state.noteas.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.state.noteas.source.wsd</string>
               </dict>
             </dict>
           </dict>
@@ -1851,78 +1592,6 @@
               <dict>
                 <key>include</key>
                 <string>#Class</string>
-              </dict>
-            </array>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>inline note for class</string>
-            <key>match</key>
-            <string>(?i)^\s*(note\s+(right|left|top|bottom)\s+of)\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$</string>
-            <key>captures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.class.note.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.class.note.source.wsd</string>
-              </dict>
-              <key>4</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.class.note.source.wsd</string>
-              </dict>
-              <key>7</key>
-              <dict>
-                <key>name</key>
-                <string>comment.line.class.note.source.wsd</string>
-              </dict>
-            </dict>
-          </dict>
-          <dict>
-            <key>comment</key>
-            <string>multi-line note for class</string>
-            <key>begin</key>
-            <string>(?i)^\s*(note\s+(right|left|top|bottom)\s+of)\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.class.note.source.wsd</string>
-              </dict>
-              <key>3</key>
-              <dict>
-                <key>name</key>
-                <string>support.variable.class.note.source.wsd</string>
-              </dict>
-              <key>6</key>
-              <dict>
-                <key>name</key>
-                <string>constant.numeric.class.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>end</key>
-            <string>(?i)^\s*(end\s+note)</string>
-            <key>endCaptures</key>
-            <dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>keyword.other.sequence.note.source.wsd</string>
-              </dict>
-            </dict>
-            <key>patterns</key>
-            <array>
-              <dict>
-                <key>name</key>
-                <string>comment.line.sequence.note.source.wsd</string>
-                <key>match</key>
-                <string>.+?</string>
               </dict>
             </array>
           </dict>

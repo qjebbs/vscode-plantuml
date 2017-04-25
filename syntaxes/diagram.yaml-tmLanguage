@@ -24,7 +24,6 @@ patterns:
   - include: '#Sequence'
   - include: '#Usecase'
   - include: '#State'
-  - include: '#Component'
   - include: '#Keywords'
   - include: '#Gerneral'
 
@@ -37,7 +36,6 @@ patterns:
 - include: '#Sequence'
 - include: '#Usecase'
 - include: '#State'
-- include: '#Component'
 - include: '#Keywords'
 - include: '#Gerneral'
 
@@ -116,6 +114,49 @@ repository:
         '8': {name: keyword.operator.scale.source.wsd}
         '9': {name: constant.numeric.scale.source.wsd}
         '11': {name: keyword.other.scale.source.wsd}
+    - comment: inline note
+      match: (?i)^\s*(note\s(left|right))\s*:\s*(.+)\s*$
+      captures:
+        '1': {name: keyword.other.note.source.wsd}
+        '3': {name: comment.line.note.source.wsd}
+    - comment: multiple note
+      begin: (?i)^\s*(note\s(left|right))\s*$
+      beginCaptures:
+        '1': {name: keyword.other.note.source.wsd}
+      end: (?i)^\s*(end\s*note)
+      endCaptures:
+        '1': {name: keyword.other.note.source.wsd}
+      patterns:
+      - name: comment.line.multiple.note.source.wsd
+        match: .+?
+    - comment: inline note of over
+      match: (?i)^\s*([rh]?note (?:(?:right|left|top|bottom)\s+of|over))\s*(?:[^\s\w\d]([\w ]+)[^\s\w\d]|(\w+))\s*(#\w+)?\s*:\s*(.+)$
+      captures:
+        '1': {name: keyword.other.noteof.source.wsd}
+        '2': {name: support.variable.noteof.source.wsd}
+        '3': {name: support.variable.noteof.source.wsd}
+        '4': {name: constant.numeric.noteof.source.wsd}
+        '5': {name: comment.line.noteof.source.wsd}
+    - comment: multi-line note of over
+      begin: (?i)^\s*([rh]?note\s+(?:(?:right|left|top|bottom)\s+of|over))\s*(?:[^\s\w\d]([\w ]+)[^\s\w\d]|(\w+))\s*(#\w+)?\s*$
+      beginCaptures:
+        '1': {name: keyword.other.multline.noteof.source.wsd}
+        '2': {name: support.variable.multline.noteof.source.wsd}
+        '3': {name: support.variable.multline.noteof.source.wsd}
+        '4': {name: constant.numeric.multline.noteof.source.wsd}
+      end: (?i)^\s*(end\s+[rh]?note)
+      endCaptures:
+        '1': {name: keyword.other.multline.noteof.source.wsd}
+      patterns:
+      - name: comment.line.multline.noteof.source.wsd
+        match: .+?
+    - comment: float note, note as
+      match: (?i)^\s*(note)\s+(".+?")\s+(as)\s+([\w\d]+)\s*$
+      captures:
+        '1': {name: keyword.other.noteas.source.wsd}
+        '3': {name: keyword.other.noteas.source.wsd}
+        '2': {name: comment.line.noteas.source.wsd}
+        '4': {name: support.variable.noteas.source.wsd}
     - comment: multi-line header, legend, footer
       begin: (?i)^\s*(header|legend|footer)\s*\n
       beginCaptures:
@@ -131,21 +172,6 @@ repository:
       captures:
         '1': {name: keyword.other.title.source.wsd}
         '2': {name: comment.line.header_legend_footer.source.wsd}
-    - comment: multiple note
-      begin: (?i)^\s*(note\s(left|right))\s*$
-      beginCaptures:
-        '1': {name: keyword.other.note.source.wsd}
-      end: (?i)^\s*(end\s+note)
-      endCaptures:
-        '1': {name: keyword.other.note.source.wsd}
-      patterns:
-      - name: comment.line.multiple.note.source.wsd
-        match: .+?
-    - comment: inline note
-      match: (?i)^\s*(note\s(left|right))\s*:\s*(.+)\s*$
-      captures:
-        '1': {name: keyword.other.note.source.wsd}
-        '3': {name: comment.line.note.source.wsd}
     - comment: Preprocessings
       name: support.class.preprocessings.source.wsd
       match: (?i)(!include|!enddefinelong|!definelong|!define|!ifdef|!else|!endif)
@@ -234,26 +260,6 @@ repository:
         '4': {name: comment.line.activity.endwhile.source.wsd}
   Sequence:
     patterns:
-    - comment: inline note for Sequence
-      match: (?i)^\s*([rh]?note ((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
-      captures:
-        '1': {name: keyword.other.sequence.note.source.wsd}
-        '4': {name: support.variable.sequence.note.source.wsd}
-        '5': {name: constant.numeric.sequence.note.source.wsd}
-        '8': {name: comment.line.sequence.note.source.wsd}
-    - comment: multi-line note for Sequence
-      begin: (?i)^\s*([rh]?note\s+((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$
-      beginCaptures:
-        '1': {name: keyword.other.sequence.note.source.wsd}
-        '2': {name: support.variable.sequence.note.source.wsd}
-        '4': {name: support.variable.sequence.note.source.wsd}
-        '5': {name: constant.numeric.sequence.note.source.wsd}
-      end: (?i)^\s*(end\s+[rh]?note)
-      endCaptures:
-        '1': {name: keyword.other.sequence.note.source.wsd}
-      patterns:
-      - name: comment.line.sequence.note.source.wsd
-        match: .+?
     - comment: autonumber
       match: (?i)^\s*(autonumber)(\s+(\d+(\s+(\d+)?)?(\s+(".+?"))?|(stop)|(resume)(\s+(\d+))?(\s+".+?")?))?
       captures:
@@ -333,31 +339,6 @@ repository:
       name: keyword.other.sequence.other.source.wsd
   Usecase:
     patterns:
-    - comment: inline note for Sequence
-      match: (?i)^\s*(note ((right|left|top|bottom)\s+of|over))\s+(\(.+?\)|[^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
-      captures:
-        '1': {name: keyword.other.usecase.note.source.wsd}
-        '4': {name: support.variable.usecase.note.source.wsd}
-        '5': {name: constant.numeric.usecase.note.source.wsd}
-        '8': {name: comment.line.usecase.note.source.wsd}
-    - comment: multi-line note & noteAs for usecase
-      begin: (?i)^\s*(note\s+((right|left|top|bottom)\s+of|over|as))\s+([^\s\[\]\(\)]+?|\(.+?\))\s*$
-      beginCaptures:
-        '1': {name: keyword.other.usecase.note.source.wsd}
-        '4': {name: support.variable.usecase.note.source.wsd}
-      end: (?i)^\s*(end\s+note)
-      endCaptures:
-        '1': {name: keyword.other.usecase.note.source.wsd}
-      patterns:
-      - name: comment.line.usecase.note.source.wsd
-        match: .+?
-    - comment: inline note as
-      match: (?i)^\s*(note)\s+(".+?")\s+(as)\s+([\w\d]+)\s*$
-      captures:
-        '1': {name: keyword.other.usecase.noteas.source.wsd}
-        '3': {name: keyword.other.usecase.noteas.source.wsd}
-        '2': {name: comment.line.usecase.noteas.source.wsd}
-        '4': {name: support.variable.usecase.noteas.source.wsd}
     - comment: new page
       match: (?i)^\s*(newpage)(.+?)?\s*$
       captures:
@@ -375,29 +356,6 @@ repository:
       patterns:
         - include: $self
         - include: '#usecase'
-  Component:
-    patterns:
-    - comment: inline note for component
-      match: (?i)^\s*(note\s+(right|left)\s+of)\s+((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
-      captures:
-        '1': {name: keyword.other.component.note.source.wsd}
-        '4': {name: support.class.component.note.component.source.wsd}
-        '6': {name: support.variable.component.note.interface.source.wsd}
-        '7': {name: constant.numeric.component.note.color.source.wsd}
-        '10': {name: comment.line.component.note.source.wsd}
-    - comment: multi-line note for component
-      begin: (?i)^\s*(note\s+(right|left)\s+of)\s+((\[[^\]]+?\])|(\(\)\s+)?([^\s\\]+|"[^\]]+?"))(\s+#(([\w\|\\\/\-]+)))?\s*$
-      beginCaptures:
-        '1': {name: keyword.other.component.note.source.wsd}
-        '4': {name: support.class.component.note.component.source.wsd}
-        '6': {name: support.variable.component.note.interface.source.wsd}
-        '7': {name: constant.numeric.component.note.source.wsd}
-      end: (?i)^\s*(end\s+note)
-      endCaptures:
-        '1': {name: keyword.other.component.note.source.wsd}
-      patterns:
-      - name: comment.line.component.note.source.wsd
-        match: .+?
   State:
     patterns:
     - comment: state group
@@ -416,32 +374,6 @@ repository:
       match: (?i)^\s*(-{2,})\s*$
       captures:
         '1': {name: keyword.other.state.concurrent.source.wsd}
-    - comment: inline note for state
-      match: (?i)^\s*([rh]?note ((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
-      captures:
-        '1': {name: keyword.other.state.note.source.wsd}
-        '4': {name: support.variable.state.note.source.wsd}
-        '5': {name: constant.numeric.state.note.source.wsd}
-        '8': {name: comment.line.state.note.source.wsd}
-    - comment: multi-line note for state
-      begin: (?i)^\s*([rh]?note\s+((right|left|top|bottom)\s+of|over))\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$
-      beginCaptures:
-        '1': {name: keyword.other.state.note.source.wsd}
-        '4': {name: support.variable.state.note.source.wsd}
-        '5': {name: constant.numeric.state.note.source.wsd}
-      end: (?i)^\s*(end\s+[rh]?note)
-      endCaptures:
-        '1': {name: keyword.other.sequence.note.source.wsd}
-      patterns:
-      - name: comment.line.sequence.note.source.wsd
-        match: .+?
-    - comment: float note, note as
-      match: (?i)^\s*(note)\s+(".+?")\s+(as)\s+([\w\d]+)\s*$
-      captures:
-        '1': {name: keyword.other.state.noteas.source.wsd}
-        '3': {name: keyword.other.state.noteas.source.wsd}
-        '2': {name: comment.line.state.noteas.source.wsd}
-        '4': {name: support.variable.state.noteas.source.wsd}
   Object:
     patterns:
     - comment: add object fileds
@@ -504,25 +436,6 @@ repository:
       end: ^\s*(?<!\\)\}\s*$
       patterns:
       - include: '#Class'
-    - comment: inline note for class
-      match: (?i)^\s*(note\s+(right|left|top|bottom)\s+of)\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
-      captures:
-        '1': {name: keyword.other.class.note.source.wsd}
-        '3': {name: support.variable.class.note.source.wsd}
-        '4': {name: constant.numeric.class.note.source.wsd}
-        '7': {name: comment.line.class.note.source.wsd}
-    - comment: multi-line note for class
-      begin: (?i)^\s*(note\s+(right|left|top|bottom)\s+of)\s+([^\[\]\(\)]+?)(\s+#(([\w\|\\\/\-]+)))?\s*$
-      beginCaptures:
-        '1': {name: keyword.other.class.note.source.wsd}
-        '3': {name: support.variable.class.note.source.wsd}
-        '6': {name: constant.numeric.class.note.source.wsd}
-      end: (?i)^\s*(end\s+note)
-      endCaptures:
-        '1': {name: keyword.other.sequence.note.source.wsd}
-      patterns:
-      - name: comment.line.sequence.note.source.wsd
-        match: .+?
     - comment: inline link note for class
       match: (?i)^\s*(note(\s+(right|left|top|bottom))?\s+on\s+link)(\s+#(([\w\|\\\/\-]+)))?\s*:\s*(.+)\s*$
       captures:
