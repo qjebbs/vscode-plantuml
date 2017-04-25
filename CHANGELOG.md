@@ -1,3 +1,7 @@
+### 1.6.1
+- Improvement: Many many syntax highlight optimization.
+- Improvement: Small code & snippet  optimization.
+
 ### 1.6.0
 - New Feature: Auto include. See README for more detail.
 - New Feature: Add setting `plantuml.jar` which allows you use your own jar (maybe a newer version, or with many dependent jars).

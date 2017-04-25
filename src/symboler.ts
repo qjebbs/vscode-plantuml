@@ -5,7 +5,35 @@ class Symbol implements vscode.DocumentSymbolProvider {
     register() {
         //register Symbol provider
         let ds: vscode.Disposable[] = [];
-        let sel: vscode.DocumentSelector = "diagram";
+        let sel: vscode.DocumentSelector = [
+            "diagram",
+            "markdown",
+            "c",
+            "csharp",
+            "cpp",
+            "clojure",
+            "coffeescript",
+            "fsharp",
+            "go",
+            "groovy",
+            "java",
+            "javascript",
+            "javascriptreact",
+            "lua",
+            "objective-c",
+            "objective-cpp",
+            "php",
+            "perl",
+            "perl6",
+            "python",
+            "ruby",
+            "rust",
+            "swift",
+            "typescript",
+            "typescriptreact",
+            "vb",
+            "plaintext"
+        ];
         let d = vscode.languages.registerDocumentSymbolProvider(sel, this);
         ds.push(d);
         return ds;
