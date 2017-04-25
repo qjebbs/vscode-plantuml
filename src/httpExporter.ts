@@ -32,7 +32,7 @@ class HttpExporter {
 
             request(
                 { method: 'GET'
-                , uri: "pURL.url"
+                , uri: pURL.url
                 , encoding: null // for byte encoding. Otherwise string.
                 , gzip: true
                 }
