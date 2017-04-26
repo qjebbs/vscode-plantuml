@@ -115,11 +115,12 @@ class Previewer implements vscode.TextDocumentContentProvider {
         let task;
         if (config.previewFromUrlServer) {
             task = httpExporter.exportToBuffer(diagram, previewFileType);
+            this.process = null;
         } else {
-            task = exporter.exportToBuffer(diagram, previewFileType);   
+            task = exporter.exportToBuffer(diagram, previewFileType);
+            this.process = task.process;
         }
 
-        // this.process = task.process;
         // console.log(`start pid ${this.process.pid}!`);
         if (processingTip) this.processing();
         task.promise.then(
