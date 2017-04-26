@@ -11,27 +11,27 @@
 	},
 	"UI Diagram Label": {
 		"prefix": "ui label",
-		"body": "${label}\n$0",
+		"body": "${label}$0",
 		"description": "Adds a label component to the current view context"
 	},
 	"UI Diagram Radio Button": {
 		"prefix": "ui radio button",
-		"body": "(${X})${button label}\n$0",
+		"body": "(${X})${button label}$0",
 		"description": "Adds a radio button component to the current view context. Place an uppercase X between the parenthesis to indicate selection"
 	},
 	"UI Diagram Checkbox Button": {
 		"prefix": "ui checkbox button",
-		"body": "[${X}]${button label}\n$0",
+		"body": "[${X}]${button label}$0",
 		"description": "Adds a checkbox button component to the current view context. Place an uppercase X between the parenthesis to indicate selection"
 	},
 	"UI Diagram Textbox Edit": {
 		"prefix": "ui textbox edit",
-		"body": "\"${edit-text placeholder}\"\n$0",
+		"body": "\"${edit-text placeholder}\"$0",
 		"description": "Adds a single line edit textbox component to the current view context"
 	},
 	"UI Diagram Combobox": {
 		"prefix": "ui combobox or select box",
-		"body": "^${drop down placeholder}^\n$0",
+		"body": "^${drop down placeholder}^$0",
 		"description": "Adds a combobox component to the current view context. Combo boxes or select boxes typically offer the user 5-10 options to select from. Note, this feature only lets you define the first option"
 	},
 	"UI Diagram Grid Row": {
@@ -42,7 +42,7 @@
 	"UI Diagram Separator Dotted": {
 		"prefix": "ui seperator line",
 		"body": [
-			"${1:..}\n\n$0",
+			"${1:..}\n$0",
 			"${2:'line=> dotted: ..; sold: --; double: ==}"
 		],
 		"description": "Adds a line as a separator to appear between the component above and the component below the line in the current view context. You may use dotted, solid or double lines as the separator"
