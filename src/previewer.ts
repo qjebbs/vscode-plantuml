@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as child_process from 'child_process';
 
 import { exporter } from './exporter';
+import { httpExporter } from './httpExporter';
 import { Diagram, Diagrams } from './diagram';
 import { config } from './config';
 import { context, localize } from './planuml';
@@ -111,8 +112,15 @@ class Previewer implements vscode.TextDocumentContentProvider {
         const previewFileType = config.previewFileType;
         const previewMimeType = previewFileType === 'png' ? 'png' : "svg+xml";
 
-        let task = exporter.exportToBuffer(diagram, previewFileType);
-        this.process = task.process;
+        let task;
+        if (config.previewFromUrlServer) {
+            task = httpExporter.exportToBuffer(diagram, previewFileType);
+            this.process = null;
+        } else {
+            task = exporter.exportToBuffer(diagram, previewFileType);
+            this.process = task.process;
+        }
+
         // console.log(`start pid ${this.process.pid}!`);
         if (processingTip) this.processing();
         task.promise.then(

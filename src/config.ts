@@ -108,6 +108,10 @@ class ConfigReader {
         ];
     }
 
+    get previewFromUrlServer(): boolean {
+        return this._read<boolean>('previewFromUrlServer');
+    }
+
     get includes(): string[] {
         return this._read<string[]>('includes') || [];
     }

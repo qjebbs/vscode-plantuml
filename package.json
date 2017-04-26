@@ -255,6 +255,11 @@
           ],
           "description": "URL result type. Simple URL or ready for MarkDown use."
         },
+        "plantuml.previewFromUrlServer": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use plantuml.urlServer to generate preview images."
+        },
         "plantuml.includes": {
           "type": "array",
           "default": [],
