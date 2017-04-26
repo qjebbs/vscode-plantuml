@@ -36,7 +36,7 @@ class Includer {
         if (!vscode.workspace.rootPath) return null;
         p = path.join(vscode.workspace.rootPath, p);
         if (fs.existsSync(p)) {
-            if (fs.statSync(p).isDirectory) return fs.readdirSync(p).map(f => path.join(p, f));
+            if (fs.statSync(p).isDirectory()) return fs.readdirSync(p).map(f => path.join(p, f));
             return [p];
         }
         return null;
