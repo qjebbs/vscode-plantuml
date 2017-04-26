@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 
 import * as title from './title';
+import { includer } from './includer';
 
 export class Diagrams {
     diagrams: Diagram[] = [];
@@ -81,7 +82,7 @@ export class Diagram {
             }
         }
         if (this.start && this.end) {
-            this.content = document.getText(new vscode.Range(this.start, this.end));
+            this.content = includer.addIncludes(document.getText(new vscode.Range(this.start, this.end)));
             this.getTitle(document);
         }
         return this;
