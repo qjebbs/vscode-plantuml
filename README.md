@@ -176,6 +176,8 @@ Please post and view issues on [GitHub][issues]
 
 - [koara-local](https://github.com/koara-local)
 - [zhleonix](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json)
+- [shepherdwind](https://github.com/shepherdwind)
+- [rado0x54](https://github.com/rado0x54)
 -----------------------------------------------------------------------------------------------------------
 
 **Enjoy!**
