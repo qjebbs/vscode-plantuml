@@ -8,12 +8,12 @@ import { context } from './planuml';
 class Includer {
     private _calculated: string
     private _includes: string
-    private _includeContent: string
+    // private _includeContent: string
 
     addIncludes(content: string): string {
         if (this._calculated != config.includes.sort().toString()) this._calcIncludes();
         if (!this._includes) return content;
-        return content.replace(/\n\s*'\s*autoinclude\s*\n/i, `${this._includeContent}\n`);
+        return content.replace(/\n\s*'\s*autoinclude\s*\n/i, `${this._includes}\n`);
     }
     private _calcIncludes() {
         let includes = "";
@@ -29,7 +29,8 @@ class Includer {
             if (fs.existsSync(c)) paths.push(c);
         }
         this._includes = paths.reduce((pre, cur) => `${pre}\n!include ${cur}`, "");
-        this._includeContent = paths.reduce((pre, cur) => `${pre}\n${fs.readFileSync(cur, "utf-8")}`, "");
+        // FIXME: not watch changes of include file.
+        // this._includeContent = paths.reduce((pre, cur) => `${pre}\n${fs.readFileSync(cur, "utf-8")}`, "");
         this._calculated = confs.sort().toString();
     }
     private _findWorkspace(p: string): string[] {
