@@ -1,7 +1,6 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import * as request from 'request';
 
 import { Diagram, Diagrams } from './diagram';
 import { config } from './config';
@@ -24,9 +23,9 @@ class HttpExporter {
     }
 
     private doExport(diagram: Diagram, format: string): ExportTask {
-        
         let pURL = urlMaker.makeURL(diagram, config.urlServer, format, null);
 
+        var request = require('request');
         // console.log("Exporting preview image from %s", pURL.url);
         let pms = new Promise<Buffer>((resolve, reject) => {
 
