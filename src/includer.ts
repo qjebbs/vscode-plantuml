@@ -8,6 +8,7 @@ import { context } from './planuml';
 class Includer {
     private _calculated: string
     private _includes: string
+    // private _includeContent: string
 
     addIncludes(content: string): string {
         if (this._calculated != config.includes.sort().toString()) this._calcIncludes();
@@ -28,13 +29,15 @@ class Includer {
             if (fs.existsSync(c)) paths.push(c);
         }
         this._includes = paths.reduce((pre, cur) => `${pre}\n!include ${cur}`, "");
+        // FIXME: not watch changes of include file.
+        // this._includeContent = paths.reduce((pre, cur) => `${pre}\n${fs.readFileSync(cur, "utf-8")}`, "");
         this._calculated = confs.sort().toString();
     }
     private _findWorkspace(p: string): string[] {
         if (!vscode.workspace.rootPath) return null;
         p = path.join(vscode.workspace.rootPath, p);
         if (fs.existsSync(p)) {
-            if (fs.statSync(p).isDirectory) return fs.readdirSync(p).map(f => path.join(p, f));
+            if (fs.statSync(p).isDirectory()) return fs.readdirSync(p).map(f => path.join(p, f));
             return [p];
         }
         return null;

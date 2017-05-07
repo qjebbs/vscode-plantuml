@@ -1,3 +1,8 @@
+### 1.6.2
+- New Feature: Preview through PlantUML server. Thanks to [Martin Riedel](https://github.com/qjebbs/vscode-plantuml/pull/34).
+- Improvement: Optimization of minimal zoom status in preview.
+- Other fix and optimization.
+
 ### 1.6.1
 - Improvement: Many many syntax highlight optimization.
 - Improvement: Small code & snippet  optimization.

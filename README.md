@@ -32,6 +32,7 @@ Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram 
     - Auto update.
     - Zoom & scroll support.
     - Instant preview, if diagram's been exported.
+    - From local or server.
 - Export Diagrams
     - At cursor, in current file, in whole workspace, in workspace selected.
     - Concurrent export.
@@ -77,10 +78,11 @@ This extension contributes the following settings:
 - `plantuml.exportOutDirName`: export workspace diagrams will be organized in a directory named with value specified here.
 - `plantuml.previewAutoUpdate`: Dedecides if automatically update the preview window.
 - `plantuml.previewFileType`: Preview file type, png or svg support. But svg preview cannot support sudoku, earth diagrams etc.
+- `plantuml.previewFromUrlServer`: Use plantuml.urlServer to generate preview images.
 - `plantuml.urlServer`: plantuml server to generate UML diagrams on-the-fly.
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.
 - `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
-- `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more.
+- `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write "!include path/to/include.wsd" for every single diagram any more.
 
 ## About Snippets
 
@@ -176,6 +178,8 @@ Please post and view issues on [GitHub][issues]
 
 - [koara-local](https://github.com/koara-local)
 - [zhleonix](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json)
+- [shepherdwind](https://github.com/shepherdwind)
+- [Martin Riedel](https://github.com/rado0x54)
 -----------------------------------------------------------------------------------------------------------
 
 **Enjoy!**

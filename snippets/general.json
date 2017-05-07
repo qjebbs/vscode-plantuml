@@ -1,7 +1,7 @@
 {
     "General Diagram Start/End": {
         "prefix": "diagram start",
-        "body": "@startuml\n$0\n@enduml",
+        "body": "@startuml ${1:diagram name}\n$0\n@enduml",
         "description": "Adds the declarative boundaries between which a PlantUML artifact is specified"
     },
     "General Diagram Scale": {
