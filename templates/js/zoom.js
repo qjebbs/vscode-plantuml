@@ -4,9 +4,24 @@ window.onload = () => {
     let naturalWidth = img.naturalWidth;
     let zoom = (window.innerWidth - marginPixels) / naturalWidth * 100;
     if (zoom > 100) zoom = 100;
-    document.body.addEventListener("mousewheel", () => {
-        zoomImage();
-    })
+    document.body.addEventListener("mousewheel", zoomImage);
+    window.onresize = function () {
+        let winWidth = window.innerWidth;
+        let contentWidth = winWidth - marginPixels
+        let minWidth = contentWidth < naturalWidth ? contentWidth : naturalWidth;
+        let minZoom = parseInt(minWidth / naturalWidth * 100);
+
+        if (img.style.width == "") {
+            // console.log("update zoom value due to resize");
+            zoom = minZoom;
+        } else if (zoom < minZoom) {
+            // console.log("change zoom to fit");
+            zoom = minZoom;
+            img.style.width = "";
+            img.style.maxWidth = "";
+            document.body.style.width = "";
+        }
+    };
     window.onmousewheel = function () { return false };
     function zoomImage() {
         let winWidth = window.innerWidth;
@@ -14,14 +29,14 @@ window.onload = () => {
         let minWidth = contentWidth < naturalWidth ? contentWidth : naturalWidth;
         let minZoom = parseInt(minWidth / naturalWidth * 100);
 
-        if (minZoom == 100) return;
         zoom += event.wheelDelta / 12;
         if (zoom > 100) zoom = 100;
-        if (zoom < minZoom) {
+        if (zoom < minZoom || minZoom == 100) {
             zoom = minZoom;
             img.style.width = "";
             img.style.maxWidth = "";
             document.body.style.width = "";
+            zoom = minZoom;
         } else {
             let imgWidth = parseInt(naturalWidth * zoom / 100);
             img.style.width = imgWidth + 'px';
