@@ -83,6 +83,7 @@ This extension contributes the following settings:
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.
 - `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
 - `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write "!include path/to/include.wsd" for every single diagram any more.
+- `plantuml.commandArgs`: commandArgs allows you add command arguments to java command, such as `-DPLANTUML_LIMIT_SIZE=8192`.
 
 ## About Snippets
 

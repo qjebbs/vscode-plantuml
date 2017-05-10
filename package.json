@@ -264,6 +264,11 @@
           "type": "array",
           "default": [],
           "description": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more."
+        },
+        "plantuml.commandArgs": {
+          "type": "array",
+          "default": [],
+          "description": "commandArgs allows you add arguments to java command, such as \"-DPLANTUML_LIMIT_SIZE=8192\"."
         }
       }
     }

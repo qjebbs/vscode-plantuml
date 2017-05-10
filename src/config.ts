@@ -115,6 +115,9 @@ class ConfigReader {
     get includes(): string[] {
         return this._read<string[]>('includes') || [];
     }
+    get commandArgs(): string[] {
+        return this._read<string[]>('commandArgs') || [];
+    }
 }
 
 export const config = new ConfigReader();
