@@ -49,8 +49,7 @@ export function compile(rules: FormatRuleWriting[], regVars: any): FormatRule[] 
         str = eval("`" + str + "`");
         let flags = "";
         flags += reg.ignoreCase ? "i" : "";
-        flags += reg.global ? "g" : "";
-        flags += reg.multiline ? "m" : "";
+        flags += "g";
         let r = new RegExp(str, flags);
         return r;
     }

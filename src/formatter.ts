@@ -1,7 +1,13 @@
 import * as vscode from 'vscode';
 import { formatRules } from './formatRules';
-import { FormatType, FormatRule } from './formatRuleCompiler';
+import { FormatType, FormatRule, FormatCapture } from './formatRuleCompiler';
+import { MatchPositions, UnmatchedText } from './matchPositions';
 
+interface matchLine {
+    text: string,
+    newText: string,
+    matchPositions: MatchPositions
+}
 class Formatter implements vscode.DocumentFormattingEditProvider {
     public provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
         return this.formate(document, options, token);
@@ -23,64 +29,59 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
 
         for (let i = 0; i < document.lineCount; i++) {
             if (token.isCancellationRequested) return [];
-            let line = document.lineAt(i);
-            let newLineText = line.text;
-            let curIndentDelta = 0;
+            let docLine = document.lineAt(i);
+            let line = <matchLine>{
+                text: docLine.text,
+                newText: docLine.text,
+                matchPositions: new MatchPositions(docLine.text)
+            }
+            let indentDelta = 0;
             for (let rule of formatRules) {
-                //test match
+                //test match    
                 if (rule.match) {
-                    let match = rule.match.exec(line.text);
-                    if (match && rule.captures) {
-                        for (let capture of rule.captures) {
-                            if (match[capture.index]) newLineText = newLineText.replace(rule.match, this.formatString(match[capture.index], capture.type));
-                        }
-                    }
+                    this.doMatch(line, rule.match, rule.captures);
                 }
                 //test block in
                 else if (rule.begin && rule.end) {
-                    let match = rule.begin.exec(line.text);
-                    if (match) {
-                        if (rule.beginCaptures) {
-                            for (let capture of rule.beginCaptures) {
-                                if (match[capture.index]) newLineText = newLineText.replace(rule.match, this.formatString(match[capture.index], capture.type));
-                            }
-                        }
+                    if (this.doMatch(line, rule.begin, rule.beginCaptures)) {
                         this.blocks.push(rule);
-                        curIndentDelta = -1;
+                        indentDelta = -1;
                     } else {
                         //test 'again' line
-                        if (rule.begin && rule.again && rule.end) {
-                            let match = rule.again.exec(line.text);
-                            if (match) {
-                                if (rule.againCaptures) {
-                                    for (let capture of rule.againCaptures) {
-                                        if (match[capture.index]) newLineText = newLineText.replace(rule.match, this.formatString(match[capture.index], capture.type));
-                                    }
-                                }
-                                curIndentDelta = -1;
-                            }
-                        }
+                        if (rule.again && this.doMatch(line, rule.again, rule.againCaptures)) indentDelta = -1;
                     }
                 }
-
             }
             //test block out
             if (this.blocks.length) {
                 let rule = this.blocks[this.blocks.length - 1];
-                let match = rule.end.exec(line.text);
-                if (match) {
-                    if (rule.endCaptures) {
-                        for (let capture of rule.endCaptures) {
-                            if (match[capture.index]) newLineText = newLineText.replace(rule.match, this.formatString(match[capture.index], capture.type));
-                        }
-                    }
+                if (this.doMatch(line, rule.end, rule.endCaptures)) {
                     this.blocks.pop();
                 }
             }
-            newLineText = this.indent(newLineText, spaceStr, this.blocks.length + curIndentDelta);
-            edits.push(<vscode.TextEdit>{ range: line.range, newText: newLineText });
+            line.newText = this.indent(line.newText, spaceStr, this.blocks.length + indentDelta);
+            edits.push(<vscode.TextEdit>{ range: docLine.range, newText: line.newText });
         }
         return edits;
+    }
+    private doMatch(line: matchLine, patt: RegExp, captures: FormatCapture[]): boolean {
+        let match: RegExpMatchArray;
+        let matched = false;
+        for (let u of line.matchPositions.GetUnmatchedTexts()) {
+            // console.log("test", u.text);
+            patt.lastIndex = 0;
+            while (match = patt.exec(u.text)) {
+                matched = true;
+                line.matchPositions.AddPosition(match.index, patt.lastIndex - 1, u.offset);
+                if (captures) {
+                    for (let capture of captures) {
+                        if (match[capture.index]) line.newText = line.newText.replace(patt, this.formatString(match[capture.index], capture.type));
+                    }
+                }
+            }
+        }
+        patt.lastIndex = 0;
+        return matched;
     }
     private indent(lineText: string, spaceStr: string, level: number): string {
         level = level < 0 ? 0 : level;
