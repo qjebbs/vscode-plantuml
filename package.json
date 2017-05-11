@@ -269,6 +269,11 @@
           "type": "array",
           "default": [],
           "description": "commandArgs allows you add arguments to java command, such as \"-DPLANTUML_LIMIT_SIZE=8192\"."
+        },
+        "plantuml.experimental.formatInLine": {
+          "type": "boolean",
+          "default": false,
+          "description": "Experimental! \nFormat provide by this plugin only indent code blocks by default and not change your line text.\nYou can enable inline format with this setting, but it's very early experimental function, and it may broke your code! You use it at your own risk!"
         }
       }
     }

@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { formatRules } from './formatRules';
 import { FormatType, FormatRule, FormatCapture } from './formatRuleCompiler';
 import { MatchPositions, UnmatchedText } from './matchPositions';
+import { config } from '../config';
 
 interface matchLine {
     text: string,
@@ -46,7 +47,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
             let indentDelta = 0;
             for (let rule of formatRules) {
                 //test match    
-                if (rule.match) {
+                if (config.formatInLine && rule.match) {
                     this.doMatch(line, rule.match, rule.captures);
                 }
                 //test block in
@@ -67,8 +68,10 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                     }
                 }
             }
-            this.makeLineElements(line);
-            this.formatLine(line);
+            if (config.formatInLine) {
+                this.makeLineElements(line);
+                this.formatLine(line);
+            }
             line.newText = this.indent(line.newText, spaceStr, this.blocks.length + indentDelta);
             edits.push(<vscode.TextEdit>{ range: docLine.range, newText: line.newText });
         }
@@ -119,7 +122,6 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         for (let i = 0; i < line.elements.length - 1; i++) {
             let thisEl = line.elements[i];
             let nextEl = line.elements[i + 1];
-            if (!nextEl.text.trim()) continue;
             switch (thisEl.type) {
                 case FormatType.none:
                     text += nextEl.text;
