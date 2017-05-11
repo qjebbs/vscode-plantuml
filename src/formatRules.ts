@@ -1,4 +1,4 @@
-import * as compiler from './formatRuleCompiler';
+import { FormatRuleWriting, compile, FormatType } from './formatRuleCompiler';
 
 let ruleVariables = {
     //line begin
@@ -7,7 +7,8 @@ let ruleVariables = {
     LE: /\s*$/.source
 }
 
-let rules: compiler.FormatRuleWriting[] = [
+let rules: FormatRuleWriting[] = [
+    //Indents and formats
     //common
     //{} block
     {
@@ -51,6 +52,35 @@ let rules: compiler.FormatRuleWriting[] = [
     {
         begin: /{{LB}}while\s*\(/i,
         end: /{{LB}}end\s*while{{LE}}/i
+    },
+    //formats
+    //quoted
+    {
+        match: /@(start|end)\w+/i,
+        captures: {
+            0: FormatType.word,
+        }
+    },
+    //quoted
+    {
+        match: /"[^"]*"/i,
+        captures: {
+            0: FormatType.word,
+        }
+    },
+    //link operater
+    {
+        match: new RegExp("((?:(?:(?:\\s+[ox]|[+*])?(?:<\\|?|<<|\\\\\\\\|\\\\|//|\\})?)(?=[-.]))[-.]+(\\[(?:\\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\\w+)(?:[-\\\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\\w+))?\\b)\\])?(?:(left|right|up|down)(?:[-.]))?[-.]*(?:(?:\\|?>|>>|\\\\\\\\|\\\\|//|\\{)?(?:[ox]\\s+|[+*])?))", "i"),
+        captures: {
+            0: FormatType.operater,
+        }
+    },
+    //link operater
+    {
+        match: /\b[\w_]+/i,
+        captures: {
+            0: FormatType.word,
+        }
     }
 ]
-export const formatRules = compiler.compile(rules, ruleVariables);
+export const formatRules = compile(rules, ruleVariables);

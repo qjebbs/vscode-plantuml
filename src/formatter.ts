@@ -6,7 +6,14 @@ import { MatchPositions, UnmatchedText } from './matchPositions';
 interface matchLine {
     text: string,
     newText: string,
-    matchPositions: MatchPositions
+    matchPositions: MatchPositions,
+    elements: formatElemet[]
+}
+interface formatElemet {
+    type: FormatType,
+    text: string,
+    start: number,
+    end: number
 }
 class Formatter implements vscode.DocumentFormattingEditProvider {
     public provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
@@ -33,7 +40,8 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
             let line = <matchLine>{
                 text: docLine.text,
                 newText: docLine.text,
-                matchPositions: new MatchPositions(docLine.text)
+                matchPositions: new MatchPositions(docLine.text),
+                elements: []
             }
             let indentDelta = 0;
             for (let rule of formatRules) {
@@ -51,19 +59,22 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                         if (rule.again && this.doMatch(line, rule.again, rule.againCaptures)) indentDelta = -1;
                     }
                 }
-            }
-            //test block out
-            if (this.blocks.length) {
-                let rule = this.blocks[this.blocks.length - 1];
-                if (this.doMatch(line, rule.end, rule.endCaptures)) {
-                    this.blocks.pop();
+                //test block out
+                if (this.blocks.length) {
+                    let rule = this.blocks[this.blocks.length - 1];
+                    if (this.doMatch(line, rule.end, rule.endCaptures)) {
+                        this.blocks.pop();
+                    }
                 }
             }
+            this.makeLineElements(line);
+            this.formatLine(line);
             line.newText = this.indent(line.newText, spaceStr, this.blocks.length + indentDelta);
             edits.push(<vscode.TextEdit>{ range: docLine.range, newText: line.newText });
         }
         return edits;
     }
+
     private doMatch(line: matchLine, patt: RegExp, captures: FormatCapture[]): boolean {
         let match: RegExpMatchArray;
         let matched = false;
@@ -74,8 +85,23 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                 matched = true;
                 line.matchPositions.AddPosition(match.index, patt.lastIndex - 1, u.offset);
                 if (captures) {
+                    let subPos: number[] = [];
+                    let pos = 0;
+                    subPos[0] = 0;
+                    match.every((v, i) => {
+                        pos = match[0].indexOf(v, pos);
+                        subPos[i] = pos;
+                        return true;
+                    })
                     for (let capture of captures) {
-                        if (match[capture.index]) line.newText = line.newText.replace(patt, this.formatString(match[capture.index], capture.type));
+                        if (match[capture.index]) line.elements.push(
+                            <formatElemet>{
+                                type: capture.type,
+                                text: match[capture.index],
+                                start: subPos[capture.index] + u.offset + match.index,
+                                end: subPos[capture.index] + u.offset + match.index + match[capture.index].length,
+                            }
+                        );
                     }
                 }
             }
@@ -87,15 +113,68 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         level = level < 0 ? 0 : level;
         return spaceStr.repeat(level) + lineText.trim();
     }
-    private formatString(str: string, type: FormatType): string {
-        str = str.trim()
-        switch (type) {
-            case FormatType.operaterBinary:
-                break
-            case FormatType.operaterUnary:
-                break
+    private formatLine(line: matchLine) {
+        let text = line.elements[0].text;
+        // let formatType: FormatType;
+        for (let i = 0; i < line.elements.length - 1; i++) {
+            let thisEl = line.elements[i];
+            let nextEl = line.elements[i + 1];
+            if (!nextEl.text.trim()) continue;
+            switch (thisEl.type) {
+                case FormatType.none:
+                    text += nextEl.text;
+                    break;
+                case FormatType.word:
+                    switch (nextEl.type) {
+                        case FormatType.none:
+                            text += nextEl.text;
+                            break;
+                        case FormatType.punct:
+                            text += nextEl.text.trim();
+                            break;
+                        case FormatType.operater:
+                        case FormatType.word:
+                            text += " " + nextEl.text.trim();
+                            break;
+                        default:
+                            text += nextEl.text;
+                            break;
+                    }
+                    break;
+                case FormatType.operater:
+                case FormatType.punct:
+                    text += " " + nextEl.text.trim();
+                    break;
+                default:
+                    text += nextEl.text;
+                    break;
+            }
         }
-        return str;
+        line.newText = text;
+    }
+    private makeLineElements(line: matchLine) {
+        line.elements.sort((a, b) => a.start - b.start);
+        let pos = 0;
+        let els: formatElemet[] = [];
+        for (let e of line.elements) {
+            if (e.start > pos && line.text.substring(pos, e.start).trim()) els.push({
+                type: FormatType.none,
+                text: line.text.substring(pos, e.start),
+                start: pos,
+                end: e.start - 1
+            });
+            pos = e.end;
+        }
+        if (pos < line.text.length && line.text.substring(pos, line.text.length).trim()) {
+            els.push({
+                type: FormatType.none,
+                text: line.text.substring(pos, line.text.length),
+                start: pos,
+                end: line.text.length - 1
+            });
+        }
+        line.elements.push(...els);
+        line.elements.sort((a, b) => a.start - b.start);
     }
 }
 

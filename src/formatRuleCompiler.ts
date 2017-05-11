@@ -1,6 +1,8 @@
 export enum FormatType {
-    operaterUnary,
-    operaterBinary
+    none,
+    word,
+    operater,
+    punct
 }
 export interface FormatCapture {
     index: number,
