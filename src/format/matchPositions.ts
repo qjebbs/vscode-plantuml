@@ -23,7 +23,7 @@ export class MatchPositions {
         let posCount = this._positions.length;
         if (!posCount) return [{ text: this._line, offset: 0 }];
         let texts: UnmatchedText[] = [];
-        if (this._positions[0] > 1) {
+        if (this._positions[0] > 0) {
             texts.push({ text: this._line.substring(0, this._positions[0]), offset: 0 });
         }
         for (let i = 1; i < posCount - 1; i += 2) {

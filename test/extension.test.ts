@@ -21,7 +21,7 @@ suite("Extension Tests", () => {
         assert.equal(-1, [1, 2, 3].indexOf(0));
     });
     test("MatchPositions", () => {
-        let str = "abc 1223 efg 45666789";
+        let str = "1abc 1223 efg 45666789=";
         let reg = /[a-z]+/ig;
         let pos = new MatchPositions(str);
         let match: RegExpMatchArray;
@@ -38,6 +38,6 @@ suite("Extension Tests", () => {
         for (let t of pos.GetUnmatchedTexts()) {
             ts += t.text;
         }
-        assert.equal(ts, " 13  45789");
+        assert.equal(ts, "1 13  45789=");
     });
 });

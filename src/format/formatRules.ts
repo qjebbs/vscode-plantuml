@@ -82,7 +82,7 @@ let rules: FormatRuleWriting[] = [
     },
     {
         comment: "variables",
-        match: /\b[\w_]+/i,
+        match: /[\w_]+/i,
         captures: {
             0: FormatType.word,
         }
