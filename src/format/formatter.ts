@@ -3,6 +3,8 @@ import { formatRules } from './formatRules';
 import { FormatType, FormatRule, FormatCapture } from './formatRuleCompiler';
 import { MatchPositions, UnmatchedText } from './matchPositions';
 import { config } from '../config';
+import { outputPanel } from '../planuml';
+import { showError, parseError } from '../tools';
 
 interface matchLine {
     text: string,
@@ -18,7 +20,11 @@ interface formatElemet {
 }
 class Formatter implements vscode.DocumentFormattingEditProvider {
     public provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
-        return this.formate(document, options, token);
+        try {
+            return this.formate(document, options, token);
+        } catch (error) {
+            showError(outputPanel, parseError(error));
+        }
     }
     register(): vscode.Disposable[] {
         let ds: vscode.Disposable[] = [];
@@ -113,10 +119,17 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         return matched;
     }
     private indent(lineText: string, spaceStr: string, level: number): string {
+        if (!lineText.trim()) return "";
         level = level < 0 ? 0 : level;
         return spaceStr.repeat(level) + lineText.trim();
     }
     private formatLine(line: matchLine) {
+        if (line.text.trim() && !line.elements.length)
+            throw ("no element found for a non-empty line!");
+        if (!line.elements.length) {
+            line.newText = "";
+            return;
+        }
         let text = line.elements[0].text;
         // let formatType: FormatType;
         for (let i = 0; i < line.elements.length - 1; i++) {
@@ -155,7 +168,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         line.newText = text;
     }
     private makeLineElements(line: matchLine) {
-        line.elements.sort((a, b) => a.start - b.start);
+        if (line.elements.length) line.elements.sort((a, b) => a.start - b.start);
         let pos = 0;
         let els: formatElemet[] = [];
         for (let e of line.elements) {
@@ -176,7 +189,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
             });
         }
         line.elements.push(...els);
-        line.elements.sort((a, b) => a.start - b.start);
+        if (line.elements.length) line.elements.sort((a, b) => a.start - b.start);
     }
 }
 

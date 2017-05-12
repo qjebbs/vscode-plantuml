@@ -39,9 +39,9 @@ let rules: FormatRuleWriting[] = [
     },
     //split, fork
     {
-        begin: /{{LB}}[split|fork]{{LE}}/i,
-        again: /{{LB}}[split|fork]\s+again{{LE}}/i,
-        end: /{{LB}}end\s*[split|fork]{{LE}}/i
+        begin: /{{LB}}(split|fork){{LE}}/i,
+        again: /{{LB}}(split|fork)\s+again{{LE}}/i,
+        end: /{{LB}}end\s*(split|fork){{LE}}/i
     },
     //repeat while
     {
