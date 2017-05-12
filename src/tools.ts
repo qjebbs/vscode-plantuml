@@ -38,7 +38,7 @@ export function parseError(error: any): ExportError[] {
         return [<ExportError>{ error: error, out: nb }];
     } else if (error instanceof TypeError || error instanceof Error) {
         let err = error as TypeError;
-        return [<ExportError>{ error: err.message, out: nb }];
+        return [<ExportError>{ error: err.stack, out: nb }];
     } else if (error instanceof Array) {
         return error as ExportError[];
     } else {
