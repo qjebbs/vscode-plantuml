@@ -4,14 +4,17 @@ let ruleVariables = {
     //line begin
     LB: /^\s*/.source,
     //line end
-    LE: /\s*$/.source
+    LE: /\s*$/.source,
+    ArrowLeft: /(?:(?:(?:\s+[ox]|[+*])|(?:<\|?|<<|\\\\|\\|\/\/|\})|(?:\s+[ox]|[+*])(?:<\|?|<<|\\\\|\\|\/\/|\}))(?=[-.]))/.source,
+    ArrowRight: /(?:(?:\|?>|>>|\\\\|\\|\/\/|\{)|(?:[ox]\s+|[+*])|(?:\|?>|>>|\\\\|\\|\/\/|\{)(?:[ox]\s+|[+*]))/.source,
+    Color: /(?:\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\w+)(?:[-\\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\w+))?)/.source
 }
 
 let rules: FormatRuleWriting[] = [
     //blocks
     {
         comment: "block {}",
-        blockBegin: /{{LB}}(.+)?\{[!#+-]?{{LE}}/i,
+        blockBegin: /{{LB}}(.+)?\{[!#+-T]?{{LE}}/i,
         blockEnd: /{{LB}}\}{{LE}}/i
     },
     {
@@ -31,25 +34,62 @@ let rules: FormatRuleWriting[] = [
     },
     {
         comment: "block if-else-if",
-        blockBegin: /{{LB}}if\s*\(/i,
-        blockAgain: /{{LB}}else\s*\(/i,
-        blockEnd: /{{LB}}end\s*if{{LE}}/i
+        blockBegin: /{{LB}}if\s*(\()/i,
+        blockAgain: /{{LB}}else\s*(\()/i,
+        blockEnd: /{{LB}}endif{{LE}}/i,
+        blockBeginCaptures: {
+            1: FormatType.punctLeftSpace
+        },
+        blockAgainCaptures: {
+            1: FormatType.punctLeftSpace
+        },
+        blockEndCaptures: {
+            0: FormatType.word,
+        }
     },
     {
-        comment: "block if-else-if",
+        comment: "block split fork",
         blockBegin: /{{LB}}(split|fork){{LE}}/i,
-        blockAgain: /{{LB}}(split|fork)\s+again{{LE}}/i,
-        blockEnd: /{{LB}}end\s*(split|fork){{LE}}/i
+        blockAgain: /{{LB}}(split|fork)\s+(again){{LE}}/i,
+        blockEnd: /{{LB}}(end)\s*(split|fork){{LE}}/i,
+        blockAgainCaptures: {
+            1: FormatType.word,
+            2: FormatType.word,
+        },
+        blockEndCaptures: {
+            1: FormatType.word,
+            2: FormatType.word,
+        }
     },
     {
         comment: "block repeat while",
         blockBegin: /{{LB}}repeat{{LE}}/i,
-        blockEnd: /{{LB}}repeat\s*while\s*\(/i
+        blockEnd: /{{LB}}(repeat)\s*(while)\s*(\()/i,
+        blockEndCaptures: {
+            1: FormatType.word,
+            2: FormatType.word,
+            3: FormatType.punctLeftSpace
+        }
     },
     {
         comment: "block while",
-        blockBegin: /{{LB}}while\s*\(/i,
-        blockEnd: /{{LB}}end\s*while{{LE}}/i
+        blockBegin: /{{LB}}(while)\s*(\()/i,
+        blockEnd: /{{LB}}(end)\s*(while){{LE}}/i,
+        blockBeginCaptures: {
+            1: FormatType.word,
+            2: FormatType.punctLeftSpace
+        },
+        blockEndCaptures: {
+            1: FormatType.word,
+            2: FormatType.word
+        }
+    },
+    {
+        comment: "link operator",
+        match: /(?:{{ArrowLeft}}?[-.]+(\[{{Color}}\])(?:(left|right|up|down)(?:[-.]))?[-.]+{{ArrowRight}}?)|(?:{{ArrowLeft}}[-.]+)|(?:[-.]+{{ArrowRight}})|(?:[-.]{2,})/i,
+        captures: {
+            0: FormatType.operater,
+        }
     },
     //formats
     {
@@ -74,10 +114,66 @@ let rules: FormatRuleWriting[] = [
         }
     },
     {
-        comment: "link operater",
-        match: new RegExp("((?:(?:(?:\\s+[ox]|[+*])?(?:<\\|?|<<|\\\\\\\\|\\\\|//|\\})?)(?=[-.]))[-.]+(\\[(?:\\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\\w+)(?:[-\\\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\\w+))?\\b)\\])?(?:(left|right|up|down)(?:[-.]))?[-.]*(?:(?:\\|?>|>>|\\\\\\\\|\\\\|//|\\{)?(?:[ox]\\s+|[+*])?))", "i"),
+        comment: "quoted usecase user definition",
+        match: /:[^:]+:/i,
+        captures: {
+            0: FormatType.word,
+        }
+    },
+    {
+        comment: "quoted component definition",
+        match: /\[[^\[\]]+\]/i,
+        captures: {
+            0: FormatType.word,
+        }
+    },
+    {
+        comment: "quoted <> <<>>",
+        match: /<<?[^<>]+>>?/i,
+        captures: {
+            0: FormatType.word,
+        }
+    },
+    {
+        comment: "preprocessing",
+        match: /{{LB}}!\w+/i,
+        captures: {
+            0: FormatType.word,
+        }
+    },
+    {
+        comment: "operators",
+        match: /[-+=/|*&]/i,
         captures: {
             0: FormatType.operater,
+        }
+    },
+    {
+        comment: "punct right",
+        match: /[:,?;)}]/i,
+        captures: {
+            0: FormatType.punctRightSpace,
+        }
+    },
+    {
+        comment: "punct left",
+        match: /[({]/i,
+        captures: {
+            0: FormatType.punctLeftSpace,
+        }
+    },
+    {
+        comment: "connectors",
+        match: /@/i,
+        captures: {
+            0: FormatType.connector,
+        }
+    },
+    {
+        comment: "as is",
+        match: /\.\s?/i,
+        captures: {
+            0: FormatType.asIs,
         }
     },
     {

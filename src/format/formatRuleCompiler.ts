@@ -2,7 +2,10 @@ export enum FormatType {
     none,
     word,
     operater,
-    punct
+    punctRightSpace,
+    punctLeftSpace,
+    connector,
+    asIs
 }
 export interface FormatCapture {
     index: number,
@@ -42,7 +45,7 @@ export function compile(rules: FormatRuleWriting[], regVars: any): FormatRule[] 
         if (r.match) c.match = compileRegExp(r.match);
         if (r.captures) c.captures = compileCaptures(r.captures);
         if (r.blockBeginCaptures) c.blockBeginCaptures = compileCaptures(r.blockBeginCaptures);
-        if (r.blockAgainCaptures) c.blockBeginCaptures = compileCaptures(r.blockBeginCaptures);
+        if (r.blockAgainCaptures) c.blockAgainCaptures = compileCaptures(r.blockAgainCaptures);
         if (r.blockEndCaptures) c.blockEndCaptures = compileCaptures(r.blockEndCaptures);
         compiled.push(c);
     }

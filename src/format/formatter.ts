@@ -51,6 +51,13 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                 elements: []
             }
             let indentDelta = 0;
+            //test block out
+            if (this.blocks.length) {
+                let rule = this.blocks[this.blocks.length - 1];
+                if (this.doMatch(line, rule.blockEnd, rule.blockEndCaptures)) {
+                    this.blocks.pop();
+                }
+            }
             for (let rule of formatRules) {
                 //test match    
                 if (config.formatInLine && rule.match) {
@@ -64,13 +71,6 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                     } else {
                         //test 'again' line
                         if (rule.blockAgain && this.doMatch(line, rule.blockAgain, rule.blockAgainCaptures)) indentDelta = -1;
-                    }
-                }
-                //test block out
-                if (this.blocks.length) {
-                    let rule = this.blocks[this.blocks.length - 1];
-                    if (this.doMatch(line, rule.blockEnd, rule.blockEndCaptures)) {
-                        this.blocks.pop();
                     }
                 }
             }
@@ -88,9 +88,11 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         let match: RegExpMatchArray;
         let matched = false;
         for (let u of line.matchPositions.GetUnmatchedTexts()) {
-            // console.log("test", u.text);
+            if (!u.text.trim()) continue;
+            // console.log("test", u.text, "with", patt.source);
             patt.lastIndex = 0;
             while (match = patt.exec(u.text)) {
+                // console.log("TEST", u.text, "MATCH", match[0], "WITH", patt.source);
                 matched = true;
                 line.matchPositions.AddPosition(match.index, patt.lastIndex - 1, u.offset);
                 if (captures) {
@@ -130,42 +132,55 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
             line.newText = "";
             return;
         }
-        let text = line.elements[0].text;
+        let text = getElementText(line.elements[0]);
         // let formatType: FormatType;
         for (let i = 0; i < line.elements.length - 1; i++) {
             let thisEl = line.elements[i];
             let nextEl = line.elements[i + 1];
             switch (thisEl.type) {
                 case FormatType.none:
-                    text += nextEl.text;
-                    break;
                 case FormatType.word:
                     switch (nextEl.type) {
                         case FormatType.none:
-                            text += nextEl.text;
-                            break;
-                        case FormatType.punct:
-                            text += nextEl.text.trim();
-                            break;
+                        case FormatType.punctLeftSpace:
                         case FormatType.operater:
                         case FormatType.word:
-                            text += " " + nextEl.text.trim();
+                            text += " " + getElementText(nextEl);
                             break;
                         default:
-                            text += nextEl.text;
+                            text += getElementText(nextEl);
                             break;
                     }
                     break;
                 case FormatType.operater:
-                case FormatType.punct:
-                    text += " " + nextEl.text.trim();
+                case FormatType.punctRightSpace:
+                    switch (nextEl.type) {
+                        case FormatType.none:
+                        case FormatType.word:
+                        case FormatType.punctLeftSpace:
+                            text += " " + getElementText(nextEl);
+                            break;
+                        default:
+                            text += getElementText(nextEl);
+                            break;
+                    }
+                    break;
+                case FormatType.punctLeftSpace:
+                    text += getElementText(nextEl);
+                    break;
+                case FormatType.connector:
+                    text += getElementText(nextEl);
                     break;
                 default:
-                    text += nextEl.text;
+                    text += getElementText(nextEl);
                     break;
             }
         }
         line.newText = text;
+        function getElementText(el: formatElemet): string {
+            if (el.type == FormatType.asIs) return el.text;
+            return el.text.trim();
+        }
     }
     private makeLineElements(line: matchLine) {
         if (line.elements.length) line.elements.sort((a, b) => a.start - b.start);
