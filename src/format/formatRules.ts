@@ -8,75 +8,80 @@ let ruleVariables = {
 }
 
 let rules: FormatRuleWriting[] = [
-    //Indents and formats
-    //common
-    //{} block
+    //blocks
     {
-        begin: /{{LB}}(.+)?\{[!#+-]?{{LE}}/i,
-        end: /{{LB}}\}{{LE}}/i
+        comment: "block {}",
+        blockBegin: /{{LB}}(.+)?\{[!#+-]?{{LE}}/i,
+        blockEnd: /{{LB}}\}{{LE}}/i
     },
-    //multiple note
     {
-        begin: /{{LB}}note\s+(left|right){{LE}}/i,
-        end: /{{LB}}end\s*note{{LE}}/i
+        comment: "block multiple note",
+        blockBegin: /{{LB}}note\s+(left|right){{LE}}/i,
+        blockEnd: /{{LB}}end\s*note{{LE}}/i
     },
-    //multiple note of over
     {
-        begin: /{{LB}}([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(\w+)))|(on\s+link))\s*(#\w+)?{{LE}}/i,
-        end: /{{LB}}end\s*note{{LE}}/i
+        comment: "block multiple note of over",
+        blockBegin: /{{LB}}([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(\w+)))|(on\s+link))\s*(#\w+)?{{LE}}/i,
+        blockEnd: /{{LB}}end\s*note{{LE}}/i
     },
-    //multi-line header, legend, footer
     {
-        begin: /{{LB}}(header|legend|footer){{LE}}/i,
-        end: /{{LB}}end\s*(header|legend|footer){{LE}}/i
+        comment: "block multi-line header, legend, footer",
+        blockBegin: /{{LB}}(header|legend|footer){{LE}}/i,
+        blockEnd: /{{LB}}end\s*(header|legend|footer){{LE}}/i
     },
-    //Activity
-    //if-else-if
     {
-        begin: /{{LB}}if\s*\(/i,
-        again: /{{LB}}else\s*\(/i,
-        end: /{{LB}}end\s*if{{LE}}/i
+        comment: "block if-else-if",
+        blockBegin: /{{LB}}if\s*\(/i,
+        blockAgain: /{{LB}}else\s*\(/i,
+        blockEnd: /{{LB}}end\s*if{{LE}}/i
     },
-    //split, fork
     {
-        begin: /{{LB}}(split|fork){{LE}}/i,
-        again: /{{LB}}(split|fork)\s+again{{LE}}/i,
-        end: /{{LB}}end\s*(split|fork){{LE}}/i
+        comment: "block if-else-if",
+        blockBegin: /{{LB}}(split|fork){{LE}}/i,
+        blockAgain: /{{LB}}(split|fork)\s+again{{LE}}/i,
+        blockEnd: /{{LB}}end\s*(split|fork){{LE}}/i
     },
-    //repeat while
     {
-        begin: /{{LB}}repeat{{LE}}/i,
-        end: /{{LB}}repeat\s*while\s*\(/i
+        comment: "block repeat while",
+        blockBegin: /{{LB}}repeat{{LE}}/i,
+        blockEnd: /{{LB}}repeat\s*while\s*\(/i
     },
-    //while
     {
-        begin: /{{LB}}while\s*\(/i,
-        end: /{{LB}}end\s*while{{LE}}/i
+        comment: "block while",
+        blockBegin: /{{LB}}while\s*\(/i,
+        blockEnd: /{{LB}}end\s*while{{LE}}/i
     },
     //formats
-    //quoted
     {
+        comment: "@start,@end",
         match: /@(start|end)\w+/i,
         captures: {
             0: FormatType.word,
         }
     },
-    //quoted
     {
+        comment: "quoted string",
         match: /"[^"]*"/i,
         captures: {
             0: FormatType.word,
         }
     },
-    //link operater
     {
+        comment: "quoted activity definition",
+        match: /{{LB}}:.*[;|<>/\]}]{{LE}}/i,
+        captures: {
+            0: FormatType.word,
+        }
+    },
+    {
+        comment: "link operater",
         match: new RegExp("((?:(?:(?:\\s+[ox]|[+*])?(?:<\\|?|<<|\\\\\\\\|\\\\|//|\\})?)(?=[-.]))[-.]+(\\[(?:\\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\\w+)(?:[-\\\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\\w+))?\\b)\\])?(?:(left|right|up|down)(?:[-.]))?[-.]*(?:(?:\\|?>|>>|\\\\\\\\|\\\\|//|\\{)?(?:[ox]\\s+|[+*])?))", "i"),
         captures: {
             0: FormatType.operater,
         }
     },
-    //link operater
     {
+        comment: "variables",
         match: /\b[\w_]+/i,
         captures: {
             0: FormatType.word,

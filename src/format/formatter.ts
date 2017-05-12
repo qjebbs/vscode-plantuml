@@ -57,19 +57,19 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                     this.doMatch(line, rule.match, rule.captures);
                 }
                 //test block in
-                else if (rule.begin && rule.end) {
-                    if (this.doMatch(line, rule.begin, rule.beginCaptures)) {
+                else if (rule.blockBegin && rule.blockEnd) {
+                    if (this.doMatch(line, rule.blockBegin, rule.blockBeginCaptures)) {
                         this.blocks.push(rule);
                         indentDelta = -1;
                     } else {
                         //test 'again' line
-                        if (rule.again && this.doMatch(line, rule.again, rule.againCaptures)) indentDelta = -1;
+                        if (rule.blockAgain && this.doMatch(line, rule.blockAgain, rule.blockAgainCaptures)) indentDelta = -1;
                     }
                 }
                 //test block out
                 if (this.blocks.length) {
                     let rule = this.blocks[this.blocks.length - 1];
-                    if (this.doMatch(line, rule.end, rule.endCaptures)) {
+                    if (this.doMatch(line, rule.blockEnd, rule.blockEndCaptures)) {
                         this.blocks.pop();
                     }
                 }

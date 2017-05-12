@@ -9,38 +9,41 @@ export interface FormatCapture {
     type: FormatType
 }
 export interface FormatRule {
+    comment?: string,
     match?: RegExp,
     captures?: FormatCapture[],
-    begin?: RegExp,
-    again?: RegExp,
-    end?: RegExp,
-    beginCaptures?: FormatCapture[],
-    againCaptures?: FormatCapture[],
-    endCaptures?: FormatCapture[],
+    blockBegin?: RegExp,
+    blockAgain?: RegExp,
+    blockEnd?: RegExp,
+    blockBeginCaptures?: FormatCapture[],
+    blockAgainCaptures?: FormatCapture[],
+    blockEndCaptures?: FormatCapture[],
 }
 export interface FormatRuleWriting {
+    comment?: string,
     match?: RegExp,
     captures?: any,
-    begin?: RegExp,
-    again?: RegExp,
-    end?: RegExp,
-    beginCaptures?: any,
-    againCaptures?: any,
-    endCaptures?: any,
+    blockBegin?: RegExp,
+    blockAgain?: RegExp,
+    blockEnd?: RegExp,
+    blockBeginCaptures?: any,
+    blockAgainCaptures?: any,
+    blockEndCaptures?: any,
 }
 
 export function compile(rules: FormatRuleWriting[], regVars: any): FormatRule[] {
     let compiled: FormatRule[] = [];
     for (let r of rules) {
         let c: FormatRule = {};
-        if (r.begin) c.begin = compileRegExp(r.begin);
-        if (r.again) c.again = compileRegExp(r.again);
-        if (r.end) c.end = compileRegExp(r.end);
+        c.comment = r.comment ? r.comment : "";
+        if (r.blockBegin) c.blockBegin = compileRegExp(r.blockBegin);
+        if (r.blockAgain) c.blockAgain = compileRegExp(r.blockAgain);
+        if (r.blockEnd) c.blockEnd = compileRegExp(r.blockEnd);
         if (r.match) c.match = compileRegExp(r.match);
         if (r.captures) c.captures = compileCaptures(r.captures);
-        if (r.beginCaptures) c.beginCaptures = compileCaptures(r.beginCaptures);
-        if (r.againCaptures) c.beginCaptures = compileCaptures(r.beginCaptures);
-        if (r.endCaptures) c.endCaptures = compileCaptures(r.endCaptures);
+        if (r.blockBeginCaptures) c.blockBeginCaptures = compileCaptures(r.blockBeginCaptures);
+        if (r.blockAgainCaptures) c.blockBeginCaptures = compileCaptures(r.blockBeginCaptures);
+        if (r.blockEndCaptures) c.blockEndCaptures = compileCaptures(r.blockEndCaptures);
         compiled.push(c);
     }
     return compiled;
