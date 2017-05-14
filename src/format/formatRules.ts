@@ -170,8 +170,8 @@ let rules: FormatRuleWriting[] = [
         }
     },
     {
-        comment: "as is",
-        match: /\.\s?/i,
+        comment: "as is: a.b|a.|\\n",
+        match: /(\.|\\\w)\s?/i,
         captures: {
             0: FormatType.asIs,
         }
