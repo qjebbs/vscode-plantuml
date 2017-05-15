@@ -11,6 +11,7 @@ import * as assert from 'assert';
 import * as vscode from 'vscode';
 import * as myExtension from '../src/extension';
 import { MatchPositions, UnmatchedText } from '../src/format/matchPositions';
+import { MultiRegExMatch, MultiRegExp2 } from '../src/format/multiRegExp2'
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Extension Tests", () => {
@@ -39,5 +40,16 @@ suite("Extension Tests", () => {
             ts += t.text;
         }
         assert.equal(ts, "1 13  45789=");
+    });
+    test("MultiRegExp2", () => {
+        let str = "a(a(a(a(a(a(a(a(a(a(";
+        let reg = /((?:a\(){2})(?:a[(])(\1)/ig;
+        let mreg = new MultiRegExp2(reg);
+        let matches: MultiRegExMatch[];
+        while (matches = mreg.execForAllGroups(str, false)) {
+            for (let m of matches) {
+                console.log(m.match, m.start, m.end);
+            }
+        }
     });
 });

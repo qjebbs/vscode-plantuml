@@ -1,3 +1,4 @@
+import { MultiRegExp2 } from './multiRegExp2';
 export enum FormatType {
     none,
     word,
@@ -13,11 +14,11 @@ export interface FormatCapture {
 }
 export interface FormatRule {
     comment?: string,
-    match?: RegExp,
+    match?: MultiRegExp2,
     captures?: FormatCapture[],
-    blockBegin?: RegExp,
-    blockAgain?: RegExp,
-    blockEnd?: RegExp,
+    blockBegin?: MultiRegExp2,
+    blockAgain?: MultiRegExp2,
+    blockEnd?: MultiRegExp2,
     blockBeginCaptures?: FormatCapture[],
     blockAgainCaptures?: FormatCapture[],
     blockEndCaptures?: FormatCapture[],
@@ -51,14 +52,14 @@ export function compile(rules: FormatRuleWriting[], regVars: any): FormatRule[] 
     }
     return compiled;
 
-    function compileRegExp(reg: RegExp): RegExp {
+    function compileRegExp(reg: RegExp): MultiRegExp2 {
         let str = reg.source.replace(/\{\{(\w+)\}\}/g, "${regVars.$1}");
         str = str.replace(/\\/g, "\\\\");
         str = eval("`" + str + "`");
         let flags = "";
         flags += reg.ignoreCase ? "i" : "";
         flags += "g";
-        let r = new RegExp(str, flags);
+        let r = new MultiRegExp2(new RegExp(str, flags));
         return r;
     }
     function compileCaptures(captures: any): FormatCapture[] {

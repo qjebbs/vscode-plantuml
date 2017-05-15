@@ -5,7 +5,7 @@ import { MatchPositions, UnmatchedText } from './matchPositions';
 import { config } from '../config';
 import { outputPanel } from '../planuml';
 import { showError, parseError } from '../tools';
-
+import { MultiRegExp2, MultiRegExMatch } from './multiRegExp2';
 interface matchLine {
     text: string,
     newText: string,
@@ -84,40 +84,32 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         return edits;
     }
 
-    private doMatch(line: matchLine, patt: RegExp, captures: FormatCapture[]): boolean {
-        let match: RegExpMatchArray;
+    private doMatch(line: matchLine, patt: MultiRegExp2, captures: FormatCapture[]): boolean {
         let matched = false;
         for (let u of line.matchPositions.GetUnmatchedTexts()) {
             if (!u.text.trim()) continue;
-            // console.log("test", u.text, "with", patt.source);
-            patt.lastIndex = 0;
-            while (match = patt.exec(u.text)) {
-                // console.log("TEST", u.text, "MATCH", match[0], "WITH", patt.source);
+            // console.log("test", u.text, "with", patt.regExp.source);
+            let matches: MultiRegExMatch[] = [];
+            patt.regExp.lastIndex = 0;
+            while (matches = patt.execForAllGroups(u.text, false)) {
+                // console.log("TEST", u.text, "MATCH", matches[0].match, "WITH", patt.regExp.source);
                 matched = true;
-                line.matchPositions.AddPosition(match.index, patt.lastIndex - 1, u.offset);
+                line.matchPositions.AddPosition(matches[0].start, matches[0].end, u.offset);
                 if (captures) {
-                    let subPos: number[] = [];
-                    let pos = 0;
-                    subPos[0] = 0;
-                    match.every((v, i) => {
-                        pos = match[0].indexOf(v, pos);
-                        subPos[i] = pos;
-                        return true;
-                    })
                     for (let capture of captures) {
-                        if (match[capture.index]) line.elements.push(
+                        if (matches[capture.index]) line.elements.push(
                             <formatElemet>{
                                 type: capture.type,
-                                text: match[capture.index],
-                                start: subPos[capture.index] + u.offset + match.index,
-                                end: subPos[capture.index] + u.offset + match.index + match[capture.index].length,
+                                text: matches[capture.index].match,
+                                start: matches[capture.index].start + u.offset,
+                                end: matches[capture.index].end + u.offset,
                             }
                         );
                     }
                 }
             }
+            patt.regExp.lastIndex = 0;
         }
-        patt.lastIndex = 0;
         return matched;
     }
     private indent(lineText: string, spaceStr: string, level: number): string {
@@ -193,7 +185,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                 start: pos,
                 end: e.start - 1
             });
-            pos = e.end;
+            pos = e.end + 1;
         }
         if (pos < line.text.length && line.text.substring(pos, line.text.length).trim()) {
             els.push({
