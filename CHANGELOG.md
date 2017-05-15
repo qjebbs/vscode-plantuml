@@ -1,3 +1,9 @@
+### 1.7.0
+- New Feature: Format support. Indent and inline format (Experimental).
+- Improvement: Zoom follows your mouse pointer. Optimized when window resize
+- Improvement: User now is able to customize export command args, like `-DPLANTUML_LIMIT_SIZE=8192`
+- Improved readme.
+
 ### 1.6.2
 - New Feature: Preview through PlantUML server. Thanks to [Martin Riedel](https://github.com/qjebbs/vscode-plantuml/pull/34).
 - Improvement: Optimization of minimal zoom status in preview.

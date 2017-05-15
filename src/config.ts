@@ -115,6 +115,12 @@ class ConfigReader {
     get includes(): string[] {
         return this._read<string[]>('includes') || [];
     }
+    get commandArgs(): string[] {
+        return this._read<string[]>('commandArgs') || [];
+    }
+    get formatInLine(): boolean {
+        return this._read<boolean>('experimental.formatInLine');
+    }
 }
 
 export const config = new ConfigReader();

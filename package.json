@@ -3,7 +3,7 @@
   "displayName": "PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
   "icon": "images/icon.png",
-  "version": "1.6.2",
+  "version": "1.7.0",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.10.2"
@@ -264,6 +264,16 @@
           "type": "array",
           "default": [],
           "description": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more."
+        },
+        "plantuml.commandArgs": {
+          "type": "array",
+          "default": [],
+          "description": "commandArgs allows you add arguments to java command, such as \"-DPLANTUML_LIMIT_SIZE=8192\"."
+        },
+        "plantuml.experimental.formatInLine": {
+          "type": "boolean",
+          "default": false,
+          "description": "Experimental! \nFormat provide by this plugin only indent code blocks by default and not change your line text.\nYou can enable inline format with this setting, but it's very early experimental function, and it may broke your code! Use it at your own risk!"
         }
       }
     }

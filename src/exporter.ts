@@ -168,6 +168,8 @@ class Exporter {
             'utf-8'
         ];
         if (path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
+        //add user args
+        params.unshift(...config.commandArgs);
 
         let process = child_process.spawn(this.java, params);
         if (diagram.content !== null) {
