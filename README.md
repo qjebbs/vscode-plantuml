@@ -2,55 +2,57 @@
 
 This plugin provides rich support for PlantUML in VSCode, covers edit, preview, export and other aspects.
 
-> For documents of PlantUML, please visit: <http://plantuml.com/sitemap-language-specification>
-
+[Donate by Paypal](https://paypal.me/qjebbs "If you like this plugin, you can buy me a coffee. Feel free if you don't want to, since it's free!")
+|
+[Donate by AliPay](https://github.com/qjebbs/vscode-plantuml/blob/master/images/alipay.png?raw=true)
+|
+[PlantUML Document](http://plantuml.com/sitemap-language-specification)
 ## Features
 
----
-### Syntax Highlight
+- Preview Diagram, Press `Alt-D` to start PlantUML preview.
+    - Auto update.
+    - Zoom & scroll support.
+    - Instant preview, if diagram's been exported.
+    - From local or server.
+- Export Diagrams
+    - At cursor, in current file, in whole workspace, in workspace selected.
+    - Concurrent export.
+    - Generate URLs.
+- Editing Supports
+    - Format PlantUML code. **NEW!!** 
+    - All type syntax highlight.
+    - All type snippets.
+    - Auto Include
 
-All type syntax highlight support.
+## Preview and Export Demos
 
----
-
-### Preview Diagram
-
-Press `Alt-D` to start PlantUML preview.
-
-- Auto update.
-- Zoom & scroll support.
-- Instant preview, if diagram's been exported.
-- From local or server.
+Auto update:
 
 ![audo update demo](images/auto_update_demo.gif)
+
+zoom & scroll:
+
 ![zoom demo](images/zoom_demo.gif)
 
----
-### Export Diagrams
-
-- At cursor, in current file, in whole workspace, in workspace selected.
-- Concurrent export.
+Export diagram:
 
 ![export demo](images/export_demo.gif)
 
----
-### Generate URLs.
+Generate URLs:
+
 ![url demo](images/url_demo.gif)
 
----
-### Format PlantUML code
-
-By default, format only indent code blocks and not change your line text. 
-
-You can enable inline format with setting `plantuml.experimental.formatInLine`, it's very early experimental, and it may broke your code! Use it at your own risk!
+## About Format
 
 ![format demo](images/format_demo.gif "demo")
 
----
-### All Type Snippets.
+By default, format only indent code blocks and not change your line text. It's safe.
 
+You can enable inline format with setting `plantuml.experimental.formatInLine`. Be careful, inline format is a very early experimental function, it may broke your code! Use it at your own risk!
 
-![format demo](images/snippet_demo.gif "demo")
+## About Snippets
+
+![snippet demo](images/snippet_demo.gif "demo")
 
 This plugin integrates all type diagram snippets. They are splitted into 9 sections:
 
@@ -74,8 +76,8 @@ else (val2)
 endif
 ```
 
----
-### List diagrams in file
+## About Symbol List (List diagrams of file)
+
 ![list_symbol_demo.png](images/list_symbol_demo.png)
 
 Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram when diagram starts.
@@ -84,14 +86,13 @@ Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram 
 > sudoku<br/>
 > @enduml
 
----
-### Auto Include
+## About Auto Include
 
 > Notice: People who don't use `!include` could ignore this chapter.
 
-Auto Include liberates you from writing "!include path/to/include.wsd" everywhere. which is bother & hard to manage.
-
 ![include demo](images/include_demo.gif "demo")
+
+Auto Include liberates you from writing "!include path/to/include.wsd" everywhere. which is bother & hard to manage.
 
 Suppose we have 2 files to include: `defines.wsd` and `myStyles.wsd`, and they are organized as follow:
 
@@ -132,7 +133,7 @@ and open workspace setting and config:
 ]
 ```
 
-#### About integrated theme
+### About integrated theme
 
 Plugin shipped with a blue diagram theme, to enable it, config like:
 
@@ -142,20 +143,18 @@ Plugin shipped with a blue diagram theme, to enable it, config like:
 ]
 ```
 
----
-### Multiple languages support. 
-![languages demo](images/langs_demo.png)
+## Multiple languages support. 
 
 [Translations](https://github.com/qjebbs/vscode-plantuml/tree/develop/langs) are welcome.
 
----
+![languages demo](images/langs_demo.png)
+
 ## How to install
 
 Launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter.
 
 `ext install plantuml`
 
----
 ## Requirements
 
 Before you can use the plugin, it's necessary to have following installed:
@@ -170,7 +169,6 @@ Before you can use the plugin, it's necessary to have following installed:
 
 > If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
 
----
 ## Extension Settings
 
 This extension contributes the following settings:
@@ -190,7 +188,6 @@ This extension contributes the following settings:
 - `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write "!include path/to/include.wsd" for every single diagram any more.
 - `plantuml.commandArgs`: commandArgs allows you add command arguments to java command, such as `-DPLANTUML_LIMIT_SIZE=8192`.
 
----
 ## Known Issues
 
 Please post and view issues on [GitHub][issues]
@@ -198,7 +195,6 @@ Please post and view issues on [GitHub][issues]
 [issues]: https://github.com/qjebbs/vscode-plantuml/issues "Post issues"
 
 
----
 ## Thanks
 
 - [koara-local](https://github.com/koara-local)
