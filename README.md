@@ -22,7 +22,8 @@ This plugin provides rich support for PlantUML in VSCode, covers edit, preview, 
     - Format PlantUML code. **NEW!!** 
     - All type syntax highlight.
     - All type snippets.
-    - Auto Include
+    - Auto Include.
+    - Symbol List support.
 
 ## Preview and Export Demos
 
