@@ -17,6 +17,6 @@
 	"有効なダイアグラムが見つかりません",
 	"PlantUML URLを生成中: {0}",
 	"PlantUML プレビュー",
-	"Invalid file extension config:\n{0}\nConfig examples:\n.*\n.wsd\n.wsd,.java\n",
-	"PlantUML JAR specified not found, use integrated JAR instead. Please config \"plantuml.jar\" with a valid JAR location."
+	"不正なファイル拡張子設定です:\n{0}\n設定例:\n.*\n.wsd\n.wsd,.java\n",
+	"指定された PlantUML JAR が見つかりません。組み込みJARファイルが使用されます。有効な \"plantuml.jar\" を JAR 指定位置に配置して下さい"
 ]
