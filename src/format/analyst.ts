@@ -269,6 +269,7 @@ export class Analyst {
             for (let u of line.matchPositions.GetUnmatchedTexts()) {
                 if (start && start.line == i && start.position > u.offset + u.text.length - 1) continue;
                 // console.log("test rule", u.text, "with", rule.comment);
+                if (!u.text.trim()) continue;
                 line.matchPositions.AddPosition(0, u.text.length - 1, u.offset);
                 line.elements.push(<Elemet>{
                     type: type,
