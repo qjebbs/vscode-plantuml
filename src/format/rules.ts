@@ -1,14 +1,5 @@
 import { MultiRegExp2 } from './multiRegExp2';
-
-export enum ElementType {
-    none,
-    word,
-    operater,
-    punctRightSpace,
-    punctLeftSpace,
-    connector,
-    asIs
-}
+import { ElementType } from './analyst';
 export interface Capture {
     index: number,
     type: ElementType
@@ -22,6 +13,7 @@ export interface Rule {
     comment?: string,
     match?: MultiRegExp2,
     captures?: Capture[],
+    isBlock?: boolean,
     begin?: MultiRegExp2,
     again?: MultiRegExp2,
     end?: MultiRegExp2,

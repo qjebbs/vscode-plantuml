@@ -1,5 +1,5 @@
 import { RulesWriting, RuleBlockWriting, RuleWriting, compile } from './ruleCompiler';
-import { ElementType } from './rules';
+import { ElementType } from './analyst';
 
 let ruleVariables = {
     //line begin
@@ -19,9 +19,10 @@ let rules = <RulesWriting>{
             rules: [
                 {
                     comment: "quoted string",
-                    match: /"[^"]*"/i,
-                    captures: {
-                        0: ElementType.word,
+                    begin: /"/i,
+                    end: /"/i,
+                    patterns: {
+                        type: ElementType.word
                     }
                 },
                 {
@@ -59,6 +60,7 @@ let rules = <RulesWriting>{
             rules: [
                 {
                     comment: "block {}",
+                    isBlock: true,
                     begin: /\{/i,
                     end: /\}/i,
                     patterns: {
@@ -67,6 +69,7 @@ let rules = <RulesWriting>{
                 },
                 {
                     comment: "block multiple note",
+                    isBlock: true,
                     begin: /{{LB}}note\s+(left|right){{LE}}/i,
                     end: /{{LB}}end\s*note{{LE}}/i,
                     patterns: {
@@ -75,6 +78,7 @@ let rules = <RulesWriting>{
                 },
                 {
                     comment: "block multiple note of over",
+                    isBlock: true,
                     begin: /{{LB}}([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(\w+)))|(on\s+link))\s*(#\w+)?{{LE}}/i,
                     end: /{{LB}}end\s*note{{LE}}/i,
                     patterns: {
@@ -83,6 +87,7 @@ let rules = <RulesWriting>{
                 },
                 {
                     comment: "block multi-line header, legend, footer",
+                    isBlock: true,
                     begin: /{{LB}}(header|legend|footer){{LE}}/i,
                     end: /{{LB}}end\s*(header|legend|footer){{LE}}/i,
                     patterns: {
@@ -91,6 +96,7 @@ let rules = <RulesWriting>{
                 },
                 {
                     comment: "block if-else-if",
+                    isBlock: true,
                     begin: /{{LB}}if\s*(\()/i,
                     again: /{{LB}}else\s*(\()/i,
                     end: /{{LB}}endif{{LE}}/i,
@@ -109,6 +115,7 @@ let rules = <RulesWriting>{
                 },
                 {
                     comment: "block split fork",
+                    isBlock: true,
                     begin: /{{LB}}(split|fork){{LE}}/i,
                     again: /{{LB}}(split|fork)\s+(again){{LE}}/i,
                     end: /{{LB}}(end)\s*(split|fork){{LE}}/i,
@@ -126,6 +133,7 @@ let rules = <RulesWriting>{
                 },
                 {
                     comment: "block repeat while",
+                    isBlock: true,
                     begin: /{{LB}}repeat{{LE}}/i,
                     end: /{{LB}}(repeat)\s*(while)\s*(\()/i,
                     endCaptures: {
@@ -139,6 +147,7 @@ let rules = <RulesWriting>{
                 },
                 {
                     comment: "block while",
+                    isBlock: true,
                     begin: /{{LB}}(while)\s*(\()/i,
                     end: /{{LB}}(end)\s*(while){{LE}}/i,
                     beginCaptures: {

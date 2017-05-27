@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
 import { formatRules } from './rulesWriting';
-import { ElementType, Rule, Capture } from './rules';
+import { Rule, Capture } from './rules';
 import { MatchPositions, UnmatchedText } from './matchPositions';
 import { config } from '../config';
 import { outputPanel } from '../planuml';
 import { showError, parseError } from '../tools';
 import { MultiRegExp2, MultiRegExMatch } from './multiRegExp2';
-import { Analyst } from './analyst';
+import { ElementType, Analyst } from './analyst';
 
 interface Line {
     text: string,
@@ -46,9 +46,14 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         for (let i = 0; i < document.lineCount; i++) {
             lineTexts.push(document.lineAt(i).text);
         }
-        let lines = new Analyst(lineTexts, formatRules);
-        lines.analysis();
-
+        let analyst = new Analyst(lineTexts, formatRules);
+        analyst.analysis();
+        for (let line of analyst.lines) {
+            let l = line.blockElements.reduce((p, c) => {
+                return `${p}\t${c.text}[${c.type}]`;
+            }, "");
+            console.log(l);
+        }
         return edits;
     }
 
@@ -114,30 +119,6 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
             if (el.type == ElementType.asIs) return el.text;
             return el.text.trim();
         }
-    }
-    private makeLineElements(line: Line) {
-        if (line.elements.length) line.elements.sort((a, b) => a.start - b.start);
-        let pos = 0;
-        let els: Elemet[] = [];
-        for (let e of line.elements) {
-            if (e.start > pos && line.text.substring(pos, e.start).trim()) els.push({
-                type: ElementType.none,
-                text: line.text.substring(pos, e.start),
-                start: pos,
-                end: e.start - 1
-            });
-            pos = e.end + 1;
-        }
-        if (pos < line.text.length && line.text.substring(pos, line.text.length).trim()) {
-            els.push({
-                type: ElementType.none,
-                text: line.text.substring(pos, line.text.length),
-                start: pos,
-                end: line.text.length - 1
-            });
-        }
-        line.elements.push(...els);
-        if (line.elements.length) line.elements.sort((a, b) => a.start - b.start);
     }
 }
 

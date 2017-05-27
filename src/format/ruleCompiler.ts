@@ -1,9 +1,12 @@
 import { MultiRegExp2 } from './multiRegExp2';
-import { ElementType, Rules, Capture, Rule, RuleBlock } from './rules';
+import { Rules, Capture, Rule, RuleBlock } from './rules';
+import { ElementType } from './analyst';
+
 export interface RuleWriting {
     comment?: string,
     match?: RegExp,
     captures?: any,
+    isBlock?: boolean,
     begin?: RegExp,
     again?: RegExp,
     end?: RegExp,
@@ -48,6 +51,7 @@ export function compile(rules: RulesWriting, regVars: any): Rules {
         for (let r of rules) {
             let c: Rule = {};
             c.comment = r.comment ? r.comment : "";
+                c.isBlock = r.isBlock ? true : false;
             if (r.begin) c.begin = compileRegExp(r.begin);
             if (r.again) c.again = compileRegExp(r.again);
             if (r.end) c.end = compileRegExp(r.end);
