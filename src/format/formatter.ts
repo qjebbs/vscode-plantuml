@@ -54,6 +54,12 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
             }, "");
             console.log(l);
         }
+        for (let line of analyst.lines) {
+            let l = line.elements.reduce((p, c) => {
+                return `${p}\t${c.text}[${c.type}]`;
+            }, "");
+            console.log(l);
+        }
         return edits;
     }
 

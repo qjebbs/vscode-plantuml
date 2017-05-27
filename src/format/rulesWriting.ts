@@ -64,7 +64,7 @@ let rules = <RulesWriting>{
                     begin: /\{/i,
                     end: /\}/i,
                     patterns: {
-                        includes: ["Block"],
+                        includes: ["*"],
                     }
                 },
                 {
@@ -73,7 +73,7 @@ let rules = <RulesWriting>{
                     begin: /{{LB}}note\s+(left|right){{LE}}/i,
                     end: /{{LB}}end\s*note{{LE}}/i,
                     patterns: {
-                        includes: ["Block"],
+                        type: ElementType.word,
                     }
                 },
                 {
@@ -82,7 +82,7 @@ let rules = <RulesWriting>{
                     begin: /{{LB}}([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(\w+)))|(on\s+link))\s*(#\w+)?{{LE}}/i,
                     end: /{{LB}}end\s*note{{LE}}/i,
                     patterns: {
-                        includes: ["Block"],
+                        type: ElementType.word,
                     }
                 },
                 {
@@ -91,7 +91,7 @@ let rules = <RulesWriting>{
                     begin: /{{LB}}(header|legend|footer){{LE}}/i,
                     end: /{{LB}}end\s*(header|legend|footer){{LE}}/i,
                     patterns: {
-                        includes: ["Block"],
+                        type: ElementType.word,
                     }
                 },
                 {
@@ -110,7 +110,7 @@ let rules = <RulesWriting>{
                         0: ElementType.word,
                     },
                     patterns: {
-                        includes: ["Block"],
+                        includes: ["*"],
                     }
                 },
                 {
@@ -128,7 +128,7 @@ let rules = <RulesWriting>{
                         2: ElementType.word,
                     },
                     patterns: {
-                        includes: ["Block"],
+                        includes: ["*"],
                     }
                 },
                 {
@@ -142,7 +142,7 @@ let rules = <RulesWriting>{
                         3: ElementType.punctLeftSpace
                     },
                     patterns: {
-                        includes: ["Block"],
+                        includes: ["*"],
                     }
                 },
                 {
@@ -159,7 +159,7 @@ let rules = <RulesWriting>{
                         2: ElementType.word
                     },
                     patterns: {
-                        includes: ["Block"],
+                        includes: ["*"],
                     }
                 }
             ]
