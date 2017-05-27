@@ -67,6 +67,7 @@ class Position {
 export class Analyst {
     private _lines: Line[];
     private _rules: Rules;
+    private _TEST_RECURSIVE_COUNT = 0;
     constructor(lines: string[], rules: Rules) {
         this._lines = lines.map(v => {
             return <Line>{
@@ -113,7 +114,27 @@ export class Analyst {
             if (line.elements.length) line.elements.sort((a, b) => a.start - b.start);
         }
     }
+    private match(rules: Rule[], start?: Position, stopRule?: Rule): Position {
+        let blockContentStart: Position;
+        if (start) blockContentStart = start.positionAtMatchRight;
 
+        for (let rule of rules) {
+            //test match    
+            if (rule.match) {
+                this.doMatch(rule, blockContentStart, stopRule);
+            }
+            //test block in
+            else if (rule.begin && rule.end) {
+                this.doBeginMatch(rule, blockContentStart, stopRule);
+            }
+        }
+        let end = this.doEndMatch(stopRule, blockContentStart);
+        if (end) {
+            let blockContentEnd = end.positionAtMatchLeft;
+            this.markElementsInBlock(stopRule.patterns.type ? stopRule.patterns.type : ElementType.none, blockContentStart, blockContentEnd);
+            return end;
+        }
+    }
     private doMatch(rule: Rule, start?: Position, stopRule?: Rule) {
         if (!rule.match) return;
         for (let i = 0; i < this._lines.length; i++) {
@@ -148,76 +169,6 @@ export class Analyst {
             }
         }
     }
-    private markElement(line: Line, matches: MultiRegExMatch[], captures: Capture[], offset: number) {
-        line.matchPositions.AddPosition(matches[0].start, matches[0].end, offset);
-        if (captures) {
-            for (let capture of captures) {
-                if (matches[capture.index]) line.elements.push(
-                    <Elemet>{
-                        type: capture.type,
-                        text: matches[capture.index].match,
-                        start: matches[capture.index].start + offset,
-                        end: matches[capture.index].end + offset,
-                    }
-                );
-            }
-        }
-    }
-    private markBlockElement(line: Line, rule: Rule, type: BlockElementType, matches: MultiRegExMatch[], offset: number) {
-        if (!rule.isBlock) return;
-        line.blockElements.push(
-            <BlockElemet>{
-                type: type,
-                text: matches[0].match,
-                start: matches[0].start + offset,
-                end: matches[0].end + offset,
-            }
-        );
-    }
-    private match(rules: Rule[], start?: Position, stopRule?: Rule): Position {
-        let blockContentStart: Position;
-        if (start) blockContentStart = start.positionAtMatchRight;
-
-        for (let rule of rules) {
-            //test match    
-            if (rule.match) {
-                this.doMatch(rule, blockContentStart, stopRule);
-            }
-            //test block in
-            else if (rule.begin && rule.end) {
-                this.doBeginMatch(rule, blockContentStart, stopRule);
-            }
-        }
-        let end = this.doEndMatch(stopRule, blockContentStart);
-        if (end) {
-            let blockContentEnd = end.positionAtMatchLeft;
-            this.markElementsInBlock(stopRule.patterns.type ? stopRule.patterns.type : ElementType.none, blockContentStart, blockContentEnd);
-            return end;
-        }
-    }
-    private doEndMatch(rule: Rule, start: Position): Position {
-        if (!rule || !rule.begin || !rule.end) return start;
-        for (let i = 0; i < this._lines.length; i++) {
-            if (start && start.line > i) continue;
-            let line = this._lines[i];
-            for (let u of line.matchPositions.GetUnmatchedTexts()) {
-                rule.end.regExp.lastIndex = 0;
-                if (start && start.line == i && start.position > u.offset + u.text.length - 1) continue;
-                // console.log("test rule", u.text, "with", rule.comment);
-                let matches: MultiRegExMatch[] = [];
-                if (matches = rule.end.execForAllGroups(u.text, false)) {
-                    this.markElement(line, matches, rule.endCaptures, u.offset);
-                    this.markBlockElement(line, rule, BlockElementType.blockEnd, matches, u.offset);
-                    // console.log("Find end:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
-                    let endAt = new Position(i, matches[0].start + u.offset, matches[0].match);
-                    console.log("LEAVE RECURSIVE LEVEL", this._TEST_RECURSIVE_COUNT--, "FROM", rule.comment, "BY", matches[0].match, "AT", endAt.line, endAt.position);
-                    return endAt;
-                }
-            }
-        }
-        console.log("WARNING: LEAVE RECURSIVE LEVEL", this._TEST_RECURSIVE_COUNT--, "FROM", rule.comment, "DUE TO EOF.");
-    }
-    private _TEST_RECURSIVE_COUNT = 0;
     private doBeginMatch(rule: Rule, start: Position, stopRule?: Rule) {
         if (!rule.begin || !rule.end) return;
         let beginAt: Position;
@@ -274,6 +225,43 @@ export class Analyst {
             }
         }
     }
+    private doEndMatch(rule: Rule, start: Position): Position {
+        if (!rule || !rule.begin || !rule.end) return start;
+        for (let i = 0; i < this._lines.length; i++) {
+            if (start && start.line > i) continue;
+            let line = this._lines[i];
+            for (let u of line.matchPositions.GetUnmatchedTexts()) {
+                rule.end.regExp.lastIndex = 0;
+                if (start && start.line == i && start.position > u.offset + u.text.length - 1) continue;
+                // console.log("test rule", u.text, "with", rule.comment);
+                let matches: MultiRegExMatch[] = [];
+                if (matches = rule.end.execForAllGroups(u.text, false)) {
+                    this.markElement(line, matches, rule.endCaptures, u.offset);
+                    this.markBlockElement(line, rule, BlockElementType.blockEnd, matches, u.offset);
+                    // console.log("Find end:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
+                    let endAt = new Position(i, matches[0].start + u.offset, matches[0].match);
+                    console.log("LEAVE RECURSIVE LEVEL", this._TEST_RECURSIVE_COUNT--, "FROM", rule.comment, "BY", matches[0].match, "AT", endAt.line, endAt.position);
+                    return endAt;
+                }
+            }
+        }
+        console.log("WARNING: LEAVE RECURSIVE LEVEL", this._TEST_RECURSIVE_COUNT--, "FROM", rule.comment, "DUE TO EOF.");
+    }
+    private markElement(line: Line, matches: MultiRegExMatch[], captures: Capture[], offset: number) {
+        line.matchPositions.AddPosition(matches[0].start, matches[0].end, offset);
+        if (captures) {
+            for (let capture of captures) {
+                if (matches[capture.index]) line.elements.push(
+                    <Elemet>{
+                        type: capture.type,
+                        text: matches[capture.index].match,
+                        start: matches[capture.index].start + offset,
+                        end: matches[capture.index].end + offset,
+                    }
+                );
+            }
+        }
+    }
     private markElementsInBlock(type: ElementType, start: Position, end: Position) {
         console.log("markElementsInBlock, from", start.line + ":" + start.position, "to", end.line + ":" + end.position);
         for (let i = start.line; i <= end.line; i++) {
@@ -290,5 +278,16 @@ export class Analyst {
                 });
             }
         }
+    }
+    private markBlockElement(line: Line, rule: Rule, type: BlockElementType, matches: MultiRegExMatch[], offset: number) {
+        if (!rule.isBlock) return;
+        line.blockElements.push(
+            <BlockElemet>{
+                type: type,
+                text: matches[0].match,
+                start: matches[0].start + offset,
+                end: matches[0].end + offset,
+            }
+        );
     }
 }
