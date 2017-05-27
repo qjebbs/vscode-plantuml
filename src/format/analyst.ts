@@ -152,7 +152,7 @@ export class Analyst {
                     stopRule.end.regExp.lastIndex = 0;
                     if (matches = stopRule.end.execForAllGroups(u.text, false)) {
                         // console.log("stop:", rule.comment, "by:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
-                        shouldEndAt = matches[0].end;
+                        shouldEndAt = matches[0].start;
                         hasEnd = true;
                     }
                 }
@@ -190,7 +190,7 @@ export class Analyst {
                     stopRule.end.regExp.lastIndex = 0;
                     if (matches = stopRule.end.execForAllGroups(u.text, false)) {
                         // console.log("stop:", rule.comment, "by:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
-                        shouldEndAt = matches[0].end;
+                        shouldEndAt = matches[0].start;
                         hasEnd = true;
                     }
                 }
