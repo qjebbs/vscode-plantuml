@@ -263,7 +263,7 @@ export class Analyst {
         }
     }
     private markElementsInBlock(type: ElementType, start: Position, end: Position) {
-        console.log("markElementsInBlock, from", start.line + ":" + start.position, "to", end.line + ":" + end.position);
+        // console.log("markElementsInBlock, from", start.line + ":" + start.position, "to", end.line + ":" + end.position);
         for (let i = start.line; i <= end.line; i++) {
             let line = this._lines[i];
             for (let u of line.matchPositions.GetUnmatchedTexts()) {

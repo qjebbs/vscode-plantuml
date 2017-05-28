@@ -6,11 +6,10 @@ import { config } from '../config';
 import { outputPanel } from '../planuml';
 import { showError, parseError } from '../tools';
 import { MultiRegExp2, MultiRegExMatch } from './multiRegExp2';
-import { ElementType, Analyst } from './analyst';
+import { ElementType, BlockElementType, Analyst } from './analyst';
 
 interface Line {
     text: string,
-    newText: string,
     matchPositions: MatchPositions,
     elements: Elemet[]
 }
@@ -37,29 +36,42 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         ds.push(d);
         return ds;
     }
-    private blocks: Rule[] = [];
+
     formate(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.TextEdit[] {
         let edits: vscode.TextEdit[] = [];
-        this.blocks = [];
         const spaceStr = options.insertSpaces ? " ".repeat(options.tabSize) : "\t";
         let lineTexts: string[] = [];
+        let lines: vscode.TextLine[] = [];
         for (let i = 0; i < document.lineCount; i++) {
-            lineTexts.push(document.lineAt(i).text);
+            lines.push(document.lineAt(i));
+            lineTexts.push(lines[i].text);
         }
         let analyst = new Analyst(lineTexts, formatRules);
         analyst.analysis();
-        for (let line of analyst.lines) {
-            let l = line.blockElements.reduce((p, c) => {
-                return `${p}\t${c.text}[${c.type}]`;
-            }, "");
-            console.log(l);
-        }
-        for (let line of analyst.lines) {
-            let l = line.elements.reduce((p, c) => {
-                return `${p}\t${c.text}[${c.type}]`;
-            }, "");
-            console.log(l);
-        }
+        let blockLevel = 0;
+        analyst.lines.map((line, i) => {
+            let delta = 0;
+            let newText = this.formatLine(line);
+            blockLevel = line.blockElements.reduce((p, c) => {
+                switch (c.type) {
+                    case BlockElementType.blockStart:
+                        // p++;
+                        if (++p > blockLevel) delta = -1;
+                        break;
+                    case BlockElementType.blockEnd:
+                        --p;
+                        delta = 0;
+                        break;
+                    case BlockElementType.blockAgain:
+                        delta = -1;
+                    default:
+                        break;
+                }
+                return p;
+            }, blockLevel);
+            newText = this.indent(newText, spaceStr, blockLevel + delta);
+            edits.push(new vscode.TextEdit(lines[i].range, newText));
+        });
         return edits;
     }
 
@@ -69,13 +81,10 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         level = level < 0 ? 0 : level;
         return spaceStr.repeat(level) + lineText.trim();
     }
-    private formatLine(line: Line) {
+    private formatLine(line: Line): string {
         if (line.text.trim() && !line.elements.length)
             throw ("no element found for a non-empty line!");
-        if (!line.elements.length) {
-            line.newText = "";
-            return;
-        }
+        if (!line.elements.length) return "";
         let text = getElementText(line.elements[0]);
         // let formatType: FormatType;
         for (let i = 0; i < line.elements.length - 1; i++) {
@@ -120,7 +129,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                     break;
             }
         }
-        line.newText = text;
+        return text;
         function getElementText(el: Elemet): string {
             if (el.type == ElementType.asIs) return el.text;
             return el.text.trim();
