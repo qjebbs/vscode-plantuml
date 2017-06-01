@@ -33,6 +33,7 @@ export interface RulesWriting {
 export function compile(rules: RulesWriting, regVars: any): Rules {
     let compiled = new Rules([], [], []);
     compiled.includes = rules.includes;
+    if (rules.rules) compiled.rules = compileBlockRules(rules.rules);
     if (rules.blocks) compiled.blocks = compileBlocks(rules.blocks);
     return compiled;
     function compileBlocks(blocks: RuleBlockWriting[]): RuleBlock[] {
@@ -51,7 +52,7 @@ export function compile(rules: RulesWriting, regVars: any): Rules {
         for (let r of rules) {
             let c: Rule = {};
             c.comment = r.comment ? r.comment : "";
-                c.isBlock = r.isBlock ? true : false;
+            c.isBlock = r.isBlock ? true : false;
             if (r.begin) c.begin = compileRegExp(r.begin);
             if (r.again) c.again = compileRegExp(r.again);
             if (r.end) c.end = compileRegExp(r.end);

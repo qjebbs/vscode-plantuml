@@ -130,7 +130,7 @@ export class Analyst {
                 while (blockStartPos = this.doBeginMatch(rule, matchStartPos, stopRule)) {
                     // return if find stop
                     blockEndPos = this.doEndMatch(rule, matchStartPos.positionAtMatchRight);
-                    this.markElementsInBlock(rule.patterns.type ? rule.patterns.type : ElementType.none, blockStartPos.positionAtMatchRight, blockEndPos.positionAtMatchLeft);
+                    if (blockEndPos) this.markElementsInBlock(rule.patterns.type ? rule.patterns.type : ElementType.none, blockStartPos.positionAtMatchRight, blockEndPos.positionAtMatchLeft);
                 }
             }
         }
@@ -233,8 +233,7 @@ export class Analyst {
     }
     private doEndMatch(rule: Rule, start: Position): Position {
         if (!rule || !rule.begin || !rule.end) return start;
-        for (let i = 0; i < this._lines.length; i++) {
-            if (start && start.line > i) continue;
+        for (let i = start ? start.line : 0; i < this._lines.length; i++) {
             let line = this._lines[i];
             for (let u of line.matchPositions.GetUnmatchedTexts()) {
                 rule.end.regExp.lastIndex = 0;
