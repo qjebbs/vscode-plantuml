@@ -28,35 +28,35 @@ let rules = <RulesWriting>{
                         0: ElementType.punctRightSpace
                     },
                     patterns: {
-                        type: ElementType.word
+                        type: ElementType.asIs
                     }
                 },
                 {
                     comment: "quoted activity definition",
                     match: /{{LB}}:.*[;|<>/\]}]{{LE}}/i,
                     captures: {
-                        0: ElementType.word,
+                        0: ElementType.asIs,
                     }
                 },
                 {
                     comment: "quoted usecase user definition",
                     match: /:[^:]+:/i,
                     captures: {
-                        0: ElementType.word,
+                        0: ElementType.asIs,
                     }
                 },
                 {
                     comment: "quoted component definition",
                     match: /\[[^\[\]]+\]/i,
                     captures: {
-                        0: ElementType.word,
+                        0: ElementType.asIs,
                     }
                 },
                 {
                     comment: "quoted <> <<>>",
                     match: /<<?[^<>]+>>?/i,
                     captures: {
-                        0: ElementType.word,
+                        0: ElementType.asIs,
                     }
                 },
             ]
