@@ -115,25 +115,26 @@ export class Analyst {
         }
     }
     private match(rules: Rule[], start?: Position, stopRule?: Rule): Position {
-        let blockContentStart: Position;
-        if (start) blockContentStart = start.positionAtMatchRight;
+        let matchStartPos = new Position(0, 0, "");
+        let blockEndPos: Position;
+        if (start) matchStartPos = start.positionAtMatchRight;
 
         for (let rule of rules) {
             //test match    
             if (rule.match) {
-                this.doMatch(rule, blockContentStart, stopRule);
+                this.doMatch(rule, matchStartPos, stopRule);
             }
             //test block in
             else if (rule.begin && rule.end) {
-                this.doBeginMatch(rule, blockContentStart, stopRule);
+                while (this.doBeginMatch(rule, matchStartPos, stopRule)) {
+                    // return if find stop
+                    blockEndPos = this.doEndMatch(rule, matchStartPos.positionAtMatchRight);
+                    //TODO: markElementsInBlock
+                    // this.markElementsInBlock(rule.patterns.type ? rule.patterns.type : ElementType.none, blockStartPos.positionAtMatchRight, blockEndPos.positionAtMatchLeft);
+                }
             }
         }
-        let end = this.doEndMatch(stopRule, blockContentStart);
-        if (end) {
-            let blockContentEnd = end.positionAtMatchLeft;
-            this.markElementsInBlock(stopRule.patterns.type ? stopRule.patterns.type : ElementType.none, blockContentStart, blockContentEnd);
-            return end;
-        }
+        return blockEndPos;
     }
     private doMatch(rule: Rule, start?: Position, stopRule?: Rule) {
         if (!rule.match) return;
@@ -169,11 +170,11 @@ export class Analyst {
             }
         }
     }
-    private doBeginMatch(rule: Rule, start: Position, stopRule?: Rule) {
-        if (!rule.begin || !rule.end) return;
+    private doBeginMatch(rule: Rule, start: Position, stopRule?: Rule): boolean {
+        if (!rule.begin || !rule.end) return false;
         let beginAt: Position;
-        for (let i = 0; i < this._lines.length; i++) {
-            if (start && start.line > i) continue;
+        let hasFindBegin: boolean = false;
+        for (let i = start ? start.line : 0; i < this._lines.length; i++) {
             let line = this._lines[i];
             for (let u of line.matchPositions.GetUnmatchedTexts()) {
                 rule.begin.regExp.lastIndex = 0;
@@ -182,16 +183,17 @@ export class Analyst {
                 if (start && start.line == i && start.position > u.offset + u.text.length - 1) continue;
                 if (!u.text.trim()) continue;
                 let matches: MultiRegExMatch[] = [];
-                let matched = false;
 
                 let shouldEndAt = u.text.length;
                 let hasEnd = false;
+                let endMatch = "";
                 if (stopRule) {
                     stopRule.end.regExp.lastIndex = 0;
                     if (matches = stopRule.end.execForAllGroups(u.text, false)) {
                         // console.log("stop:", rule.comment, "by:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
                         shouldEndAt = matches[0].start;
                         hasEnd = true;
+                        endMatch = matches[0].match;
                     }
                 }
 
@@ -199,31 +201,35 @@ export class Analyst {
                 if (matches = rule.begin.execForAllGroups(u.text, false)) {
                     //in-block match should not reach the end sign, or it's a invalid match
                     if (matches[0].end < shouldEndAt) {
-                        matched = true;
+                        hasFindBegin = true;
                         beginAt = new Position(i, matches[0].start + u.offset, matches[0].match);
+                        console.log("ENTER RECURSIVE LEVEL", ++this._TEST_RECURSIVE_COUNT, "OF", rule.comment, "BY", matches[0].match, "AT", beginAt.line, beginAt.position);
                         this.markElement(line, matches, rule.beginCaptures, u.offset);
                         this.markBlockElement(line, rule, BlockElementType.blockStart, matches, u.offset);
                         // console.log("Find begin:", matches[0].match, "at", beginAt.line, ":", beginAt.position);
-                        console.log("ENTER RECURSIVE LEVEL", ++this._TEST_RECURSIVE_COUNT, "OF", rule.comment, "BY", matches[0].match, "AT", beginAt.line, beginAt.position);
                         let blockRules = this._rules.getPatternRules(rule.patterns);
-                        this.match(blockRules, beginAt, rule);
+                        //current rule must be the first to match the sub block
+                        blockRules.unshift(rule);
+                        let lastEnd: Position;
+                        while (lastEnd = this.match(blockRules, beginAt, rule)) {
+                            if (lastEnd) beginAt = lastEnd;
+                        }
                     }
+                    // if (stopRule) return this.doEndMatch(stopRule, beginAt.positionAtMatchRight);
                 }
 
                 //find again
-                if (!matched && rule.again) {
+                if (!beginAt && rule.again) {
                     if (matches = rule.again.execForAllGroups(u.text, false)) {
-                        matched = true;
                         this.markElement(line, matches, rule.beginCaptures, u.offset);
                         this.markBlockElement(line, rule, BlockElementType.blockAgain, matches, u.offset);
                         console.log("Find again:", matches[0].match, "at", i, ":", matches[0].start + u.offset)
                     }
                 }
-
-                // return if find stop
-                if (hasEnd) return;
+                if (hasEnd || hasFindBegin) return hasFindBegin;
             }
         }
+        return hasFindBegin;
     }
     private doEndMatch(rule: Rule, start: Position): Position {
         if (!rule || !rule.begin || !rule.end) return start;
@@ -248,6 +254,7 @@ export class Analyst {
         console.log("WARNING: LEAVE RECURSIVE LEVEL", this._TEST_RECURSIVE_COUNT--, "FROM", rule.comment, "DUE TO EOF.");
     }
     private markElement(line: Line, matches: MultiRegExMatch[], captures: Capture[], offset: number) {
+        // console.log(matches[0].match);
         line.matchPositions.AddPosition(matches[0].start, matches[0].end, offset);
         if (captures) {
             for (let capture of captures) {

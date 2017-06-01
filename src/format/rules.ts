@@ -34,35 +34,36 @@ export class Rules {
         public rules: Rule[]
     ) { }
     get rootRules(): Rule[] {
-        let rules: Rule[] = this.rules || [];
-        rules.push(...this.getBlockRules(this.includes));
-        return rules;
+        let rs: Rule[] = [];
+        rs.push(...this.rules);
+        rs.push(...this.getBlockRules(this.includes));
+        return rs;
     }
     getPatternRules(patt: Patterns): Rule[] {
         if (!patt) return [];
-        let rules = this.getBlockRules(patt.includes)
-        if (patt.rules) rules.push(...patt.rules);
-        return rules;
+        let rs = this.getBlockRules(patt.includes)
+        if (patt.rules) rs.push(...patt.rules);
+        return rs;
     }
     getBlockRules(blockNames: string[]): Rule[] {
         if (!blockNames || !blockNames.length) return [];
-        let rules: Rule[] = [];
+        let rs: Rule[] = [];
         for (let inc of blockNames) {
             if (inc == "*") {
                 for (let block of this.blocks) {
-                    rules.push(...block.rules);
+                    rs.push(...block.rules);
                 }
-                return rules;
+                return rs;
             }
         }
         for (let inc of blockNames) {
             for (let block of this.blocks) {
                 if (block.name == inc) {
-                    rules.push(...block.rules);
+                    rs.push(...block.rules);
                     break;
                 }
             }
         }
-        return rules;
+        return rs;
     }
 }
