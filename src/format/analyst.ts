@@ -5,7 +5,6 @@ import { MultiRegExp2, MultiRegExMatch } from './multiRegExp2';
 
 interface Line {
     text: string,
-    newText: string,
     matchPositions: MatchPositions,
     elements: Elemet[],
     blockElements: BlockElemet[]
@@ -72,7 +71,6 @@ export class Analyst {
         this._lines = lines.map(v => {
             return <Line>{
                 text: v,
-                newText: "",
                 matchPositions: new MatchPositions(v),
                 elements: [],
                 blockElements: []

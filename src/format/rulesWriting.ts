@@ -33,30 +33,38 @@ let rules = <RulesWriting>{
                 },
                 {
                     comment: "quoted activity definition",
-                    match: /{{LB}}:.*[;|<>/\]}]{{LE}}/i,
+                    match: /{{LB}}(:)(.*)([;|<>/\]}]){{LE}}/i,
                     captures: {
-                        0: ElementType.asIs,
+                        1: ElementType.punctLeftSpace,
+                        2: ElementType.asIs,
+                        3: ElementType.punctRightSpace,
                     }
                 },
                 {
                     comment: "quoted usecase user definition",
-                    match: /:[^:]+:/i,
+                    match: /(:)([^:]+)(:)/i,
                     captures: {
-                        0: ElementType.asIs,
+                        1: ElementType.punctLeftSpace,
+                        2: ElementType.asIs,
+                        3: ElementType.punctRightSpace,
                     }
                 },
                 {
                     comment: "quoted component definition",
-                    match: /\[[^\[\]]+\]/i,
+                    match: /(\[)([^\[\]]+)(\])/i,
                     captures: {
-                        0: ElementType.asIs,
+                        1: ElementType.punctLeftSpace,
+                        2: ElementType.asIs,
+                        3: ElementType.punctRightSpace,
                     }
                 },
                 {
                     comment: "quoted <> <<>>",
-                    match: /<<?[^<>]+>>?/i,
+                    match: /(<<?)([^<>]+)(>>?)/i,
                     captures: {
-                        0: ElementType.asIs,
+                        1: ElementType.punctLeftSpace,
+                        2: ElementType.asIs,
+                        3: ElementType.punctRightSpace,
                     }
                 },
             ]

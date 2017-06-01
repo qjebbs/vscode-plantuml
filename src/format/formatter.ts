@@ -51,7 +51,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         let blockLevel = 0;
         analyst.lines.map((line, i) => {
             let delta = 0;
-            let newText = this.formatLine(line);
+            let newText = config.formatInLine ? this.formatLine(line) : line.text;
             blockLevel = line.blockElements.reduce((p, c) => {
                 switch (c.type) {
                     case BlockElementType.blockStart:
@@ -106,10 +106,13 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                     }
                     break;
                 case ElementType.operater:
+                    text += " " + getElementText(nextEl);
+                    break;
                 case ElementType.punctRightSpace:
                     switch (nextEl.type) {
                         case ElementType.none:
                         case ElementType.word:
+                        case ElementType.operater:
                         case ElementType.punctLeftSpace:
                             text += " " + getElementText(nextEl);
                             break;
