@@ -209,10 +209,12 @@ export class Analyst {
                         // console.log("Find begin:", matches[0].match, "at", beginAt.line, ":", beginAt.position);
                         let blockRules = this._rules.getPatternRules(rule.patterns);
                         //current rule must be the first to match the sub block
-                        blockRules.unshift(rule);
-                        let lastEnd: Position;
-                        while (lastEnd = this.match(blockRules, beginAt, rule)) {
-                            if (lastEnd) beginAt = lastEnd;
+                        if (blockRules.length) {
+                            blockRules.unshift(rule);
+                            let lastEnd: Position;
+                            while (lastEnd = this.match(blockRules, beginAt, rule)) {
+                                if (lastEnd) beginAt = lastEnd;
+                            }
                         }
                     }
                     // if (stopRule) return this.doEndMatch(stopRule, beginAt.positionAtMatchRight);
@@ -270,10 +272,11 @@ export class Analyst {
     }
     private markElementsInBlock(type: ElementType, start: Position, end: Position) {
         // console.log("markElementsInBlock, from", start.line + ":" + start.position, "to", end.line + ":" + end.position);
-        for (let i = start.line; i <= end.line; i++) {
+        for (let i = start ? start.line : 0; i <= end.line; i++) {
             let line = this._lines[i];
             for (let u of line.matchPositions.GetUnmatchedTexts()) {
                 if (start && start.line == i && start.position > u.offset + u.text.length - 1) continue;
+                if (end && end.line == i && end.position < u.offset + u.text.length - 1) continue;
                 // console.log("test rule", u.text, "with", rule.comment);
                 if (!u.text.trim()) continue;
                 line.matchPositions.AddPosition(0, u.text.length - 1, u.offset);
