@@ -202,13 +202,26 @@ let rules = <RulesWriting>{
                     captures: {
                         0: ElementType.word,
                     }
+                },
+                {
+                    comment: "seprate line",
+                    match: /[-.=]{2,}/i,
+                    captures: {
+                        0: ElementType.word,
+                    }
+                },
+                {
+                    comment: "tree indent",
+                    match: /\+{2,}/i,
+                    captures: {
+                        0: ElementType.word,
+                    }
                 }
             ]
         },
         {
             name: "Other",
             rules: [
-
                 {
                     comment: "operators",
                     match: /[-+=/|*&]/i,
