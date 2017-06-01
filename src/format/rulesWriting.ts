@@ -21,6 +21,12 @@ let rules = <RulesWriting>{
                     comment: "quoted string",
                     begin: /"/i,
                     end: /"/i,
+                    beginCaptures: {
+                        0: ElementType.punctLeftSpace
+                    },
+                    endCaptures: {
+                        0: ElementType.punctRightSpace
+                    },
                     patterns: {
                         type: ElementType.word
                     }

@@ -118,6 +118,7 @@ export class Analyst {
         let matchStartPos = new Position(0, 0, "");
         let blockEndPos: Position;
         if (start) matchStartPos = start.positionAtMatchRight;
+        let blockStartPos: Position;
 
         for (let rule of rules) {
             //test match    
@@ -126,11 +127,10 @@ export class Analyst {
             }
             //test block in
             else if (rule.begin && rule.end) {
-                while (this.doBeginMatch(rule, matchStartPos, stopRule)) {
+                while (blockStartPos = this.doBeginMatch(rule, matchStartPos, stopRule)) {
                     // return if find stop
                     blockEndPos = this.doEndMatch(rule, matchStartPos.positionAtMatchRight);
-                    //TODO: markElementsInBlock
-                    // this.markElementsInBlock(rule.patterns.type ? rule.patterns.type : ElementType.none, blockStartPos.positionAtMatchRight, blockEndPos.positionAtMatchLeft);
+                    this.markElementsInBlock(rule.patterns.type ? rule.patterns.type : ElementType.none, blockStartPos.positionAtMatchRight, blockEndPos.positionAtMatchLeft);
                 }
             }
         }
@@ -170,8 +170,8 @@ export class Analyst {
             }
         }
     }
-    private doBeginMatch(rule: Rule, start: Position, stopRule?: Rule): boolean {
-        if (!rule.begin || !rule.end) return false;
+    private doBeginMatch(rule: Rule, start: Position, stopRule?: Rule): Position {
+        if (!rule.begin || !rule.end) return;
         let beginAt: Position;
         let hasFindBegin: boolean = false;
         for (let i = start ? start.line : 0; i < this._lines.length; i++) {
@@ -226,10 +226,10 @@ export class Analyst {
                         console.log("Find again:", matches[0].match, "at", i, ":", matches[0].start + u.offset)
                     }
                 }
-                if (hasEnd || hasFindBegin) return hasFindBegin;
+                if (hasEnd || hasFindBegin) return beginAt;
             }
         }
-        return hasFindBegin;
+        return beginAt;
     }
     private doEndMatch(rule: Rule, start: Position): Position {
         if (!rule || !rule.begin || !rule.end) return start;
