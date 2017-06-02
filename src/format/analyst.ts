@@ -126,9 +126,10 @@ export class Analyst {
             }
             //test block in
             else if (rule.begin && rule.end) {
-                while (blockStartPos = this.doBeginMatch(rule, matchStartPos, stopRule)) {
+                let blockIndex = 0;
+                while (blockStartPos = this.doBeginMatch(rule, matchStartPos, stopRule, ++blockIndex)) {
                     // return if find stop
-                    blockEndPos = this.doEndMatch(rule, matchStartPos.positionAtMatchRight);
+                    blockEndPos = this.doEndMatch(rule, matchStartPos.positionAtMatchRight, blockIndex);
                     if (blockEndPos) this.markElementsInBlock(rule.patterns.type ? rule.patterns.type : ElementType.none, blockStartPos.positionAtMatchRight, blockEndPos.positionAtMatchLeft);
                 }
             }
@@ -169,7 +170,7 @@ export class Analyst {
             }
         }
     }
-    private doBeginMatch(rule: Rule, start: Position, stopRule?: Rule): Position {
+    private doBeginMatch(rule: Rule, start: Position, stopRule: Rule, blockIndex: number): Position {
         if (!rule.begin || !rule.end) return;
         let beginAt: Position;
         let hasFindBegin: boolean = false;
@@ -203,9 +204,9 @@ export class Analyst {
                         hasFindBegin = true;
                         beginAt = new Position(i, matches[0].start + u.offset, matches[0].match);
                         this._blockLevel++;
-                        console.log("ENTER BLOCK LEVEL", this._blockLevel, "OF", rule.comment, "BY", matches[0].match, "AT", beginAt.line, beginAt.position);
+                        console.log("ENTER BLOCK LEVEL", this._blockLevel, "INDEX", blockIndex, "OF", rule.comment, "BY", matches[0].match, "AT", beginAt.line, beginAt.position);
                         this.markElement(line, matches, rule.beginCaptures, u.offset);
-                        this.markBlockElement(line, rule, BlockElementType.blockStart, matches, u.offset);
+                        this.markBlockElement(line, rule, BlockElementType.blockStart, this._blockLevel, blockIndex, matches, u.offset);
                         // console.log("Find begin:", matches[0].match, "at", beginAt.line, ":", beginAt.position);
                         let blockRules = this._rules.getPatternRules(rule.patterns);
                         //current rule must be the first to match the sub block
@@ -224,8 +225,8 @@ export class Analyst {
                 if (!beginAt && rule.again) {
                     if (matches = rule.again.execForAllGroups(u.text, false)) {
                         this.markElement(line, matches, rule.beginCaptures, u.offset);
-                        this.markBlockElement(line, rule, BlockElementType.blockAgain, matches, u.offset);
-                        console.log("Find again:", matches[0].match, "at", i, ":", matches[0].start + u.offset)
+                        this.markBlockElement(line, rule, BlockElementType.blockAgain, this._blockLevel, blockIndex, matches, u.offset);
+                        console.log("FIND AGAIN", "OF LEVEL", this._blockLevel, "INDEX", blockIndex, "BY", matches[0].match, "AT", i, matches[0].start + u.offset)
                     }
                 }
                 if (hasEnd || hasFindBegin) return beginAt;
@@ -233,7 +234,7 @@ export class Analyst {
         }
         return beginAt;
     }
-    private doEndMatch(rule: Rule, start: Position): Position {
+    private doEndMatch(rule: Rule, start: Position, blockIndex: number): Position {
         if (!rule || !rule.begin || !rule.end) return start;
         for (let i = start ? start.line : 0; i < this._lines.length; i++) {
             let line = this._lines[i];
@@ -244,11 +245,11 @@ export class Analyst {
                 let matches: MultiRegExMatch[] = [];
                 if (matches = rule.end.execForAllGroups(u.text, false)) {
                     this.markElement(line, matches, rule.endCaptures, u.offset);
-                    this.markBlockElement(line, rule, BlockElementType.blockEnd, matches, u.offset);
+                    this.markBlockElement(line, rule, BlockElementType.blockEnd, this._blockLevel, blockIndex, matches, u.offset);
                     // console.log("Find end:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
                     let endAt = new Position(i, matches[0].start + u.offset, matches[0].match);
                     this._blockLevel--;
-                    console.log("LEAVE BLOCK LEVEL", this._blockLevel + 1, "FROM", rule.comment, "BY", matches[0].match, "AT", endAt.line, endAt.position);
+                    console.log("LEAVE BLOCK LEVEL", this._blockLevel + 1, "INDEX", blockIndex, "FROM", rule.comment, "BY", matches[0].match, "AT", endAt.line, endAt.position);
                     return endAt;
                 }
             }
@@ -290,11 +291,12 @@ export class Analyst {
             }
         }
     }
-    private markBlockElement(line: Line, rule: Rule, type: BlockElementType, matches: MultiRegExMatch[], offset: number) {
+    private markBlockElement(line: Line, rule: Rule, type: BlockElementType, blockLevel, blockIndex: number, matches: MultiRegExMatch[], offset: number) {
         if (!rule.isBlock) return;
         line.blockElements.push(
             <BlockElemet>{
-                level: this._blockLevel,
+                level: blockLevel,
+                index: blockIndex,
                 type: type,
                 text: matches[0].match,
                 start: matches[0].start + offset,
