@@ -18,6 +18,7 @@ interface Elemet {
 }
 
 interface BlockElemet {
+    level: number,
     type: BlockElementType,
     text: string,
     start: number,
@@ -66,7 +67,7 @@ class Position {
 export class Analyst {
     private _lines: Line[];
     private _rules: Rules;
-    private _TEST_RECURSIVE_COUNT = 0;
+    private _blockLevel = 0;
     constructor(lines: string[], rules: Rules) {
         this._lines = lines.map(v => {
             return <Line>{
@@ -201,7 +202,8 @@ export class Analyst {
                     if (matches[0].end < shouldEndAt) {
                         hasFindBegin = true;
                         beginAt = new Position(i, matches[0].start + u.offset, matches[0].match);
-                        console.log("ENTER RECURSIVE LEVEL", ++this._TEST_RECURSIVE_COUNT, "OF", rule.comment, "BY", matches[0].match, "AT", beginAt.line, beginAt.position);
+                        this._blockLevel++;
+                        console.log("ENTER BLOCK LEVEL", this._blockLevel, "OF", rule.comment, "BY", matches[0].match, "AT", beginAt.line, beginAt.position);
                         this.markElement(line, matches, rule.beginCaptures, u.offset);
                         this.markBlockElement(line, rule, BlockElementType.blockStart, matches, u.offset);
                         // console.log("Find begin:", matches[0].match, "at", beginAt.line, ":", beginAt.position);
@@ -245,12 +247,13 @@ export class Analyst {
                     this.markBlockElement(line, rule, BlockElementType.blockEnd, matches, u.offset);
                     // console.log("Find end:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
                     let endAt = new Position(i, matches[0].start + u.offset, matches[0].match);
-                    console.log("LEAVE RECURSIVE LEVEL", this._TEST_RECURSIVE_COUNT--, "FROM", rule.comment, "BY", matches[0].match, "AT", endAt.line, endAt.position);
+                    this._blockLevel--;
+                    console.log("LEAVE BLOCK LEVEL", this._blockLevel + 1, "FROM", rule.comment, "BY", matches[0].match, "AT", endAt.line, endAt.position);
                     return endAt;
                 }
             }
         }
-        console.log("WARNING: LEAVE RECURSIVE LEVEL", this._TEST_RECURSIVE_COUNT--, "FROM", rule.comment, "DUE TO EOF.");
+        console.log("WARNING: LEAVE BLOCK LEVEL", this._blockLevel--, "FROM", rule.comment, "DUE TO EOF.");
     }
     private markElement(line: Line, matches: MultiRegExMatch[], captures: Capture[], offset: number) {
         // console.log(matches[0].match);
@@ -291,6 +294,7 @@ export class Analyst {
         if (!rule.isBlock) return;
         line.blockElements.push(
             <BlockElemet>{
+                level: this._blockLevel,
                 type: type,
                 text: matches[0].match,
                 start: matches[0].start + offset,
