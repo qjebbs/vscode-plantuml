@@ -75,7 +75,7 @@ let rules = <RulesWriting>{
                 {
                     comment: "block {}",
                     isBlock: true,
-                    begin: /\{[!#+-T*]?/i,
+                    begin: /\{[!#+T*-]?/i,
                     end: /\}/i,
                     patterns: {
                         includes: ["*"],

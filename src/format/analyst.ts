@@ -3,22 +3,23 @@ import { Rules, Rule, Capture } from './rules';
 import { MatchPositions, UnmatchedText } from './matchPositions';
 import { MultiRegExp2, MultiRegExMatch } from './multiRegExp2';
 
-interface Line {
+export interface Line {
     text: string,
     matchPositions: MatchPositions,
-    elements: Elemet[],
-    blockElements: BlockElemet[]
+    elements: Element[],
+    blockElements: BlockElement[],
 }
 
-interface Elemet {
+export interface Element {
     type: ElementType,
     text: string,
     start: number,
     end: number
 }
 
-interface BlockElemet {
+export interface BlockElement {
     level: number,
+    index: number,
     type: BlockElementType,
     text: string,
     start: number,
@@ -91,7 +92,7 @@ export class Analyst {
         function makeLineElements(line: Line) {
             if (line.elements.length) line.elements.sort((a, b) => a.start - b.start);
             let pos = 0;
-            let els: Elemet[] = [];
+            let els: Element[] = [];
             for (let e of line.elements) {
                 if (e.start > pos && line.text.substring(pos, e.start).trim()) els.push({
                     type: ElementType.none,
@@ -262,7 +263,7 @@ export class Analyst {
         if (captures) {
             for (let capture of captures) {
                 if (matches[capture.index]) line.elements.push(
-                    <Elemet>{
+                    <Element>{
                         type: capture.type,
                         text: matches[capture.index].match,
                         start: matches[capture.index].start + offset,
@@ -270,6 +271,15 @@ export class Analyst {
                     }
                 );
             }
+        } else {
+            line.elements.push(
+                <Element>{
+                    type: ElementType.none,
+                    text: matches[0].match,
+                    start: matches[0].start + offset,
+                    end: matches[0].end + offset,
+                }
+            );
         }
     }
     private markElementsInBlock(type: ElementType, start: Position, end: Position) {
@@ -282,7 +292,7 @@ export class Analyst {
                 // console.log("test rule", u.text, "with", rule.comment);
                 if (!u.text.trim()) continue;
                 line.matchPositions.AddPosition(0, u.text.length - 1, u.offset);
-                line.elements.push(<Elemet>{
+                line.elements.push(<Element>{
                     type: type,
                     text: u.text,
                     start: u.offset,
@@ -294,7 +304,7 @@ export class Analyst {
     private markBlockElement(line: Line, rule: Rule, type: BlockElementType, blockLevel, blockIndex: number, matches: MultiRegExMatch[], offset: number) {
         if (!rule.isBlock) return;
         line.blockElements.push(
-            <BlockElemet>{
+            <BlockElement>{
                 level: blockLevel,
                 index: blockIndex,
                 type: type,

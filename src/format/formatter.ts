@@ -1,24 +1,10 @@
 import * as vscode from 'vscode';
 import { formatRules } from './rulesWriting';
-import { Rule, Capture } from './rules';
-import { MatchPositions, UnmatchedText } from './matchPositions';
 import { config } from '../config';
 import { outputPanel } from '../planuml';
 import { showError, parseError } from '../tools';
-import { MultiRegExp2, MultiRegExMatch } from './multiRegExp2';
-import { ElementType, BlockElementType, Analyst } from './analyst';
+import { Line, Element, BlockElement, ElementType, BlockElementType, Analyst } from './analyst';
 
-interface Line {
-    text: string,
-    matchPositions: MatchPositions,
-    elements: Elemet[]
-}
-interface Elemet {
-    type: ElementType,
-    text: string,
-    start: number,
-    end: number
-}
 class Formatter implements vscode.DocumentFormattingEditProvider {
     public provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
         try {
@@ -48,33 +34,85 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         }
         let analyst = new Analyst(lineTexts, formatRules);
         analyst.analysis();
-        let blockLevel = 0;
-        analyst.lines.map((line, i) => {
-            let delta = 0;
-            let newText = config.formatInLine ? this.formatLine(line) : line.text;
-            blockLevel = line.blockElements.reduce((p, c) => {
-                switch (c.type) {
-                    case BlockElementType.blockStart:
-                        // p++;
-                        if (++p > blockLevel) delta = -1;
-                        break;
-                    case BlockElementType.blockEnd:
-                        --p;
-                        delta = 0;
-                        break;
-                    case BlockElementType.blockAgain:
-                        delta = -1;
-                    default:
-                        break;
-                }
-                return p;
-            }, blockLevel);
-            newText = this.indent(newText, spaceStr, blockLevel + delta);
-            edits.push(new vscode.TextEdit(lines[i].range, newText));
-        });
-        return edits;
+        return this.getEdits(analyst.lines, lines, spaceStr, config.formatInLine, true);
     }
 
+    private getEdits(lines: Line[], rangeLines: vscode.TextLine[], spaceStr: string, allowInlineFormat: boolean, allowSplitLine: boolean): vscode.TextEdit[] {
+        let edits: vscode.TextEdit[] = [];
+        let blockLevel = 0;
+        if (!allowSplitLine) {
+            lines.map((line, i) => {
+                let delta = 0;
+                let newText = allowInlineFormat ? this.formatLine(line) : line.text;
+                let appliedLevel = blockLevel;
+                // apply level of first blockElement
+                if (line.blockElements.length) {
+                    switch (line.blockElements[0].type) {
+                        case BlockElementType.blockStart:
+                            appliedLevel = appliedLevel + 1;
+                            delta = -1;
+                            break;
+                        case BlockElementType.blockEnd:
+                            appliedLevel = appliedLevel - 1;
+                            delta = 0;
+                            break;
+                        case BlockElementType.blockAgain:
+                            delta = -1;
+                        default:
+                            break;
+                    }
+                }
+                //calc level change
+                blockLevel = line.blockElements.reduce((p, c) => {
+                    switch (c.type) {
+                        case BlockElementType.blockStart:
+                            p++;
+                            break;
+                        case BlockElementType.blockEnd:
+                            p--;
+                            break;
+                        default:
+                            break;
+                    }
+                    return p;
+                }, blockLevel);
+
+                newText = this.indent(newText, spaceStr, appliedLevel + delta);
+                edits.push(new vscode.TextEdit(rangeLines[i].range, newText));
+            });
+        } else {
+            let splitedLines = lines.map(v => {
+                // p.push(...this.splitLine(v));
+                return this.splitLine(v);
+            })
+            let blockLevel = 0;
+            for (let i = 0; i < splitedLines.length; i++) {
+                let newText = "";
+                splitedLines[i].map((line, i) => {
+                    let delta = 0;
+                    if (line.blockElements.length) {
+                        switch (line.blockElements[0].type) {
+                            case BlockElementType.blockStart:
+                                blockLevel++;
+                                delta = -1;
+                                break;
+                            case BlockElementType.blockEnd:
+                                blockLevel--;
+                                delta = 0;
+                                break;
+                            case BlockElementType.blockAgain:
+                                delta = -1;
+                            default:
+                                break;
+                        }
+                    }
+                    newText += (newText ? "\n" : "") + this.indent(this.formatLine(line), spaceStr, blockLevel + delta);
+                });
+                edits.push(new vscode.TextEdit(rangeLines[i].range, newText));
+            }
+        }
+        return edits;
+    }
 
     private indent(lineText: string, spaceStr: string, level: number): string {
         if (!lineText.trim()) return "";
@@ -82,11 +120,10 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         return spaceStr.repeat(level) + lineText.trim();
     }
     private formatLine(line: Line): string {
-        if (line.text.trim() && !line.elements.length)
+        if (line.text && line.text.trim() && !line.elements.length)
             throw ("no element found for a non-empty line!");
         if (!line.elements.length) return "";
         let text = getElementText(line.elements[0]);
-        // let formatType: FormatType;
         for (let i = 0; i < line.elements.length - 1; i++) {
             let thisEl = line.elements[i];
             let nextEl = line.elements[i + 1];
@@ -133,9 +170,82 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
             }
         }
         return text;
-        function getElementText(el: Elemet): string {
+        function getElementText(el: Element): string {
             if (el.type == ElementType.asIs) return el.text;
             return el.text.trim();
+        }
+    }
+    private splitLine(line: Line): Line[] {
+        let splitedLines: Line[] = [];
+        let newLineElements: BlockElement[] = [];
+        if (line.blockElements.length && line.elements.length > 1) {
+            for (let e of line.blockElements) {
+                if (!isInlineBlock(e, line.blockElements)) newLineElements.push(e);
+            }
+            let newLineElement = newLineElements.shift();
+            let l: Line;
+            let stage = 0;
+            for (let e of line.elements) {
+                if (newLineElement) {
+                    if (e.start < newLineElement.start) {
+                        //before newLineElement
+                        //push after elements
+                        if (stage != 1 && l) {
+                            splitedLines.push(l);
+                            l = null;
+                        }
+                        stage = 1;
+                    } else if (e.start >= newLineElement.start && e.end <= newLineElement.end) {
+                        //in newLineElement
+                        //push before elements
+                        if (stage != 2 && l) {
+                            splitedLines.push(l);
+                            l = null;
+                        }
+                        stage = 2;
+                    } else {
+                        //after newLineElement
+                        //push in elements
+                        if (stage != 3 && l) {
+                            l.blockElements.push(newLineElement);
+                            splitedLines.push(l);
+                            l = null;
+                            newLineElement = newLineElements.shift();
+                        }
+                        if (!newLineElement) stage = 0;
+                        else if (e.start < newLineElement.start) stage = 1;
+                        else if (e.start >= newLineElement.start && e.end <= newLineElement.end) stage = 2
+                        else stage = 3;
+                    }
+                }
+                if (!l) l = <Line>{ elements: [], blockElements: [] };
+                l.elements.push(e);
+            }
+            if (l) {
+                if (stage == 2) l.blockElements.push(newLineElement);
+                splitedLines.push(l);
+            }
+        } else {
+            splitedLines.push(line);
+        }
+        return splitedLines;
+        function isInlineBlock(element: BlockElement, elements: BlockElement[]): boolean {
+            let findBegin = false;
+            let findEnd = false;
+            return elements.reduce((p, e) => {
+                //if already true, or not target block, or is self, return previous value.
+                if (p || element.level != e.level || element.index != e.index || element.start == e.start) return p;
+                if (element.type == BlockElementType.blockStart || element.type == BlockElementType.blockEnd) {
+                    if (e.type == (element.type == BlockElementType.blockStart ? BlockElementType.blockEnd : BlockElementType.blockStart)) {
+                        return true;
+                    }
+                } else {
+                    if (e.type == BlockElementType.blockStart) findBegin = true;
+                    if (e.type == BlockElementType.blockEnd) findEnd = true;
+                    if (findBegin && findEnd) return true;
+                }
+                return false;
+            }, false);
         }
     }
 }
