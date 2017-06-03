@@ -83,7 +83,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         } else {
             let splitedLines = lines.map(v => {
                 // p.push(...this.splitLine(v));
-                return this.splitLine(v);
+                return this.splitLine(v, false);
             })
             let blockLevel = 0;
             for (let i = 0; i < splitedLines.length; i++) {
@@ -175,7 +175,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
             return el.text.trim();
         }
     }
-    private splitLine(line: Line): Line[] {
+    private splitLine(line: Line, newLineForBlockStart: boolean): Line[] {
         let splitedLines: Line[] = [];
         let newLineElements: BlockElement[] = [];
         if (line.blockElements.length && line.elements.length > 1) {
@@ -187,7 +187,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
             let stage = 0;
             for (let e of line.elements) {
                 if (newLineElement) {
-                    if (e.start < newLineElement.start) {
+                    if (newLineForBlockStart && e.start < newLineElement.start) {
                         //before newLineElement
                         //push after elements
                         if (stage != 1 && l) {
@@ -195,7 +195,11 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                             l = null;
                         }
                         stage = 1;
-                    } else if (e.start >= newLineElement.start && e.end <= newLineElement.end) {
+                    } else if (
+                        (newLineForBlockStart && e.start >= newLineElement.start && e.end <= newLineElement.end)
+                        ||
+                        (!newLineForBlockStart && e.end <= newLineElement.end)
+                    ) {
                         //in newLineElement
                         //push before elements
                         if (stage != 2 && l) {
@@ -213,8 +217,12 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                             newLineElement = newLineElements.shift();
                         }
                         if (!newLineElement) stage = 0;
-                        else if (e.start < newLineElement.start) stage = 1;
-                        else if (e.start >= newLineElement.start && e.end <= newLineElement.end) stage = 2
+                        else if (newLineForBlockStart && e.start < newLineElement.start) stage = 1;
+                        else if (
+                            (newLineForBlockStart && e.start >= newLineElement.start && e.end <= newLineElement.end)
+                            ||
+                            (!newLineForBlockStart && e.end <= newLineElement.end)
+                        ) stage = 2;
                         else stage = 3;
                     }
                 }
