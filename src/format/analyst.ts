@@ -208,7 +208,6 @@ export class Analyst {
                         console.log("ENTER BLOCK LEVEL", this._blockLevel, "INDEX", blockIndex, "OF", rule.comment, "BY", matches[0].match, "AT", beginAt.line, beginAt.position);
                         this.markElement(line, matches, rule.beginCaptures, u.offset);
                         this.markBlockElement(line, rule, BlockElementType.blockStart, this._blockLevel, blockIndex, matches, u.offset);
-                        // console.log("Find begin:", matches[0].match, "at", beginAt.line, ":", beginAt.position);
                         let blockRules = this._rules.getPatternRules(rule.patterns);
                         //current rule must be the first to match the sub block
                         if (blockRules.length) {
@@ -262,7 +261,7 @@ export class Analyst {
         line.matchPositions.AddPosition(matches[0].start, matches[0].end, offset);
         if (captures) {
             for (let capture of captures) {
-                if (matches[capture.index]) line.elements.push(
+                if (matches[capture.index] && matches[capture.index].match) line.elements.push(
                     <Element>{
                         type: capture.type,
                         text: matches[capture.index].match,

@@ -12,10 +12,35 @@
  * @return {string}
  */
 
-function addGroupToRegexString(str, start, end, groupsAdded) {
+function addGroupToRegexString(str: string, start: number, end: number, groupsAdded: number) {
     start += groupsAdded * 2;
     end += groupsAdded * 2;
     return str.substring(0, start) + '(' + str.substring(start, end + 1) + ')' + str.substring(end + 1);
+}
+
+function calcAddGroupPosition(AddPos: Slice, nonCaptureGroupPositions: Slice[]): Slice[] {
+    // nonCaptureGroupPositions.sort((a, b) => a.start - b.start);
+    if (!nonCaptureGroupPositions || !nonCaptureGroupPositions.length) return [AddPos];
+    let results: Slice[] = [AddPos];
+    for (let np of nonCaptureGroupPositions) {
+        results = results.reduce((pre, slice) => {
+            pre.push(...minusSlice(slice, np));
+            return pre;
+        }, <Slice[]>[]);
+    }
+    return results
+    function minusSlice(a: Slice, b: Slice): Slice[] {
+        let results: Slice[] = [];
+        if (b.start > a.start && b.start <= a.end) results.push(<Slice>{ start: a.start, end: b.start - 1 });
+        if (b.end < a.end && b.end >= a.start) results.push(<Slice>{ start: b.end + 1, end: a.end });
+        if (b.start > a.end || b.end < a.start) results.push(a);
+        return results;
+    }
+}
+
+interface Slice {
+    start: number,
+    end: number,
 }
 
 /**
@@ -32,7 +57,7 @@ function addGroupToRegexString(str, start, end, groupsAdded) {
  * @param regex RegExp
  * @return {{regexp: RegExp, groupIndexMapper: {}, previousGroupsForGroup: {}}}
  */
-function fillGroups(regex) {
+function fillGroups(regex: RegExp) {
     let regexString: string;
     let modifier;
     if (regex.source && regex.flags) {
@@ -46,8 +71,9 @@ function fillGroups(regex) {
     }
     // regexp is greedy so it should match (? before ( right?
     // brackets may be not quoted by \
-    // closing bracket may look like: ), )+, )+?, ){1,}?, ){1,1111}?
-    const tester = /(\(\?)|(\()|(\)(?:\{\d+,?\d*}|[*+?])?\??)/g;
+    // closing bracket may look like: ), )+, )+?, ){1,}?, ){1,1111}?, )|
+    // )|, |( for situation like (a)|b|(c), shoud not brace |, like (a)(|b|)(c)
+    const tester = /(\|?\(\?(?::|=|!|<=|<!))|(\|?\()|(\)(?:\{\d+,?\d*}|[*+?|])?\??)/g;
 
     let modifiedRegex = regexString;
 
@@ -56,28 +82,31 @@ function fillGroups(regex) {
     let groupsAdded = 0;
     let groupCount = 0;
     let matchArr;
-    const nonGroupPositions = [];
-    const groupPositions = [];
-    const groupNumber = [];
-    const currentLengthIndexes = [];
+    const nonGroupPositions: Slice[] = [];
+    const groupPositions: number[] = [];
+    const groupNumber: number[] = [];
+    const currentLengthIndexes: number[] = [];
     const groupIndexMapper = {};
     const previousGroupsForGroup = {};
     while ((matchArr = tester.exec(regexString)) !== null) {
         if (isEscaped(matchArr.index) || isInCharacterSets(matchArr.index)) continue;
         if (matchArr[1]) { // non capturing group
             let index = matchArr.index + matchArr[0].length - 1;
-            nonGroupPositions.push(index);
+            nonGroupPositions.push(<Slice>{ start: matchArr.index, end: index });
         }
         else if (matchArr[2]) { // capturing group
             let index = matchArr.index + matchArr[0].length - 1;
 
             let lastGroupPosition = Math.max(lastGroupStartPosition, lastGroupEndPosition);
 
-            if (lastGroupPosition < index - 1) {
-                modifiedRegex = addGroupToRegexString(modifiedRegex, lastGroupPosition + 1, index - 1, groupsAdded);
-                groupsAdded++;
-                lastGroupEndPosition = index - 1; // imaginary position as it is not in regex but modifiedRegex
-                currentLengthIndexes.push(groupCount + groupsAdded);
+            if (lastGroupPosition < index - matchArr[0].length) {
+                let addSlices = calcAddGroupPosition({ start: lastGroupPosition + 1, end: index - matchArr[0].length }, nonGroupPositions);
+                for (let s of addSlices) {
+                    modifiedRegex = addGroupToRegexString(modifiedRegex, s.start, s.end, groupsAdded);
+                    groupsAdded++;
+                    lastGroupEndPosition = s.end; // imaginary position as it is not in regex but modifiedRegex
+                    currentLengthIndexes.push(groupCount + groupsAdded);
+                }
             }
 
             groupCount++;
@@ -91,13 +120,16 @@ function fillGroups(regex) {
             let index = matchArr.index + matchArr[0].length - 1;
 
             if ((groupPositions.length && !nonGroupPositions.length) ||
-                groupPositions[groupPositions.length - 1] > nonGroupPositions[nonGroupPositions.length - 1]
+                groupPositions[groupPositions.length - 1] > nonGroupPositions[nonGroupPositions.length - 1].end
             ) {
-                if (lastGroupStartPosition < lastGroupEndPosition && lastGroupEndPosition < index - 1) {
-                    modifiedRegex = addGroupToRegexString(modifiedRegex, lastGroupEndPosition + 1, index - 1, groupsAdded);
-                    groupsAdded++;
-                    //lastGroupEndPosition = index - 1; will be set anyway
-                    currentLengthIndexes.push(groupCount + groupsAdded);
+                if (lastGroupStartPosition < lastGroupEndPosition && lastGroupEndPosition < index - matchArr[0].length) {
+                    let addSlices = calcAddGroupPosition({ start: lastGroupEndPosition + 1, end: index - matchArr[0].length }, nonGroupPositions);
+                    for (let s of addSlices) {
+                        modifiedRegex = addGroupToRegexString(modifiedRegex, s.start, s.end, groupsAdded);
+                        groupsAdded++;
+                        //lastGroupEndPosition = index - 1; will be set anyway
+                        currentLengthIndexes.push(groupCount + groupsAdded);
+                    }
                 }
 
                 groupPositions.pop();
@@ -106,6 +138,7 @@ function fillGroups(regex) {
             }
             else if (nonGroupPositions.length) {
                 nonGroupPositions.pop();
+                lastGroupEndPosition = index;
             }
         }
         function isEscaped(position: number): boolean {

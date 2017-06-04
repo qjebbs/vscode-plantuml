@@ -42,14 +42,20 @@ suite("Extension Tests", () => {
         assert.equal(ts, "1 13  45789=");
     });
     test("MultiRegExp2", () => {
-        let str = "a(a(a(a(a(a(a(a(a(a(";
-        let reg = /((?:a\(){2})(?:a[(])(\1)/ig;
-        let mreg = new MultiRegExp2(reg);
+        let str: string;
+        let mreg: MultiRegExp2;
         let matches: MultiRegExMatch[];
-        while (matches = mreg.execForAllGroups(str, false)) {
-            for (let m of matches) {
-                console.log(m.match, m.start, m.end);
-            }
-        }
+
+        // str = "a(a(a(a(a(a(a(a(a(a(";
+        // mreg = new MultiRegExp2(/((?:a\(){2})(?:a[(])(\1)/ig);
+        // while (matches = mreg.execForAllGroups(str, false)) {
+        //     for (let m of matches) {
+        //         console.log(m.match, m.start, m.end);
+        //     }
+        // }
+        
+        //TODO fix this parsing
+        mreg = new MultiRegExp2(/(?:(b)a)?(b)/);
+        console.log(mreg.regExp.source);
     });
 });
