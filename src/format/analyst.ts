@@ -258,25 +258,31 @@ export class Analyst {
     }
     private markElement(line: Line, matches: MultiRegExMatch[], captures: Capture[], offset: number) {
         // console.log(matches[0].match);
+        let mp = new MatchPositions(matches[0].match);
+        let startOffset = -matches[0].start;
         line.matchPositions.AddPosition(matches[0].start, matches[0].end, offset);
         if (captures) {
             for (let capture of captures) {
-                if (matches[capture.index] && matches[capture.index].match) line.elements.push(
-                    <Element>{
-                        type: capture.type,
-                        text: matches[capture.index].match,
-                        start: matches[capture.index].start + offset,
-                        end: matches[capture.index].end + offset,
-                    }
-                );
+                if (matches[capture.index] && matches[capture.index].match) {
+                    line.elements.push(
+                        <Element>{
+                            type: capture.type,
+                            text: matches[capture.index].match,
+                            start: matches[capture.index].start + offset,
+                            end: matches[capture.index].end + offset,
+                        }
+                    );
+                    mp.AddPosition(matches[capture.index].start, matches[capture.index].end, startOffset);
+                }
             }
-        } else {
+        }
+        for (let u of mp.GetUnmatchedTexts()) {
             line.elements.push(
                 <Element>{
                     type: ElementType.none,
-                    text: matches[0].match,
-                    start: matches[0].start + offset,
-                    end: matches[0].end + offset,
+                    text: u.text,
+                    start: u.offset - startOffset + offset,
+                    end: u.text.length - 1 + u.offset - startOffset + offset,
                 }
             );
         }

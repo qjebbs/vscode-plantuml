@@ -196,17 +196,27 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                         }
                         stage = 1;
                     } else if (
-                        (newLineForBlockStart && e.start >= newLineElement.start && e.end <= newLineElement.end)
+                        (newLineForBlockStart && e.start >= newLineElement.start && e.start <= newLineElement.end)
                         ||
-                        (!newLineForBlockStart && e.end <= newLineElement.end)
+                        (!newLineForBlockStart && e.start <= newLineElement.end)
                     ) {
                         //in newLineElement
-                        //push before elements
-                        if (stage != 2 && l) {
+                        if (e.end <= newLineElement.end) {
+                            //push before elements
+                            if (stage != 2 && l) {
+                                splitedLines.push(l);
+                                l = null;
+                            }
+                            stage = 2;
+                        } else { //the element covers both in & after area.
+                            //this block won't run since mark no-rule-set capture groups as type none in analyst.
+                            if (!l) l = <Line>{ elements: [], blockElements: [] };
+                            l.elements.push({ start: e.start, end: newLineElement.end, type: e.type, text: e.text.substr(0, newLineElement.end - e.start + 1) });
                             splitedLines.push(l);
                             l = null;
+                            e = { start: newLineElement.end + 1, end: e.end, type: e.type, text: e.text.substr(newLineElement.end - e.start + 1, e.end - e.start) }
+                            stage = 3;
                         }
-                        stage = 2;
                     } else {
                         //after newLineElement
                         //push in elements
