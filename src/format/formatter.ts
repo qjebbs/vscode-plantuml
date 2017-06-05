@@ -34,7 +34,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         }
         let analyst = new Analyst(lineTexts, formatRules);
         analyst.analysis();
-        return this.getEdits(analyst.lines, lines, spaceStr, config.formatInLine, true);
+        return this.getEdits(analyst.lines, lines, spaceStr, config.formatInLine, config.formatInLine);
     }
 
     private getEdits(lines: Line[], rangeLines: vscode.TextLine[], spaceStr: string, allowInlineFormat: boolean, allowSplitLine: boolean): vscode.TextEdit[] {
