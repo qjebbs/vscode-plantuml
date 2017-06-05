@@ -3,38 +3,61 @@
  * Fix parsing issues by jebbs
  */
 
-/**
- * Adds brackets before and after a part of string
- * @param str string the hole regex string
- * @param start int marks the position where ( should be inserted
- * @param end int marks the position where ) should be inserted
- * @param groupsAdded int defines the offset to the original string because of inserted brackets
- * @return {string}
- */
-
-function addGroupToRegexString(str: string, start: number, end: number, groupsAdded: number) {
-    start += groupsAdded * 2;
-    end += groupsAdded * 2;
-    return str.substring(0, start) + '(' + str.substring(start, end + 1) + ')' + str.substring(end + 1);
+export interface MultiRegExMatch {
+    capture: string,
+    start: number,
+    end: number
 }
-
-function calcAddGroupPosition(AddPos: Slice, nonCaptureGroupPositions: Slice[]): Slice[] {
-    // nonCaptureGroupPositions.sort((a, b) => a.start - b.start);
-    if (!nonCaptureGroupPositions || !nonCaptureGroupPositions.length) return [AddPos];
-    let results: Slice[] = [AddPos];
-    for (let np of nonCaptureGroupPositions) {
-        results = results.reduce((pre, slice) => {
-            pre.push(...minusSlice(slice, np));
-            return pre;
-        }, <Slice[]>[]);
+export class MultiRegExp2 {
+    private regexp: RegExp;
+    private groupIndexMapper: any;
+    private previousGroupsForGroup: any;
+    constructor(baseRegExp: RegExp) {
+        const { regexp, groupIndexMapper, previousGroupsForGroup } = fillGroups(baseRegExp);
+        this.regexp = regexp;
+        this.groupIndexMapper = groupIndexMapper;
+        this.previousGroupsForGroup = previousGroupsForGroup;
     }
-    return results
-    function minusSlice(a: Slice, b: Slice): Slice[] {
-        let results: Slice[] = [];
-        if (b.start > a.start && b.start <= a.end) results.push(<Slice>{ start: a.start, end: b.start - 1 });
-        if (b.end < a.end && b.end >= a.start) results.push(<Slice>{ start: b.end + 1, end: a.end });
-        if (b.start > a.end || b.end < a.start) results.push(a);
-        return results;
+    public get regExp(): RegExp {
+        return this.regexp;
+    }
+    exec(string: string): MultiRegExMatch[] {
+        let matches = RegExp.prototype.exec.call(this.regexp, string);
+        if (!matches) return matches;
+        let firstIndex = matches.index;
+        let indexMapper = Object.assign({ 0: 0 }, this.groupIndexMapper);
+        let previousGroups = Object.assign({ 0: [] }, this.previousGroupsForGroup);
+
+        return Object.keys(indexMapper).map((group) => {
+            let mapped = indexMapper[group];
+            let r = <MultiRegExMatch>{
+                capture: matches[mapped],
+                start: firstIndex + previousGroups[group].reduce(
+                    (sum, i) => sum + (matches[i] ? matches[i].length : 0), 0
+                )
+            };
+            r.end = r.start + (matches[mapped] ? matches[mapped].length - 1 : 0);
+
+            return r;
+        });
+    }
+
+    execForGroup(string: string, group: number): MultiRegExMatch {
+        const matches = RegExp.prototype.exec.call(this.regexp, string);
+        if (!matches) return matches;
+        const firstIndex = matches.index;
+
+        const mapped = group == 0 ? 0 : this.groupIndexMapper[group];
+        const previousGroups = group == 0 ? [] : this.previousGroupsForGroup[group];
+        let r = <MultiRegExMatch>{
+            capture: matches[mapped],
+            start: firstIndex + previousGroups.reduce(
+                (sum, i) => sum + (matches[i] ? matches[i].length : 0), 0
+            )
+        };
+        r.end = r.start + (matches[mapped] ? matches[mapped].length - 1 : 0);
+
+        return r;
     }
 }
 
@@ -160,60 +183,38 @@ function fillGroups(regex: RegExp) {
 
     return { regexp: new RegExp(modifiedRegex, modifier), groupIndexMapper, previousGroupsForGroup };
 }
-export interface MultiRegExMatch {
-    match: string,
-    start: number,
-    end: number
+
+/**
+ * Adds brackets before and after a part of string
+ * @param str string the hole regex string
+ * @param start int marks the position where ( should be inserted
+ * @param end int marks the position where ) should be inserted
+ * @param groupsAdded int defines the offset to the original string because of inserted brackets
+ * @return {string}
+ */
+
+function addGroupToRegexString(str: string, start: number, end: number, groupsAdded: number) {
+    start += groupsAdded * 2;
+    end += groupsAdded * 2;
+    return str.substring(0, start) + '(' + str.substring(start, end + 1) + ')' + str.substring(end + 1);
 }
-export class MultiRegExp2 {
-    private regexp: RegExp;
-    private groupIndexMapper: any;
-    private previousGroupsForGroup: any;
-    constructor(baseRegExp: RegExp) {
-        const { regexp, groupIndexMapper, previousGroupsForGroup } = fillGroups(baseRegExp);
-        this.regexp = regexp;
-        this.groupIndexMapper = groupIndexMapper;
-        this.previousGroupsForGroup = previousGroupsForGroup;
+
+function calcAddGroupPosition(AddPos: Slice, nonCaptureGroupPositions: Slice[]): Slice[] {
+    // nonCaptureGroupPositions.sort((a, b) => a.start - b.start);
+    if (!nonCaptureGroupPositions || !nonCaptureGroupPositions.length) return [AddPos];
+    let results: Slice[] = [AddPos];
+    for (let np of nonCaptureGroupPositions) {
+        results = results.reduce((pre, slice) => {
+            pre.push(...minusSlice(slice, np));
+            return pre;
+        }, <Slice[]>[]);
     }
-    public get regExp(): RegExp {
-        return this.regexp;
-    }
-    execForAllGroups(string: string, includeFullMatch?: boolean): MultiRegExMatch[] {
-        let matches = RegExp.prototype.exec.call(this.regexp, string);
-        if (!matches) return matches;
-        let firstIndex = matches.index;
-        let indexMapper = includeFullMatch ? this.groupIndexMapper : Object.assign({ 0: 0 }, this.groupIndexMapper);
-        let previousGroups = includeFullMatch ? this.previousGroupsForGroup : Object.assign({ 0: [] }, this.previousGroupsForGroup);
-
-        return Object.keys(indexMapper).map((group) => {
-            let mapped = indexMapper[group];
-            let r = <MultiRegExMatch>{
-                match: matches[mapped],
-                start: firstIndex + previousGroups[group].reduce(
-                    (sum, i) => sum + (matches[i] ? matches[i].length : 0), 0
-                )
-            };
-            r.end = r.start + (matches[mapped] ? matches[mapped].length - 1 : 0);
-
-            return r;
-        });
-    }
-
-    execForGroup(string: string, group: number): MultiRegExMatch {
-        const matches = RegExp.prototype.exec.call(this.regexp, string);
-        if (!matches) return matches;
-        const firstIndex = matches.index;
-
-        const mapped = group == 0 ? 0 : this.groupIndexMapper[group];
-        const previousGroups = group == 0 ? [] : this.previousGroupsForGroup[group];
-        let r = <MultiRegExMatch>{
-            match: matches[mapped],
-            start: firstIndex + previousGroups.reduce(
-                (sum, i) => sum + (matches[i] ? matches[i].length : 0), 0
-            )
-        };
-        r.end = r.start + (matches[mapped] ? matches[mapped].length - 1 : 0);
-
-        return r;
+    return results
+    function minusSlice(a: Slice, b: Slice): Slice[] {
+        let results: Slice[] = [];
+        if (b.start > a.start && b.start <= a.end) results.push(<Slice>{ start: a.start, end: b.start - 1 });
+        if (b.end < a.end && b.end >= a.start) results.push(<Slice>{ start: b.end + 1, end: a.end });
+        if (b.start > a.end || b.end < a.start) results.push(a);
+        return results;
     }
 }

@@ -152,14 +152,14 @@ export class Analyst {
                 let hasEnd = false;
                 if (stopRule) {
                     stopRule.end.regExp.lastIndex = 0;
-                    if (matches = stopRule.end.execForAllGroups(u.text, false)) {
+                    if (matches = stopRule.end.exec(u.text)) {
                         // console.log("stop:", rule.comment, "by:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
                         shouldEndAt = matches[0].start;
                         hasEnd = true;
                     }
                 }
                 rule.match.regExp.lastIndex = 0;
-                while (matches = rule.match.execForAllGroups(u.text, false)) {
+                while (matches = rule.match.exec(u.text)) {
                     //in-block match should not reach the end sign, or it's a invalid match
                     if (matches[0].end < shouldEndAt) {
                         // console.log("TEST", u.text, "MATCH", matches[0].match, "WITH", rule.match.regExp.source);
@@ -190,22 +190,22 @@ export class Analyst {
                 let endMatch = "";
                 if (stopRule) {
                     stopRule.end.regExp.lastIndex = 0;
-                    if (matches = stopRule.end.execForAllGroups(u.text, false)) {
+                    if (matches = stopRule.end.exec(u.text)) {
                         // console.log("stop:", rule.comment, "by:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
                         shouldEndAt = matches[0].start;
                         hasEnd = true;
-                        endMatch = matches[0].match;
+                        endMatch = matches[0].capture;
                     }
                 }
 
                 //find begin
-                if (matches = rule.begin.execForAllGroups(u.text, false)) {
+                if (matches = rule.begin.exec(u.text)) {
                     //in-block match should not reach the end sign, or it's a invalid match
                     if (matches[0].end < shouldEndAt) {
                         hasFindBegin = true;
-                        beginAt = new Position(i, matches[0].start + u.offset, matches[0].match);
+                        beginAt = new Position(i, matches[0].start + u.offset, matches[0].capture);
                         this._blockLevel++;
-                        console.log("ENTER BLOCK LEVEL", this._blockLevel, "INDEX", blockIndex, "OF", rule.comment, "BY", matches[0].match, "AT", beginAt.line, beginAt.position);
+                        console.log("ENTER BLOCK LEVEL", this._blockLevel, "INDEX", blockIndex, "OF", rule.comment, "BY", matches[0].capture, "AT", beginAt.line, beginAt.position);
                         this.markElement(line, matches, rule.beginCaptures, u.offset);
                         this.markBlockElement(line, rule, BlockElementType.blockStart, this._blockLevel, blockIndex, matches, u.offset);
                         let blockRules = this._rules.getPatternRules(rule.patterns);
@@ -223,10 +223,10 @@ export class Analyst {
 
                 //find again
                 if (!beginAt && rule.again) {
-                    if (matches = rule.again.execForAllGroups(u.text, false)) {
+                    if (matches = rule.again.exec(u.text)) {
                         this.markElement(line, matches, rule.beginCaptures, u.offset);
                         this.markBlockElement(line, rule, BlockElementType.blockAgain, this._blockLevel, blockIndex, matches, u.offset);
-                        console.log("FIND AGAIN", "OF LEVEL", this._blockLevel, "INDEX", blockIndex, "BY", matches[0].match, "AT", i, matches[0].start + u.offset)
+                        console.log("FIND AGAIN", "OF LEVEL", this._blockLevel, "INDEX", blockIndex, "BY", matches[0].capture, "AT", i, matches[0].start + u.offset)
                     }
                 }
                 if (hasEnd || hasFindBegin) return beginAt;
@@ -243,13 +243,13 @@ export class Analyst {
                 if (start && start.line == i && start.position > u.offset + u.text.length - 1) continue;
                 // console.log("test rule", u.text, "with", rule.comment);
                 let matches: MultiRegExMatch[] = [];
-                if (matches = rule.end.execForAllGroups(u.text, false)) {
+                if (matches = rule.end.exec(u.text)) {
                     this.markElement(line, matches, rule.endCaptures, u.offset);
                     this.markBlockElement(line, rule, BlockElementType.blockEnd, this._blockLevel, blockIndex, matches, u.offset);
                     // console.log("Find end:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
-                    let endAt = new Position(i, matches[0].start + u.offset, matches[0].match);
+                    let endAt = new Position(i, matches[0].start + u.offset, matches[0].capture);
                     this._blockLevel--;
-                    console.log("LEAVE BLOCK LEVEL", this._blockLevel + 1, "INDEX", blockIndex, "FROM", rule.comment, "BY", matches[0].match, "AT", endAt.line, endAt.position);
+                    console.log("LEAVE BLOCK LEVEL", this._blockLevel + 1, "INDEX", blockIndex, "FROM", rule.comment, "BY", matches[0].capture, "AT", endAt.line, endAt.position);
                     return endAt;
                 }
             }
@@ -258,16 +258,16 @@ export class Analyst {
     }
     private markElement(line: Line, matches: MultiRegExMatch[], captures: Capture[], offset: number) {
         // console.log(matches[0].match);
-        let mp = new MatchPositions(matches[0].match);
+        let mp = new MatchPositions(matches[0].capture);
         let startOffset = -matches[0].start;
         line.matchPositions.AddPosition(matches[0].start, matches[0].end, offset);
         if (captures) {
             for (let capture of captures) {
-                if (matches[capture.index] && matches[capture.index].match) {
+                if (matches[capture.index] && matches[capture.index].capture) {
                     line.elements.push(
                         <Element>{
                             type: capture.type,
-                            text: matches[capture.index].match,
+                            text: matches[capture.index].capture,
                             start: matches[capture.index].start + offset,
                             end: matches[capture.index].end + offset,
                         }
@@ -313,7 +313,7 @@ export class Analyst {
                 level: blockLevel,
                 index: blockIndex,
                 type: type,
-                text: matches[0].match,
+                text: matches[0].capture,
                 start: matches[0].start + offset,
                 end: matches[0].end + offset,
             }
