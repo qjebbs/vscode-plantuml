@@ -1,28 +1,22 @@
 import * as vscode from 'vscode';
-import { formatRules } from './rulesWriting';
-import { config } from '../config';
-import { outputPanel } from '../planuml';
-import { showError, parseError } from '../tools';
+import { Rules } from './rules';
 import { Line, Element, BlockElement, ElementType, BlockElementType, Analyst } from './analyst';
-
-class Formatter implements vscode.DocumentFormattingEditProvider {
-    public provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
-        try {
-            return this.formate(document, options, token);
-        } catch (error) {
-            showError(outputPanel, parseError(error));
+export interface FormatterConfig {
+    allowInlineFormat: boolean,
+    allowSplitLine: boolean,
+    newLineForBlockStart: boolean,
+}
+export class Formatter {
+    constructor(
+        public rules: Rules,
+        public config: FormatterConfig,
+    ) {
+        if (!config) this.config = {
+            allowInlineFormat: true,
+            allowSplitLine: true,
+            newLineForBlockStart: false
         }
     }
-    register(): vscode.Disposable[] {
-        let ds: vscode.Disposable[] = [];
-        let d = vscode.languages.registerDocumentFormattingEditProvider(
-            <vscode.DocumentFilter>{ language: "diagram" },
-            this
-        );
-        ds.push(d);
-        return ds;
-    }
-
     formate(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.TextEdit[] {
         let edits: vscode.TextEdit[] = [];
         const spaceStr = options.insertSpaces ? " ".repeat(options.tabSize) : "\t";
@@ -32,9 +26,9 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
             lines.push(document.lineAt(i));
             lineTexts.push(lines[i].text);
         }
-        let analyst = new Analyst(lineTexts, formatRules);
+        let analyst = new Analyst(lineTexts, this.rules);
         analyst.analysis();
-        return this.getEdits(analyst.lines, lines, spaceStr, config.formatInLine, config.formatInLine);
+        return this.getEdits(analyst.lines, lines, spaceStr, this.config.allowInlineFormat, this.config.allowSplitLine);
     }
 
     private getEdits(lines: Line[], rangeLines: vscode.TextLine[], spaceStr: string, allowInlineFormat: boolean, allowSplitLine: boolean): vscode.TextEdit[] {
@@ -83,7 +77,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         } else {
             let splitedLines = lines.map(v => {
                 // p.push(...this.splitLine(v));
-                return this.splitLine(v, false);
+                return this.splitLine(v, this.config.newLineForBlockStart);
             })
             let blockLevel = 0;
             for (let i = 0; i < splitedLines.length; i++) {
@@ -267,5 +261,3 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         }
     }
 }
-
-export const formatter = new Formatter();

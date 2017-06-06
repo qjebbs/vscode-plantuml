@@ -1,5 +1,5 @@
-import { RulesWriting, RuleBlockWriting, RuleWriting, compile } from './ruleCompiler';
-import { ElementType } from './analyst';
+import { RulesWriting, RuleBlockWriting, RuleWriting, compile } from './formatter/ruleCompiler';
+import { ElementType } from './formatter/analyst';
 
 let ruleVariables = {
     //line begin
