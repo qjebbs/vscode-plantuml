@@ -142,26 +142,25 @@ function fillGroups(regex: RegExp) {
         else if (matchArr[3]) { // closing bracket
             let index = matchArr.index + matchArr[0].length - 1;
 
+            if (lastGroupStartPosition < lastGroupEndPosition && lastGroupEndPosition < index - matchArr[0].length) {
+                let addSlices = calcAddGroupPosition({ start: lastGroupEndPosition + 1, end: index - matchArr[0].length }, nonGroupPositions);
+                for (let s of addSlices) {
+                    modifiedRegex = addGroupToRegexString(modifiedRegex, s.start, s.end, groupsAdded);
+                    groupsAdded++;
+                    //lastGroupEndPosition = index - 1; will be set anyway
+                    currentLengthIndexes.push(groupCount + groupsAdded);
+                }
+            }
+            lastGroupEndPosition = index;
+
             if ((groupPositions.length && !nonGroupPositions.length) ||
                 groupPositions[groupPositions.length - 1] > nonGroupPositions[nonGroupPositions.length - 1].end
             ) {
-                if (lastGroupStartPosition < lastGroupEndPosition && lastGroupEndPosition < index - matchArr[0].length) {
-                    let addSlices = calcAddGroupPosition({ start: lastGroupEndPosition + 1, end: index - matchArr[0].length }, nonGroupPositions);
-                    for (let s of addSlices) {
-                        modifiedRegex = addGroupToRegexString(modifiedRegex, s.start, s.end, groupsAdded);
-                        groupsAdded++;
-                        //lastGroupEndPosition = index - 1; will be set anyway
-                        currentLengthIndexes.push(groupCount + groupsAdded);
-                    }
-                }
-
                 groupPositions.pop();
-                lastGroupEndPosition = index;
                 currentLengthIndexes.push(groupNumber.pop());
             }
             else if (nonGroupPositions.length) {
                 nonGroupPositions.pop();
-                lastGroupEndPosition = index;
             }
         }
         function isEscaped(position: number): boolean {
