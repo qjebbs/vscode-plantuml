@@ -277,7 +277,7 @@ export class Analyst {
             }
         }
         for (let u of mp.GetUnmatchedTexts()) {
-            line.elements.push(
+            if (u.text.trim()) line.elements.push(
                 <Element>{
                     type: ElementType.none,
                     text: u.text,

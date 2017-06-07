@@ -112,7 +112,7 @@ let rules = <RulesWriting>{
                     comment: "block if-else-if",
                     isBlock: true,
                     begin: /{{LB}}(if)\s+\((.+?)?\)(?:\s+(then)(?:\s*\((.+?)?\))?)?/i,
-                    again: /{{LB}}else\s*(\()/i,
+                    again: /{{LB}}(else)(?:\s*\((.+?)?\))?/i,
                     end: /{{LB}}endif{{LE}}/i,
                     beginCaptures: {
                         1: ElementType.word,
@@ -121,7 +121,8 @@ let rules = <RulesWriting>{
                         4: ElementType.asIs,
                     },
                     againCaptures: {
-                        1: ElementType.punctLeftSpace
+                        1: ElementType.word,
+                        2: ElementType.asIs,
                     },
                     endCaptures: {
                         0: ElementType.word,
@@ -152,11 +153,13 @@ let rules = <RulesWriting>{
                     comment: "block repeat while",
                     isBlock: true,
                     begin: /{{LB}}repeat{{LE}}/i,
-                    end: /{{LB}}(repeat)\s*(while)\s*(\()/i,
+                    end: /{{LB}}(repeat)\s+(while)(?:\s+\((.+?)?\)(?:\s+(is)(?:\s*\((.+?)?\))?)?)?/i,
                     endCaptures: {
                         1: ElementType.word,
                         2: ElementType.word,
-                        3: ElementType.punctLeftSpace
+                        3: ElementType.asIs,
+                        4: ElementType.word,
+                        5: ElementType.asIs,
                     },
                     patterns: {
                         includes: ["*"],
@@ -165,15 +168,19 @@ let rules = <RulesWriting>{
                 {
                     comment: "block while",
                     isBlock: true,
-                    begin: /{{LB}}(while)\s*(\()/i,
-                    end: /{{LB}}(end)\s*(while){{LE}}/i,
+                    begin: /{{LB}}(while)(?:\s+\((.+?)?\)(?:\s+(is)(?:\s*\((.+?)?\))?)?)?/i,
+                    end: /{{LB}}(?:(endwhile)|(end)\s*(while))(?:\s*\((.+)\))?{{LE}}/i,
                     beginCaptures: {
                         1: ElementType.word,
-                        2: ElementType.punctLeftSpace
+                        2: ElementType.asIs,
+                        3: ElementType.word,
+                        4: ElementType.asIs,
                     },
                     endCaptures: {
                         1: ElementType.word,
-                        2: ElementType.word
+                        2: ElementType.word,
+                        3: ElementType.word,
+                        4: ElementType.asIs,
                     },
                     patterns: {
                         includes: ["*"],
