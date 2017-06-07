@@ -443,7 +443,7 @@
             <key>comment</key>
             <string>inline note of over</string>
             <key>match</key>
-            <string>(?i)^\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(\w+)))|(on\s+link))\s*(#\w+)?\s*:\s*(.+)$</string>
+            <string>(?i)^\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(?:(\w+)(?:,\s*(\w+))*)))|(on\s+link))\s*(#\w+)?\s*:\s*(.+)$</string>
             <key>captures</key>
             <dict>
               <key>1</key>
@@ -474,14 +474,19 @@
               <key>6</key>
               <dict>
                 <key>name</key>
-                <string>keyword.other.noteof.source.wsd</string>
+                <string>support.variable.noteof.source.wsd</string>
               </dict>
               <key>7</key>
               <dict>
                 <key>name</key>
-                <string>constant.numeric.noteof.source.wsd</string>
+                <string>keyword.other.noteof.source.wsd</string>
               </dict>
               <key>8</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.noteof.source.wsd</string>
+              </dict>
+              <key>9</key>
               <dict>
                 <key>name</key>
                 <string>comment.line.noteof.source.wsd</string>
@@ -492,7 +497,7 @@
             <key>comment</key>
             <string>multi-line note of over</string>
             <key>begin</key>
-            <string>(?i)^\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(\w+)))|(on\s+link))\s*(#\w+)?\s*$</string>
+            <string>(?i)^\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(?:(\w+)(?:,\s*(\w+))*)))|(on\s+link))\s*(#\w+)?\s*$</string>
             <key>beginCaptures</key>
             <dict>
               <key>1</key>
@@ -523,9 +528,14 @@
               <key>6</key>
               <dict>
                 <key>name</key>
-                <string>keyword.other.noteof.source.wsd</string>
+                <string>support.variable.noteof.source.wsd</string>
               </dict>
               <key>7</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.noteof.source.wsd</string>
+              </dict>
+              <key>8</key>
               <dict>
                 <key>name</key>
                 <string>constant.numeric.noteof.source.wsd</string>

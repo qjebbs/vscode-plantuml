@@ -1,3 +1,7 @@
+### 1.7.1
+- Add "zh-tw" language and update "ja" translation.
+- Small syntax highlight fix.
+
 ### 1.7.0
 - New Feature: Format support. Indent and inline format (Experimental).
 - Improvement: Zoom follows your mouse pointer. Optimized when window resize
