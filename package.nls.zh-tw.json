@@ -1,0 +1,8 @@
+{
+	"plantuml.exportCurrent.title": "匯出目前圖表",
+	"plantuml.exportDocument.title": "匯出目前檔案圖表",
+	"plantuml.exportWorkspace.title": "匯出工作區圖表",
+	"plantuml.preview.title": "預覽目前圖表",
+	"plantuml.URLCurrent.title": "為當前圖表產生URL鏈接",
+	"plantuml.URLDocument.title": "為當前檔案圖表產生URL鏈接"
+}
