@@ -75,7 +75,7 @@ let rules = <RulesWriting>{
                 {
                     comment: "block {}",
                     isBlock: true,
-                    begin: /\{[!#+T*-]?/i,
+                    begin: /\{[!#+T*-/]?/i,
                     end: /\}/i,
                     patterns: {
                         includes: ["*"],
@@ -201,9 +201,10 @@ let rules = <RulesWriting>{
                 //formats
                 {
                     comment: "@start,@end",
-                    match: /@(start|end)\w+/i,
+                    match: /(@(?:start|end)\w+)(?:\s+.+)?{{LE}}/i,
                     captures: {
-                        0: ElementType.word,
+                        1: ElementType.word,
+                        2: ElementType.asIs,
                     }
                 },
                 {
@@ -234,7 +235,7 @@ let rules = <RulesWriting>{
             rules: [
                 {
                     comment: "operators",
-                    match: /[-+=/|*&]/i,
+                    match: /[|]/i,
                     captures: {
                         0: ElementType.operater,
                     }

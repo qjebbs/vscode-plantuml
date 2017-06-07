@@ -295,7 +295,7 @@ export class Analyst {
                 if (start && start.line == i && start.position > u.offset + u.text.length - 1) continue;
                 if (end && end.line == i && end.position < u.offset + u.text.length - 1) continue;
                 // console.log("test rule", u.text, "with", rule.comment);
-                if (!u.text.trim()) continue;
+                if (type != ElementType.asIs && !u.text.trim()) continue;
                 line.matchPositions.AddPosition(0, u.text.length - 1, u.offset);
                 line.elements.push(<Element>{
                     type: type,
