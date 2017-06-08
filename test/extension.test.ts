@@ -11,7 +11,7 @@ import * as assert from 'assert';
 import * as vscode from 'vscode';
 import * as myExtension from '../src/extension';
 import { MatchPositions, UnmatchedText } from '../src/formatter/matchPositions';
-import { MultiRegExMatch, MultiRegExp2 } from '../src/formatter/multiRegExp2'
+import { MultiRegExp2Match, MultiRegExp2 } from '../src/formatter/multiRegExp2'
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Extension Tests", () => {
@@ -44,7 +44,7 @@ suite("Extension Tests", () => {
     test("MultiRegExp2", () => {
         let str: string;
         let mreg: MultiRegExp2;
-        let matches: MultiRegExMatch[];
+        let matches: MultiRegExp2Match[];
 
         // str = "a(a(a(a(a(a(a(a(a(a(";
         // mreg = new MultiRegExp2(/((?:a\(){2})(?:a[(])(\1)/ig);

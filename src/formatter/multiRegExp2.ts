@@ -3,7 +3,7 @@
  * Fix parsing issues by jebbs
  */
 
-export interface MultiRegExMatch {
+export interface MultiRegExp2Match {
     capture: string,
     start: number,
     end: number
@@ -21,7 +21,7 @@ export class MultiRegExp2 {
     public get regExp(): RegExp {
         return this.regexp;
     }
-    exec(string: string): MultiRegExMatch[] {
+    exec(string: string): MultiRegExp2Match[] {
         let matches = RegExp.prototype.exec.call(this.regexp, string);
         if (!matches) return matches;
         let firstIndex = matches.index;
@@ -30,7 +30,7 @@ export class MultiRegExp2 {
 
         return Object.keys(indexMapper).map((group) => {
             let mapped = indexMapper[group];
-            let r = <MultiRegExMatch>{
+            let r = <MultiRegExp2Match>{
                 capture: matches[mapped],
                 start: firstIndex + previousGroups[group].reduce(
                     (sum, i) => sum + (matches[i] ? matches[i].length : 0), 0
@@ -42,14 +42,14 @@ export class MultiRegExp2 {
         });
     }
 
-    execForGroup(string: string, group: number): MultiRegExMatch {
+    execForGroup(string: string, group: number): MultiRegExp2Match {
         const matches = RegExp.prototype.exec.call(this.regexp, string);
         if (!matches) return matches;
         const firstIndex = matches.index;
 
         const mapped = group == 0 ? 0 : this.groupIndexMapper[group];
         const previousGroups = group == 0 ? [] : this.previousGroupsForGroup[group];
-        let r = <MultiRegExMatch>{
+        let r = <MultiRegExp2Match>{
             capture: matches[mapped],
             start: firstIndex + previousGroups.reduce(
                 (sum, i) => sum + (matches[i] ? matches[i].length : 0), 0

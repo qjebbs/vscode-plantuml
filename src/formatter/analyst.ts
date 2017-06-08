@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { Rules, Rule, Capture } from './rules';
 import { MatchPositions, UnmatchedText } from './matchPositions';
-import { MultiRegExp2, MultiRegExMatch } from './multiRegExp2';
+import { MultiRegExp2, MultiRegExp2Match } from './multiRegExp2';
 
 export interface Line {
     text: string,
@@ -146,7 +146,7 @@ export class Analyst {
                 if (start && start.line == i && start.position > u.offset + u.text.length - 1) continue;
                 if (!u.text.trim()) continue;
                 // console.log("test", u.text, "with", patt.regExp.source);
-                let matches: MultiRegExMatch[] = [];
+                let matches: MultiRegExp2Match[] = [];
 
                 let shouldEndAt = u.text.length;
                 let hasEnd = false;
@@ -183,7 +183,7 @@ export class Analyst {
                 rule.end.regExp.lastIndex = 0;
                 if (start && start.line == i && start.position > u.offset + u.text.length - 1) continue;
                 if (!u.text.trim()) continue;
-                let matches: MultiRegExMatch[] = [];
+                let matches: MultiRegExp2Match[] = [];
 
                 let shouldEndAt = u.text.length;
                 let hasEnd = false;
@@ -242,7 +242,7 @@ export class Analyst {
                 rule.end.regExp.lastIndex = 0;
                 if (start && start.line == i && start.position > u.offset + u.text.length - 1) continue;
                 // console.log("test rule", u.text, "with", rule.comment);
-                let matches: MultiRegExMatch[] = [];
+                let matches: MultiRegExp2Match[] = [];
                 if (matches = rule.end.exec(u.text)) {
                     this.markElement(line, matches, rule.endCaptures, u.offset);
                     this.markBlockElement(line, rule, BlockElementType.blockEnd, this._blockLevel, blockIndex, matches, u.offset);
@@ -256,7 +256,7 @@ export class Analyst {
         }
         console.log("WARNING: LEAVE BLOCK LEVEL", this._blockLevel--, "FROM", rule.comment, "DUE TO EOF.");
     }
-    private markElement(line: Line, matches: MultiRegExMatch[], captures: Capture[], offset: number) {
+    private markElement(line: Line, matches: MultiRegExp2Match[], captures: Capture[], offset: number) {
         // console.log(matches[0].match);
         let mp = new MatchPositions(matches[0].capture);
         let startOffset = -matches[0].start;
@@ -306,7 +306,7 @@ export class Analyst {
             }
         }
     }
-    private markBlockElement(line: Line, rule: Rule, type: BlockElementType, blockLevel, blockIndex: number, matches: MultiRegExMatch[], offset: number) {
+    private markBlockElement(line: Line, rule: Rule, type: BlockElementType, blockLevel, blockIndex: number, matches: MultiRegExp2Match[], offset: number) {
         if (!rule.isBlock) return;
         line.blockElements.push(
             <BlockElement>{
