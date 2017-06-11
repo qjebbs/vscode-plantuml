@@ -55,12 +55,18 @@ class ConfigReader {
         return this._read<string>('exportFormat');
     }
 
+    get exportInPlace(): boolean {
+        return this._read<boolean>('exportInPlace');
+    }
+
     get exportSubFolder(): boolean {
         return this._read<boolean>('exportSubFolder');
     }
 
     get exportConcurrency(): number {
-        return this._read<number>('exportConcurrency') || 3;
+        // note: node-plantuml is single-threaded, but that's OK because it is fast!
+        //return this._read<number>('exportConcurrency') || 3;
+        return 1;
     }
 
     get exportFormats(): string[] {

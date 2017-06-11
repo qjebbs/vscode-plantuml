@@ -2,6 +2,8 @@ import * as vscode from 'vscode';
 import * as child_process from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as devnull from 'dev-null';
+import * as plantuml from 'node-plantuml';
 
 import { Diagram, Diagrams } from './diagram';
 import { config } from './config';
@@ -24,6 +26,7 @@ class Exporter {
 
     initialize() {
         this.testJava();
+        this.primeNG();
     }
     private testJava() {
         var process = child_process.exec(this.java + " -version", (e, stdout, stderr) => {
@@ -31,6 +34,12 @@ class Exporter {
                 this.javeInstalled = false;
             }
         });
+    }
+    private primeNG() {
+        plantuml.useNailgun();
+        let gen = plantuml.generate();
+        gen.in.end("@startuml\nBob->Alice : hello\n@enduml");
+        gen.out.pipe(devnull());
     }
     register(): vscode.Disposable[] {
         this.initialize();
@@ -65,6 +74,12 @@ class Exporter {
         return this.doExport(diagram, format, "", bar);
     }
     calculateExportPath(diagram: Diagram, format: string): string {
+        if (config.exportInPlace) {
+            let p = diagram.path;
+            let i = p.lastIndexOf(".");
+            if (i >= 0) p = p.substr(0, i);
+            return p + "." + format;
+        }
         let outDirName = config.exportOutDirName;
         let subDir = config.exportSubFolder;
         let dir = "";
@@ -150,31 +165,32 @@ class Exporter {
             let pms = Promise.reject(localize(5, null));
             return <ExportTask>{ promise: pms };
         }
-        if (!fs.existsSync(config.jar)) {
-            let pms = Promise.reject(localize(6, null, context.extensionPath));
-            return <ExportTask>{ promise: pms };
-        }
+        //TODO: support custom jar definition once node-plantuml supports it
+        // if (!fs.existsSync(config.jar)) {
+        //     let pms = Promise.reject(localize(6, null, context.extensionPath));
+        //     return <ExportTask>{ promise: pms };
+        // }
         if (bar) {
             bar.show();
             bar.text = localize(7, null, diagram.title + "." + format.split(":")[0]);
         }
-        let params = [
-            '-Djava.awt.headless=true',
-            '-jar',
-            config.jar,
-            "-t" + format,
-            '-pipe',
-            '-charset',
-            'utf-8'
-        ];
-        if (path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
-        //add user args
-        params.unshift(...config.commandArgs);
+        
+        let opts = {
+            format,
+            charset: 'utf-8',
+        };
 
-        let process = child_process.spawn(this.java, params);
+        if (path.isAbsolute(diagram.dir)) opts['include'] = diagram.dir;
+
+        //TODO: support environment vars (e.g. -DPLANTUML_LIMIT_SIZE=8192) once node-plantuml supports them
+        //TODO: support misc puml args (e.g. -nometadata) once node-plantuml supports them
+        //add user args
+        //params.unshift(...config.commandArgs);
+
+        let gen = plantuml.generate(opts);
+
         if (diagram.content !== null) {
-            process.stdin.write(diagram.content);
-            process.stdin.end();
+            gen.in.end(diagram.content);
         }
         let pms = new Promise<Buffer>((resolve, reject) => {
             let buffs: Buffer[] = [];
@@ -182,14 +198,14 @@ class Exporter {
             let stderror = '';
             if (savePath) {
                 let f = fs.createWriteStream(savePath);
-                process.stdout.pipe(f);
+                gen.out.pipe(f);
             } else {
-                process.stdout.on('data', function (x: Buffer) {
+                gen.out.on('data', function (x: Buffer) {
                     buffs.push(x);
                     bufflen += x.length;
                 });
             }
-            process.stdout.on('close', () => {
+            gen.out.on('finish', () => {
                 let stdout = Buffer.concat(buffs, bufflen)
                 if (!stderror) {
                     resolve(stdout);
@@ -198,11 +214,12 @@ class Exporter {
                     reject(<ExportError>{ error: stderror, out: stdout });
                 }
             })
-            process.stderr.on('data', function (x) {
-                stderror += x;
-            });
+            //TODO: support stderr once node-plantuml exposes it
+            // process.stderr.on('data', function (x) {
+            //     stderror += x;
+            // });
         });
-        return <ExportTask>{ process: process, promise: pms };
+        return <ExportTask>{ promise: pms };
     }
     /**
      * export diagrams to file.

@@ -1,21 +1,21 @@
 {
   "name": "plantuml",
-  "displayName": "PlantUML",
+  "displayName": "NG PlantUML",
   "description": "Preview & generate PlantUML diagrams in VSCode.",
   "icon": "images/icon.png",
   "version": "1.7.1",
-  "publisher": "jebbs",
+  "publisher": "jkeys089",
   "engines": {
     "vscode": "^1.10.2"
   },
   "license": "SEE LICENSE IN LICENSE.txt",
   "bugs": {
-    "url": "https://github.com/qjebbs/vscode-plantuml/issues"
+    "url": "https://github.com/jkeys089/vscode-plantuml/issues"
   },
-  "homepage": "https://github.com/qjebbs/vscode-plantuml/blob/master/README.md",
+  "homepage": "https://github.com/jkeys089/vscode-plantuml/blob/master/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qjebbs/vscode-plantuml.git"
+    "url": "https://github.com/jkeys089/vscode-plantuml.git"
   },
   "categories": [
     "Languages",
@@ -191,30 +191,25 @@
           ],
           "description": "Export format. Leave it blank to pick format everytime you export."
         },
-        "plantuml.jar": {
-          "type": "string",
-          "default": "",
-          "description": "Alternate plantuml.jar location. Leave it blank to use integrated jar."
-        },
         "plantuml.fileExtensions": {
           "type": "string",
           "default": ".wsd,.pu,.puml,.plantuml,.iuml",
           "description": "File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like \".java\"."
         },
+        "plantuml.exportInPlace": {
+          "type": "boolean",
+          "default": false,
+          "description": "Export diagrams in the same folder as the host file with the same name as the host file."
+        },
         "plantuml.exportSubFolder": {
           "type": "boolean",
           "default": true,
-          "description": "Export diagrams to a folder which has same name with host file."
-        },
-        "plantuml.exportConcurrency": {
-          "type": "number",
-          "default": 3,
-          "description": "Decides concurrency count when export multiple diagrams."
+          "description": "Export diagrams to a folder which has same name with host file (ignored if plantuml.exportInPlace is true)."
         },
         "plantuml.exportOutDirName": {
           "type": "string",
           "default": "out",
-          "description": "Export workspace diagrams will be organized in a directory named with value specified here."
+          "description": "Export workspace diagrams will be organized in a directory named with value specified here (ignored if plantuml.exportInPlace is true)."
         },
         "plantuml.previewAutoUpdate": {
           "type": "boolean",
@@ -265,11 +260,6 @@
           "default": [],
           "description": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more."
         },
-        "plantuml.commandArgs": {
-          "type": "array",
-          "default": [],
-          "description": "commandArgs allows you add arguments to java command, such as \"-DPLANTUML_LIMIT_SIZE=8192\"."
-        },
         "plantuml.experimental.formatInLine": {
           "type": "boolean",
           "default": false,
@@ -294,6 +284,8 @@
     "vscode": "^1.0.0"
   },
   "dependencies": {
+    "dev-null": "^0.1.1",
+    "node-plantuml": "^0.5.0",
     "request": "^2.81.0",
     "vscode-nls": "^2.0.2"
   }

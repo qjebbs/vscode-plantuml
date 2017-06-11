@@ -12,7 +12,7 @@ import { formatter } from "./format/formatter";
 
 export var outputPanel = vscode.window.createOutputChannel("PlantUML");
 export var context: vscode.ExtensionContext;
-export var localize: nls.LocalizeFunc;
+export var localize: any;
 
 export class PlantUML {
     constructor(ctx: vscode.ExtensionContext) {

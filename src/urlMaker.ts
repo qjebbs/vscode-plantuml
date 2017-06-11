@@ -94,7 +94,7 @@ class URLMaker {
     private makeURLs(diagrams: Diagram[], server: string, format: string, bar: vscode.StatusBarItem): pURL[] {
         return diagrams.map<pURL>((diagram: Diagram) => {
             return this.makeURL(diagram, server, format, bar);
-        }, [])
+        })
     }
     private urlTextFrom(s: string): string {
         let opt: zlib.ZlibOptions = { level: 9 };

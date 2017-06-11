@@ -1,4 +1,6 @@
-# PlantUML README
+# NG PlantUML README
+
+This fork provides much faster preview and exports via the use of [nailgun](https://github.com/martylamb/nailgun). The increased speed does, however, come at the cost of some configurability (missing configuration options are higlighted below).
 
 This plugin provides rich support for PlantUML in VSCode, covers edit, preview, export and other aspects.
 
@@ -67,7 +69,7 @@ This plugin integrates all type diagram snippets. They are splitted into 9 secti
 - `ui`: snippets for salt diagrams.
 - `egg`: snippets for some funny diagrams, like sudoku, earth.
 
-For exsample, type `activity if else condition` or `acif` (short version) to trigge following snippet:
+For example, type `activity if else condition` or `acif` (short version) to trigge following snippet:
 
 ```
 if (cond1?) then (val1)
@@ -166,7 +168,7 @@ Before you can use the plugin, it's necessary to have following installed:
 [Java]: http://java.com/en/download/ "Download Java"
 [Graphviz]: http://www.graphviz.org/Download..php "Download Graphviz"
 
-> Plugin has integrated a copy of "plantuml.jar", you are good to go now. But if you want to use your own jar (maybe a newer version, or with many dependent jars), specify the jar location with setting `plantuml.jar`.
+> Plugin has integrated a copy of "plantuml.jar", you are good to go now. ~~But if you want to use your own jar (maybe a newer version, or with many dependent jars), specify the jar location with setting `plantuml.jar`.~~
 
 > If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
 
@@ -174,12 +176,13 @@ Before you can use the plugin, it's necessary to have following installed:
 
 This extension contributes the following settings:
 
-- `plantuml.jar`: Alternate plantuml.jar location. Leave it blank to use integrated jar.
+- ~~`plantuml.jar`: Alternate plantuml.jar location. Leave it blank to use integrated jar.~~
 - `plantuml.fileExtensions`: File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like ".java".
 - `plantuml.exportFormat`: format to export. default is not set, user may pick one format everytime exports. You can still set a format for it if you don't want to pick.
-- `plantuml.exportSubFolder`: export diagrams to a folder which has same name with host file.
-- `plantuml.exportConcurrency`: decides concurrency count when export multiple diagrams.
-- `plantuml.exportOutDirName`: export workspace diagrams will be organized in a directory named with value specified here.
+- `plantuml.exportInPlace`: export diagrams in the same folder as the host file with the same name as the host file.
+- `plantuml.exportSubFolder`: export diagrams to a folder which has same name with host file (ignored if `plantuml.exportInPlace` is `true`).
+- ~~`plantuml.exportConcurrency`: decides concurrency count when export multiple diagrams.~~
+- `plantuml.exportOutDirName`: export workspace diagrams will be organized in a directory named with value specified here (ignored if `plantuml.exportInPlace` is `true`).
 - `plantuml.previewAutoUpdate`: Dedecides if automatically update the preview window.
 - `plantuml.previewFileType`: Preview file type, png or svg support. But svg preview cannot support sudoku, earth diagrams etc.
 - `plantuml.previewFromUrlServer`: Use plantuml.urlServer to generate preview images.
@@ -187,13 +190,13 @@ This extension contributes the following settings:
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.
 - `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
 - `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write "!include path/to/include.wsd" for every single diagram any more.
-- `plantuml.commandArgs`: commandArgs allows you add command arguments to java command, such as `-DPLANTUML_LIMIT_SIZE=8192`.
+- ~~`plantuml.commandArgs`: commandArgs allows you add command arguments to java command, such as `-DPLANTUML_LIMIT_SIZE=8192`.~~
 
 ## Known Issues
 
 Please post and view issues on [GitHub][issues]
 
-[issues]: https://github.com/qjebbs/vscode-plantuml/issues "Post issues"
+[issues]: https://github.com/jkeys089/vscode-plantuml/issues "Post issues"
 
 
 ## Thanks
