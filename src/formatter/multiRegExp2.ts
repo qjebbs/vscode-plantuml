@@ -95,7 +95,7 @@ function fillGroups(regex: RegExp) {
     // regexp is greedy so it should match (? before ( right?
     // brackets may be not quoted by \
     // closing bracket may look like: ), )+, )+?, ){1,}?, ){1,1111}?, )|
-    // )|, |( for situation like (a)|b|(c), shoud not brace |, like (a)(|b|)(c)
+    // )|, |( for situation like (a)|b|(c), shoud not add group to |, like (a)(|b|)(c)
     const tester = /(\|?\(\?(?::|=|!|<=|<!))|(\|?\()|(\)(?:\{\d+,?\d*}|[*+?|])?\??)/g;
 
     let modifiedRegex = regexString;
