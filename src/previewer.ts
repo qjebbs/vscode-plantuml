@@ -23,7 +23,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
 
     private status: previewStatus;
     private rendered: Diagram;
-    private process: child_process.ChildProcess[] = [];
+    private processes: child_process.ChildProcess[] = [];
     private watchDisposables: vscode.Disposable[] = [];
 
     private images: string[];
@@ -77,18 +77,21 @@ class Previewer implements vscode.TextDocumentContentProvider {
     update(processingTip: boolean) {
         //FIXME: last update may not happen due to killingLock
         if (this.killingLock) return;
-        if (this.process && this.process.length) {
+        if (this.processes && this.processes.length) {
             this.killingLock = true;
             //kill lats unfinished task.
             // let pid = this.process.pid;
-            this.process.map(p => {
+            this.processes.map((p, i) => {
                 p.kill()
-                p.on('exit', (code) => {
-                    // console.log(`killed (${pid} ${code}) and restart!`);
-                    this.process = [];
-                    this.doUpdate(processingTip);
-                    this.killingLock = false;
-                })
+                if (i == this.processes.length - 1) {
+                    //start next preview only when last process is killed
+                    p.on('exit', (code) => {
+                        // console.log(`killed (${pid} ${code}) and restart!`);
+                        this.processes = [];
+                        this.doUpdate(processingTip);
+                        this.killingLock = false;
+                    })
+                }
             });
             return;
         }
@@ -120,17 +123,17 @@ class Previewer implements vscode.TextDocumentContentProvider {
         let task: ExportTask;
         if (config.previewFromUrlServer) {
             task = httpExporter.exportToBuffer(diagram, previewFileType);
-            this.process = null;
+            this.processes = null;
         } else {
             task = exporter.exportToBuffer(diagram, previewFileType);
-            this.process = task.processes;
+            this.processes = task.processes;
         }
 
         // console.log(`start pid ${this.process.pid}!`);
         if (processingTip) this.processing();
         task.promise.then(
             result => {
-                this.process = null;
+                this.processes = null;
                 this.status = previewStatus.default;
 
                 this.images = result.reduce((p, buf) => {
@@ -142,7 +145,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
                 this.Emittor.fire(this.Uri);
             },
             error => {
-                this.process = null;
+                this.processes = null;
                 this.status = previewStatus.error;
                 let err = parseError(error)[0];
                 this.error = err.error;

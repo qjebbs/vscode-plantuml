@@ -160,8 +160,11 @@ class Exporter {
         }
 
         let processes: child_process.ChildProcess[] = [];
-        let pms = [...Array(diagram.pageCount).keys()].map(
-            (index) => {
+        let buffers: Buffer[] = [];
+        //make a promise chain that export only one page at a time
+        //but processes are all started at the begining, and recorded for later process.
+        let pms = [...Array(diagram.pageCount).keys()].reduce(
+            (pChain, index) => {
                 let params = [
                     '-Djava.awt.headless=true',
                     '-jar',
@@ -176,52 +179,75 @@ class Exporter {
                 if (path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
                 //add user args
                 params.unshift(...config.commandArgs);
-
                 let process = child_process.spawn(this.java, params);
-                if (diagram.content !== null) {
-                    process.stdin.write(diagram.content);
-                    process.stdin.end();
-                }
+                processes.push(process);
+                return pChain.then(
+                    result => {
 
-                let pms = new Promise<Buffer>((resolve, reject) => {
-                    let buffs: Buffer[] = [];
-                    let bufflen = 0;
-                    let stderror = '';
-                    if (savePath) {
-                        let f = fs.createWriteStream(addFileIndex(savePath, index));
-                        process.stdout.pipe(f);
-                    } else {
-                        process.stdout.on('data', function (x: Buffer) {
-                            buffs.push(x);
-                            bufflen += x.length;
-                        });
-                    }
-                    process.stdout.on('close', () => {
-                        let stdout = Buffer.concat(buffs, bufflen)
-                        if (!stderror) {
-                            resolve(stdout);
-                        } else {
-                            stderror = localize(10, null, diagram.title, stderror);
-                            reject(<ExportError>{ error: stderror, out: stdout });
+                        if (diagram.content !== null) {
+                            process.stdin.write(diagram.content);
+                            process.stdin.end();
                         }
-                    })
-                    process.stderr.on('data', function (x) {
-                        stderror += x;
-                    });
-                });
-                return pms;
+
+                        let pms = new Promise<Buffer>((resolve, reject) => {
+                            let buffs: Buffer[] = [];
+                            let bufflen = 0;
+                            let stderror = '';
+                            if (savePath) {
+                                let f = fs.createWriteStream(addFileIndex(savePath, index));
+                                process.stdout.pipe(f);
+                            } else {
+                                process.stdout.on('data', function (x: Buffer) {
+                                    buffs.push(x);
+                                    bufflen += x.length;
+                                });
+                            }
+                            process.stdout.on('close', () => {
+                                let stdout = Buffer.concat(buffs, bufflen)
+                                if (!stderror) {
+                                    buffers.push(stdout);
+                                    resolve(stdout);
+                                } else {
+                                    stderror = localize(10, null, diagram.title, stderror);
+                                    reject(<ExportError>{ error: stderror, out: stdout });
+                                }
+                            })
+                            process.stderr.on('data', function (x) {
+                                stderror += x;
+                            });
+                        });
+                        return pms;
+                        function addFileIndex(fileName: string, index: number): string {
+                            if (index == 0) return fileName;
+                            let bsName = path.basename(fileName);
+                            let ext = path.extname(fileName);
+                            return path.join(
+                                path.dirname(fileName),
+                                bsName.substr(0, bsName.length - ext.length) + "-" + index + ext,
+                            );
+                        }
+                    },
+                    err => {
+                        return err;
+                    }
+                )
             },
             Promise.resolve(new Buffer(""))
         );
-        return <ExportTask>{ processes: null, promise: Promise.all(pms) }
-        function addFileIndex(fileName: string, index: number): string {
-            if (index == 0) return fileName;
-            let bsName = path.basename(fileName);
-            let ext = path.extname(fileName);
-            return path.join(
-                path.dirname(fileName),
-                bsName.substr(0, bsName.length - ext.length) + "-" + index + ext,
-            );
+        return <ExportTask>{
+            processes: processes,
+            promise: new Promise<Buffer[]>(
+                (resolve, reject) => {
+                    pms.then(
+                        () => {
+                            resolve(buffers);
+                        },
+                        err => {
+                            reject(err);
+                        }
+                    )
+                }
+            )
         }
     }
     /**
