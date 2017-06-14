@@ -1,3 +1,6 @@
+### 1.8.0
+- New Feature: Multi-page diagram preview & export supprot.
+
 ### 1.7.1
 - Add "zh-tw" language and update "ja" translation.
 - Small syntax highlight fix.
