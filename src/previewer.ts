@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as child_process from 'child_process';
 
-import { exporter } from './exporter';
+import { exporter, ExportTask } from './exporter';
 import { httpExporter } from './httpExporter';
 import { Diagram, Diagrams } from './diagram';
 import { config } from './config';
@@ -23,10 +23,10 @@ class Previewer implements vscode.TextDocumentContentProvider {
 
     private status: previewStatus;
     private rendered: Diagram;
-    private process: child_process.ChildProcess = null;
+    private process: child_process.ChildProcess[] = [];
     private watchDisposables: vscode.Disposable[] = [];
 
-    private image: string;
+    private images: string[];
     private imageError: string;
     private error: string = "";
 
@@ -48,16 +48,19 @@ class Previewer implements vscode.TextDocumentContentProvider {
 
     provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): string {
         let image: string;
+        let images: string;
         let imageError: string;
         let error: string;
         switch (this.status) {
             case previewStatus.default:
                 let nonce = Math.random().toString(36).substr(2);
                 let jsPath = "file:///" + path.join(context.extensionPath, "templates", "js");
-                image = this.image
+                image = this.images[0];
+                images = this.images.join("\n");
                 return eval(this.template);
             case previewStatus.error:
-                image = this.image
+                image = this.images[0];
+                images = this.images.join("\n");
                 imageError = this.imageError;
                 error = this.error.replace(/\n/g, "<br />");
                 return eval(this.templateError);
@@ -65,7 +68,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
                 let icon = "file:///" + path.join(context.extensionPath, "images", "icon.png");
                 let processingTip = localize(9, null);
                 image = exporter.calculateExportPath(this.rendered, config.previewFileType);
-                if (!fs.existsSync(image)) image = ""; else image = "file:///" + image;
+                if (!fs.existsSync(images)) images = ""; else images = "file:///" + images;
                 return eval(this.templateProcessing);
             default:
                 return "";
@@ -74,17 +77,19 @@ class Previewer implements vscode.TextDocumentContentProvider {
     update(processingTip: boolean) {
         //FIXME: last update may not happen due to killingLock
         if (this.killingLock) return;
-        if (this.process) {
+        if (this.process && this.process.length) {
             this.killingLock = true;
             //kill lats unfinished task.
             // let pid = this.process.pid;
-            this.process.kill();
-            this.process.on('exit', (code) => {
-                // console.log(`killed (${pid} ${code}) and restart!`);
-                this.process = null;
-                this.doUpdate(processingTip);
-                this.killingLock = false;
-            })
+            this.process.map(p => {
+                p.kill()
+                p.on('exit', (code) => {
+                    // console.log(`killed (${pid} ${code}) and restart!`);
+                    this.process = [];
+                    this.doUpdate(processingTip);
+                    this.killingLock = false;
+                })
+            });
             return;
         }
         this.doUpdate(processingTip);
@@ -95,7 +100,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
         if (changed) {
             this.rendered = current;
             this.error = "";
-            this.image = "";
+            this.images = [];
             this.imageError = ""
         }
         return changed;
@@ -105,20 +110,20 @@ class Previewer implements vscode.TextDocumentContentProvider {
         if (!diagram.content) {
             this.status = previewStatus.error;
             this.error = localize(3, null);
-            this.image = "";
+            this.images = [];
             this.Emittor.fire(this.Uri);
             return;
         }
         const previewFileType = config.previewFileType;
         const previewMimeType = previewFileType === 'png' ? 'png' : "svg+xml";
 
-        let task;
+        let task: ExportTask;
         if (config.previewFromUrlServer) {
             task = httpExporter.exportToBuffer(diagram, previewFileType);
             this.process = null;
         } else {
             task = exporter.exportToBuffer(diagram, previewFileType);
-            this.process = task.process;
+            this.process = task.processes;
         }
 
         // console.log(`start pid ${this.process.pid}!`);
@@ -127,9 +132,13 @@ class Previewer implements vscode.TextDocumentContentProvider {
             result => {
                 this.process = null;
                 this.status = previewStatus.default;
-                let b64 = result.toString('base64');
-                if (!b64) return;
-                this.image = `data:image/${previewMimeType};base64,${b64}`
+
+                this.images = result.reduce((p, buf) => {
+                    let b64 = buf.toString('base64');
+                    if (!b64) return p;
+                    p.push(`${p}\n<img src="data:image/${previewMimeType};base64,${b64}">`);
+                    return p;
+                }, <string[]>[]);
                 this.Emittor.fire(this.Uri);
             },
             error => {
@@ -139,7 +148,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
                 this.error = err.error;
                 let b64 = err.out.toString('base64');
                 if (!(b64 || err.error)) return;
-                this.imageError = `data:image/${previewMimeType};base64,${b64}`
+                this.imageError = `<img src="data:image/${previewMimeType};base64,${b64}">`
                 this.Emittor.fire(this.Uri);
             }
         );

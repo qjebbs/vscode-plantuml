@@ -12,11 +12,27 @@
     cursor:move;
 ">
     <div style="margin: 10px;">
-        <img id="image" src="${image}">
+        <img id="image" src="">
     </div>
     <!--<p id="debug"></p>-->
-    <script nonce="${nonce}" src="${jsPath}/zoom.js"></script>
+    <div id="controls" style="
+            display:none;
+            width: 200px;
+            padding: 10px;
+            position: fixed;
+            left: calc(50% - 100px);
+            top: calc(100% - 50px);
+            background: rgba(128, 128, 128, 0.2);
+            border-radius: 5px;
+        ">
+        <button id="btnPrev">Prev</button>
+        <button id="btnNext">Next</button>
+    </div>
+    <div style="display:none;" id="images">
+        ${images}
+    </div>
     <script nonce="${nonce}" src="${jsPath}/dragscroll.js"></script>
+    <script nonce="${nonce}" src="${jsPath}/preview.js"></script>
 </body>
 
 </html>

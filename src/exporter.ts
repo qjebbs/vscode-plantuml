@@ -14,8 +14,8 @@ export interface ExportError {
 }
 
 export interface ExportTask {
-    process: child_process.ChildProcess;
-    promise: Promise<Buffer>;
+    processes: child_process.ChildProcess[];
+    promise: Promise<Buffer[]>;
 }
 
 class Exporter {
@@ -158,51 +158,71 @@ class Exporter {
             bar.show();
             bar.text = localize(7, null, diagram.title + "." + format.split(":")[0]);
         }
-        let params = [
-            '-Djava.awt.headless=true',
-            '-jar',
-            config.jar,
-            "-t" + format,
-            '-pipe',
-            '-charset',
-            'utf-8'
-        ];
-        if (path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
-        //add user args
-        params.unshift(...config.commandArgs);
 
-        let process = child_process.spawn(this.java, params);
-        if (diagram.content !== null) {
-            process.stdin.write(diagram.content);
-            process.stdin.end();
-        }
-        let pms = new Promise<Buffer>((resolve, reject) => {
-            let buffs: Buffer[] = [];
-            let bufflen = 0;
-            let stderror = '';
-            if (savePath) {
-                let f = fs.createWriteStream(savePath);
-                process.stdout.pipe(f);
-            } else {
-                process.stdout.on('data', function (x: Buffer) {
-                    buffs.push(x);
-                    bufflen += x.length;
-                });
-            }
-            process.stdout.on('close', () => {
-                let stdout = Buffer.concat(buffs, bufflen)
-                if (!stderror) {
-                    resolve(stdout);
-                } else {
-                    stderror = localize(10, null, diagram.title, stderror);
-                    reject(<ExportError>{ error: stderror, out: stdout });
+        let processes: child_process.ChildProcess[] = [];
+        let pms = [...Array(diagram.pageCount).keys()].map(
+            (index) => {
+                let params = [
+                    '-Djava.awt.headless=true',
+                    '-jar',
+                    config.jar,
+                    "-pipeimageindex",
+                    `${index}`,
+                    "-t" + format,
+                    '-pipe',
+                    '-charset',
+                    'utf-8',
+                ];
+                if (path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
+                //add user args
+                params.unshift(...config.commandArgs);
+
+                let process = child_process.spawn(this.java, params);
+                if (diagram.content !== null) {
+                    process.stdin.write(diagram.content);
+                    process.stdin.end();
                 }
-            })
-            process.stderr.on('data', function (x) {
-                stderror += x;
-            });
-        });
-        return <ExportTask>{ process: process, promise: pms };
+
+                let pms = new Promise<Buffer>((resolve, reject) => {
+                    let buffs: Buffer[] = [];
+                    let bufflen = 0;
+                    let stderror = '';
+                    if (savePath) {
+                        let f = fs.createWriteStream(addFileIndex(savePath, index));
+                        process.stdout.pipe(f);
+                    } else {
+                        process.stdout.on('data', function (x: Buffer) {
+                            buffs.push(x);
+                            bufflen += x.length;
+                        });
+                    }
+                    process.stdout.on('close', () => {
+                        let stdout = Buffer.concat(buffs, bufflen)
+                        if (!stderror) {
+                            resolve(stdout);
+                        } else {
+                            stderror = localize(10, null, diagram.title, stderror);
+                            reject(<ExportError>{ error: stderror, out: stdout });
+                        }
+                    })
+                    process.stderr.on('data', function (x) {
+                        stderror += x;
+                    });
+                });
+                return pms;
+            },
+            Promise.resolve(new Buffer(""))
+        );
+        return <ExportTask>{ processes: null, promise: Promise.all(pms) }
+        function addFileIndex(fileName: string, index: number): string {
+            if (index == 0) return fileName;
+            let bsName = path.basename(fileName);
+            let ext = path.extname(fileName);
+            return path.join(
+                path.dirname(fileName),
+                bsName.substr(0, bsName.length - ext.length) + "-" + index + ext,
+            );
+        }
     }
     /**
      * export diagrams to file.
@@ -214,12 +234,12 @@ class Exporter {
     private doExports(diagrams: Diagram[], format: string, concurrency: number, bar: vscode.StatusBarItem): Promise<Buffer[]> {
         concurrency = concurrency > 0 ? concurrency : 1
         concurrency = concurrency > diagrams.length ? diagrams.length : concurrency;
-        let promises: Promise<Buffer>[] = [];
+        let promises: Promise<Buffer[]>[] = [];
         let errors: ExportError[] = [];
         for (let i = 0; i < concurrency; i++) {
             //each i starts a task chain, which export indexes like 0,3,6,9... (task 1, concurrency 3 for example.)
             promises.push(
-                diagrams.reduce((prev: Promise<Buffer>, diagram: Diagram, index: number) => {
+                diagrams.reduce((prev: Promise<Buffer[]>, diagram: Diagram, index: number) => {
                     if (index % concurrency != i) {
                         // ignore indexes belongs to other task chain
                         return prev;
@@ -238,7 +258,7 @@ class Exporter {
                             //continue next diagram
                             return this.exportToFile(diagram, format, savePath, bar).promise;
                         });
-                }, Promise.resolve(new Buffer(""))).then(
+                }, Promise.resolve(<Buffer[]>[])).then(
                     //to push last error of a chain
                     r => {
                         return r;
