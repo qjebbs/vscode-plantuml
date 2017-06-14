@@ -1,7 +1,5 @@
 class Zoom {
-    constructor() {
-        this.reset();
-    }
+    constructor() { }
     reset() {
         this.marginPixels = 20;
         this.img = document.getElementById("image");
@@ -11,6 +9,7 @@ class Zoom {
         this.img.style.width = "";
         this.img.style.maxWidth = "";
         document.body.style.width = "";
+        if (document.body.offsetHeight < window.innerHeight) document.body.style.height = window.innerHeight - this.marginPixels + "px";
     }
     add() {
         this.reset();
