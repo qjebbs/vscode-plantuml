@@ -63,10 +63,10 @@ class Zoom {
             let minZoom = parseInt(minWidth / this.naturalWidth * 100);
 
             if (this.img.style.width == "") {
-                console.log("update zoom value due to resize");
+                // console.log("update zoom value due to resize");
                 this.zoom = minZoom;
             } else if (this.zoom < minZoom) {
-                console.log("change zoom to fit");
+                // console.log("change zoom to fit");
                 this.zoom = minZoom;
                 this.img.style.width = "";
                 this.img.style.maxWidth = "";
@@ -96,33 +96,55 @@ class Zoom {
         return mouseAt;
     }
 }
+class Switcher {
+    constructor() {
+        this.current = 0;
+        this.images = [];
+        this.image = document.getElementById("image");
+        this.pInfo = document.getElementById("pageInfo");
+        this.pInfoTpl = this.pInfo.innerText;
+        for (let e of document.getElementById("images").getElementsByTagName("img")) {
+            this.images.push(e.src);
+        }
+    }
+    add() {
+        document.getElementById("placeholder").style.display = this.images.length > 1 ? "" : "none";
+        if (this.images.length <= 1) return;
+        document.getElementById("controls").style.display = "";
+        document.getElementById("btnNext").addEventListener("click", () => {
+            if (this.current == this.images.length) return;
+            this.moveTo(++this.current);
+        });
+        document.getElementById("btnPrev").addEventListener("click", () => {
+            if (this.current == 1) return;
+            this.moveTo(--this.current);
+        });
+
+        this.moveTo(1);
+        document.getElementById("images").remove();
+        console.log(this.images.length);
+    }
+    moveTo(page) {
+        this.image.src = this.images[page - 1];
+        this.pInfo.innerText = String.format(this.pInfoTpl, page, this.images.length);
+        this.current = page;
+        zoom.reset();
+    }
+}
+String.format = function format() {
+    if (arguments.length == 0)
+        return null;
+
+    var str = arguments[0];
+    for (var i = 1; i < arguments.length; i++) {
+        var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+        str = str.replace(re, arguments[i]);
+    }
+    return str;
+}
 let zoom = new Zoom();
+let switcher = new Switcher();
 window.addEventListener("load", () => {
-    setSwitch();
+    switcher.add();
     zoom.add();
 });
-
-function setSwitch() {
-    let current = 0;
-    let images = [];
-    for (let e of document.getElementById("images").getElementsByTagName("img")) {
-        images.push(e.src);
-    }
-    let count = images.length;
-    let image = document.getElementById("image");
-    image.src = images[current];
-    if (count <= 1) return;
-    document.getElementById("controls").style.display = "";
-    document.getElementById("btnNext").addEventListener("click", () => {
-        if (current == count - 1) return;
-        image.src = images[++current];
-        zoom.reset();
-    });
-    document.getElementById("btnPrev").addEventListener("click", () => {
-        if (current == 0) return;
-        image.src = images[--current];
-        zoom.reset();
-    });
-
-    document.getElementById("images").remove();
-}

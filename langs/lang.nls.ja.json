@@ -18,5 +18,6 @@
 	"PlantUML URLを生成中: {0}",
 	"PlantUML プレビュー",
 	"不正なファイル拡張子設定です:\n{0}\n設定例:\n.*\n.wsd\n.wsd,.java\n",
-	"指定された PlantUML JAR が見つかりません。組み込みJARファイルが使用されます。有効な \"plantuml.jar\" を JAR 指定位置に配置して下さい"
+	"指定された PlantUML JAR が見つかりません。組み込みJARファイルが使用されます。有効な \"plantuml.jar\" を JAR 指定位置に配置して下さい",
+	"Page {0} of {1}"
 ]

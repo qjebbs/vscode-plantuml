@@ -59,6 +59,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
             case previewStatus.default:
                 let nonce = Math.random().toString(36).substr(2);
                 let jsPath = "file:///" + path.join(context.extensionPath, "templates", "js");
+                let pageInfo = localize(20, null);
                 return eval(this.template);
             case previewStatus.error:
                 imageError = this.imageError;

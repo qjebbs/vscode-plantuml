@@ -2,31 +2,64 @@
 
 <head>
     <meta http-equiv="Content-Security-Policy" content="script-src 'nonce-${nonce}';">
+    <style>
+        .btn {
+            padding: 0.5rem;
+            background-color: #3f5058;
+            border-radius: 3px;
+            border-style: none;
+            color: white;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #fff;
+            cursor: move;
+        }
+
+        #ctrl-container,
+        #placeholder {
+            width: 100%;
+            height: 4rem;
+        }
+
+        #ctrl-container {
+            position: fixed;
+            top: calc(100% - 4rem);
+            text-align: center;
+        }
+
+        #controls {
+            padding: 0.5rem;
+            background: #eee;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 0 1rem 0 1rem;
+        }
+
+        #controls span {
+            color: black;
+            margin-left: 1rem;
+            margin: 0 1rem 0 1rem;
+        }
+    </style>
 </head>
 
-<body class="dragscroll" style="
-    margin: 0;
-    padding: 0; 
-    text-align: center; 
-    background-color: #fff; 
-    cursor:move;
-">
+<body class="dragscroll">
     <div style="margin: 10px;">
-        <img id="image" src="">
+        <img id="image" src="${image}">
     </div>
     <!--<p id="debug"></p>-->
-    <div id="controls" style="
-            display:none;
-            width: 200px;
-            padding: 10px;
-            position: fixed;
-            left: calc(50% - 100px);
-            top: calc(100% - 50px);
-            background: rgba(128, 128, 128, 0.2);
-            border-radius: 5px;
-        ">
-        <button id="btnPrev">Prev</button>
-        <button id="btnNext">Next</button>
+    <div id="placeholder">
+    </div>
+    <div id="ctrl-container">
+        <div id="controls" style="display: none;">
+            <button class="btn" id="btnPrev">&lt;</button>
+            <span id="pageInfo">${pageInfo}</span>
+            <button class="btn" id="btnNext">&gt;</button>
+        </div>
     </div>
     <div style="display:none;" id="images">
         ${images}
