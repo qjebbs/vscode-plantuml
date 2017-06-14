@@ -228,7 +228,7 @@ class Exporter {
                         }
                     },
                     err => {
-                        return err;
+                        return Promise.reject(err);
                     }
                 )
             },
