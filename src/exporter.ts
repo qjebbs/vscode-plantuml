@@ -84,6 +84,15 @@ class Exporter {
         }
         return path.join(exportDir, diagram.title + "." + format);
     }
+    addFileIndex(fileName: string, index: number, count: number): string {
+        if (count == 1) return fileName;
+        let bsName = path.basename(fileName);
+        let ext = path.extname(fileName);
+        return path.join(
+            path.dirname(fileName),
+            bsName.substr(0, bsName.length - ext.length) + "-" + (index + 1) + ext,
+        );
+    }
     private async exportDocument(all: boolean) {
         try {
             let editor = vscode.window.activeTextEditor;
@@ -194,7 +203,7 @@ class Exporter {
                             let bufflen = 0;
                             let stderror = '';
                             if (savePath) {
-                                let f = fs.createWriteStream(addFileIndex(savePath, index));
+                                let f = fs.createWriteStream(this.addFileIndex(savePath, index, diagram.pageCount));
                                 process.stdout.pipe(f);
                             } else {
                                 process.stdout.on('data', function (x: Buffer) {
@@ -217,15 +226,6 @@ class Exporter {
                             });
                         });
                         return pms;
-                        function addFileIndex(fileName: string, index: number): string {
-                            if (index == 0) return fileName;
-                            let bsName = path.basename(fileName);
-                            let ext = path.extname(fileName);
-                            return path.join(
-                                path.dirname(fileName),
-                                bsName.substr(0, bsName.length - ext.length) + "-" + index + ext,
-                            );
-                        }
                     },
                     err => {
                         return Promise.reject(err);

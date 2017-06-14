@@ -51,16 +51,16 @@ class Previewer implements vscode.TextDocumentContentProvider {
         let images: string;
         let imageError: string;
         let error: string;
+        image = this.images[0];
+        images = this.images.reduce((p, c) => {
+            return `${p}<img src="${c}">`
+        }, "");
         switch (this.status) {
             case previewStatus.default:
                 let nonce = Math.random().toString(36).substr(2);
                 let jsPath = "file:///" + path.join(context.extensionPath, "templates", "js");
-                image = this.images[0];
-                images = this.images.join("\n");
                 return eval(this.template);
             case previewStatus.error:
-                image = this.images[0];
-                images = this.images.join("\n");
                 imageError = this.imageError;
                 error = this.error.replace(/\n/g, "<br />");
                 return eval(this.templateError);
@@ -68,7 +68,8 @@ class Previewer implements vscode.TextDocumentContentProvider {
                 let icon = "file:///" + path.join(context.extensionPath, "images", "icon.png");
                 let processingTip = localize(9, null);
                 image = exporter.calculateExportPath(this.rendered, config.previewFileType);
-                if (!fs.existsSync(images)) images = ""; else images = "file:///" + images;
+                image = exporter.addFileIndex(image, 0, this.rendered.pageCount);
+                if (!fs.existsSync(image)) image = ""; else image = "file:///" + image;
                 return eval(this.templateProcessing);
             default:
                 return "";
@@ -139,7 +140,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
                 this.images = result.reduce((p, buf) => {
                     let b64 = buf.toString('base64');
                     if (!b64) return p;
-                    p.push(`${p}\n<img src="data:image/${previewMimeType};base64,${b64}">`);
+                    p.push(`data:image/${previewMimeType};base64,${b64}`);
                     return p;
                 }, <string[]>[]);
                 this.Emittor.fire(this.Uri);
@@ -151,7 +152,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
                 this.error = err.error;
                 let b64 = err.out.toString('base64');
                 if (!(b64 || err.error)) return;
-                this.imageError = `<img src="data:image/${previewMimeType};base64,${b64}">`
+                this.imageError = `data:image/${previewMimeType};base64,${b64}`
                 this.Emittor.fire(this.Uri);
             }
         );
