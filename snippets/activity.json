@@ -11,7 +11,7 @@
 	},
 	"Activity Diagram Activity": {
 		"prefix": "activity definition",
-		"body": ":${do something};$0",
+		"body": ":${1:do something};$0",
 		"description": "Adds an activity that follows on from the previous control statement.\n Note, to use SDL sterotyped activities replace the terminating ';' with one of the following characters: |,<,>,/,],}"
 	},
 	"Activity Diagram Split": {
@@ -28,9 +28,9 @@
 	"Activity Diagram If Condition": {
 		"prefix": "activity if else condition",
 		"body": [
-			"if (${cond1}?) then (${val1})",
+			"if (${1:cond1}?) then (${2:val1})",
 			"\t$0",
-			"else (${val2})",
+			"else (${3:val2})",
 			"\t",
 			"endif"
 		],
@@ -39,11 +39,11 @@
 	"Activity Diagram If-elseif Condition": {
 		"prefix": "activity if elseif else condition",
 		"body": [
-			"if (${cond1}?) then (${val1})",
+			"if (${1:cond1}?) then (${2:val1})",
 			"\t$0",
-			"elseif (${cond2}?) then (${val2})",
+			"elseif (${3:cond2}?) then (${4:val2})",
 			"\t",
-			"else (${val3})",
+			"else (${5:val3})",
 			"\t",
 			"endif"
 		],
@@ -54,16 +54,16 @@
 		"body": [
 			"repeat",
 			"\t$0",
-			"repeat while (${cond}?) is (${val})"
+			"repeat while (${1:cond}?) is (${2:val})"
 		],
 		"description": "Adds a repeat while loop to the activity diagram"
 	},
 	"Activity Diagram While": {
 		"prefix": "activity while loop",
 		"body": [
-			"while (${cond}?) is (not ${val})",
+			"while (${1:cond}?) is (not ${2:val})",
 			"\t$0",
-			"endwhile (${val}) "
+			"endwhile (${3:val}) "
 		],
 		"description": "Adds a while loop to the activity diagram"
 	},
@@ -81,15 +81,15 @@
 	"Activity Diagram Activity Note": {
 		"prefix": "activity note on activity",
 		"body": [
-			"${floating }note ${right}${left} : ${single-line note}$0"
+			"${1:floating }note ${2:right}${3:left} : ${4:single-line note}$0"
 		],
 		"description": "Appends a text note directly left|right of the preceding activity"
 	},
 	"Activity Diagram Activity Multi-Line Note": {
 		"prefix": "activity note on activity multi line",
 		"body": [
-			"${floating }note ${right}${left}",
-			"${multi-line note}$0",
+			"${1:floating }note ${2:right}${3:left}",
+			"${4:multi-line note}$0",
 			"end note\n"
 		],
 		"description": "Appends a text note directly left|right of the preceding activity"
@@ -97,7 +97,7 @@
 	"Activity Diagram Partition": {
 		"prefix": "activity partition grouping",
 		"body": [
-			"partition ${name} {",
+			"partition ${1:name} {",
 			"\t$0",
 			"}\n"
 		],
@@ -105,7 +105,7 @@
 	},
 	"Activity Diagram Swimlane": {
 		"prefix": "activity swimlane grouping",
-		"body": "${|#AntiqueWhite}|${laneName}|$0",
+		"body": "${1:|#AntiqueWhite}|${2:laneName}|$0",
 		"description": "Creates a new vertical lane for all subsequent activities to be enclosed in. Use the color names guide to identify colors or use #hexCodes"
 	},
 	"Activity Diagram Detach": {

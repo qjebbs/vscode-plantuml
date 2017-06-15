@@ -9,7 +9,7 @@
 	},
 	"Sequence Diagram Autonumber messages": {
 		"prefix": "sequence auto message numbering",
-		"body": "autonumber ${nStartFrom} ${nStepBy}${ \"###\"}\n$0",
+		"body": "autonumber ${1:nStartFrom} ${2:nStepBy}${3: \"###\"}\n$0",
 		"description": "Displays an auto incrementing numbered sequence in front of the message. You can optionally specify a start from number, step by amount, and a format string.\nNote, if unspecified the defaults are 1 & 1 respectively. Format strings can include HTML with 0 or # representing the number of digits in the expression (eg. autonumber 1 10 \"<b>(##)</b>\"). Note, you may also enter either a value of stop or resume for nStartFrom"
 	},
 	"Sequence Diagram Message": {
@@ -25,12 +25,12 @@
 	},
 	"Sequence Diagram Message Incoming": {
 		"prefix": "sequence message incoming ? -> obj",
-		"body": "[-> ${objAlias}: ${message}",
+		"body": "[-> ${1:objAlias}: ${2:message}",
 		"description": "Adds an incoming message from an unidentified source to the nominated object"
 	},
 	"Sequence Diagram Message Outgoing": {
 		"prefix": "sequence message outgoing obj -> ?",
-		"body": "${objAlias} ->] : ${message}",
+		"body": "${1:bjAlias} ->] : ${2:message}",
 		"description": "Adds an outgoing message from the nominated object to an unidentified source"
 	},
 	"Sequence Diagram Hide Footbox": {
@@ -41,9 +41,9 @@
 	"Sequence Diagram Alternative": {
 		"prefix": "sequence alternative or if else conditional block",
 		"body": [
-			"alt ${cond1}",
+			"alt ${1:cond1}",
 			"\t$0",
-			"else ${cond2...}",
+			"else ${2:cond2...}",
 			"\t",
 			"end\n"
 		],
@@ -52,7 +52,7 @@
 	"Sequence Diagram Option": {
 		"prefix": "sequence option or if conditional block",
 		"body": [
-			"opt ${cond}",
+			"opt ${1:cond}",
 			"\t$0",
 			"end\n"
 		],
@@ -61,7 +61,7 @@
 	"Sequence Diagram Loop": {
 		"prefix": "sequence loop block",
 		"body": [
-			"loop ${cond}",
+			"loop ${1:cond}",
 			"\t$0",
 			"end\n"
 		],
@@ -70,9 +70,9 @@
 	"Sequence Diagram Parallel": {
 		"prefix": "sequence parallel execution fragments",
 		"body": [
-			"par ${threadName1}",
+			"par ${1:threadName1}",
 			"\t$0",
-			"else ${threadName2...}",
+			"else ${2:threadName2...}",
 			"\t",
 			"end\n"
 		],
@@ -81,9 +81,9 @@
 	"Sequence Diagram break": {
 		"prefix": "sequence break or exception handling block",
 		"body": [
-			"break ${catchCond1}",
+			"break ${1:catchCond1}",
 			"\t$0",
-			"else ${catchCond2...}",
+			"else ${2:catchCond2...}",
 			"\t",
 			"else finally",
 			"\t",
@@ -94,7 +94,7 @@
 	"Sequence Diagram Critical": {
 		"prefix": "sequence critical flow section",
 		"body": [
-			"critical ${cond}",
+			"critical ${1:cond}",
 			"\t$0",
 			"end\n"
 		],
@@ -103,7 +103,7 @@
 	"Sequence Diagram Group": {
 		"prefix": "sequence group block",
 		"body": [
-			"group ${basis}",
+			"group ${1:basis}",
 			"\t$0",
 			"end\n"
 		],
@@ -122,75 +122,75 @@
 	"Sequence Diagram Message Note": {
 		"prefix": "sequence note on message",
 		"body": [
-			"note ${right}${left} : ${single-line note}\n$0"
+			"note ${1:right}${2:left} : ${3:single-line note}\n$0"
 		],
 		"description": "Appends a text note directly left|right of the preceding message"
 	},
 	"Sequence Diagram Message Multi-Line Note": {
 		"prefix": "sequence note on message multi line",
 		"body": [
-			"note ${right}${left}",
-			"${multi-line note}$0",
+			"note ${1:right}${2:left}",
+			"${3:multi-line note}$0",
 			"end note\n"
 		],
 		"description": "Appends a text note directly left|right of the preceding message"
 	},
 	"Sequence Diagram Object Note": {
 		"prefix": "sequence note over objects",
-		"body": "note over ${commaSepAliases} : ${single-line note}\n$0",
+		"body": "note over ${1:commaSepAliases} : ${2:single-line note}\n$0",
 		"description": "Appends a text note directly over the nominated aliases (eg. note over A, B: my note). Consider using notes for providing commentary, use references for more formal flow of control instructions"
 	},
 	"Sequence Diagram Object Multi-Line Note": {
 		"prefix": "sequence note over objects multi line",
 		"body": [
-			"note over ${commaSepAliases}",
-			"${multi-line note}$0",
+			"note over ${1:commaSepAliases}",
+			"${2:multi-line note}$0",
 			"end note\n"
 		],
 		"description": "Appends a text note directly over the nominated aliases (eg. note over A, B \n my note\nend note). Consider using notes for providing commentary, use references for more formal flow of control instructions"
 	},
 	"Sequence Diagram Divider": {
 		"prefix": "sequence divider",
-		"body": "== ${section} ==\n$0",
+		"body": "== ${1:section} ==\n$0",
 		"description": "Creates a section divider immediately after the preceding message [if any]. Dividers are helpful when a sequence diagram has become large and reviewers can attend to specific messaging by section"
 	},
 	"Sequence Diagram Reference": {
 		"prefix": "sequence reference over objects",
 		"body": [
-			"ref over ${commaSepAliases}",
-			"${multi-line note}$0",
+			"ref over ${1:commaSepAliases}",
+			"${2:multi-line note}$0",
 			"end ref\n"
 		],
 		"description": "Appends a text reference directly over the nominated aliases (eg. ref over A, B \n my note\nend ref).  Consider using notes for providing commentary, use references for more formal flow of control instructions"
 	},
 	"Sequence Diagram Delay": {
 		"prefix": "sequence delay before next message",
-		"body": "... ${elapsed time}...\n$0",
+		"body": "... ${1:elapsed time}...\n$0",
 		"description": "Creates a delay marked with the elapsed time between the previous and next message"
 	},
 	"Sequence Diagram Spacing": {
 		"prefix": "sequence spacing",
-		"body": "||${nPixels}||\n$0",
+		"body": "||${1:nPixels}||\n$0",
 		"description": "Creates an additional spacing between message above and below by the specified pixel size (eg. ||20||)"
 	},
 	"Sequence Diagram Lifeline Create": {
 		"prefix": "sequence create lifeline",
-		"body": "create ${objAlias}\n$0",
+		"body": "create ${1:objAlias}\n$0",
 		"description": "Shows the timed creation of the object reference for all subsequent message calls to that object"
 	},
 	"Sequence Diagram Lifeline Destroy": {
 		"prefix": "sequence destroy lifeline",
-		"body": "destroy ${objAlias}\n$0",
+		"body": "destroy ${1:objAlias}\n$0",
 		"description": "Shows the timed destruction of the object reference"
 	},
 	"Sequence Diagram Lifeline Activate": {
 		"prefix": "sequence activate lifeline",
-		"body": "activate ${objAlias}\n$0",
+		"body": "activate ${1:objAlias}\n$0",
 		"description": "Shows the timed active execution context for all subsequent message calls to the nominated object"
 	},
 	"Sequence Diagram Lifeline Deactivate": {
 		"prefix": "sequence deactivate lifeline",
-		"body": "deactivate ${objAlias}\n$0",
+		"body": "deactivate ${1:objAlias}\n$0",
 		"description": "Shows the timed deactive execution context for all subsequent message calls to the nominated object"
 	}
 }

@@ -30,7 +30,7 @@
     },
     "State Transition Diagram State Value Info": {
         "prefix": "state value details",
-        "body": "state ${alias}: ${Key=Value}",
+        "body": "state ${1:alias}: ${2:Key=Value}",
         "description": "Adds a current key/value pair to the first compartment of the state, such that it is differentiable from other states in the hosting container"
     }
 }

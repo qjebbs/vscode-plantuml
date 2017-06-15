@@ -71,7 +71,7 @@
     "Class Diagram Class Definition": {
         "prefix": "class definition",
         "body": [
-            "${abstract }class ${alias} {",
+            "${1:abstract }class ${2:alias} {",
             "\t$0+{static} int PUBLIC_CLASS_VARIABLE",
             "\t-string privateVariable",
             "\t~void packagePrivateMethod()",
@@ -124,16 +124,16 @@
     "Class Diagram Hide Features": {
         "prefix": "class hide features",
         "body": [
-            "hide ${empty members}",
-            "${'hide [<<stereotype>> or alias] [empty members,members,empty attributes,attributes,empty methods,methods,circle,stereotype,class,interface,enum]}"
+            "hide ${1:empty members}",
+            "${2:'hide [<<stereotype>> or alias] [empty members,members,empty attributes,attributes,empty methods,methods,circle,stereotype,class,interface,enum]}"
         ],
         "description": "Hide matching stereotype, alias, members or features that match the nominated option. This feature is useful when you dont want to distract the reviewer with various implementation details in the model without the need for re-modeling. Consider 'Detail.pu' as a PlantUML diagram that includes a fully detailed model with all relationship and member signatures. Rather than reproduce the same model, you could use the !include feature and then hide various model features"
     },
     "Class Diagram Show": {
         "prefix": "class show features",
         "body": [
-            "show ${empty members}",
-            "${'show [<<stereotype>> or alias] [empty members,members,empty attributes,attributes,empty methods,methods,circle,stereotype,class,interface,enum]}"
+            "show ${1:empty members}",
+            "${2:'show [<<stereotype>> or alias] [empty members,members,empty attributes,attributes,empty methods,methods,circle,stereotype,class,interface,enum]}"
         ],
         "description": "show matching stereotype, alias, members or features that match the nominated option. This feature is used in conjuction with the hidden feature. Consider using the hide for a broad brush approach detail remover, then apply show to expose those interesting details for this diagram."
     }

@@ -47,7 +47,7 @@
     "Use-Case Diagram Rectangle": {
         "prefix": "usecase rectangle or system to enclose use-cases",
         "body": [
-            "rectangle \"${caption}\" {",
+            "rectangle \"${1:caption}\" {",
             "\t$0",
             "}\n"
         ],

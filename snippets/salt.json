@@ -11,27 +11,27 @@
 	},
 	"UI Diagram Label": {
 		"prefix": "ui label",
-		"body": "${label}$0",
+		"body": "${1:label}$0",
 		"description": "Adds a label component to the current view context"
 	},
 	"UI Diagram Radio Button": {
 		"prefix": "ui radio button",
-		"body": "(${X})${button label}$0",
+		"body": "(${1:X})${2:button label}$0",
 		"description": "Adds a radio button component to the current view context. Place an uppercase X between the parenthesis to indicate selection"
 	},
 	"UI Diagram Checkbox Button": {
 		"prefix": "ui checkbox button",
-		"body": "[${X}]${button label}$0",
+		"body": "[${1:X}]${2:button label}$0",
 		"description": "Adds a checkbox button component to the current view context. Place an uppercase X between the parenthesis to indicate selection"
 	},
 	"UI Diagram Textbox Edit": {
 		"prefix": "ui textbox edit",
-		"body": "\"${edit-text placeholder}\"$0",
+		"body": "\"${1:edit-text placeholder}\"$0",
 		"description": "Adds a single line edit textbox component to the current view context"
 	},
 	"UI Diagram Combobox": {
 		"prefix": "ui combobox or select box",
-		"body": "^${drop down placeholder}^$0",
+		"body": "^${1:drop down placeholder}^$0",
 		"description": "Adds a combobox component to the current view context. Combo boxes or select boxes typically offer the user 5-10 options to select from. Note, this feature only lets you define the first option"
 	},
 	"UI Diagram Grid Row": {
@@ -62,16 +62,16 @@
 	},
 	"UI Diagram Tabbar Horizontal": {
 		"prefix": "ui tab horizontal",
-		"body": "{/ ${Playlists} | ${Artists} | ${Songs} | ${Albums}}\n$0",
+		"body": "{/ ${1:Playlists} | ${2:Artists} | ${3:Songs} | ${4:Albums}}\n$0",
 		"description": "Adds a horizontal tab bar component to the current view context. Note, you may use basic HTML in this region. Furthermore, you may add additional tabs using the '|' separator"
 	},
 	"UI Diagram Tabbar Vertical Left": {
 		"prefix": "ui tab vertical left",
 		"body": [
-			"{/\t${Playlists}",
-			"\t${Artists}",
-			"\t${Songs}",
-			"\t${Albums}",
+			"{/\t${1:Playlists}",
+			"\t${2:Artists}",
+			"\t${3:Songs}",
+			"\t${4:Albums}",
 			"} | {",
 			"\t$0",
 			"}"
@@ -80,14 +80,14 @@
 	},
 	"UI Diagram Menubar": {
 		"prefix": "ui main menu",
-		"body": "{* ${File} | ${Edit} | ${Help}$0\n}",
+		"body": "{* ${1:File} | ${2:Edit} | ${3:Help}$0\n}",
 		"description": "Adds a menu bar component to the current view context. If you indend to model an opened main menu item them use the main menu opened snippet instead"
 	},
 	"UI Diagram Menu Opened": {
 		"prefix": "ui main menu opened",
 		"body": [
-			"{* ${File} | ${Edit} | ${Help}",
-			"\t${File} | ${New} | ${Open ...} _ | ${Exit} $0",
+			"{* ${1:File} | ${2:Edit} | ${3:Help}",
+			"\t${4:File} | ${5:New} | ${6:Open ...} _ | ${7:Exit} $0",
 			"}"
 		],
 		"description": "Adds an expanded main menu bar item component to the current view context"
