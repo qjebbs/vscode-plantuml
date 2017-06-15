@@ -135,6 +135,10 @@ class Previewer implements vscode.TextDocumentContentProvider {
         if (processingTip) this.processing();
         task.promise.then(
             result => {
+
+                //tasks are killed, returned result of null
+                if (!result) return;
+
                 this.processes = null;
                 this.status = previewStatus.default;
 

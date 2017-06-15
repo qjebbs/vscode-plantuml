@@ -193,6 +193,11 @@ class Exporter {
                 return pChain.then(
                     result => {
 
+                        if (process.killed) {
+                            buffers = null;
+                            return Promise.resolve(null);
+                        }
+
                         if (diagram.content !== null) {
                             process.stdin.write(diagram.content);
                             process.stdin.end();
