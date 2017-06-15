@@ -4,5 +4,20 @@
 	"plantuml.exportWorkspace.title": "Export Workspace Diagrams",
 	"plantuml.preview.title": "Preview Current Diagram",
 	"plantuml.URLCurrent.title": "Generate URL for Current Diagram",
-	"plantuml.URLDocument.title": "Generate URLs for Current File Diagrams"
+	"plantuml.URLDocument.title": "Generate URLs for Current File Diagrams",
+	"plantuml.configuration.exportFormat": "Export format. Leave it blank to pick format everytime you export.",
+	"plantuml.configuration.jar": "Alternate plantuml.jar location. Leave it blank to use integrated jar.",
+	"plantuml.configuration.fileExtensions": "File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like \".java\".",
+	"plantuml.configuration.exportSubFolder": "Export diagrams to a folder which has same name with host file.",
+	"plantuml.configuration.exportConcurrency": "Decides concurrency count when export multiple diagrams.",
+	"plantuml.configuration.exportOutDirName": "Export workspace diagrams will be organized in a directory named with value specified here.",
+	"plantuml.configuration.previewAutoUpdate": "Decides if automatically update the preview window.",
+	"plantuml.configuration.previewFileType": "Preview file type. Png or svg support.",
+	"plantuml.configuration.urlServer": "Plantuml server to generate UML diagrams on-the-fly.",
+	"plantuml.configuration.urlFormat": "URL format. Leave it blank to pick format everytime you make a URL.",
+	"plantuml.configuration.urlResult": "URL result type. Simple URL or ready for MarkDown use.",
+	"plantuml.configuration.previewFromUrlServer": "Use plantuml.urlServer to generate preview images.",
+	"plantuml.configuration.includes": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more.",
+	"plantuml.configuration.commandArgs": "commandArgs allows you add arguments to java command, such as \"-DPLANTUML_LIMIT_SIZE=8192\".",
+	"plantuml.configuration.formatInLine": "Experimental! \nFormat provide by this plugin only indent code blocks by default and not change your line text.\nYou can enable inline format with this setting, but it's very early experimental function, and it may broke your code! Use it at your own risk!"
 }

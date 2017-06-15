@@ -189,37 +189,37 @@
             "latex",
             "latex:nopreamble"
           ],
-          "description": "Export format. Leave it blank to pick format everytime you export."
+          "description": "%plantuml.configuration.exportFormat%"
         },
         "plantuml.jar": {
           "type": "string",
           "default": "",
-          "description": "Alternate plantuml.jar location. Leave it blank to use integrated jar."
+          "description": "%plantuml.configuration.jar%"
         },
         "plantuml.fileExtensions": {
           "type": "string",
           "default": ".wsd,.pu,.puml,.plantuml,.iuml",
-          "description": "File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like \".java\"."
+          "description": "%plantuml.configuration.fileExtensions%"
         },
         "plantuml.exportSubFolder": {
           "type": "boolean",
           "default": true,
-          "description": "Export diagrams to a folder which has same name with host file."
+          "description": "%plantuml.configuration.exportSubFolder%"
         },
         "plantuml.exportConcurrency": {
           "type": "number",
           "default": 3,
-          "description": "Decides concurrency count when export multiple diagrams."
+          "description": "%plantuml.configuration.exportConcurrency%"
         },
         "plantuml.exportOutDirName": {
           "type": "string",
           "default": "out",
-          "description": "Export workspace diagrams will be organized in a directory named with value specified here."
+          "description": "%plantuml.configuration.exportOutDirName%"
         },
         "plantuml.previewAutoUpdate": {
           "type": "boolean",
           "default": true,
-          "description": "Decides if automatically update the preview window."
+          "description": "%plantuml.configuration.previewAutoUpdate%"
         },
         "plantuml.previewFileType": {
           "type": "string",
@@ -228,12 +228,12 @@
             "png",
             "svg"
           ],
-          "description": "Preview file type. Png or svg support."
+          "description": "%plantuml.configuration.previewFileType%"
         },
         "plantuml.urlServer": {
           "type": "string",
           "default": "http://www.plantuml.com/plantuml",
-          "description": "Plantuml server to generate UML diagrams on-the-fly."
+          "description": "%plantuml.configuration.urlServer%"
         },
         "plantuml.urlFormat": {
           "type": "string",
@@ -244,7 +244,7 @@
             "svg",
             "txt"
           ],
-          "description": "URL format. Leave it blank to pick format everytime you make a URL."
+          "description": "%plantuml.configuration.urlFormat%"
         },
         "plantuml.urlResult": {
           "type": "string",
@@ -253,27 +253,27 @@
             "MarkDown",
             "SimpleURL"
           ],
-          "description": "URL result type. Simple URL or ready for MarkDown use."
+          "description": "%plantuml.configuration.urlResult%"
         },
         "plantuml.previewFromUrlServer": {
           "type": "boolean",
           "default": false,
-          "description": "Use plantuml.urlServer to generate preview images."
+          "description": "%plantuml.configuration.previewFromUrlServer%"
         },
         "plantuml.includes": {
           "type": "array",
           "default": [],
-          "description": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more."
+          "description": "%plantuml.configuration.includes%"
         },
         "plantuml.commandArgs": {
           "type": "array",
           "default": [],
-          "description": "commandArgs allows you add arguments to java command, such as \"-DPLANTUML_LIMIT_SIZE=8192\"."
+          "description": "%plantuml.configuration.commandArgs%"
         },
         "plantuml.experimental.formatInLine": {
           "type": "boolean",
           "default": false,
-          "description": "Experimental! \nFormat provide by this plugin only indent code blocks by default and not change your line text.\nYou can enable inline format with this setting, but it's very early experimental function, and it may broke your code! Use it at your own risk!"
+          "description": "%plantuml.configuration.formatInLine%"
         }
       }
     }

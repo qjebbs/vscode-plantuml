@@ -4,5 +4,20 @@
 	"plantuml.exportWorkspace.title": "导出工作区图表",
 	"plantuml.preview.title": "预览光标位置图表",
 	"plantuml.URLCurrent.title": "为光标位置图表创建链接",
-	"plantuml.URLDocument.title": "为当前文件图表创建链接"
+	"plantuml.URLDocument.title": "为当前文件图表创建链接",
+	"plantuml.configuration.exportFormat": "导出格式。若留空，则在每次导出时选择格式。",
+	"plantuml.configuration.jar": "自定义 plantuml.jar 的位置。留空则使用内置的版本。",
+	"plantuml.configuration.fileExtensions": "导出工作区图表时查找的文件后缀。特别是在软件项目的工作区设置时，您可以自定义要查找的后缀，以便导出位于源文件中的图表，如 \".java\".",
+	"plantuml.configuration.exportSubFolder": "决定是否在导出图表时，建立以图表所在文件为名称的文件夹。",
+	"plantuml.configuration.exportConcurrency": "决定导出多个图表时的并发数量。",
+	"plantuml.configuration.exportOutDirName": "所有导出图片都将被组织到项目根目录下以此设置为名称的目录下。",
+	"plantuml.configuration.previewAutoUpdate": "决定是否在内容变更和选定图表变更时自动刷新预览窗口",
+	"plantuml.configuration.previewFileType": "预览界面使用的文件格式。支持 Png 和 svg。",
+	"plantuml.configuration.urlServer": "生成图表超链接使用的 Plantuml 服务器。",
+	"plantuml.configuration.urlFormat": "超链接文件格式。若留空，则在每次生成时选择格式。",
+	"plantuml.configuration.urlResult": "超链接输出类型。仅超链接或 MarkDown 格式。",
+	"plantuml.configuration.previewFromUrlServer": "使用 plantuml.urlServer 指定的服务器生成预览图片。",
+	"plantuml.configuration.includes": "需要引入到图表中的文件或目录。使您无需再到处写 \"!include path/to/include.wsd\"。",
+	"plantuml.configuration.commandArgs": "指定调用 JAR 时的自定义参数，如 \"-DPLANTUML_LIMIT_SIZE=8192\"。",
+	"plantuml.configuration.formatInLine": "实验特性！\n默认情况下，本插件提供的格式化功能仅处理代码的缩进，不会改变行的内容。\n您可以通过此设置启用行内格式化，但这只是一个早期的试验性功能，可能会破坏您的代码！请自行评估风险使用！"
 }
