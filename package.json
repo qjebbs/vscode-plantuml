@@ -1,7 +1,7 @@
 {
   "name": "plantuml",
   "displayName": "PlantUML",
-  "description": "Preview & generate PlantUML diagrams in VSCode.",
+  "description": "Rich support for PlantUML in VSCode.",
   "icon": "images/icon.png",
   "version": "1.8.0",
   "publisher": "jebbs",
