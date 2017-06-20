@@ -9,6 +9,7 @@ import { builder } from "./builder";
 import { symboler } from "./symboler";
 import { urlMaker } from "./urlMaker";
 import { formatter } from "./format/formatter";
+import { Messages, SuppressedKeys } from "./messages";
 
 export var outputPanel = vscode.window.createOutputChannel("PlantUML");
 export var context: vscode.ExtensionContext;
@@ -23,6 +24,11 @@ export class PlantUML {
 
     activate(): vscode.Disposable[] {
         try {
+            
+            const ext = vscode.extensions.getExtension("jebbs.plantuml");
+            const version = ext.packageJSON.version;
+            this.notifyOnNewVersion(context, version);
+
             let ds: vscode.Disposable[] = [];
             ds.push(config.watch());
             //register export
@@ -46,5 +52,26 @@ export class PlantUML {
     deactivate() {
         previewer.stopWatch();
         outputPanel.dispose();
+    }
+    // code modified from:
+    // https://github.com/eamodio/vscode-gitlens
+    async  notifyOnNewVersion(context: vscode.ExtensionContext, version: string) {
+        Messages.configure(context);
+        if (context.globalState.get(SuppressedKeys.UpdateNotice, false)) return;
+        const previousVersion = context.globalState.get<string>("version");
+
+        if (previousVersion === undefined) {
+            await Messages.showWelcomeMessage();
+            return;
+        }
+
+        const [major, minor] = version.split('.');
+        const [prevMajor, prevMinor] = previousVersion.split('.');
+        if (major === prevMajor && minor === prevMinor) return;
+        // Don't notify on downgrades
+        if (major < prevMajor || (major === prevMajor && minor < prevMinor)) return;
+
+        await context.globalState.update("version", version);
+        await Messages.showUpdateMessage(version);
     }
 }

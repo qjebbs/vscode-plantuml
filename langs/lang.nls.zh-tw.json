@@ -19,5 +19,10 @@
 	"PlantUML 預覽",
 	"無效的副檔名設定:\n{0}\n設定範例:\n.*\n.wsd\n.wsd,.java\n",
 	"指定的PlantUML JAR 並未找到，使用套件所帶的JAR版本。 請修正 \"plantuml.jar\" 設定為JAR檔所在的正確路徑。",
-	"Page {0} of {1}"
+	"Page {0} of {1}",
+	"Thank you for choosing PlantUML!",
+	"View Docs",
+	"View Release Notes",
+	"Don't Show Again",
+	"PlantUML has been updated to v{0}"
 ]

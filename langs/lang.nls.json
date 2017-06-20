@@ -19,5 +19,10 @@
 	"PlantUML Preview",
 	"Invalid file extension config:\n{0}\nConfig examples:\n.*\n.wsd\n.wsd,.java\n",
 	"PlantUML JAR specified not found, use integrated JAR instead. Please config \"plantuml.jar\" with a valid JAR location.",
-	"Page {0} of {1}"
+	"Page {0} of {1}",
+	"Thank you for choosing PlantUML!",
+	"View Docs",
+	"View Release Notes",
+	"Don't Show Again",
+	"PlantUML has been updated to v{0}"
 ]
