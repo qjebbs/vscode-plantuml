@@ -27,7 +27,7 @@ This plugin provides rich support for PlantUML in VSCode, covers edit, preview, 
     - Auto Include.
     - Symbol List support.
 
-> Notice: If you use customize `plantuml.jar`, plase update to the latest version to enable `Muli-Page Diagram support`. (Later than `V1.2017.15`)
+> Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Muli-Page Diagram support`. (Later than `V1.2017.15`)
 
 ## Preview and Export Demos
 
