@@ -1,5 +1,3 @@
-'use strict';
-
 import * as vscode from 'vscode';
 
 import { Diagram, Diagrams } from './diagram';
@@ -7,7 +5,7 @@ import { config } from './config';
 import { urlMaker } from './urlMaker';
 import { ExportError, ExportTask } from './exporter';
 import { localize } from './planuml';
-
+const request = require('request');
 
 
 class HttpExporter {
@@ -23,37 +21,53 @@ class HttpExporter {
     }
 
     private doExport(diagram: Diagram, format: string): ExportTask {
-        let pURL = urlMaker.makeURL(diagram, config.urlServer, format, null);
 
-        var request = require('request');
-        // console.log("Exporting preview image from %s", pURL.url);
-        let pms = new Promise<Buffer>((resolve, reject) => {
+        let allPms = [...Array(diagram.pageCount).keys()].map(
+            (index) => {
 
-            request(
-                { method: 'GET'
-                , uri: pURL.url
-                , encoding: null // for byte encoding. Otherwise string.
-                , gzip: true
+                let requestUrl = urlMaker.makeURL(diagram, config.urlServer, format, null).url;
+                if (config.urlServerIndexParameter) {
+                    requestUrl += "?" + config.urlServerIndexParameter + "=" + index;
                 }
-            , function (error, response, body) {
-                if (!error && response.statusCode === 200) {
-                    resolve(body);
-                } else {
-                    let stderror;
-                    if (!error) {
-                        stderror = "Unexpected Statuscode: " 
-                            + response.statusCode + "\n"
-                            + "for GET " + pURL.url;
-                    } else {
-                        stderror = error.message;
-                        body = new Buffer("");
-                    }
-                    stderror = localize(10, null, diagram.title, stderror);
-                    reject(<ExportError>{ error: stderror, out: body });
-                }
-            })
-        });
-        return <ExportTask>{ promise: pms };
+
+                let pms = new Promise<Buffer>((resolve, reject) => {
+
+                    request(
+                        { method: 'GET'
+                        , uri: requestUrl
+                        , encoding: null // for byte encoding. Otherwise string.
+                        , gzip: true
+                        }
+                    , function (error, response, body) {
+                        if (!error && response.statusCode === 200) {
+                            resolve(body);
+                        } else {
+                            let stderror;
+                            if (!error) {
+                                stderror = "Unexpected Statuscode: "
+                                    + response.statusCode + "\n"
+                                    + "for GET " + requestUrl;
+                            } else {
+                                stderror = error.message;
+                                body = new Buffer("");
+                            }
+                            stderror = localize(10, null, diagram.title, stderror);
+                            reject(<ExportError>{ error: stderror, out: body });
+                        }
+                    })
+                });
+                return pms;
+
+            },
+            Promise.resolve(new Buffer(""))
+        );
+
+
+
+        return <ExportTask>{
+            processes: null,
+            promise: Promise.all(allPms),
+        }
 
     }
 }

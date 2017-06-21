@@ -235,6 +235,11 @@
           "default": "http://www.plantuml.com/plantuml",
           "description": "Plantuml server to generate UML diagrams on-the-fly."
         },
+        "plantuml.urlServerIndexParameter": {
+          "type": "string",
+          "default": "",
+          "description": "Optional index parameter name for multipage diagrams. (e.g. uri?idx=${n})"
+        },
         "plantuml.urlFormat": {
           "type": "string",
           "default": "",

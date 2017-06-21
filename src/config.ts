@@ -92,6 +92,10 @@ class ConfigReader {
         return this._read<string>('urlServer') || "http://www.plantuml.com/plantuml";
     }
 
+    get urlServerIndexParameter(): string {
+        return this._read<string>('urlServerIndexParameter');
+    }
+
     get urlFormat(): string {
         return this._read<string>('urlFormat');
     }
