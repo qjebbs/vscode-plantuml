@@ -1,7 +1,7 @@
 {
   "name": "plantuml",
   "displayName": "PlantUML",
-  "description": "Rich support for PlantUML in VSCode.",
+  "description": "Rich PlantUML support for Visual Studio Code.",
   "icon": "images/icon.png",
   "version": "1.8.1",
   "publisher": "jebbs",

@@ -1,6 +1,6 @@
 # PlantUML README
 
-This plugin provides rich support for PlantUML in VSCode, covers edit, preview, export and other aspects.
+Rich PlantUML support for Visual Studio Code.
 
 [Donate by Paypal](https://paypal.me/qjebbs "If you like this plugin, you can buy me a coffee. Feel free if you don't want to, since it's free!")
 |
