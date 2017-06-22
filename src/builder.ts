@@ -6,7 +6,7 @@ import { exporter, ExportError } from './exporter';
 import { Diagram } from './diagram';
 import { config } from './config';
 import { outputPanel, context, localize } from './planuml';
-import { showError, parseError, StopWatch } from './tools';
+import { showMessagePanel, parseError, StopWatch } from './tools';
 
 class Builder {
     register(): vscode.Disposable[] {
@@ -51,7 +51,7 @@ class Builder {
                 this.doBuild(uris, format);
             }
         } catch (error) {
-            showError(outputPanel, parseError(error));
+            showMessagePanel(outputPanel, error);
         }
     }
     private doBuild(uris: vscode.Uri[], format: string) {
@@ -117,10 +117,7 @@ class Builder {
                         return p + (p ? "\n" : "") + c.error;
                     }, "") + "\n\n" + report;
                 }
-                showError(
-                    outputPanel,
-                    parseError(report)
-                );
+                showMessagePanel(outputPanel, report);
             },
             error => {
                 bar.dispose();
@@ -128,7 +125,7 @@ class Builder {
                 errors.push(...parseError(error));
                 if (uris.length) {
                     vscode.window.showInformationMessage(localize(12, null, uris.length));
-                    showError(outputPanel, errors);
+                    showMessagePanel(outputPanel, errors);
                 }
             }
             );

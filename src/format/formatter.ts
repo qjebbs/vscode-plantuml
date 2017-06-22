@@ -4,7 +4,7 @@ import { FormatType, FormatRule, FormatCapture } from './formatRuleCompiler';
 import { MatchPositions, UnmatchedText } from './matchPositions';
 import { config } from '../config';
 import { outputPanel } from '../planuml';
-import { showError, parseError } from '../tools';
+import { showMessagePanel } from '../tools';
 import { MultiRegExp2, MultiRegExMatch } from './multiRegExp2';
 interface matchLine {
     text: string,
@@ -23,7 +23,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         try {
             return this.formate(document, options, token);
         } catch (error) {
-            showError(outputPanel, parseError(error));
+            showMessagePanel(outputPanel, error);
         }
     }
     register(): vscode.Disposable[] {

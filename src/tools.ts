@@ -40,16 +40,29 @@ export function parseError(error: any): ExportError[] {
         let err = error as TypeError;
         return [<ExportError>{ error: err.stack, out: nb }];
     } else if (error instanceof Array) {
-        return error as ExportError[];
+        let arr = error as any[];
+        if (!arr || !arr.length) return [];
+        if (instanceOfExportError(arr[0])) return error as ExportError[];
     } else {
         return [error as ExportError];
     }
+    return null;
+    function instanceOfExportError(object: any): object is ExportError {
+        return 'error' in object;
+    }
 }
 
-export function showError(panel: vscode.OutputChannel, errors: ExportError[]) {
+export function showMessagePanel(panel: vscode.OutputChannel, message: any) {
     panel.clear();
-    for (let e of errors) {
-        panel.appendLine(e.error);
+    let errs: ExportError[];
+    if (typeof (message) === "string") {
+        panel.appendLine(message);
+    } else if (errs = parseError(message)) {
+        for (let e of errs) {
+            panel.appendLine(e.error);
+        }
+    } else {
+        panel.appendLine(new Object(message).toString());
     }
     panel.show();
 }

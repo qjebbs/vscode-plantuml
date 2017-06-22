@@ -6,7 +6,7 @@ import * as path from 'path';
 import { Diagram, Diagrams } from './diagram';
 import { config } from './config';
 import { outputPanel, context, localize } from './planuml';
-import { mkdirsSync, isSubPath, showError, parseError, StopWatch } from './tools';
+import { mkdirsSync, isSubPath, showMessagePanel, parseError, StopWatch } from './tools';
 
 export interface ExportError {
     error: string;
@@ -137,20 +137,18 @@ class Exporter {
                         fileCnt += c.length;
                         return p + "\n" + c.join("\n");
                     }, "");
-                    showError(
+                    showMessagePanel(
                         outputPanel,
-                        parseError(localize(27, null, ds.diagrams.length, fileCnt, stopWatch.runTime() / 1000) + fileLst)
+                        localize(27, null, ds.diagrams.length, fileCnt, stopWatch.runTime() / 1000) + fileLst
                     );
                 },
                 error => {
                     bar.dispose();
-                    let err = parseError(error);
-                    showError(outputPanel, err);
+                    showMessagePanel(outputPanel, error);
                 }
             );
         } catch (error) {
-            let err = parseError(error);
-            showError(outputPanel, err);
+            showMessagePanel(outputPanel, error);
         }
         return;
     }
