@@ -6,7 +6,7 @@ import * as path from 'path';
 import { Diagram, Diagrams } from './diagram';
 import { config } from './config';
 import { outputPanel, context, localize } from './planuml';
-import { mkdirsSync, isSubPath, showError, parseError } from './tools';
+import { mkdirsSync, isSubPath, showError, parseError, StopWatch } from './tools';
 
 export interface ExportError {
     error: string;
@@ -46,17 +46,11 @@ class Exporter {
         ds.push(d);
         return ds;
     }
-    async exportURI(uri: vscode.Uri, format: string, concurrency?: number, bar?: vscode.StatusBarItem) {
+    async exportURI(uri: vscode.Uri, format: string, concurrency?: number, bar?: vscode.StatusBarItem): Promise<Buffer[][]> {
         let doc = await vscode.workspace.openTextDocument(uri);
         let ds = new Diagrams().AddDocument(doc)
-        if (!ds.diagrams.length) return Promise.resolve(<Buffer[]>[]);
-        let p = this.doExports(ds.diagrams, format, concurrency, bar);
-        return new Promise<Buffer[]>((resolve, reject) => {
-            p.then(
-                r => { resolve(r) },
-                e => { reject(e) }
-            )
-        })
+        if (!ds.diagrams.length) return Promise.resolve(<Buffer[][]>[]);
+        return this.doExports(ds.diagrams, format, concurrency, bar);
     }
     exportToFile(diagram: Diagram, format: string, savePath: string, bar?: vscode.StatusBarItem): ExportTask {
         return this.doExport(diagram, format, savePath, bar);
@@ -95,6 +89,8 @@ class Exporter {
     }
     private async exportDocument(all: boolean) {
         try {
+            let stopWatch = new StopWatch();
+            stopWatch.start();
             let editor = vscode.window.activeTextEditor;
             if (!editor) {
                 vscode.window.showInformationMessage(localize(0, null));
@@ -129,11 +125,22 @@ class Exporter {
             let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
             let concurrency = config.exportConcurrency;
             this.doExports(ds.diagrams, format, concurrency, bar).then(
-                results => {
+                async results => {
+                    stopWatch.stop();
                     bar.dispose();
-                    if (results.length) {
-                        vscode.window.showInformationMessage(localize(4, null));
-                    }
+                    if (!results.length) return;
+                    let viewReport = localize(26, null);
+                    let btn = await vscode.window.showInformationMessage(localize(4, null), viewReport);
+                    if (btn !== viewReport) return;
+                    let fileCnt = 0;
+                    let fileLst = results.reduce((p, c) => {
+                        fileCnt += c.length;
+                        return p + "\n" + c.join("\n");
+                    }, "");
+                    showError(
+                        outputPanel,
+                        parseError(localize(27, null, ds.diagrams.length, fileCnt, stopWatch.runTime() / 1000) + fileLst)
+                    );
                 },
                 error => {
                     bar.dispose();
@@ -207,8 +214,10 @@ class Exporter {
                             let buffs: Buffer[] = [];
                             let bufflen = 0;
                             let stderror = '';
+                            let savePath2 = "";
                             if (savePath) {
-                                let f = fs.createWriteStream(this.addFileIndex(savePath, index, diagram.pageCount));
+                                savePath2 = this.addFileIndex(savePath, index, diagram.pageCount);
+                                let f = fs.createWriteStream(savePath2);
                                 process.stdout.pipe(f);
                             } else {
                                 process.stdout.on('data', function (x: Buffer) {
@@ -219,8 +228,12 @@ class Exporter {
                             process.stdout.on('close', () => {
                                 let stdout = Buffer.concat(buffs, bufflen)
                                 if (!stderror) {
-                                    buffers.push(stdout);
-                                    resolve(stdout);
+                                    if (!savePath) {
+                                        buffers.push(stdout);
+                                    } else {
+                                        buffers.push(new Buffer(savePath2));
+                                    }
+                                    resolve(null);
                                 } else {
                                     stderror = localize(10, null, diagram.title, stderror);
                                     reject(<ExportError>{ error: stderror, out: stdout });
@@ -262,7 +275,7 @@ class Exporter {
      * @param dir if dir is given, it exports files to this dir which has same structure to files in workspace. Or, directly to workspace dir.
      * @returns A Promise of Buffer array.
      */
-    private doExports(diagrams: Diagram[], format: string, concurrency: number, bar: vscode.StatusBarItem): Promise<Buffer[]> {
+    private doExports(diagrams: Diagram[], format: string, concurrency: number, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
         concurrency = concurrency > 0 ? concurrency : 1
         concurrency = concurrency > diagrams.length ? diagrams.length : concurrency;
         let promises: Promise<Buffer[]>[] = [];

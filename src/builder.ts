@@ -6,7 +6,7 @@ import { exporter, ExportError } from './exporter';
 import { Diagram } from './diagram';
 import { config } from './config';
 import { outputPanel, context, localize } from './planuml';
-import { showError, parseError } from './tools';
+import { showError, parseError, StopWatch } from './tools';
 
 class Builder {
     register(): vscode.Disposable[] {
@@ -59,12 +59,17 @@ class Builder {
             vscode.window.showInformationMessage(localize(8, null));
             return;
         }
+        let stopWatch = new StopWatch();
+        stopWatch.start();
         let concurrency = config.exportConcurrency;
         let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
         let errors: ExportError[] = [];
-        uris.reduce((prev: Promise<Buffer[]>, uri: vscode.Uri, index: number) => {
+        let results: Buffer[][][] = [];
+        uris.reduce((prev: Promise<Buffer[][]>, uri: vscode.Uri, index: number) => {
             return prev.then(
-                () => {
+                result => {
+                    if (result && result.length)
+                        results.push(result);
                     return exporter.exportURI(uri, format, concurrency, bar);
                 },
                 error => {
@@ -74,16 +79,48 @@ class Builder {
                     return exporter.exportURI(uri, format, concurrency, bar);
                 });
         }, Promise.resolve([])).then(
-            () => {
+            async result => {
+                stopWatch.stop();
+                //push last exported document result
+                if (result && result.length)
+                    results.push(result);
                 bar.dispose();
-                if (uris.length) {
-                    if (errors.length) {
-                        vscode.window.showInformationMessage(localize(12, null, uris.length));
-                        showError(outputPanel, errors);
-                    } else {
-                        vscode.window.showInformationMessage(localize(13, null, uris.length));
-                    }
+                //uris.length: found documents count 
+                //results.length: exported documents count 
+                if (!results.length) {
+                    vscode.window.showInformationMessage(localize(29, null));
+                    return;
                 }
+                let viewReport = localize(26, null);
+                let msg = "";
+                if (errors.length) {
+                    msg = localize(12, null, results.length);
+                } else {
+                    msg = localize(13, null, results.length);
+                }
+                let btn = await vscode.window.showInformationMessage(msg, viewReport);
+                if (btn !== viewReport) return;
+                let fileCnt = 0;
+                let diagramCnt = 0;
+                let fileLst = results.reduce((list, diagrams) => {
+                    if (!diagrams || !diagrams.length) return list;
+                    diagramCnt += diagrams.length;
+                    return list + diagrams.reduce((oneDiagramList, files) => {
+                        if (!files || !files.length) return oneDiagramList;
+                        fileCnt += files.length;
+                        return oneDiagramList + "\n" + files.join("\n");
+                    }, "");
+                }, "");
+                let report = localize(28, null, results.length, diagramCnt, fileCnt, stopWatch.runTime() / 1000) + fileLst;
+                if (errors.length) {
+                    report = errors.reduce((p, c) => {
+                        return p + (p ? "\n" : "") + c.error;
+                    }, "") + "\n\n" + report;
+                }
+                showError(
+                    outputPanel,
+                    parseError(report)
+                );
             },
             error => {
                 bar.dispose();

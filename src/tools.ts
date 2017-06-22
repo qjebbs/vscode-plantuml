@@ -53,3 +53,18 @@ export function showError(panel: vscode.OutputChannel, errors: ExportError[]) {
     }
     panel.show();
 }
+
+export class StopWatch {
+    public startTime: Date
+    public endTime: Date
+    start() {
+        this.startTime = new Date();
+    }
+    stop(): number {
+        this.endTime = new Date();
+        return this.runTime();
+    }
+    runTime(): number {
+        return this.endTime.getTime() - this.startTime.getTime();
+    }
+}
