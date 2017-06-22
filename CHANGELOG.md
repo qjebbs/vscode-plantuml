@@ -1,3 +1,11 @@
+### 1.8.1
+- Fix: Preview form server, and add multipage support to it. Thanks to [Martin Riedel](https://github.com/qjebbs/vscode-plantuml/pull/45).
+- Fix: Error on quickly switch in preview.
+- New Feature: Export report.
+- Improvement: Setting descriptions now localizable.
+- Improvement: Normalized snippets.
+- Improvement: Hide preview scroll bar.
+
 ### 1.8.0
 - New Feature: Multi-page diagram preview & export supprot.
 
