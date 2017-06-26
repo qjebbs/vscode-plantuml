@@ -210,6 +210,13 @@ Please post and view issues on [GitHub][issues]
 - [zhleonix](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json)
 - [shepherdwind](https://github.com/shepherdwind)
 - [Martin Riedel](https://github.com/rado0x54)
+
+## Donators
+
+Thanks for your encouragements!
+
+    Claus Appel
+
 -----------------------------------------------------------------------------------------------------------
 
 **Enjoy!**
