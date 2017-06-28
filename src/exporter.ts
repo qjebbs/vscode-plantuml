@@ -16,6 +16,7 @@ export interface ExportError {
 export interface ExportTask {
     processes: child_process.ChildProcess[];
     promise: Promise<Buffer[]>;
+    canceled:boolean
 }
 
 class Exporter {
