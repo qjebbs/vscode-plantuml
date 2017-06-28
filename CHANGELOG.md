@@ -1,3 +1,6 @@
+### 1.8.2
+- Fix: Preview flashes while previewing from server and quick switching between diagrams.
+
 ### 1.8.1
 - Fix: Preview form server, and add multipage support to it. Thanks to [Martin Riedel](https://github.com/qjebbs/vscode-plantuml/pull/45).
 - Fix: Error on quickly switch in preview.
