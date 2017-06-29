@@ -3,6 +3,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { localize, context } from './planuml';
 
+export const RenderType = {
+    Local: 'Local',
+    PlantUMLServer: 'PlantUMLServer'
+};
+
 let conf = vscode.workspace.getConfiguration('plantuml');
 
 class ConfigReader {
@@ -63,23 +68,6 @@ class ConfigReader {
         return this._read<number>('exportConcurrency') || 3;
     }
 
-    get exportFormats(): string[] {
-        return [
-            "png",
-            "svg",
-            "eps",
-            "pdf",
-            "vdx",
-            "xmi",
-            "scxml",
-            "html",
-            "txt",
-            "utxt",
-            "latex",
-            "latex:nopreamble"
-        ];
-    }
-
     get previewAutoUpdate(): boolean {
         return this._read<boolean>('previewAutoUpdate');
     }
@@ -88,11 +76,11 @@ class ConfigReader {
         return this._read<string>('previewFileType') || "png";
     }
 
-    get urlServer(): string {
-        return this._read<string>('urlServer') || "http://www.plantuml.com/plantuml";
+    get server(): string {
+        return this._read<string>('server') || "http://www.plantuml.com/plantuml";
     }
 
-    get urlServerIndexParameter(): string {
+    get serverIndexParameter(): string {
         return this._read<string>('urlServerIndexParameter');
     }
 
@@ -104,16 +92,8 @@ class ConfigReader {
         return this._read<string>('urlResult') || "MarkDown";
     }
 
-    get urlFormats(): string[] {
-        return [
-            "png",
-            "svg",
-            "txt"
-        ];
-    }
-
-    get previewFromUrlServer(): boolean {
-        return this._read<boolean>('previewFromUrlServer');
+    get render(): string {
+        return this._read<string>('render');
     }
 
     get includes(): string[] {

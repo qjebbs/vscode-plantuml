@@ -2,7 +2,8 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 
-import { exporter, ExportError } from './exporter';
+import { exporter } from './exporter/exporter';
+import { ExportError } from './exporter/interfaces'
 import { Diagram } from './diagram';
 import { config } from './config';
 import { outputPanel, context, localize } from './planuml';
@@ -25,7 +26,7 @@ class Builder {
             if (!vscode.workspace.rootPath) { return; }
             let format = config.exportFormat;
             if (!format) {
-                format = await vscode.window.showQuickPick(config.exportFormats);
+                format = await vscode.window.showQuickPick(exporter.formats());
                 if (!format) return;
             }
             outputPanel.clear();

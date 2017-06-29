@@ -24,7 +24,6 @@ export class PlantUML {
 
     activate(): vscode.Disposable[] {
         try {
-            
             const ext = vscode.extensions.getExtension("jebbs.plantuml");
             const version = ext.packageJSON.version;
             this.notifyOnNewVersion(context, version);

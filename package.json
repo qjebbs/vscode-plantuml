@@ -230,12 +230,12 @@
           ],
           "description": "%plantuml.configuration.previewFileType%"
         },
-        "plantuml.urlServer": {
+        "plantuml.server": {
           "type": "string",
           "default": "http://www.plantuml.com/plantuml",
-          "description": "%plantuml.configuration.urlServer%"
+          "description": "%plantuml.configuration.server%"
         },
-        "plantuml.urlServerIndexParameter": {
+        "plantuml.serverIndexParameter": {
           "type": "string",
           "default": "",
           "description": "Optional index parameter name for multipage diagrams. (e.g. uri?idx=${n})"
@@ -260,10 +260,14 @@
           ],
           "description": "%plantuml.configuration.urlResult%"
         },
-        "plantuml.previewFromUrlServer": {
-          "type": "boolean",
-          "default": false,
-          "description": "%plantuml.configuration.previewFromUrlServer%"
+        "plantuml.render": {
+          "type": "string",
+          "default": "Local",
+          "enum": [
+            "Local",
+            "PlantUMLServer"
+          ],
+          "description": "%plantuml.configuration.render%"
         },
         "plantuml.includes": {
           "type": "array",

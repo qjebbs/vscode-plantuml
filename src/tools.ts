@@ -2,7 +2,9 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { ExportError } from './exporter';
+import { ExportError } from './exporter/interfaces';
+import { Diagram } from './diagram';
+import { config } from './config';
 
 export function mkdirs(dirname, callback) {
     fs.exists(dirname, function (exists) {
@@ -80,4 +82,33 @@ export class StopWatch {
     runTime(): number {
         return this.endTime.getTime() - this.startTime.getTime();
     }
+}
+export function calculateExportPath(diagram: Diagram, format: string): string {
+    let outDirName = config.exportOutDirName;
+    let subDir = config.exportSubFolder;
+    let dir = "";
+    let wkdir = vscode.workspace.rootPath;
+    //if current document is in workspace, organize exports in 'out' directory.
+    //if not, export beside the document.
+    if (wkdir && isSubPath(diagram.path, wkdir)) dir = path.join(wkdir, outDirName);
+
+    let exportDir = diagram.dir;
+    if (!path.isAbsolute(exportDir)) return "";
+    if (dir && wkdir) {
+        let temp = path.relative(wkdir, exportDir);
+        exportDir = path.join(dir, temp);
+    }
+    if (subDir) {
+        exportDir = path.join(exportDir, diagram.fileName);
+    }
+    return path.join(exportDir, diagram.title + "." + format);
+}
+export function addFileIndex(fileName: string, index: number, count: number): string {
+    if (count == 1) return fileName;
+    let bsName = path.basename(fileName);
+    let ext = path.extname(fileName);
+    return path.join(
+        path.dirname(fileName),
+        bsName.substr(0, bsName.length - ext.length) + "-" + (index + 1) + ext,
+    );
 }

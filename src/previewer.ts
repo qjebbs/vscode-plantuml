@@ -3,12 +3,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as child_process from 'child_process';
 
-import { exporter, ExportTask } from './exporter';
-import { httpExporter } from './httpExporter';
+import { exporter } from './exporter/exporter';
+import { ExportTask, ExportError } from './exporter/interfaces'
 import { Diagram, Diagrams } from './diagram';
 import { config } from './config';
 import { context, localize } from './planuml';
-import { parseError } from './tools';
+import { parseError, calculateExportPath, addFileIndex } from './tools';
 
 enum previewStatus {
     default,
@@ -68,8 +68,8 @@ class Previewer implements vscode.TextDocumentContentProvider {
             case previewStatus.processing:
                 let icon = "file:///" + path.join(context.extensionPath, "images", "icon.png");
                 let processingTip = localize(9, null);
-                image = exporter.calculateExportPath(this.rendered, config.previewFileType);
-                image = exporter.addFileIndex(image, 0, this.rendered.pageCount);
+                image = calculateExportPath(this.rendered, config.previewFileType);
+                image = addFileIndex(image, 0, this.rendered.pageCount);
                 if (!fs.existsSync(image)) image = ""; else image = "file:///" + image;
                 return eval(this.templateProcessing);
             default:
@@ -123,12 +123,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
         const previewFileType = config.previewFileType;
         const previewMimeType = previewFileType === 'png' ? 'png' : "svg+xml";
 
-        let task: ExportTask;
-        if (config.previewFromUrlServer) {
-            task = httpExporter.exportToBuffer(diagram, previewFileType);
-        } else {
-            task = exporter.exportToBuffer(diagram, previewFileType);
-        }
+        let task: ExportTask = exporter.exportToBuffer(diagram, previewFileType);
         this.task = task;
 
         // console.log(`start pid ${this.process.pid}!`);
