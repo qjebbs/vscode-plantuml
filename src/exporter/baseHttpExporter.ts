@@ -10,6 +10,9 @@ import { addFileIndex } from '../tools';
 const request = require('request');
 
 class BaseHTTPExporter implements IBaseExporter {
+    limtConcurrency(): boolean {
+        return false;
+    }
     formats(): string[] {
         return [
             "png",

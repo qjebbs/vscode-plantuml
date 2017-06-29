@@ -20,14 +20,14 @@ class Exporter implements IExporter {
                 return baseExporter;
         }
     }
-    async exportURI(uri: vscode.Uri, format: string, concurrency?: number, bar?: vscode.StatusBarItem): Promise<Buffer[][]> {
+    async exportURI(uri: vscode.Uri, format: string, bar?: vscode.StatusBarItem): Promise<Buffer[][]> {
         let doc = await vscode.workspace.openTextDocument(uri);
         let ds = new Diagrams().AddDocument(doc)
         if (!ds.diagrams.length) return Promise.resolve(<Buffer[][]>[]);
-        return this.doExports(ds.diagrams, format, concurrency, bar);
+        return this.doExports(ds.diagrams, format, bar);
     }
-    exportDiagrams(diagrams: Diagram[], format: string, concurrency: number, bar?: vscode.StatusBarItem): Promise<Buffer[][]> {
-        return this.doExports(diagrams, format, concurrency, bar);
+    exportDiagrams(diagrams: Diagram[], format: string, bar?: vscode.StatusBarItem): Promise<Buffer[][]> {
+        return this.doExports(diagrams, format, bar);
     }
     exportDiagram(diagram: Diagram, format: string, savePath: string, bar?: vscode.StatusBarItem): ExportTask {
         return this.doExport(diagram, format, savePath, bar);
@@ -42,14 +42,49 @@ class Exporter implements IExporter {
         }
         return this.appliedExporter.export(diagram, format, savePath);
     }
+
+    /**
+     * 
+     * @param diagrams The diagrams array to export.
+     * @param format format of export file.
+     * @param concurrency concurrentcy count only applied when base exporter cliams to limit concurrentcy.
+     * @param bar if bar is given, exporting diagram name shown.
+     * @returns A Promise of Buffer[][] array.
+     */
+    private doExports(diagrams: Diagram[], format: string, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
+        if (this.appliedExporter.limtConcurrency()) {
+            let concurrency = config.exportConcurrency;
+            return this.doExportsLimited(diagrams, format, concurrency, bar);
+        } else {
+            return this.doExportsUnLimited(diagrams, format, bar);
+        }
+    }
+
     /**
      * export diagrams to file.
      * @param diagrams The diagrams array to export.
      * @param format format of export file.
-     * @param dir if dir is given, it exports files to this dir which has same structure to files in workspace. Or, directly to workspace dir.
-     * @returns A Promise of Buffer array.
+     * @param bar if bar is given, exporting diagram name shown.
+     * @returns A Promise of Buffer[][] array.
      */
-    private doExports(diagrams: Diagram[], format: string, concurrency: number, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
+    private doExportsUnLimited(diagrams: Diagram[], format: string, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
+        let promises = diagrams.map((diagram: Diagram, index: number) => {
+            if (!path.isAbsolute(diagram.dir)) return Promise.reject(localize(1, null));
+            let savePath = calculateExportPath(diagram, format.split(":")[0]);
+            mkdirsSync(path.dirname(savePath));
+            return this.doExport(diagram, format, savePath, bar).promise;
+        })
+        return Promise.all(promises);
+    }
+    /**
+     * export diagrams to file.
+     * @param diagrams The diagrams array to export.
+     * @param format format of export file.
+     * @param concurrency concurrentcy count only applied when base exporter cliams to limit concurrentcy.
+     * @param bar if bar is given, exporting diagram name shown.
+     * @returns A Promise of Buffer[][] array.
+     */
+    private doExportsLimited(diagrams: Diagram[], format: string, concurrency: number, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
         concurrency = concurrency > 0 ? concurrency : 1
         concurrency = concurrency > diagrams.length ? diagrams.length : concurrency;
         let promises: Promise<Buffer[]>[] = [];

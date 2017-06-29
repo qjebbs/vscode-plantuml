@@ -16,8 +16,8 @@ export interface ExportTask {
 }
 
 export interface IExporter {
-    exportURI(uri: vscode.Uri, format: string, concurrency?: number, bar?: vscode.StatusBarItem): Promise<Buffer[][]>;
-    exportDiagrams(diagrams: Diagram[], format: string, concurrency: number, bar?: vscode.StatusBarItem): Promise<Buffer[][]>;
+    exportURI(uri: vscode.Uri, format: string, bar?: vscode.StatusBarItem): Promise<Buffer[][]>;
+    exportDiagrams(diagrams: Diagram[], format: string, bar?: vscode.StatusBarItem): Promise<Buffer[][]>;
     exportDiagram(diagram: Diagram, format: string, savePath: string, bar?: vscode.StatusBarItem): ExportTask;
     exportToBuffer(diagram: Diagram, format: string, bar?: vscode.StatusBarItem): ExportTask;
     formats(): string[];
@@ -31,5 +31,12 @@ export interface IBaseExporter {
      * @returns ExportTask.
      */
     export(diagram: Diagram, format: string, savePath: string): ExportTask;
+    /**
+     * formats return an string array of formats that the exporter supports.
+     */
     formats(): string[];
+    /**
+     * Indicates the exporter should limt concurrency or not.
+     */
+    limtConcurrency(): boolean;
 }

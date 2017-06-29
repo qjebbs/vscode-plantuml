@@ -23,6 +23,9 @@ class BaseExporter implements IBaseExporter {
             }
         });
     }
+    limtConcurrency(): boolean {
+        return true;
+    }
     formats(): string[] {
         return [
             "png",

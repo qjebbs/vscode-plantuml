@@ -57,8 +57,7 @@ class DocumentExporter {
                 editor.selections = [new vscode.Selection(dg.start, dg.end)];
             }
             let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-            let concurrency = config.exportConcurrency;
-            exp.exportDiagrams(ds.diagrams, format, concurrency, bar).then(
+            exp.exportDiagrams(ds.diagrams, format, bar).then(
                 async results => {
                     stopWatch.stop();
                     bar.dispose();

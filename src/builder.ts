@@ -62,7 +62,6 @@ class Builder {
         }
         let stopWatch = new StopWatch();
         stopWatch.start();
-        let concurrency = config.exportConcurrency;
         let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
         let errors: ExportError[] = [];
         let results: Buffer[][][] = [];
@@ -71,13 +70,13 @@ class Builder {
                 result => {
                     if (result && result.length)
                         results.push(result);
-                    return exporter.exportURI(uri, format, concurrency, bar);
+                    return exporter.exportURI(uri, format, bar);
                 },
                 error => {
                     errors.push(...parseError(localize(11, null, error.length, uris[index - 1].fsPath)))
                     errors.push(...parseError(error));
                     // continue next file
-                    return exporter.exportURI(uri, format, concurrency, bar);
+                    return exporter.exportURI(uri, format, bar);
                 });
         }, Promise.resolve([])).then(
             async result => {
