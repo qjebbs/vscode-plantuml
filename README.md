@@ -230,8 +230,8 @@ This extension contributes the following settings:
 - `plantuml.exportOutDirName`: export workspace diagrams will be organized in a directory named with value specified here.
 - `plantuml.previewAutoUpdate`: Dedecides if automatically update the preview window.
 - `plantuml.previewFileType`: Preview file type, png or svg support. But svg preview cannot support sudoku, earth diagrams etc.
-- `plantuml.previewFromUrlServer`: Use plantuml.urlServer to generate preview images.
-- `plantuml.urlServer`: plantuml server to generate UML diagrams on-the-fly.
+- `plantuml.server`: PlantUML server to generate UML diagrams on-the-fly.
+- `plantuml.render`: Select diagram render for both export and preview.
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.
 - `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
 - `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write "!include path/to/include.wsd" for every single diagram any more.
