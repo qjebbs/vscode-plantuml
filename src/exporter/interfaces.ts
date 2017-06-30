@@ -78,5 +78,5 @@ export interface IBaseExporter {
      * Indicates the exporter should limt concurrency or not.
      * @returns boolean
      */
-    limtConcurrency(): boolean;
+    limitConcurrency(): boolean;
 }

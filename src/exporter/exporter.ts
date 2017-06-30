@@ -82,7 +82,7 @@ class Exporter implements IExporter {
      * @returns Promise<Buffer[][]>. A promise of Buffer[digrams][pages] array
      */
     private doExports(diagrams: Diagram[], format: string, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
-        if (this.appliedExporter.limtConcurrency()) {
+        if (this.appliedExporter.limitConcurrency()) {
             let concurrency = config.exportConcurrency;
             return this.doExportsLimited(diagrams, format, concurrency, bar);
         } else {
