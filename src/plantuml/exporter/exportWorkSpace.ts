@@ -8,7 +8,7 @@ import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
 import { outputPanel, context, localize } from '../common';
 import { showMessagePanel, parseError, StopWatch } from '../tools';
-import { exportURI } from './exportURI';
+import { exportURIs, exportURIsResult } from './exportURIs';
 
 export function exportWorkSpace(uri: vscode.Uri);
 export function exportWorkSpace(uris: vscode.Uri[]);
@@ -54,27 +54,13 @@ function doBuild(uris: vscode.Uri[], format: string) {
     let stopWatch = new StopWatch();
     stopWatch.start();
     let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-    let errors: RenderError[] = [];
-    let results: Buffer[][][] = [];
-    uris.reduce((prev: Promise<Buffer[][]>, uri: vscode.Uri, index: number) => {
-        return prev.then(
-            result => {
-                if (result && result.length)
-                    results.push(result);
-                return exportURI(uri, format, bar);
-            },
-            error => {
-                errors.push(...parseError(localize(11, null, error.length, uris[index - 1].fsPath)))
-                errors.push(...parseError(error));
-                // continue next file
-                return exportURI(uri, format, bar);
-            });
-    }, Promise.resolve([])).then(
-        async result => {
+
+    exportURIs(uris, format, bar).then(
+        async r => {
             stopWatch.stop();
-            //push last exported document result
-            if (result && result.length)
-                results.push(result);
+            r = r as exportURIsResult;
+            let results = r.results;
+            let errors = r.errors;
             bar.dispose();
             //uris.length: found documents count 
             //results.length: exported documents count 
@@ -109,15 +95,6 @@ function doBuild(uris: vscode.Uri[], format: string) {
                 }, "") + "\n\n" + report;
             }
             showMessagePanel(outputPanel, report);
-        },
-        error => {
-            bar.dispose();
-            errors.push(...parseError(localize(11, null, error.length, uris[uris.length - 1].fsPath)));
-            errors.push(...parseError(error));
-            if (uris.length) {
-                vscode.window.showInformationMessage(localize(12, null, uris.length));
-                showMessagePanel(outputPanel, errors);
-            }
         }
-        );
+    );
 }
