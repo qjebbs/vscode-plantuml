@@ -23,9 +23,17 @@ class BaseExporter implements IBaseExporter {
             }
         });
     }
+    /**
+     * Indicates the exporter should limt concurrency or not.
+     * @returns boolean
+     */
     limtConcurrency(): boolean {
         return true;
     }
+    /**
+     * formats return an string array of formats that the exporter supports.
+     * @returns an array of supported formats
+     */
     formats(): string[] {
         return [
             "png",
@@ -47,7 +55,7 @@ class BaseExporter implements IBaseExporter {
      * @param diagram The diagram to export.
      * @param format format of export file.
      * @param savePath if savePath is given, it exports to a file, or, to Buffer.
-     * @returns A Promise of Buffer[], represents export file contents or export file paths
+     * @returns ExportTask.
      */
     export(diagram: Diagram, format: string, savePath: string): ExportTask {
         if (!this.javeInstalled) {

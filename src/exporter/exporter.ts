@@ -10,6 +10,10 @@ import { localize } from '../planuml';
 import { mkdirsSync, parseError, calculateExportPath } from '../tools';
 
 class Exporter implements IExporter {
+    /**
+     * get applied base exporter
+     * @returns IBaseExporter of applied exporter
+     */
     get appliedExporter(): IBaseExporter {
         switch (config.render) {
             case RenderType.Local:
@@ -20,21 +24,47 @@ class Exporter implements IExporter {
                 return baseExporter;
         }
     }
+    /**
+     * export diagrams of a vscode.Uri to file
+     * @param uri the uri to export.
+     * @param format format of export file.
+     * @param bar display prcessing message in bar if it's given.
+     * @returns Promise<Buffer[][]>. A promise of Buffer[digrams][pages] array
+     */
     async exportURI(uri: vscode.Uri, format: string, bar?: vscode.StatusBarItem): Promise<Buffer[][]> {
         let doc = await vscode.workspace.openTextDocument(uri);
         let ds = new Diagrams().AddDocument(doc)
         if (!ds.diagrams.length) return Promise.resolve(<Buffer[][]>[]);
         return this.doExports(ds.diagrams, format, bar);
     }
+    /**
+     * export diagrams to file
+     * @param diagrams the diagrams to export.
+     * @param format format of export file.
+     * @param bar display prcessing message in bar if it's given.
+     * @returns Promise<Buffer[][]>. A promise of Buffer[digrams][pages] array
+     */
     exportDiagrams(diagrams: Diagram[], format: string, bar?: vscode.StatusBarItem): Promise<Buffer[][]> {
         return this.doExports(diagrams, format, bar);
     }
-    exportDiagram(diagram: Diagram, format: string, savePath: string, bar?: vscode.StatusBarItem): ExportTask {
-        return this.doExport(diagram, format, savePath, bar);
-    }
+    /**
+     * export diagram to buffer
+     * @param diagram the diagram to export.
+     * @param format format of export file.
+     * @param bar display prcessing message in bar if it's given.
+     * @returns ExportTask.
+     */
     exportToBuffer(diagram: Diagram, format: string, bar?: vscode.StatusBarItem): ExportTask {
         return this.doExport(diagram, format, "", bar);
     }
+    /**
+     * export a diagram to file or to Buffer.
+     * @param diagram The diagram to export.
+     * @param format format of export file.
+     * @param savePath if savePath is given, it exports to a file, or, to Buffer.
+     * @param bar display prcessing message in bar if it's given.
+     * @returns ExportTask.
+     */
     private doExport(diagram: Diagram, format: string, savePath: string, bar: vscode.StatusBarItem): ExportTask {
         if (bar) {
             bar.show();
@@ -49,7 +79,7 @@ class Exporter implements IExporter {
      * @param format format of export file.
      * @param concurrency concurrentcy count only applied when base exporter cliams to limit concurrentcy.
      * @param bar if bar is given, exporting diagram name shown.
-     * @returns A Promise of Buffer[][] array.
+     * @returns Promise<Buffer[][]>. A promise of Buffer[digrams][pages] array
      */
     private doExports(diagrams: Diagram[], format: string, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
         if (this.appliedExporter.limtConcurrency()) {
@@ -65,7 +95,7 @@ class Exporter implements IExporter {
      * @param diagrams The diagrams array to export.
      * @param format format of export file.
      * @param bar if bar is given, exporting diagram name shown.
-     * @returns A Promise of Buffer[][] array.
+     * @returns Promise<Buffer[][]>. A promise of Buffer[digrams][pages] array
      */
     private doExportsUnLimited(diagrams: Diagram[], format: string, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
         let promises = diagrams.map((diagram: Diagram, index: number) => {
@@ -82,7 +112,7 @@ class Exporter implements IExporter {
      * @param format format of export file.
      * @param concurrency concurrentcy count only applied when base exporter cliams to limit concurrentcy.
      * @param bar if bar is given, exporting diagram name shown.
-     * @returns A Promise of Buffer[][] array.
+     * @returns Promise<Buffer[][]>. A promise of Buffer[digrams][pages] array
      */
     private doExportsLimited(diagrams: Diagram[], format: string, concurrency: number, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
         concurrency = concurrency > 0 ? concurrency : 1
@@ -131,6 +161,10 @@ class Exporter implements IExporter {
             );
         });
     }
+    /**
+    * formats return an string array of formats that the applied base exporter supports.
+    * @returns an array of supported formats
+    */
     formats(): string[] {
         return this.appliedExporter.formats();
     }

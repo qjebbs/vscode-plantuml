@@ -10,9 +10,17 @@ import { addFileIndex } from '../tools';
 const request = require('request');
 
 class BaseHTTPExporter implements IBaseExporter {
+    /**
+     * Indicates the exporter should limt concurrency or not.
+     * @returns boolean
+     */
     limtConcurrency(): boolean {
         return false;
     }
+    /**
+     * formats return an string array of formats that the exporter supports.
+     * @returns an array of supported formats
+     */
     formats(): string[] {
         return [
             "png",
@@ -20,6 +28,13 @@ class BaseHTTPExporter implements IBaseExporter {
             "txt"
         ];
     }
+    /**
+     * export a diagram to file or to Buffer.
+     * @param diagram The diagram to export.
+     * @param format format of export file.
+     * @param savePath if savePath is given, it exports to a file, or, to Buffer.
+     * @returns ExportTask.
+     */
     export(diagram: Diagram, format: string, savePath: string): ExportTask {
         let allPms = [...Array(diagram.pageCount).keys()].map(
             (index) => {
@@ -71,6 +86,12 @@ class BaseHTTPExporter implements IBaseExporter {
             promise: Promise.all(allPms),
         }
     }
+    /**
+     * make url for a diagram
+     * @param diagram diagram to make the URL
+     * @param format url format
+     * @return string of URL
+     */
     makeURL(diagram: Diagram, format: string): string {
         return [config.server.replace(/^\/|\/$/g, ""), format, this.urlTextFrom(diagram.content)].join("/");
     }
