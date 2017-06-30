@@ -10,8 +10,8 @@ import * as assert from 'assert';
 // as well as import your extension to test it
 import * as vscode from 'vscode';
 import * as myExtension from '../src/extension';
-import { MatchPositions, UnmatchedText } from '../src/format/matchPositions';
-import { MultiRegExMatch, MultiRegExp2 } from '../src/format/multiRegExp2'
+import { MatchPositions, UnmatchedText } from '../src/plantuml/formatter/matchPositions';
+import { MultiRegExp2Match, MultiRegExp2 } from '../src/plantuml/formatter/multiRegExp2'
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Extension Tests", () => {
@@ -42,14 +42,20 @@ suite("Extension Tests", () => {
         assert.equal(ts, "1 13  45789=");
     });
     test("MultiRegExp2", () => {
-        let str = "a(a(a(a(a(a(a(a(a(a(";
-        let reg = /((?:a\(){2})(?:a[(])(\1)/ig;
-        let mreg = new MultiRegExp2(reg);
-        let matches: MultiRegExMatch[];
-        while (matches = mreg.execForAllGroups(str, false)) {
-            for (let m of matches) {
-                console.log(m.match, m.start, m.end);
-            }
-        }
+        let str: string;
+        let mreg: MultiRegExp2;
+        let matches: MultiRegExp2Match[];
+
+        // str = "a(a(a(a(a(a(a(a(a(a(";
+        // mreg = new MultiRegExp2(/((?:a\(){2})(?:a[(])(\1)/ig);
+        // while (matches = mreg.execForAllGroups(str, false)) {
+        //     for (let m of matches) {
+        //         console.log(m.match, m.start, m.end);
+        //     }
+        // }
+        
+        //TODO fix this parsing
+        mreg = new MultiRegExp2(/(?:(b)a)?(b)/);
+        console.log(mreg.regExp.source);
     });
 });

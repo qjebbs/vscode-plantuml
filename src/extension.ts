@@ -7,7 +7,7 @@ import * as nls from "vscode-nls";
 import { config } from './plantuml/config';
 import { previewer } from './providers/previewer';
 import { symboler } from "./providers/symboler";
-import { formatter } from "./format/formatter";
+import { formatter } from "./providers/formatter";
 import { notifyOnNewVersion } from "./plantuml/messages";
 import { setContext, context, outputPanel } from "./plantuml/common";
 
