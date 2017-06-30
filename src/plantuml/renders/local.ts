@@ -3,13 +3,13 @@ import * as fs from 'fs';
 import * as child_process from 'child_process';
 import * as path from 'path';
 
-import { IBaseExporter, ExportTask, ExportError } from './interfaces'
-import { Diagram } from '../diagram';
-import { context, localize } from '../planuml';
+import { IRender, RenderTask, RenderError } from './interfaces'
+import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
+import { context, localize } from '../common';
 import { addFileIndex } from '../tools';
 
-class BaseExporter implements IBaseExporter {
+class LocalRender implements IRender {
     private java: string = "java";
     private javeInstalled: boolean = true;
 
@@ -57,14 +57,14 @@ class BaseExporter implements IBaseExporter {
      * @param savePath if savePath is given, it exports to a file, or, to Buffer.
      * @returns ExportTask.
      */
-    export(diagram: Diagram, format: string, savePath: string): ExportTask {
+    render(diagram: Diagram, format: string, savePath: string): RenderTask {
         if (!this.javeInstalled) {
             let pms = Promise.reject(localize(5, null));
-            return <ExportTask>{ promise: pms };
+            return <RenderTask>{ promise: pms };
         }
         if (!fs.existsSync(config.jar)) {
             let pms = Promise.reject(localize(6, null, context.extensionPath));
-            return <ExportTask>{ promise: pms };
+            return <RenderTask>{ promise: pms };
         }
 
         let processes: child_process.ChildProcess[] = [];
@@ -128,7 +128,7 @@ class BaseExporter implements IBaseExporter {
                                     resolve(null);
                                 } else {
                                     stderror = localize(10, null, diagram.title, stderror);
-                                    reject(<ExportError>{ error: stderror, out: stdout });
+                                    reject(<RenderError>{ error: stderror, out: stdout });
                                 }
                             })
                             process.stderr.on('data', function (x) {
@@ -144,7 +144,7 @@ class BaseExporter implements IBaseExporter {
             },
             Promise.resolve(new Buffer(""))
         );
-        return <ExportTask>{
+        return <RenderTask>{
             processes: processes,
             promise: new Promise<Buffer[]>(
                 (resolve, reject) => {
@@ -161,4 +161,4 @@ class BaseExporter implements IBaseExporter {
         }
     }
 }
-export const baseExporter = new BaseExporter();
+export const localRender = new LocalRender();

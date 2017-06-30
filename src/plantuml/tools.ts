@@ -2,8 +2,8 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { ExportError } from './exporter/interfaces';
-import { Diagram } from './diagram';
+import { RenderError } from './renders/interfaces';
+import { Diagram } from './diagram/diagram';
 import { config } from './config';
 
 export function mkdirs(dirname, callback) {
@@ -34,29 +34,29 @@ export function isSubPath(from: string, to: string): boolean {
     return !(path.isAbsolute(rel) || rel.substr(0, 2) == "..")
 }
 
-export function parseError(error: any): ExportError[] {
+export function parseError(error: any): RenderError[] {
     let nb = new Buffer("");
     if (typeof (error) === "string") {
-        return [<ExportError>{ error: error, out: nb }];
+        return [<RenderError>{ error: error, out: nb }];
     } else if (error instanceof TypeError || error instanceof Error) {
         let err = error as TypeError;
-        return [<ExportError>{ error: err.stack, out: nb }];
+        return [<RenderError>{ error: err.stack, out: nb }];
     } else if (error instanceof Array) {
         let arr = error as any[];
         if (!arr || !arr.length) return [];
-        if (instanceOfExportError(arr[0])) return error as ExportError[];
+        if (instanceOfExportError(arr[0])) return error as RenderError[];
     } else {
-        return [error as ExportError];
+        return [error as RenderError];
     }
     return null;
-    function instanceOfExportError(object: any): object is ExportError {
+    function instanceOfExportError(object: any): object is RenderError {
         return 'error' in object;
     }
 }
 
 export function showMessagePanel(panel: vscode.OutputChannel, message: any) {
     panel.clear();
-    let errs: ExportError[];
+    let errs: RenderError[];
     if (typeof (message) === "string") {
         panel.appendLine(message);
     } else if (errs = parseError(message)) {

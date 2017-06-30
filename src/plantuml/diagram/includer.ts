@@ -2,8 +2,8 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 
-import { config } from './config';
-import { context } from './planuml';
+import { config } from '../config';
+import { context } from '../common';
 
 class Includer {
     private _calculated: string

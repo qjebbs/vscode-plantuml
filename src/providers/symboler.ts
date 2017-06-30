@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Diagrams } from './diagram'
+import { Diagrams } from '../plantuml/diagram/diagram'
 
 class Symbol implements vscode.DocumentSymbolProvider {
     register() {

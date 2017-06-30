@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { localize, context } from './planuml';
+import { localize, context } from './common';
 
 export const RenderType = {
     Local: 'Local',

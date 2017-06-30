@@ -2,7 +2,7 @@
 // https://github.com/eamodio/vscode-gitlens/blob/master/src/messages.ts
 
 import { commands, ExtensionContext, Uri, window } from 'vscode';
-import { localize } from './planuml';
+import { localize } from './common';
 
 export type SuppressedKeys = 'suppressUpdateNotice';
 export const SuppressedKeys = {
@@ -68,4 +68,26 @@ export class Messages {
 
         return result;
     }
+}
+
+// code modified from:
+// https://github.com/eamodio/vscode-gitlens
+export async function notifyOnNewVersion(context: ExtensionContext, version: string) {
+    Messages.configure(context);
+    if (context.globalState.get(SuppressedKeys.UpdateNotice, false)) return;
+    const previousVersion = context.globalState.get<string>("version");
+
+    if (previousVersion === undefined) {
+        await Messages.showWelcomeMessage();
+        return;
+    }
+
+    const [major, minor] = version.split('.');
+    const [prevMajor, prevMinor] = previousVersion.split('.');
+    if (major === prevMajor && minor === prevMinor) return;
+    // Don't notify on downgrades
+    if (major < prevMajor || (major === prevMajor && minor < prevMinor)) return;
+
+    await context.globalState.update("version", version);
+    await Messages.showUpdateMessage(version);
 }

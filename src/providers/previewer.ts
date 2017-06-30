@@ -3,12 +3,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as child_process from 'child_process';
 
-import { exporter } from './exporter/exporter';
-import { ExportTask, ExportError } from './exporter/interfaces'
-import { Diagram, Diagrams } from './diagram';
-import { config } from './config';
-import { context, localize } from './planuml';
-import { parseError, calculateExportPath, addFileIndex } from './tools';
+import { RenderTask, RenderError } from '../plantuml/renders/interfaces'
+import { Diagram, Diagrams } from '../plantuml/diagram/diagram';
+import { config } from '../plantuml/config';
+import { context, localize } from '../plantuml/common';
+import { parseError, calculateExportPath, addFileIndex } from '../plantuml/tools';
+import { exportToBuffer } from "../plantuml/exporter/exportToBuffer";
 
 enum previewStatus {
     default,
@@ -23,7 +23,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
 
     private status: previewStatus;
     private rendered: Diagram;
-    private task: ExportTask;
+    private task: RenderTask;
     private watchDisposables: vscode.Disposable[] = [];
 
     private images: string[];
@@ -123,7 +123,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
         const previewFileType = config.previewFileType;
         const previewMimeType = previewFileType === 'png' ? 'png' : "svg+xml";
 
-        let task: ExportTask = exporter.exportToBuffer(diagram, previewFileType);
+        let task: RenderTask = exportToBuffer(diagram, previewFileType);
         this.task = task;
 
         // console.log(`start pid ${this.process.pid}!`);

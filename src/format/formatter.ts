@@ -2,9 +2,9 @@ import * as vscode from 'vscode';
 import { formatRules } from './formatRules';
 import { FormatType, FormatRule, FormatCapture } from './formatRuleCompiler';
 import { MatchPositions, UnmatchedText } from './matchPositions';
-import { config } from '../config';
-import { outputPanel } from '../planuml';
-import { showMessagePanel } from '../tools';
+import {config} from '../plantuml/config';
+import { outputPanel } from '../plantuml/common';
+import { showMessagePanel } from '../plantuml/tools';
 import { MultiRegExp2, MultiRegExMatch } from './multiRegExp2';
 interface matchLine {
     text: string,

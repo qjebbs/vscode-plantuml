@@ -2,14 +2,14 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as zlib from 'zlib';
 
-import { IBaseExporter, ExportTask, ExportError } from './interfaces'
-import { Diagram } from '../diagram';
-import { localize } from '../planuml';
+import { IRender, RenderTask, RenderError } from './interfaces'
+import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
+import { localize } from '../common';
 import { addFileIndex } from '../tools';
 const request = require('request');
 
-class BaseHTTPExporter implements IBaseExporter {
+class PlantumlServer implements IRender {
     /**
      * Indicates the exporter should limt concurrency or not.
      * @returns boolean
@@ -35,7 +35,7 @@ class BaseHTTPExporter implements IBaseExporter {
      * @param savePath if savePath is given, it exports to a file, or, to Buffer.
      * @returns ExportTask.
      */
-    export(diagram: Diagram, format: string, savePath: string): ExportTask {
+    render(diagram: Diagram, format: string, savePath: string): RenderTask {
         let allPms = [...Array(diagram.pageCount).keys()].map(
             (index) => {
                 let requestUrl = this.makeURL(diagram, format);
@@ -72,7 +72,7 @@ class BaseHTTPExporter implements IBaseExporter {
                                     body = new Buffer("");
                                 }
                                 stderror = localize(10, null, diagram.title, stderror);
-                                reject(<ExportError>{ error: stderror, out: body });
+                                reject(<RenderError>{ error: stderror, out: body });
                             }
                         })
                 });
@@ -81,7 +81,7 @@ class BaseHTTPExporter implements IBaseExporter {
             },
             Promise.resolve(new Buffer(""))
         );
-        return <ExportTask>{
+        return <RenderTask>{
             processes: null,
             promise: Promise.all(allPms),
         }
@@ -154,4 +154,4 @@ class BaseHTTPExporter implements IBaseExporter {
         }
     }
 }
-export const baseHttpExporter = new BaseHTTPExporter();
+export const plantumlServer = new PlantumlServer();
