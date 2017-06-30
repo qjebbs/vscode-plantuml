@@ -29,6 +29,8 @@ Rich PlantUML support for Visual Studio Code.
 
 > Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Muli-Page Diagram support`. (Later than `V1.2017.15`)
 
+> Get **15X times faster export** by utilizing PlantUML Server as render. [How to?](#about-render)
+
 ## Preview and Export Demos
 
 Auto update:
@@ -94,6 +96,44 @@ Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram 
 > @startuml diagram name<br/>
 > sudoku<br/>
 > @enduml
+
+## About Render
+
+Plugin supports two renders: `Local` and `PlantUMLServer`.
+
+Local is the default and traditional way. If you care more about export speed, you should try PlantUMLServer.
+
+```
+Local: 6 documents, 9 digrams, 14 files exported in 24.149 seconds
+PlantUMLServer: 6 documents, 9 digrams, 14 files exported in 1.564 seconds
+```
+## Advantages and disadvantages of PlantUMLServer render
+
+Advantages:
+- 15X times faster export and much quicker preview response.
+- Don't have to set local enviroments if you have a server in your team.
+- You don't need `plantuml.exportConcurrency`, because it's unlimited in 
+concurrency.
+
+Disadvantages:
+- Cannot render very-large diagrams (HTTP 413 error).
+- Cannot render diagrams with `!include` in it.
+- Less format support: png, svg, txt.
+- Some settings are not applicable: `plantuml.jar`, `plantuml.commandArgs`.
+- Cannot collect syntax error of diagrams in report.
+
+## Use PlantUML Server as render
+
+- You may already have a PlantUML server in your team, find the server address, like: `http://192.168.1.100:8080/plantuml`.
+
+- If don't have one, you can set up on you own ([follow the instructions](https://github.com/plantuml/plantuml-server)). Find your server address, like: `http://localhost:8080/plantuml`, or `http://192.168.1.100:8080/plantuml` which is ready for sharing to your team.
+
+- Open user setting, and configure like:
+
+```
+"plantuml.server": "http://192.168.1.100:8080/plantuml",
+"plantuml.render": "PlantUMLServer",
+```
 
 ## About Auto Include
 
