@@ -5,6 +5,7 @@ import { join } from "path";
 export var outputPanel = vscode.window.createOutputChannel("PlantUML");
 export var context: vscode.ExtensionContext;
 export var localize: nls.LocalizeFunc;
+export var bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
 
 export function setContext(ctx: vscode.ExtensionContext) {
     context = ctx;

@@ -6,7 +6,7 @@ import { appliedRender } from './appliedRender'
 import { RenderError } from '../renders/interfaces'
 import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
-import { outputPanel, context, localize } from '../common';
+import { outputPanel, context, localize, bar } from '../common';
 import { showMessagePanel, parseError, StopWatch } from '../tools';
 import { exportURIs, exportURIsResult } from './exportURIs';
 
@@ -53,7 +53,6 @@ function doBuild(uris: vscode.Uri[], format: string) {
     }
     let stopWatch = new StopWatch();
     stopWatch.start();
-    let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
 
     exportURIs(uris, format, bar).then(
         async r => {
@@ -61,7 +60,7 @@ function doBuild(uris: vscode.Uri[], format: string) {
             r = r as exportURIsResult;
             let results = r.results;
             let errors = r.errors;
-            bar.dispose();
+            bar.hide();
             //uris.length: found documents count 
             //results.length: exported documents count 
             if (!results.length) {

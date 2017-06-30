@@ -4,7 +4,7 @@ import * as path from 'path';
 import { appliedRender } from './appliedRender'
 import { Diagram, Diagrams } from '../diagram/diagram';
 import { config } from '../config';
-import { outputPanel, localize } from '../common';
+import { outputPanel, localize, bar } from '../common';
 import { showMessagePanel, StopWatch } from '../tools';
 import { exportDiagrams } from './exportDiagrams';
 
@@ -43,11 +43,10 @@ export async function exportDocument(all: boolean) {
             ds.Add(dg);
             editor.selections = [new vscode.Selection(dg.start, dg.end)];
         }
-        let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
         exportDiagrams(ds.diagrams, format, bar).then(
             async results => {
                 stopWatch.stop();
-                bar.dispose();
+                bar.hide();
                 if (!results.length) return;
                 let viewReport = localize(26, null);
                 let btn = await vscode.window.showInformationMessage(localize(4, null), viewReport);
@@ -63,7 +62,7 @@ export async function exportDocument(all: boolean) {
                 );
             },
             error => {
-                bar.dispose();
+                bar.hide();
                 showMessagePanel(outputPanel, error);
             }
         );

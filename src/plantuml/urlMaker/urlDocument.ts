@@ -3,7 +3,7 @@ import * as nls from "vscode-nls";
 
 import { Diagram, Diagrams } from '../diagram/diagram';
 import { config } from '../config';
-import { outputPanel, context, localize} from '../common';
+import { outputPanel, context, localize, bar } from '../common';
 import { plantumlServer } from '../renders/plantumlServer';
 
 interface pURL {
@@ -39,9 +39,8 @@ export async function makeDocumentURL(all: boolean) {
         ds.Add(dg);
         editor.selections = [new vscode.Selection(dg.start, dg.end)];
     }
-    let bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
     let urls = makeURLs(ds.diagrams, config.server, format, bar)
-    bar.dispose();
+    bar.hide();
 
     outputPanel.clear();
     urls.map(url => {

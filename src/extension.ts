@@ -9,7 +9,7 @@ import { previewer } from './providers/previewer';
 import { symboler } from "./providers/symboler";
 import { formatter } from "./providers/formatter";
 import { notifyOnNewVersion } from "./plantuml/messages";
-import { setContext, context, outputPanel } from "./plantuml/common";
+import { setContext, outputPanel, bar } from "./plantuml/common";
 
 import { CommandExportCurrent } from './commands/exportCurrent';
 import { CommandExportDocument } from './commands/exportDocument';
@@ -49,4 +49,5 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() {
     previewer.stopWatch();
     outputPanel.dispose();
+    bar.dispose()
 }
