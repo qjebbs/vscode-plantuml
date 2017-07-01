@@ -126,7 +126,7 @@ Disadvantages:
 
 - You may already have a PlantUML server in your team, find the server address, like: `http://192.168.1.100:8080/plantuml`.
 
-- If don't have one, you can set up on you own ([follow the instructions](https://github.com/plantuml/plantuml-server)). Find your server address, like: `http://localhost:8080/plantuml`, or `http://192.168.1.100:8080/plantuml` which is ready for sharing to your team.
+- If don't have one, you can set up on you own ([follow the instructions](https://github.com/plantuml/plantuml-server)). Find the server address, like: `http://localhost:8080/plantuml`, or `http://192.168.1.100:8080/plantuml` which is ready for sharing to your team.
 
 - Open user setting, and configure like:
 
@@ -206,7 +206,15 @@ Launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter
 
 ## Requirements
 
-Before you can use the plugin, it's necessary to have following installed:
+Depend on which render you choose, plugin has diffrerent requirements.
+
+### Requirements for PlantUMLServer render
+
+A plantuml server.  See [Use PlantUML Server as render](#use-plantuml-server-as-render).
+
+### Requirements for Local render
+
+It's necessary to have following installed:
 
 * [Java][Java] : Platform for PlantUML running.
 * [Graphviz][Graphviz] : PlantUML requires it to calculate positions in diagram.
