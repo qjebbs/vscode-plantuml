@@ -22,6 +22,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
     Uri = vscode.Uri.parse('plantuml://preview');
 
     private status: previewStatus;
+    private uiStatus: string;
     private rendered: Diagram;
     private task: RenderTask;
     private watchDisposables: vscode.Disposable[] = [];
@@ -57,6 +58,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
         }, "");
         switch (this.status) {
             case previewStatus.default:
+                let status = this.uiStatus;
                 let nonce = Math.random().toString(36).substr(2);
                 let jsPath = "file:///" + path.join(context.extensionPath, "templates", "js");
                 let pageInfo = localize(20, null);
@@ -75,6 +77,9 @@ class Previewer implements vscode.TextDocumentContentProvider {
             default:
                 return "";
         }
+    }
+    setUIStatus(status: string) {
+        this.uiStatus = status;
     }
     update(processingTip: boolean) {
         //FIXME: last update may not happen due to killingLock
@@ -107,7 +112,8 @@ class Previewer implements vscode.TextDocumentContentProvider {
             this.rendered = current;
             this.error = "";
             this.images = [];
-            this.imageError = ""
+            this.imageError = "";
+            this.uiStatus = "";
         }
         return changed;
     }

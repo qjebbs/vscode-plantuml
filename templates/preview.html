@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Security-Policy" content="script-src 'nonce-${nonce}';">
     <style>
-        ::-webkit-scrollbar {
+         ::-webkit-scrollbar {
             display: none
         }
 
@@ -57,7 +57,6 @@
     <div style="margin: 10px;">
         <img id="image" src="${image}">
     </div>
-    <!--<p id="debug"></p>-->
     <div id="placeholder">
     </div>
     <div id="ctrl-container">
@@ -70,6 +69,9 @@
     <div style="display:none;" id="images">
         ${images}
     </div>
+    <a id="sendStatus" href="" style="display:none;"></a>
+    <p id="status" style="display:none;">${status}</p>
+    <!--<p id="debug">debug</p>-->
     <script nonce="${nonce}" src="${jsPath}/dragscroll.js"></script>
     <script nonce="${nonce}" src="${jsPath}/preview.js"></script>
 </body>

@@ -16,6 +16,7 @@ import { CommandExportDocument } from './commands/exportDocument';
 import { CommandExportWorkspace } from './commands/exportWorkspace';
 import { CommandURLCurrent } from './commands/urlCurrent';
 import { CommandURLDocument } from './commands/urlDocument';
+import { CommandPreviewStatus } from './commands/previewStatus';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -33,6 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
         context.subscriptions.push(new CommandExportWorkspace());
         context.subscriptions.push(new CommandURLCurrent());
         context.subscriptions.push(new CommandURLDocument());
+        context.subscriptions.push(new CommandPreviewStatus());
         //register preview provider
         context.subscriptions.push(...previewer.register());
         //register symbol provider
