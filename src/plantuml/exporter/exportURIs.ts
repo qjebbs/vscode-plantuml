@@ -43,10 +43,9 @@ async function exportURIsLimited(uris: vscode.Uri[], format: string, concurrency
                     results.push(result);
                 return exportURI(uri, format, bar);
             },
-            error => {
-                console.log("deail error A:", error);
-                errors.push(...parseError(localize(11, null, error.length, uris[index - 1].fsPath)))
-                errors.push(...parseError(error));
+            errs => {
+                errors.push(...parseError(localize(11, null, errs.length, uris[index - 1].fsPath)))
+                errors.push(...parseError(errs));
                 // continue next file
                 return exportURI(uri, format, bar);
             });
@@ -59,10 +58,9 @@ async function exportURIsLimited(uris: vscode.Uri[], format: string, concurrency
                     results.push(result);
                 resolve(<exportURIsResult>{ results: results, errors: errors });
             },
-            error => {
-                console.log("deail error B:", error);
-                errors.push(...parseError(localize(11, null, error.length, uris[uris.length - 1].fsPath)));
-                errors.push(...parseError(error));
+            errs => {
+                errors.push(...parseError(localize(11, null, errs.length, uris[uris.length - 1].fsPath)));
+                errors.push(...parseError(errs));
                 resolve(<exportURIsResult>{ results: results, errors: errors });
             }
         );
@@ -76,15 +74,14 @@ async function exportURIsUnLimited(uris: vscode.Uri[], format: string, bar?: vsc
     }
     let errors: RenderError[] = [];
     let results: Buffer[][][] = [];
-    let promises = uris.map(uri => exportURI(uri, format, bar).then(
+    let promises = uris.map((uri, index) => exportURI(uri, format, bar).then(
         result => {
             if (result && result.length)
                 results.push(result);
         },
-        error => {
-            console.log("deail error B:", error);
-            errors.push(...parseError(localize(11, null, error.length, uris[uris.length - 1].fsPath)));
-            errors.push(...parseError(error));
+        errs => {
+            errors.push(...parseError(localize(11, null, errs.length, uris[index].fsPath)));
+            errors.push(...parseError(errs));
         }
     ));
     return new Promise<exportURIsResult>(

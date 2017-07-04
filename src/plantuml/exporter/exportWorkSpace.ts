@@ -63,37 +63,42 @@ function doBuild(uris: vscode.Uri[], format: string) {
             bar.hide();
             //uris.length: found documents count 
             //results.length: exported documents count 
-            if (!results.length) {
-                vscode.window.showInformationMessage(localize(29, null));
-                return;
-            }
             let viewReport = localize(26, null);
             let msg = "";
-            if (errors.length) {
-                msg = localize(12, null, results.length);
-            } else {
-                msg = localize(13, null, results.length);
+            let btn = "";
+            if (!results.length) {
+                msg = localize(29, null);
+                if (!errors.length) {
+                    vscode.window.showInformationMessage(msg);
+                } else {
+                    btn = await vscode.window.showInformationMessage(msg, viewReport);
+                    if (btn === viewReport) showReport();
+                }
+                return;
             }
-            let btn = await vscode.window.showInformationMessage(msg, viewReport);
-            if (btn !== viewReport) return;
-            let fileCnt = 0;
-            let diagramCnt = 0;
-            let fileLst = results.reduce((list, diagrams) => {
-                if (!diagrams || !diagrams.length) return list;
-                diagramCnt += diagrams.length;
-                return list + diagrams.reduce((oneDiagramList, files) => {
-                    if (!files || !files.length) return oneDiagramList;
-                    fileCnt += files.length;
-                    return oneDiagramList + "\n" + files.join("\n");
+            msg = localize(errors.length ? 12 : 13, null, results.length);
+            btn = await vscode.window.showInformationMessage(msg, viewReport);
+            if (btn === viewReport) showReport();
+            function showReport() {
+                let fileCnt = 0;
+                let diagramCnt = 0;
+                let fileLst = results.reduce((list, diagrams) => {
+                    if (!diagrams || !diagrams.length) return list;
+                    diagramCnt += diagrams.length;
+                    return list + diagrams.reduce((oneDiagramList, files) => {
+                        if (!files || !files.length) return oneDiagramList;
+                        fileCnt += files.length;
+                        return oneDiagramList + "\n" + files.join("\n");
+                    }, "");
                 }, "");
-            }, "");
-            let report = localize(28, null, results.length, diagramCnt, fileCnt, stopWatch.runTime() / 1000) + fileLst;
-            if (errors.length) {
-                report = errors.reduce((p, c) => {
-                    return p + (p ? "\n" : "") + c.error;
-                }, "") + "\n\n" + report;
+                let report = localize(28, null, results.length, diagramCnt, fileCnt, stopWatch.runTime() / 1000) + fileLst;
+                if (errors.length) {
+                    report += "\n" + errors.reduce((p, c) => {
+                        return p + (p ? "\n" : "") + c.error;
+                    }, "");
+                }
+                showMessagePanel(outputPanel, report);
             }
-            showMessagePanel(outputPanel, report);
         }
     );
 }

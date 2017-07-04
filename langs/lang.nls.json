@@ -10,7 +10,7 @@
 	"No file to export.",
 	"Processing...",
 	"Error found in diagram {0}\n{1}",
-	"{0} errors found in file {1}\n",
+	"\n{0} errors found in file {1}",
 	"Export {0} files finish with error.",
 	"Export {0} files finish.",
 	"No active document.",

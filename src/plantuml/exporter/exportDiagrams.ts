@@ -10,7 +10,7 @@ import { appliedRender } from './appliedRender'
 import { exportDiagram } from './exportDiagram';
 
 /**
- * 
+ *  export diagram to file.
  * @param diagrams The diagrams array to export.
  * @param format format of export file.
  * @param bar if bar is given, exporting diagram name shown.
@@ -33,13 +33,27 @@ export function exportDiagrams(diagrams: Diagram[], format: string, bar: vscode.
  * @returns Promise<Buffer[][]>. A promise of Buffer[digrams][pages] array
  */
 function doExportsUnLimited(diagrams: Diagram[], format: string, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
-    let promises = diagrams.map((diagram: Diagram, index: number) => {
+    let errors: RenderError[] = [];
+    let promises: Promise<Buffer[]>[] = diagrams.map((diagram: Diagram, index: number) => {
         if (!path.isAbsolute(diagram.dir)) return Promise.reject(localize(1, null));
         let savePath = calculateExportPath(diagram, format.split(":")[0]);
         mkdirsSync(path.dirname(savePath));
-        return exportDiagram(diagram, format, savePath, bar).promise;
+        return exportDiagram(diagram, format, savePath, bar).promise.then(
+            r => r,
+            err => errors.push(...parseError(err))
+        );
     })
-    return Promise.all(promises);
+    return new Promise((resolve, reject) => {
+        Promise.all(promises).then(
+            r => {
+                if (errors.length) reject(errors); else resolve(r)
+            },
+            e => {
+                errors.push(...parseError(e));
+                reject(errors);
+            }
+        );
+    });
 }
 /**
  * export diagrams to file.
