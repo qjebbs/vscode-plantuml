@@ -211,7 +211,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
         //register watcher
         let lastTimestamp = new Date().getTime();
         disposable = vscode.workspace.onDidChangeTextDocument(e => {
-            if (vscode.window.activeTextEditor.document !== e.document) {
+            if (!e || vscode.window.activeTextEditor.document !== e.document) {
                 return;
             }
             lastTimestamp = new Date().getTime();
