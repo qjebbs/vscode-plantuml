@@ -1,7 +1,6 @@
 import { IRender } from '../renders/interfaces';
 import { localRender } from '../renders/local';
 import { plantumlServer } from '../renders/plantumlServer';
-import { } from '../config';
 import { config, RenderType } from '../config';
 
 /**

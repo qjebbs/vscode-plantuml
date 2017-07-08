@@ -9,16 +9,19 @@ import { appliedRender } from './appliedRender';
 import { exportURI } from './exportURI';
 
 export interface exportURIsResult {
+    /**
+     * Buffer[uris][digrams][pages] array
+     */
     results: Buffer[][][];
     errors: RenderError[];
 }
 
 /**
  * export diagrams of multiple vscode.Uris to file
- * @param uri the uri to export.
+ * @param uris the uris to export.
  * @param format format of export file.
  * @param bar display prcessing message in bar if it's given.
- * @returns Promise<Buffer[][]>. A promise of Buffer[digrams][pages] array
+ * @returns Promise<Buffer[][]>. A promise of exportURIsResult
  */
 export async function exportURIs(uris: vscode.Uri[], format: string, bar?: vscode.StatusBarItem): Promise<exportURIsResult> {
     if (appliedRender().limitConcurrency()) {

@@ -300,7 +300,7 @@
     "mocha": "^2.3.3",
     "plist": "^2.0.1",
     "typescript": "^2.0.3",
-    "vscode": "^1.0.0"
+    "vscode": "^1.1.0"
   },
   "dependencies": {
     "request": "^2.81.0",
