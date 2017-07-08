@@ -1,3 +1,16 @@
+### 2.0.0
+Release 2.0.0 is a massive code refactored version, which brings you:
+- New Feature: Users are allowed to choose their render, which applied to both preview and export. In other words, users can get **15X times faster export** by utilizing PlantUML Server as render.
+- Improvement: Totally rewrite format code, so that it can format more complicated codes. Though it's still experimental.
+- Improvement: Maintain status (zoom, postion, page) after preview refreshing.
+- Other small Improvements
+
+Note that some settings are changed:
+
+- `plantuml.previewFromUrlServer` has been replaced by `plantuml.render`
+- `plantuml.urlServer` has been renamed to `plantuml.server`
+- `plantuml.urlServerIndexParameter` has been renamed to `plantuml.serverIndexParameter`
+
 ### 1.8.2
 - Fix: Preview flashes while previewing from server and quick switching between diagrams.
 

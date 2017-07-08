@@ -7,29 +7,38 @@ Rich PlantUML support for Visual Studio Code.
 [Donate by AliPay](https://github.com/qjebbs/vscode-plantuml/blob/master/images/alipay.png?raw=true)
 |
 [PlantUML Document](http://plantuml.com/sitemap-language-specification)
+
+
+Note that some settings are changed after Version 2.0.0:
+
+- `plantuml.previewFromUrlServer` has been replaced by `plantuml.render`
+- `plantuml.urlServer` has been renamed to `plantuml.server`
+- `plantuml.urlServerIndexParameter` has been renamed to `plantuml.serverIndexParameter`
+
+> Get **15X times faster export** by utilizing PlantUML Server as render. [How to?](#about-render)
+
 ## Features
 
 - Preview Diagram, Press `Alt-D` to start PlantUML preview.
     - Auto update.
     - Zoom & scroll support.
-    - Muli-Page Diagram support. **NEW!!**
+    - Muli-Page Diagram support.
     - Instant preview, if diagram's been exported.
     - From local or server.
 - Export Diagrams
     - At cursor, in current file, in whole workspace, in workspace selected.
     - Concurrent export.
     - Generate URLs.
-    - Muli-Page Diagram support. **NEW!!**
+    - Muli-Page Diagram support.
+    - From local or server. **NEW!!**
 - Editing Supports
-    - Format PlantUML code. **NEW!!** 
+    - Format PlantUML code. **NEW!!**
     - All type syntax highlight.
     - All type snippets.
     - Auto Include.
     - Symbol List support.
 
 > Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Muli-Page Diagram support`. (Later than `V1.2017.15`)
-
-> Get **15X times faster export** by utilizing PlantUML Server as render. [How to?](#about-render)
 
 ## Preview and Export Demos
 
@@ -57,7 +66,7 @@ Generate URLs:
 
 ![format demo](images/format_demo.gif "demo")
 
-By default, format only indent code blocks and not change your line text. It's safe.
+By default, format only indent code blocks and do not change your line text. It's safe.
 
 You can enable inline format with setting `plantuml.experimental.formatInLine`. Be careful, inline format is a very early experimental function, it may broke your code! Use it at your own risk!
 
