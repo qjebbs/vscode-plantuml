@@ -1,3 +1,6 @@
+### 2.0.1
+Fix: Always show welcome message.
+
 ### 2.0.0
 Release 2.0.0 is a massive code refactored version, which brings you:
 - New Feature: Users are allowed to choose their render, which applied to both preview and export. In other words, users can get **15X times faster export** by utilizing PlantUML Server as render.
