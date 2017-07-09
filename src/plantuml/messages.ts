@@ -76,7 +76,8 @@ export async function notifyOnNewVersion(context: ExtensionContext, version: str
     Messages.configure(context);
     if (context.globalState.get(SuppressedKeys.UpdateNotice, false)) return;
     const previousVersion = context.globalState.get<string>("version");
-
+    await context.globalState.update("version", version);
+    
     if (previousVersion === undefined) {
         await Messages.showWelcomeMessage();
         return;
@@ -88,6 +89,5 @@ export async function notifyOnNewVersion(context: ExtensionContext, version: str
     // Don't notify on downgrades
     if (major < prevMajor || (major === prevMajor && minor < prevMinor)) return;
 
-    await context.globalState.update("version", version);
     await Messages.showUpdateMessage(version);
 }
