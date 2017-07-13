@@ -8,12 +8,11 @@ import * as fmt from '../plantuml/formatter/formatter';
 class Formatter implements vscode.DocumentFormattingEditProvider {
     private _formatter: fmt.Formatter;
     constructor() {
-        let inlineFmt = config.formatInLine;
         this._formatter = new fmt.Formatter(
             formatRules,
             {
-                allowInlineFormat: inlineFmt,
-                allowSplitLine: inlineFmt,
+                allowInlineFormat: true,
+                allowSplitLine: true,
                 newLineForBlockStart: false
             }
         );

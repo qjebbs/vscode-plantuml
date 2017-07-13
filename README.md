@@ -8,7 +8,6 @@ Rich PlantUML support for Visual Studio Code.
 |
 [PlantUML Document](http://plantuml.com/sitemap-language-specification)
 
-
 Note that some settings are changed after Version 2.0.0:
 
 - `plantuml.previewFromUrlServer` has been replaced by `plantuml.render`
@@ -20,23 +19,23 @@ Note that some settings are changed after Version 2.0.0:
 ## Features
 
 - Preview Diagram, Press `Alt-D` to start PlantUML preview.
-    - Auto update.
-    - Zoom & scroll support.
-    - Muli-Page Diagram support.
-    - Instant preview, if diagram's been exported.
-    - From local or server.
+  - Auto update.
+  - Zoom & scroll support.
+  - Muli-Page Diagram support.
+  - Instant preview, if diagram's been exported.
+  - From local or server.
 - Export Diagrams
-    - At cursor, in current file, in whole workspace, in workspace selected.
-    - Concurrent export.
-    - Generate URLs.
-    - Muli-Page Diagram support.
-    - From local or server. **NEW!!**
+  - At cursor, in current file, in whole workspace, in workspace selected.
+  - Concurrent export.
+  - Generate URLs.
+  - Muli-Page Diagram support.
+  - From local or server. **NEW!!**
 - Editing Supports
-    - Format PlantUML code. **NEW!!**
-    - All type syntax highlight.
-    - All type snippets.
-    - Auto Include.
-    - Symbol List support.
+  - Format PlantUML code. **NEW!!**
+  - All type syntax highlight.
+  - All type snippets.
+  - Auto Include.
+  - Symbol List support.
 
 > Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Muli-Page Diagram support`. (Later than `V1.2017.15`)
 
@@ -88,11 +87,11 @@ This plugin integrates all type diagram snippets. They are splitted into 9 secti
 
 For exsample, type `activity if else condition` or `acif` (short version) to trigge following snippet:
 
-```
+```plantuml
 if (cond1?) then (val1)
-    
+
 else (val2)
-    
+
 endif
 ```
 
@@ -102,8 +101,8 @@ endif
 
 Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram when diagram starts.
 
-> @startuml diagram name<br/>
-> sudoku<br/>
+> @startuml diagram name
+> sudoku
 > @enduml
 
 ## About Render
@@ -112,19 +111,21 @@ Plugin supports two renders: `Local` and `PlantUMLServer`.
 
 Local is the default and traditional way. If you care more about export speed, you should try PlantUMLServer.
 
-```
+```text
 Local: 6 documents, 9 digrams, 14 files exported in 24.149 seconds
 PlantUMLServer: 6 documents, 9 digrams, 14 files exported in 1.564 seconds
 ```
+
 ## Advantages and disadvantages of PlantUMLServer render
 
 Advantages:
+
 - 15X times faster export and much quicker preview response.
 - Don't have to set local enviroments if you have a server in your team.
-- You don't need `plantuml.exportConcurrency`, because it's unlimited in 
-concurrency.
+- You don't need `plantuml.exportConcurrency`, because it's unlimited in concurrency.
 
 Disadvantages:
+
 - Cannot render very-large diagrams (HTTP 413 error).
 - Cannot render diagrams with `!include` in it.
 - Less format support: png, svg, txt.
@@ -139,7 +140,7 @@ Disadvantages:
 
 - Open user setting, and configure like:
 
-```
+```text
 "plantuml.server": "http://192.168.1.100:8080/plantuml",
 "plantuml.render": "PlantUMLServer",
 ```
@@ -154,7 +155,7 @@ Auto Include liberates you from writing "!include path/to/include.wsd" everywher
 
 Suppose we have 2 files to include: `defines.wsd` and `myStyles.wsd`, and they are organized as follow:
 
-```
+```text
 ├── includes
 │   ├── defines.wsd
 │   └── myStyles.wsd
@@ -166,7 +167,7 @@ Suppose we have 2 files to include: `defines.wsd` and `myStyles.wsd`, and they a
 
 In the past, we have to include them manually in every single diagram:
 
-```
+```plantuml
 @startuml
     !include ../includes/defines.wsd
     !include ../includes/myStyles.wsd
@@ -174,9 +175,9 @@ In the past, we have to include them manually in every single diagram:
 @enduml
 ```
 
-Now, you can just replace them with a placehold `'autoinclude`, 
+Now, you can just replace them with a placehold `'autoinclude`,
 
-```
+```plantuml
 @startuml
     'autoinclude
     'contents goes here...
@@ -185,7 +186,7 @@ Now, you can just replace them with a placehold `'autoinclude`,
 
 and open workspace setting and config:
 
-```
+```text
 "plantuml.includes": [
     "includes"
 ]
@@ -195,13 +196,13 @@ and open workspace setting and config:
 
 Plugin shipped with a blue diagram theme, to enable it, config like:
 
-```
+```text
 "plantuml.includes": [
     "styles/blue"
 ]
 ```
 
-## Multiple languages support. 
+## Multiple languages support
 
 [Translations](https://github.com/qjebbs/vscode-plantuml/tree/develop/langs) are welcome.
 
@@ -225,8 +226,8 @@ A plantuml server.  See [Use PlantUML Server as render](#use-plantuml-server-as-
 
 It's necessary to have following installed:
 
-* [Java][Java] : Platform for PlantUML running.
-* [Graphviz][Graphviz] : PlantUML requires it to calculate positions in diagram.
+- [Java][Java] : Platform for PlantUML running.
+- [Graphviz][Graphviz] : PlantUML requires it to calculate positions in diagram.
 
 [Java]: http://java.com/en/download/ "Download Java"
 [Graphviz]: http://www.graphviz.org/Download..php "Download Graphviz"
@@ -259,7 +260,6 @@ This extension contributes the following settings:
 Please post and view issues on [GitHub][issues]
 
 [issues]: https://github.com/qjebbs/vscode-plantuml/issues "Post issues"
-
 
 ## Thanks
 

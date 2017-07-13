@@ -18,6 +18,5 @@
 	"plantuml.configuration.urlResult": "超链接输出类型。仅超链接或 MarkDown 格式。",
 	"plantuml.configuration.render": "选择导出和预览时使用的图表渲染方式。\nLocal: 以传统方式在本地渲染，您需要先配置好 JAVA 和 GraphViz。\nPlantUMLServer: 使用由 \"plantuml.server\" 指定的服务器渲染。这比本地渲染快得多，但需要您设置一个服务器。\nLocal 是默认配置。",
 	"plantuml.configuration.includes": "需要引入到图表中的文件或目录。使您无需再到处写 \"!include path/to/include.wsd\"。",
-	"plantuml.configuration.commandArgs": "指定调用 JAR 时的自定义参数，如 \"-DPLANTUML_LIMIT_SIZE=8192\"。",
-	"plantuml.configuration.formatInLine": "实验特性！\n默认情况下，本插件提供的格式化功能仅处理代码的缩进，不会改变行的内容。\n您可以通过此设置启用行内格式化，但这只是一个早期的试验性功能，可能会破坏您的代码！请自行评估风险使用！"
+	"plantuml.configuration.commandArgs": "指定调用 JAR 时的自定义参数，如 \"-DPLANTUML_LIMIT_SIZE=8192\"。"
 }

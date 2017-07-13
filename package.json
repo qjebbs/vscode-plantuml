@@ -278,11 +278,6 @@
           "type": "array",
           "default": [],
           "description": "%plantuml.configuration.commandArgs%"
-        },
-        "plantuml.experimental.formatInLine": {
-          "type": "boolean",
-          "default": false,
-          "description": "%plantuml.configuration.formatInLine%"
         }
       }
     }
