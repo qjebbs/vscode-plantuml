@@ -170,77 +170,55 @@ export class Formatter {
         }
     }
     private splitLine(line: Line, newLineForBlockStart: boolean): Line[] {
+        let splitedLine: Line = null;
         let splitedLines: Line[] = [];
         let newLineElements: BlockElement[] = [];
-        if (line.blockElements.length && line.elements.length > 1) {
-            for (let e of line.blockElements) {
-                if (!isInlineBlock(e, line.blockElements)) newLineElements.push(e);
-            }
-            let newLineElement = newLineElements.shift();
-            let l: Line;
-            let stage = 0;
-            for (let e of line.elements) {
-                if (newLineElement) {
-                    if (newLineForBlockStart && e.start < newLineElement.start) {
-                        //before newLineElement
-                        //push after elements
-                        if (stage != 1 && l) {
-                            splitedLines.push(l);
-                            l = null;
+        let lastNewLineBlockElementEnd = -1;
+        //Previously pushed elements are part of a blockElement or not
+        let inBlockElement = false;
+        for (let b of line.blockElements) {
+            if (!isInlineBlock(b, line.blockElements)) {
+                for (let e of line.elements) {
+                    //do not deal with elements after this blockElement
+                    if (e.start > b.end) break;
+                    //ignore elements before last blockElement
+                    if (e.end <= lastNewLineBlockElementEnd) continue;
+                    //deal with elements before this blockElement
+                    if (e.end < b.start) {
+                        if (inBlockElement) pushSplitLine();
+                        pushElement(e, null);
+                        inBlockElement = false;
+                    }
+                    if (e.start >= b.start && e.end <= b.end) {
+                        //deal with elements of this blockElement
+                        if (b.type == BlockElementType.blockStart && !newLineForBlockStart) {
+                            pushElement(e, b);
+                        } else {
+                            if (!inBlockElement) pushSplitLine();
+                            pushElement(e, b);
                         }
-                        stage = 1;
-                    } else if (
-                        (newLineForBlockStart && e.start >= newLineElement.start && e.start <= newLineElement.end)
-                        ||
-                        (!newLineForBlockStart && e.start <= newLineElement.end)
-                    ) {
-                        //in newLineElement
-                        if (e.end <= newLineElement.end) {
-                            //push before elements
-                            if (stage != 2 && l) {
-                                splitedLines.push(l);
-                                l = null;
-                            }
-                            stage = 2;
-                        } else { //the element covers both in & after area.
-                            //this block won't run since mark no-rule-set capture groups as type none in analyst.
-                            if (!l) l = <Line>{ elements: [], blockElements: [] };
-                            l.elements.push({ start: e.start, end: newLineElement.end, type: e.type, text: e.text.substr(0, newLineElement.end - e.start + 1) });
-                            splitedLines.push(l);
-                            l = null;
-                            e = { start: newLineElement.end + 1, end: e.end, type: e.type, text: e.text.substr(newLineElement.end - e.start + 1, e.end - e.start) }
-                            stage = 3;
-                        }
-                    } else {
-                        //after newLineElement
-                        //push in elements
-                        if (stage != 3 && l) {
-                            l.blockElements.push(newLineElement);
-                            splitedLines.push(l);
-                            l = null;
-                            newLineElement = newLineElements.shift();
-                        }
-                        if (!newLineElement) stage = 0;
-                        else if (newLineForBlockStart && e.start < newLineElement.start) stage = 1;
-                        else if (
-                            (newLineForBlockStart && e.start >= newLineElement.start && e.end <= newLineElement.end)
-                            ||
-                            (!newLineForBlockStart && e.end <= newLineElement.end)
-                        ) stage = 2;
-                        else stage = 3;
+                        inBlockElement = true;
                     }
                 }
-                if (!l) l = <Line>{ elements: [], blockElements: [] };
-                l.elements.push(e);
+                lastNewLineBlockElementEnd = b.end;
             }
-            if (l) {
-                if (stage == 2) l.blockElements.push(newLineElement);
-                splitedLines.push(l);
-            }
-        } else {
-            splitedLines.push(line);
         }
+        pushSplitLine();
+        for (let e of line.elements) {
+            if (e.end <= lastNewLineBlockElementEnd) continue;
+            pushElement(e, null);
+        }
+        pushSplitLine();
+
         return splitedLines;
+        function pushSplitLine() {
+            if (splitedLine) { splitedLines.push(splitedLine); splitedLine = null }
+        }
+        function pushElement(el: Element, bl: BlockElement) {
+            if (!splitedLine) splitedLine = <Line>{ elements: [], blockElements: [] };
+            if (el) splitedLine.elements.push(el);
+            if (bl) splitedLine.blockElements.push(bl);
+        }
         function isInlineBlock(element: BlockElement, elements: BlockElement[]): boolean {
             let findBegin = false;
             let findEnd = false;
