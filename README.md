@@ -232,6 +232,14 @@ It's necessary to have following installed:
 [Java]: http://java.com/en/download/ "Download Java"
 [Graphviz]: http://www.graphviz.org/Download..php "Download Graphviz"
 
+For windows user, [majkinetor](https://github.com/majkinetor) introduced a way to install plantuml and its dependencies easily. Run `cmd.exe` as Administrator, and run two commands as follow
+
+```cmd
+@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+
+choco install plantuml
+```
+
 > Plugin has integrated a copy of "plantuml.jar", you are good to go now. But if you want to use your own jar (maybe a newer version, or with many dependent jars), specify the jar location with setting `plantuml.jar`.
 
 > If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
