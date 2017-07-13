@@ -12,7 +12,7 @@ let ruleVariables = {
 }
 
 let rules = <RulesWriting>{
-    includes: ["*"],
+    includes: ["Quoted", "Block"],
     blocks: [
         {
             name: "Quoted",
@@ -78,7 +78,7 @@ let rules = <RulesWriting>{
                     begin: /\{[!#+T*-/]?/i,
                     end: /\}/i,
                     patterns: {
-                        includes: ["*"],
+                        includes: ["Quoted", "Block"],
                     }
                 },
                 {
@@ -128,7 +128,7 @@ let rules = <RulesWriting>{
                         0: ElementType.word,
                     },
                     patterns: {
-                        includes: ["*"],
+                        includes: ["Quoted", "Block"],
                     }
                 },
                 {
@@ -146,7 +146,7 @@ let rules = <RulesWriting>{
                         2: ElementType.word,
                     },
                     patterns: {
-                        includes: ["*"],
+                        includes: ["Quoted", "Block"],
                     }
                 },
                 {
@@ -162,7 +162,7 @@ let rules = <RulesWriting>{
                         5: ElementType.asIs,
                     },
                     patterns: {
-                        includes: ["*"],
+                        includes: ["Quoted", "Block"],
                     }
                 },
                 {
@@ -183,7 +183,7 @@ let rules = <RulesWriting>{
                         4: ElementType.asIs,
                     },
                     patterns: {
-                        includes: ["*"],
+                        includes: ["Quoted", "Block"],
                     }
                 }
             ]
