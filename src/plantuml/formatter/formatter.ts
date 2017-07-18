@@ -153,13 +153,16 @@ export class Formatter {
                     }
                     break;
                 case ElementType.punctLeftSpace:
-                    text += getElementText(nextEl);
-                    break;
                 case ElementType.connector:
-                    text += getElementText(nextEl);
-                    break;
                 default:
-                    text += getElementText(nextEl);
+                    switch (nextEl.type) {
+                        case ElementType.operater:
+                            text += " " + getElementText(nextEl);
+                            break;
+                        default:
+                            text += getElementText(nextEl);
+                            break;
+                    }
                     break;
             }
         }
