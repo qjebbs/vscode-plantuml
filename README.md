@@ -65,10 +65,6 @@ Generate URLs:
 
 ![format demo](images/format_demo.gif "demo")
 
-By default, format only indent code blocks and do not change your line text. It's safe.
-
-You can enable inline format with setting `plantuml.experimental.formatInLine`. Be careful, inline format is a very early experimental function, it may broke your code! Use it at your own risk!
-
 ## About Snippets
 
 ![snippet demo](images/snippet_demo.gif "demo")
