@@ -11,7 +11,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         this._formatter = new fmt.Formatter(
             formatRules,
             {
-                allowInlineFormat: true,
+                allowInlineFormat: false,
                 allowSplitLine: true,
                 newLineForBlockStart: false
             }

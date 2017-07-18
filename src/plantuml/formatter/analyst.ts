@@ -69,7 +69,8 @@ export class Analyst {
     private _lines: Line[];
     private _rules: Rules;
     private _blockLevel = 0;
-    constructor(lines: string[], rules: Rules) {
+    private _keepBlankElement = false;
+    constructor(lines: string[], rules: Rules, keepBlankElement: boolean) {
         this._lines = lines.map(v => {
             return <Line>{
                 text: v,
@@ -79,40 +80,40 @@ export class Analyst {
             }
         });
         this._rules = rules;
+        this._keepBlankElement = keepBlankElement;
     }
     get lines(): Line[] {
         return this._lines;
     }
     analysis() {
-        let rules: Rule[] = this._rules.rootRules;
-        this.match(rules);
-        this._lines.map(v => {
-            makeLineElements(v);
-        });
-        function makeLineElements(line: Line) {
-            if (line.elements.length) line.elements.sort((a, b) => a.start - b.start);
-            let pos = 0;
-            let els: Element[] = [];
-            for (let e of line.elements) {
-                if (e.start > pos && line.text.substring(pos, e.start).trim()) els.push({
-                    type: ElementType.none,
-                    text: line.text.substring(pos, e.start),
-                    start: pos,
-                    end: e.start - 1
-                });
-                pos = e.end + 1;
-            }
-            if (pos < line.text.length && line.text.substring(pos, line.text.length).trim()) {
-                els.push({
-                    type: ElementType.none,
-                    text: line.text.substring(pos, line.text.length),
-                    start: pos,
-                    end: line.text.length - 1
-                });
-            }
-            line.elements.push(...els);
-            if (line.elements.length) line.elements.sort((a, b) => a.start - b.start);
+        this.match(this._rules.rootRules);
+        this._lines.map(v => this.makeLineElements(v));
+    }
+    private makeLineElements(line: Line) {
+        if (line.elements.length) line.elements.sort((a, b) => a.start - b.start);
+        let pos = 0;
+        let els: Element[] = [];
+        for (let e of line.elements) {
+            let elText = line.text.substring(pos, e.start);
+            if (e.start > pos && (this._keepBlankElement || elText.trim())) els.push({
+                type: ElementType.none,
+                text: elText,
+                start: pos,
+                end: e.start - 1
+            });
+            pos = e.end + 1;
         }
+        let elText = line.text.substring(pos, line.text.length);
+        if (pos < line.text.length && (this._keepBlankElement || elText.trim())) {
+            els.push({
+                type: ElementType.none,
+                text: elText,
+                start: pos,
+                end: line.text.length - 1
+            });
+        }
+        line.elements.push(...els);
+        if (line.elements.length) line.elements.sort((a, b) => a.start - b.start);
     }
     private match(rules: Rule[], start?: Position, stopRule?: Rule): Position {
         let matchStartPos = new Position(0, 0, "");

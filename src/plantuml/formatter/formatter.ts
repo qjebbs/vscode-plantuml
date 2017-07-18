@@ -26,7 +26,7 @@ export class Formatter {
             lines.push(document.lineAt(i));
             lineTexts.push(lines[i].text);
         }
-        let analyst = new Analyst(lineTexts, this.rules);
+        let analyst = new Analyst(lineTexts, this.rules, !this.config.allowInlineFormat);
         analyst.analysis();
         return this.getEdits(analyst.lines, lines, spaceStr, this.config.allowInlineFormat, this.config.allowSplitLine);
     }
@@ -117,6 +117,7 @@ export class Formatter {
         if (line.text && line.text.trim() && !line.elements.length)
             throw ("no element found for a non-empty line!");
         if (!line.elements.length) return "";
+        if (!this.config.allowInlineFormat) return line.elements.reduce((p, c) => p + c.text, "");
         let text = getElementText(line.elements[0]);
         for (let i = 0; i < line.elements.length - 1; i++) {
             let thisEl = line.elements[i];
