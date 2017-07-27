@@ -200,7 +200,7 @@ Plugin shipped with a blue diagram theme, to enable it, config like:
 
 ## Multiple languages support
 
-[Translations](https://github.com/qjebbs/vscode-plantuml/tree/develop/langs) are welcome.
+Translations are welcome. [lang.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/develop/langs/lang.nls.json), [package.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/develop/package.nls.json)
 
 ![languages demo](images/langs_demo.png)
 
