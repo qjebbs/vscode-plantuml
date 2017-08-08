@@ -19,6 +19,8 @@
   },
   "categories": [
     "Languages",
+    "Formatters",
+    "Snippets",
     "Other"
   ],
   "activationEvents": [
