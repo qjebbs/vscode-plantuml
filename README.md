@@ -39,6 +39,42 @@ Note that some settings are changed after Version 2.0.0:
 
 > Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Muli-Page Diagram support`. (Later than `V1.2017.15`)
 
+## How to install
+
+Launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter.
+
+`ext install plantuml`
+
+## Requirements
+
+Depend on which render you choose, plugin has diffrerent requirements.
+
+### Requirements for PlantUMLServer render
+
+A plantuml server.  See [Use PlantUML Server as render](#use-plantuml-server-as-render).
+
+### Requirements for Local render
+
+It's necessary to have following installed:
+
+- [Java][Java] : Platform for PlantUML running.
+- [Graphviz][Graphviz] : PlantUML requires it to calculate positions in diagram.
+
+[Java]: http://java.com/en/download/ "Download Java"
+[Graphviz]: http://www.graphviz.org/Download..php "Download Graphviz"
+
+> Plugin has integrated a copy of "plantuml.jar", you are good to go now. But if you want to use your own jar (maybe a newer version, or with many dependent jars), specify the jar location with setting `plantuml.jar`.
+
+> If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
+
+For windows user, [majkinetor](https://github.com/majkinetor) introduced a way to install plantuml and its dependencies easily. Run `cmd.exe` as Administrator, and run two commands as follow
+
+```cmd
+@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+
+choco install plantuml
+```
+
 ## Preview and Export Demos
 
 Auto update:
@@ -203,42 +239,6 @@ Plugin shipped with a blue diagram theme, to enable it, config like:
 Translations are welcome. [lang.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/develop/langs/lang.nls.json), [package.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/develop/package.nls.json)
 
 ![languages demo](images/langs_demo.png)
-
-## How to install
-
-Launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter.
-
-`ext install plantuml`
-
-## Requirements
-
-Depend on which render you choose, plugin has diffrerent requirements.
-
-### Requirements for PlantUMLServer render
-
-A plantuml server.  See [Use PlantUML Server as render](#use-plantuml-server-as-render).
-
-### Requirements for Local render
-
-It's necessary to have following installed:
-
-- [Java][Java] : Platform for PlantUML running.
-- [Graphviz][Graphviz] : PlantUML requires it to calculate positions in diagram.
-
-[Java]: http://java.com/en/download/ "Download Java"
-[Graphviz]: http://www.graphviz.org/Download..php "Download Graphviz"
-
-For windows user, [majkinetor](https://github.com/majkinetor) introduced a way to install plantuml and its dependencies easily. Run `cmd.exe` as Administrator, and run two commands as follow
-
-```cmd
-@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
-
-choco install plantuml
-```
-
-> Plugin has integrated a copy of "plantuml.jar", you are good to go now. But if you want to use your own jar (maybe a newer version, or with many dependent jars), specify the jar location with setting `plantuml.jar`.
-
-> If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
 
 ## Extension Settings
 
