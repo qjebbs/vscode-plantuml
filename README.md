@@ -36,6 +36,7 @@ Note that some settings are changed after Version 2.0.0:
   - All type snippets.
   - Auto Include.
   - Symbol List support.
+- MarkDown integrating support. **NEW!!**  [View Demo](#markdown-integrating)
 
 > Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Muli-Page Diagram support`. (Later than `V1.2017.15`)
 
@@ -239,6 +240,12 @@ Plugin shipped with a blue diagram theme, to enable it, config like:
 Translations are welcome. [lang.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/develop/langs/lang.nls.json), [package.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/develop/package.nls.json)
 
 ![languages demo](images/langs_demo.png)
+
+## MarkDown integrating
+
+![markdown demo](images/markdown_demo.png)
+
+`@startuml / @enduml` is still recommended, so that PlantUML code in Markdown can be managed by other function of this plugin.
 
 ## Extension Settings
 

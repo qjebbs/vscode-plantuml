@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.1.0
+
+- New Feature: MarkDown integrating support.
+- Small Improvements
+
 ## 2.0.2
 
 - Improvement: Improve block formatting
