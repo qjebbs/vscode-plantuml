@@ -6,7 +6,7 @@
   "version": "2.0.2",
   "publisher": "jebbs",
   "engines": {
-    "vscode": "^1.10.2"
+    "vscode": "^1.15.0"
   },
   "license": "SEE LICENSE IN LICENSE.txt",
   "bugs": {
@@ -282,7 +282,8 @@
           "description": "%plantuml.configuration.commandArgs%"
         }
       }
-    }
+    },
+    "markdown.markdownItPlugins": true
   },
   "scripts": {
     "vscode:prepublish": "tsc -p ./",
@@ -294,6 +295,7 @@
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.40",
     "js-yaml": "^3.8.3",
+    "markdown-it": "^8.3.2",
     "mocha": "^2.3.3",
     "plist": "^2.0.1",
     "typescript": "^2.0.3",

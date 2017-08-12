@@ -3,7 +3,10 @@ import * as path from 'path';
 
 import * as title from './title';
 import { includer } from './includer';
+import { config } from '../config';
 
+export const diagramStartReg = /@start/i;
+export const diagramEndReg = /@end/i;
 export class Diagrams {
     diagrams: Diagram[] = [];
     Add(diagram: Diagram) {
@@ -21,10 +24,9 @@ export class Diagrams {
             let editor = vscode.window.activeTextEditor;
             document = editor.document;
         }
-        let RegStart = /@start/;
         for (let i = 0; i < document.lineCount; i++) {
             let line = document.lineAt(i);
-            if (RegStart.test(line.text)) {
+            if (diagramStartReg.test(line.text)) {
                 let d = new Diagram().DiagramAt(i, document);
                 this.diagrams.push(d);
             }
@@ -44,14 +46,20 @@ export class Diagram {
     start: vscode.Position;
     end: vscode.Position;
     pageCount: number;
-    GetCurrent() {
+    lines: string[];
+    constructor(content?: string) {
+        if (!content) return;
+        this.content = content;
+        this.lines = content.split('\n');
+        this.getTitle();
+        this.getPageCount();
+    }
+    GetCurrent(): Diagram {
         let editor = vscode.window.activeTextEditor;
         if (editor) this.DiagramAt(editor.selection.anchor.line);
         return this;
     }
-    DiagramAt(lineNumber: number, document?: vscode.TextDocument) {
-        let RegStart = /@start/;
-        let RegEnd = /@end/;
+    DiagramAt(lineNumber: number, document?: vscode.TextDocument): Diagram {
         if (!document) document = vscode.window.activeTextEditor.document;
         this.path = document.uri.fsPath;
         this.fileName = path.basename(this.path);
@@ -66,51 +74,52 @@ export class Diagram {
 
         for (let i = lineNumber; i >= 0; i--) {
             let line = document.lineAt(i);
-            if (RegStart.test(line.text)) {
+            if (diagramStartReg.test(line.text)) {
                 this.start = line.range.start;
                 break;
-            } else if (i != lineNumber && RegEnd.test(line.text)) {
+            } else if (i != lineNumber && diagramEndReg.test(line.text)) {
                 return this;
             }
         }
         for (let i = lineNumber; i < document.lineCount; i++) {
             let line = document.lineAt(i);
-            if (RegEnd.test(line.text)) {
+            if (diagramEndReg.test(line.text)) {
                 this.end = line.range.end
                 break;
-            } else if (i != lineNumber && RegStart.test(line.text)) {
+            } else if (i != lineNumber && diagramStartReg.test(line.text)) {
                 return this;
             }
         }
         if (this.start && this.end) {
+            this.lines = [];
             this.content = includer.addIncludes(document.getText(new vscode.Range(this.start, this.end)));
-            this.getTitle(document);
-            this.pageCount = this.getPageCount(document);
+            for (let i = this.start.line; i < this.end.line; i++) {
+                this.lines.push(document.lineAt(i).text);
+            }
+            this.getTitle();
+            this.getPageCount();
         }
         return this;
     }
-    private getPageCount(document: vscode.TextDocument): number {
+    private getPageCount() {
         let regNewPage = /^\s*newpage\b/i;
         let newPageCount = 0;
-        for (let i = this.start.line; i <= this.end.line; i++) {
-            let text = document.lineAt(i).text;
+        for (let text of this.lines) {
             if (regNewPage.test(text)) newPageCount++;
         }
-        return ++newPageCount;
+        this.pageCount = ++newPageCount;
     }
-    private getTitle(document: vscode.TextDocument) {
+    private getTitle() {
         let RegFName = /@start(\w+)\s+(.+?)\s*$/i;
-        let text = document.lineAt(this.start.line).text;
         let matches: RegExpMatchArray;;
-        if (matches = text.match(RegFName)) {
+        if (matches = this.lines[0].match(RegFName)) {
             this.titleRaw = matches[2];
             this.title = title.Deal(this.titleRaw);
             return;
         }
         let inlineTitle = /^\s*title\s+(.+?)\s*$/i;
         let multLineTitle = /^\s*title\s*$/i;
-        for (let i = this.start.line; i <= this.end.line; i++) {
-            let text = document.lineAt(i).text;
+        for (let text of this.lines) {
             if (inlineTitle.test(text)) {
                 let matches = text.match(inlineTitle);
                 this.titleRaw = matches[1];
@@ -118,8 +127,10 @@ export class Diagram {
         }
         if (this.titleRaw) {
             this.title = title.Deal(this.titleRaw);
-        } else {
+        } else if (this.start && this.end) {
             this.title = `${this.fileName}@${this.start.line + 1}-${this.end.line + 1}`;
+        } else {
+            this.title = "Untitled";
         }
     }
 }

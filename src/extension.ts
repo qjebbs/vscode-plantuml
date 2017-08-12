@@ -17,6 +17,7 @@ import { CommandExportWorkspace } from './commands/exportWorkspace';
 import { CommandURLCurrent } from './commands/urlCurrent';
 import { CommandURLDocument } from './commands/urlDocument';
 import { CommandPreviewStatus } from './commands/previewStatus';
+import { plantumlPlugin } from './markdown-it-plantuml/index';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -41,6 +42,11 @@ export function activate(context: vscode.ExtensionContext) {
         context.subscriptions.push(...symboler.register());
         //register formatter provider
         context.subscriptions.push(...formatter.register());
+        return {
+            extendMarkdownIt(md: any) {
+                return md.use(plantumlPlugin(md));
+            }
+        }
     } catch (error) {
         outputPanel.clear()
         outputPanel.append(error);
