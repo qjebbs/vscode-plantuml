@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.1.1
+
+- Fix: Missing syntax highlight in v2.1.0
+
 ## 2.1.0
 
 - New Feature: MarkDown integrating support.
