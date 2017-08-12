@@ -18,7 +18,7 @@ export interface RenderTask {
     /**
      * Processes spawned by the task. You may kill them before cancelling the task.
      */
-    processes: child_process.ChildProcess[];
+    processes?: child_process.ChildProcess[];
     /**
      * A Promise of Buffer[], represents rendered digram pages or exported file paths
      */
@@ -26,7 +26,7 @@ export interface RenderTask {
     /**
      * Indicates the task is canceled or not
      */
-    canceled: boolean;
+    canceled?: boolean;
 }
 
 export interface IRender {

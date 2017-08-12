@@ -84,7 +84,7 @@ class LocalRender implements IRender {
                     '-charset',
                     'utf-8',
                 ];
-                if (path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
+                if (diagram.dir && path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
                 //add user args
                 params.unshift(...config.commandArgs);
                 let process = child_process.spawn(this.java, params);
