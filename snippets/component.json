@@ -26,8 +26,8 @@
     "Component Diagram Package": {
         "prefix": "component package definition",
         "body": [
-            "${1:package} \"${2:name}\" ${3:as ${4:alias}} ${5:<<stereotype>>} {",
-            "\t${6:'package-type options, package|node|folder|frame|cloud|database}$0",
+            "${1|package,node,folder,frame,cloud,database|} \"${2:name}\" ${3:as ${4:alias}} ${5:<<stereotype>>} {",
+            "\t$0",
             "}\n"
         ],
         "description": "Adds a package to a component diagram that components and/or interfaces physically reside in or bundles together"
@@ -35,16 +35,16 @@
     "Component Diagram Link Note": {
         "prefix": "component note on relationship",
         "body": [
-            "note ${1:left} on link ${2:#Khaki} : ${3:single-line note}",
-            "${4:'position options, left|right|top|bottom}$0"
+            "note ${1|left,right,top,bottom|} on link ${2:#Khaki} : ${3:single-line note}",
+            "$0"
         ],
         "description": "Appends a text note directly left|right|top|bottom of the preceding component relationship"
     },
     "Component Diagram Link Multi-Line Note": {
         "prefix": "component note on relationship multi line",
         "body": [
-            "note ${1:left} on link ${2:#Khaki}",
-            "\t${3:'position options, left|right|top|bottom}$0",
+            "note ${1|left,right,top,bottom|} on link ${2:#Khaki}",
+            "\t$0",
             "end note\n"
         ],
         "description": "Appends a text note directly left|right|top|bottom of the preceding component relationship"

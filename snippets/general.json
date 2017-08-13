@@ -48,16 +48,15 @@
     "General Diagram Note For Object": {
         "prefix": "diagram note for object",
         "body": [
-            "note ${1:left} of ${2:objAlias}: ${3:single-line note}",
-            "${4:'position options: left|right|top|bottom}"
+            "note ${1|left,right,top,bottom|} of ${2:objAlias}: ${3:single-line note}"
         ],
         "description": "Appends a text note directly left|right|top|bottom of the referenced object in the diagram"
     },
     "General Diagram Multi-Line Note For Object": {
         "prefix": "diagram note for object multi line",
         "body": [
-            "note ${1:left} of ${2:objAlias}",
-            "\t${3:'position options: left|right|top|bottom}$0",
+            "note ${1|left,right,top,bottom|} of ${2:objAlias}",
+            "\t$0",
             "end note"
         ],
         "description": "Appends a text note directly left|right|top|bottom of the referenced object in the diagram"

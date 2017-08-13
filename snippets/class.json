@@ -42,16 +42,15 @@
     "Class Diagram Relationship Note": {
         "prefix": "class note on relationship",
         "body": [
-            "note ${1:left} on link ${2:#Khaki} : ${3:single-line note}",
-            "${4:'position options: left|right|top|bottom}"
+            "note ${1|left,right,top,bottom|} on link ${2:#Khaki} : ${3:single-line note}"
         ],
         "description": "Appends a text note directly left|right|top|bottom of the previously defined relationship. Use the color name guide to identify colors or use #hexCodes"
     },
     "Class Diagram Link Multi-Line Note": {
         "prefix": "class note on relationship multi line",
         "body": [
-            "note ${1:left} on link ${2:#Khaki}",
-            "${3:'position options: left|right|top|bottom}$0",
+            "note ${1|left,right,top,bottom|} on link ${2:#Khaki}",
+            "$0",
             "end note\n"
         ],
         "description": "Appends a text note directly left|right|top|bottom of the previously defined relationship. Use the color name guide to identify colors or use #hexCodes"

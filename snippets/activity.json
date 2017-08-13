@@ -81,15 +81,15 @@
 	"Activity Diagram Activity Note": {
 		"prefix": "activity note on activity",
 		"body": [
-			"${1:floating }note ${2:right}${3:left} : ${4:single-line note}$0"
+			"${1:floating }note ${2|left,right|}: ${3:single-line note}$0"
 		],
 		"description": "Appends a text note directly left|right of the preceding activity"
 	},
 	"Activity Diagram Activity Multi-Line Note": {
 		"prefix": "activity note on activity multi line",
 		"body": [
-			"${1:floating }note ${2:right}${3:left}",
-			"${4:multi-line note}$0",
+			"${1:floating }note ${2|left,right|}",
+			"${3:multi-line note}$0",
 			"end note\n"
 		],
 		"description": "Appends a text note directly left|right of the preceding activity"

@@ -2,8 +2,8 @@
     "Sequence Diagram Object Sterotype": {
 		"prefix": "sequence participant declaration",
 		"body": [
-			"${1:actor} ${2:alias}${3: as \"${4:longName}\"}${5: <<(${6:P},${7:#ADD1B2})${8: stereotype}>>}",
-			"${9:'sterotyped-object options, actor|participant|boundary|control|database|entity}$0"
+			"${1:actor} ${2:alias}${3: as \"${4:longName}\"}${5: <<(${6:P},${7:#ADD1B2})${8|actor,participant,boundary,control,database,entity|}>>}",
+			"$0"
 		],
 		"description": "Adds a type of object type with an alias and/or longName to the sequence diagram. You may nominate any of the following primary sterotypes: boundary|control|database|entity to better express the overrall intent of the object. Further stereotyping is offered via letter stereotyping, and label stereotyping"
 	},
@@ -122,14 +122,14 @@
 	"Sequence Diagram Message Note": {
 		"prefix": "sequence note on message",
 		"body": [
-			"note ${1:right}${2:left} : ${3:single-line note}\n$0"
+			"note ${1|left,right|} : ${3:single-line note}\n$0"
 		],
-		"description": "Appends a text note directly left|right of the preceding message"
+		"description": "Appends a text note directly left,right of the preceding message"
 	},
 	"Sequence Diagram Message Multi-Line Note": {
 		"prefix": "sequence note on message multi line",
 		"body": [
-			"note ${1:right}${2:left}",
+			"note ${1|left,right|}",
 			"${3:multi-line note}$0",
 			"end note\n"
 		],
