@@ -120,7 +120,7 @@ This plugin integrates all type diagram snippets. They are splitted into 9 secti
 
 For exsample, type `activity if else condition` or `acif` (short version) to trigge following snippet:
 
-```plantuml
+```plantumlcode
 if (cond1?) then (val1)
 
 else (val2)
@@ -200,20 +200,20 @@ Suppose we have 2 files to include: `defines.wsd` and `myStyles.wsd`, and they a
 
 In the past, we have to include them manually in every single diagram:
 
-```plantuml
+```plantumlcode
 @startuml
-    !include ../includes/defines.wsd
-    !include ../includes/myStyles.wsd
-    'contents goes here...
+!include ../includes/defines.wsd
+!include ../includes/myStyles.wsd
+'contents goes here...
 @enduml
 ```
 
 Now, you can just replace them with a placehold `'autoinclude`,
 
-```plantuml
+```plantumlcode
 @startuml
-    'autoinclude
-    'contents goes here...
+'AutoInclude
+'contents goes here...
 @enduml
 ```
 
