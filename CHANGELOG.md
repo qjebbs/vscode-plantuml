@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.1.2
+
+- Add choices support to snippets
+- Code optimize, try to fix [#54](https://github.com/qjebbs/vscode-plantuml/issues/54)
+
 ## 2.1.1
 
 - Fix: Missing syntax highlight in v2.1.0
