@@ -101,6 +101,13 @@ export class Diagram {
         }
         return this;
     }
+    isEqual(d: Diagram): boolean {
+        if (this.dir !== d.dir) return false;
+        if (this.fileName !== d.fileName) return false;
+        if (!this.start || !d.start) return false;
+        if (!this.start.isEqual(d.start)) return false;
+        return true;
+    }
     private getPageCount() {
         let regNewPage = /^\s*newpage\b/i;
         let newPageCount = 0;

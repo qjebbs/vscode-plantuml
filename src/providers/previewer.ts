@@ -107,7 +107,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
     }
     get TargetChanged(): boolean {
         let current = new Diagram().GetCurrent();
-        let changed = (!this.rendered || !this.rendered.start || this.rendered.start.line != current.start.line || this.rendered.fileName != current.fileName);
+        let changed = (!this.rendered || !this.rendered.isEqual(current));
         if (changed) {
             this.rendered = current;
             this.error = "";
@@ -211,9 +211,8 @@ class Previewer implements vscode.TextDocumentContentProvider {
         //register watcher
         let lastTimestamp = new Date().getTime();
         disposable = vscode.workspace.onDidChangeTextDocument(e => {
-            if (!e || vscode.window.activeTextEditor.document !== e.document) {
-                return;
-            }
+            if (!e || !e.document || !e.document.uri) return;
+            if (e.document.uri.scheme !== "file") return;
             lastTimestamp = new Date().getTime();
             setTimeout(() => {
                 if (new Date().getTime() - lastTimestamp >= 400) {
