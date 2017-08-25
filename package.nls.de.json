@@ -1,0 +1,22 @@
+{
+	"plantuml.exportCurrent.title": "Aktuelle Diagramm exportieren",
+	"plantuml.exportDocument.title": "Diagramme der aktuellen Datei exportieren",
+	"plantuml.exportWorkspace.title": "Diagramme aus dem Arbeitsbereich exportieren",
+	"plantuml.preview.title": "Vorschau des aktuellen Diagramms",
+	"plantuml.URLCurrent.title": "URL für das aktuelle Diagramm generieren",
+	"plantuml.URLDocument.title": "URLs für die Diagramme der aktuellen Datei generieren",
+	"plantuml.configuration.exportFormat": "Exportformat. Lassen Sie es leer, dann können Sie das Format bei jedem Export auswählen.",
+	"plantuml.configuration.jar": "Alternativer plantuml.jar Speicherort. Lassen Sie es leer, um die integrierte jar zu verwenden.",
+	"plantuml.configuration.fileExtensions": "Dateitypen für den Export. Besonders in den Arbeitsbereichseinstellungen können Sie eigene Erweiterungen hinzufügen, um Diagramme aus Quellcode-Dateien wie \".java\" zu exportieren.",
+	"plantuml.configuration.exportSubFolder": "Exportiert die Diagramme in einen Ordner mit demselben Namen wie die Hostdatei",
+	"plantuml.configuration.exportConcurrency": "Anzahl von gleichzeitigen Exports bei mehreren Diagrammen.",
+	"plantuml.configuration.exportOutDirName": "Name des Ordners für den Export von Diagrammen aus dem Arbeitsbereich.",
+	"plantuml.configuration.previewAutoUpdate": "Automatisch das Vorschaufenster aktualisieren.",
+	"plantuml.configuration.previewFileType": "Dateityp der Vorschau. Png oder svg werden unterstützt.",
+	"plantuml.configuration.server": "Plantuml-Server zum Generieren von UML-Diagrammen on-the-fly.",
+	"plantuml.configuration.urlFormat": "URL-Format. Lassen Sie es leer, dann können Sie das Format bei jeder URL-Erstellung auswählen.",
+	"plantuml.configuration.urlResult": "URL-Format. Einfache URL oder für den MarkDown Einsatz.",
+	"plantuml.configuration.render": "Wähle den Diagramm-Renderer für den Export und die Vorschau.\nLokal: Der traditionelle Weg bei dem die Diagramme lokal gerendert werden. Dafür benötigen Sie Java and GraphViz.\nPlantUMLServer: Rendert die Diagramme mit Hilfe eines Servers der über \"plantuml.server\" definiert wird. Es ist deutlich schneller, aber benötigt einen Server.\nLokal ist die Standardkonfiguration.",
+	"plantuml.configuration.includes": "Eingebundene Dateien oder Ordner für die Vorschau/den Export von Diagrammen. Dadurch wird der Import \"!include path/to/include.wsd\" für jedes einzelne Diagramm nicht mehr benötigt.",
+	"plantuml.configuration.commandArgs": "CommandArgs erlauben das Hinzufügen von Java-Befehlen, wie z.B. \"-DPLANTUML_LIMIT_SIZE=8192\"."
+}
