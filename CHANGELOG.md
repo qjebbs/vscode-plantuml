@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.1.3
+
+- Improvement: Add de translation
+
 ## 2.1.2
 
 - Add choices support to snippets

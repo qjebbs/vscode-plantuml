@@ -274,10 +274,16 @@ Please post and view issues on [GitHub][issues]
 
 ## Thanks
 
-- [koara-local](https://github.com/koara-local)
+- [Kohei Arao](https://github.com/koara-local)
 - [zhleonix](https://github.com/zhleonix/vscode-plantuml-ext/blob/r1.0.0/snippets/snippets.json)
-- [shepherdwind](https://github.com/shepherdwind)
+- [Eward Song](https://github.com/shepherdwind)
 - [Martin Riedel](https://github.com/rado0x54)
+
+## Translators
+
+- Japanese: [Kohei Arao](https://github.com/koara-local)
+- Tranditional Chinese: [Alan Tsai](https://github.com/alantsai)
+- German: [Fabian F.](https://github.com/fur6y)
 
 ## Donators
 
