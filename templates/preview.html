@@ -66,12 +66,15 @@
             <span id="pageInfo">${pageInfo}</span>
         </div>
     </div>
-    <div style="display:none;" id="images">
-        ${images}
-    </div>
-    <a id="sendStatus" href="" style="display:none;"></a>
-    <p id="status" style="display:none;">${status}</p>
     <!--<p id="debug">debug</p>-->
+    <div style="display:none;">
+        <div id="images">
+            ${images}
+        </div>
+        <p id="status">${status}</p>
+        <a id="sendStatus" href=""></a>
+        <p id="zoomUpperLimit">${zoomUpperLimit}</p>
+    </div>
     <script nonce="${nonce}" src="${jsPath}/dragscroll.js"></script>
     <script nonce="${nonce}" src="${jsPath}/preview.js"></script>
 </body>

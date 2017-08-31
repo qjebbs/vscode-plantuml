@@ -2,6 +2,7 @@ class Zoom {
     constructor() { }
     reset() {
         // this.debugPar = document.getElementById("debug");
+        this.zoomUpperLimit = document.getElementById("zoomUpperLimit").innerText === "true";
         this.marginPixels = 20;
         this.img = document.getElementById("image");
         this.naturalWidth = this.img.naturalWidth;
@@ -17,11 +18,10 @@ class Zoom {
         let contentWidth = winWidth - this.marginPixels
         let minWidth = contentWidth < this.naturalWidth ? contentWidth : this.naturalWidth;
         let minZoom = parseInt(minWidth / this.naturalWidth * 100);
+        const maxZoom = 100;
 
-
-        // zoom += event.wheelDelta / 12;
-        if (zoom > 100) zoom = 100;
-        if (zoom < minZoom || minZoom == 100) {
+        if (this.zoomUpperLimit && zoom > maxZoom) zoom = maxZoom;
+        if (zoom < minZoom || (minZoom == maxZoom && this.zoomUpperLimit)) {
             zoom = minZoom;
             this.img.style.width = "";
             this.img.style.maxWidth = "";
@@ -36,7 +36,7 @@ class Zoom {
             if (body.offsetHeight < window.innerHeight) body.style.height = window.innerHeight - this.marginPixels + "px";
         }
         this.zoom = zoom;
-        // debugPar.innerHTML = `
+        // this.debugPar.innerHTML = `
         //     image naturalWidth:${naturalWidth}<br>
         //     image zoom:${img.style.zoom}<br>
         //     image width:${img.width}<br>
@@ -57,7 +57,12 @@ class Zoom {
         this.reset();
         document.body.addEventListener("mousewheel", () => {
             let mouseAt = this.getMousePointer();
-            this.setZoom(this.zoom + event.wheelDelta / 12)
+            if (this.zoomUpperLimit) {
+                this.setZoom(this.zoom + event.wheelDelta / 12);
+            } else {
+                // zoom level increase / decrease by 30% for each wheel scroll
+                this.setZoom(this.zoom * (event.wheelDelta / 600 + 1));
+            }
             this.followMousePointer(mouseAt);
             saveStatus();
             return false;
@@ -80,7 +85,6 @@ class Zoom {
             }
         };
         window.onmousewheel = function () { return false };
-
     }
     followMousePointer(mouseAt) {
         let e = event || window.event;
@@ -151,8 +155,8 @@ String.format = function format() {
     }
     return str;
 }
-let zoomer = new Zoom();
-let switcher = new Switcher();
+let zoomer;
+let switcher;
 let sendStatus;
 function saveStatus() {
     if (sendStatus) {
@@ -164,6 +168,8 @@ function saveStatus() {
 }
 window.addEventListener("load", () => {
     sendStatus = document.getElementById("sendStatus");
+    zoomer = new Zoom();
+    switcher = new Switcher();
     switcher.add();
     zoomer.add();
     let jsonStatus = document.getElementById("status").innerHTML;

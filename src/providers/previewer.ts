@@ -30,6 +30,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
     private images: string[];
     private imageError: string;
     private error: string = "";
+    private zoomUpperLimit: boolean = true;
 
     private template: string;
     private templateError: string;
@@ -58,6 +59,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
         }, "");
         switch (this.status) {
             case previewStatus.default:
+                let zoomUpperLimit = this.zoomUpperLimit;
                 let status = this.uiStatus;
                 let nonce = Math.random().toString(36).substr(2);
                 let jsPath = "file:///" + path.join(context.extensionPath, "templates", "js");
@@ -128,7 +130,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
         }
         const previewFileType = config.previewFileType;
         const previewMimeType = previewFileType === 'png' ? 'png' : "svg+xml";
-
+        this.zoomUpperLimit = previewMimeType === 'png';
         let task: RenderTask = exportToBuffer(diagram, previewFileType);
         this.task = task;
 
