@@ -12,7 +12,7 @@
             border-radius: 3px;
             border-style: none;
             color: white;
-            width: 2rem;
+            padding: 0 1rem;
             height: 2rem;
         }
 
@@ -50,6 +50,10 @@
             margin-left: 1rem;
             margin: 0 1rem 0 1rem;
         }
+
+        #page-ctrls {
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -60,10 +64,12 @@
     <div id="placeholder">
     </div>
     <div id="ctrl-container">
-        <div id="controls" style="display: none;">
-            <button class="btn" id="btnPrev">&lt;</button>
-            <button class="btn" id="btnNext">&gt;</button>
-            <span id="pageInfo">${pageInfo}</span>
+        <div id="controls">
+            <div id="page-ctrls">
+                <button class="btn" id="btnPrev">&lt;</button>
+                <button class="btn" id="btnNext">&gt;</button>
+                <span id="pageInfo">${pageInfo}</span>
+            </div>
         </div>
     </div>
     <!--<p id="debug">debug</p>-->

@@ -118,9 +118,11 @@ class Switcher {
         }
     }
     add() {
-        document.getElementById("placeholder").style.display = this.images.length > 1 ? "" : "none";
-        if (this.images.length <= 1) return;
-        document.getElementById("controls").style.display = "";
+        if (this.images.length <= 1) {
+            document.getElementById("placeholder").style.display = "none";
+            document.getElementById("controls").style.display = "none";
+            return;
+        }
         document.getElementById("btnNext").addEventListener("click", () => {
             if (this.current == this.images.length) return;
             this.moveTo(++this.current);
@@ -173,12 +175,13 @@ window.addEventListener("load", () => {
     switcher.add();
     zoomer.add();
     let jsonStatus = document.getElementById("status").innerHTML;
-    if (!jsonStatus) return;
-    let status = JSON.parse(jsonStatus);
-    if (status) {
-        switcher.moveTo(status.page);
-        zoomer.setZoom(status.zoom);
-        zoomer.setScroll(status.x, status.y);
+    if (jsonStatus) {
+        let status = JSON.parse(jsonStatus);
+        if (status) {
+            switcher.moveTo(status.page);
+            zoomer.setZoom(status.zoom);
+            zoomer.setScroll(status.x, status.y);
+        }
     }
 });
 window.addEventListener("mouseup", () => saveStatus());
