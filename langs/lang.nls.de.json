@@ -28,5 +28,7 @@
 	"Bericht anzeigen",
 	"{0} Diagramme, {1} Dateien exportiert in {2} Sekunden:",
 	"{0} Dokumente, {1} Diagramme, {2} Dateien exportiert in {3} Sekunden:",
-	"Keine Diagramme exportiert."
+	"Keine Diagramme exportiert.",
+	"Diagram unnamed. Try \"@startuml name\"",
+	"Duplicate diagram name \"{0}\"."
 ]
