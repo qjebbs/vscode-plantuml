@@ -1,5 +1,12 @@
 # VSCode PlantUML Changelog
 
+## 2.2.0
+
+- New Feature: Added diagnosis in case someone ignores naming and name problems.
+- Improvement: Do not limit zoom level for svg in preview.
+
+![diagnosis](https://user-images.githubusercontent.com/16953333/30105320-cd04745e-932a-11e7-81f4-f6adeb863cb9.png)
+
 ## 2.1.3
 
 - Improvement: Add de translation
