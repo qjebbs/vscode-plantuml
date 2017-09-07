@@ -16,6 +16,7 @@ patterns:
   endCaptures:
     '1': {name: keyword.control.diagram.source.wsd}
   patterns:
+  - include: '#Quoted'
   - include: '#Comment'
   - include: '#Style'
   - include: '#Class'
@@ -27,6 +28,7 @@ patterns:
   - include: '#Gerneral'
 
 #outside block elements
+- include: '#Quoted'
 - include: '#Comment'
 - include: '#Style'
 - include: '#Class'
@@ -38,6 +40,16 @@ patterns:
 - include: '#Gerneral'
 
 repository:
+  Quoted:
+    patterns:
+    - comment: quoted definitions
+      name: support.variable.definitions.source.wsd
+      begin: (?i)^\s*(:)
+      end: (?i)(:)|[\];|<>/}]?\s*$
+    - comment: double quoted
+      name: string.quoted.double.source.wsd
+      begin: '"'
+      end: '"'
   Comment:
     patterns:
     - comment: comment line
@@ -202,14 +214,6 @@ repository:
     - comment: all color names
       match: (?i)#(?:[0-9a-f]{6}|[0-9a-f]{3}|\w+)
       name: constant.numeric.colors.source.wsd
-    - comment: double quoted
-      name: string.quoted.double.source.wsd
-      begin: '"'
-      end: '"'
-    - comment: single quoted
-      name: string.quoted.single.source.wsd
-      begin: ''''
-      end: ''''
     - comment: Variables
       name: support.variable.source.wsd
       match: \b[\w_]+
