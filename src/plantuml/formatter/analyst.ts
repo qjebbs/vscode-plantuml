@@ -68,7 +68,7 @@ class Position {
 export class Analyst {
     private _lines: Line[];
     private _rules: Rules;
-    private _blockLevel = 0;
+    private _blockLevel: string[] = [];
     private _keepBlankElement = false;
     constructor(lines: string[], rules: Rules, keepBlankElement: boolean) {
         this._lines = lines.map(v => {
@@ -205,7 +205,7 @@ export class Analyst {
                     if (matches[0].end < shouldEndAt) {
                         hasFindBegin = true;
                         beginAt = new Position(i, matches[0].start + u.offset, matches[0].capture);
-                        this._blockLevel++;
+                        this._blockLevel.push(rule.comment);
                         // console.log("ENTER BLOCK LEVEL", this._blockLevel, "INDEX", blockIndex, "OF", rule.comment, "BY", matches[0].capture, "AT", beginAt.line, beginAt.position);
                         this.markElement(line, matches, rule.beginCaptures, u.offset);
                         this.markBlockElement(line, rule, BlockElementType.blockStart, this._blockLevel, blockIndex, matches, u.offset);
@@ -223,7 +223,7 @@ export class Analyst {
                 }
 
                 //find again
-                if (!beginAt && rule.again) {
+                if (rule.comment === this._blockLevel[this._blockLevel.length - 1] && !beginAt && rule.again) {
                     if (matches = rule.again.exec(u.text)) {
                         this.markElement(line, matches, rule.beginCaptures, u.offset);
                         this.markBlockElement(line, rule, BlockElementType.blockAgain, this._blockLevel, blockIndex, matches, u.offset);
@@ -249,7 +249,7 @@ export class Analyst {
                     this.markBlockElement(line, rule, BlockElementType.blockEnd, this._blockLevel, blockIndex, matches, u.offset);
                     // console.log("Find end:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
                     let endAt = new Position(i, matches[0].start + u.offset, matches[0].capture);
-                    this._blockLevel--;
+                    this._blockLevel.pop();
                     // console.log("LEAVE BLOCK LEVEL", this._blockLevel + 1, "INDEX", blockIndex, "FROM", rule.comment, "BY", matches[0].capture, "AT", endAt.line, endAt.position);
                     return endAt;
                 }
@@ -307,11 +307,11 @@ export class Analyst {
             }
         }
     }
-    private markBlockElement(line: Line, rule: Rule, type: BlockElementType, blockLevel, blockIndex: number, matches: MultiRegExp2Match[], offset: number) {
+    private markBlockElement(line: Line, rule: Rule, type: BlockElementType, blockLevel: string[], blockIndex: number, matches: MultiRegExp2Match[], offset: number) {
         if (!rule.isBlock) return;
         line.blockElements.push(
             <BlockElement>{
-                level: blockLevel,
+                level: blockLevel.length - 1,
                 index: blockIndex,
                 type: type,
                 text: matches[0].capture,

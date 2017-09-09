@@ -185,6 +185,43 @@ let rules = <RulesWriting>{
                     patterns: {
                         includes: ["Quoted", "Block"],
                     }
+                },
+                {
+                    comment: "sequence grouping",
+                    isBlock: true,
+                    begin: /{{LB}}(loop|par|break|critical|group)\s*(.+)?{{LE}}/i,
+                    end: /{{LB}}(end){{LE}}/i,
+                    beginCaptures: {
+                        1: ElementType.word,
+                        2: ElementType.asIs
+                    },
+                    endCaptures: {
+                        1: ElementType.word
+                    },
+                    patterns: {
+                        includes: ["Quoted", "Block"],
+                    }
+                },
+                {
+                    comment: "sequence grouping alt-else",
+                    isBlock: true,
+                    begin: /{{LB}}(alt)\s*(.+)?{{LE}}/i,
+                    again: /{{LB}}(else)\s*(.+)?{{LE}}/i,
+                    end: /{{LB}}(end){{LE}}/i,
+                    againCaptures: {
+                        1: ElementType.word,
+                        2: ElementType.asIs
+                    },
+                    beginCaptures: {
+                        1: ElementType.word,
+                        2: ElementType.asIs
+                    },
+                    endCaptures: {
+                        1: ElementType.word
+                    },
+                    patterns: {
+                        includes: ["Quoted", "Block"],
+                    }
                 }
             ]
         },
