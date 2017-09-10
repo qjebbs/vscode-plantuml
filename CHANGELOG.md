@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.2.1
+
+- Improvement: Add sequence grouping formatting. Fix [#60](https://github.com/qjebbs/vscode-plantuml/issues/60)
+- Fix: Apostrophe syntax highligting. [#59](https://github.com/qjebbs/vscode-plantuml/issues/59)
+
 ## 2.2.0
 
 - New Feature: Added diagnosis in case someone ignores naming and name problems.
