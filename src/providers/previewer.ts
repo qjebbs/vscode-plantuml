@@ -109,6 +109,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
     }
     get TargetChanged(): boolean {
         let current = new Diagram().GetCurrent();
+        if (!current.content) return false;
         let changed = (!this.rendered || !this.rendered.isEqual(current));
         if (changed) {
             this.rendered = current;
