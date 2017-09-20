@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.2.2
+
+- Fix: Incorrect initial zoom level when preview image is small
+- Improvement: Target not changed when move cursor to none-diagram area, resolve [#62](https://github.com/qjebbs/vscode-plantuml/issues/62)
+
 ## 2.2.1
 
 - Improvement: Add sequence grouping formatting. Fix [#60](https://github.com/qjebbs/vscode-plantuml/issues/60)
