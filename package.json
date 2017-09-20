@@ -171,7 +171,7 @@
     ],
     "configuration": {
       "type": "object",
-      "title": "PlantUML configuration",
+      "title": "%plantuml.configuration.configTitle%",
       "properties": {
         "plantuml.exportFormat": {
           "type": "string",

@@ -5,6 +5,7 @@
 	"plantuml.preview.title": "預覽目前圖表",
 	"plantuml.URLCurrent.title": "為當前圖表產生URL鏈接",
 	"plantuml.URLDocument.title": "為當前檔案圖表產生URL鏈接",
+	"plantuml.configuration.configTitle": "PlantUML configuration",
 	"plantuml.configuration.exportFormat": "Export format. Leave it blank to pick format everytime you export.",
 	"plantuml.configuration.jar": "Alternate plantuml.jar location. Leave it blank to use integrated jar.",
 	"plantuml.configuration.fileExtensions": "File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like \".java\".",

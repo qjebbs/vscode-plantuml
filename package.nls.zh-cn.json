@@ -5,6 +5,7 @@
 	"plantuml.preview.title": "预览光标位置图表",
 	"plantuml.URLCurrent.title": "为光标位置图表创建链接",
 	"plantuml.URLDocument.title": "为当前文件图表创建链接",
+	"plantuml.configuration.configTitle": "PlantUML 配置",
 	"plantuml.configuration.exportFormat": "导出格式。若留空，则在每次导出时选择格式。",
 	"plantuml.configuration.jar": "自定义 plantuml.jar 的位置。留空则使用内置的版本。",
 	"plantuml.configuration.fileExtensions": "导出工作区图表时查找的文件后缀。特别是在软件项目的工作区设置时，您可以自定义要查找的后缀，以便导出位于源文件中的图表，如 \".java\".",
