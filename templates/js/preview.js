@@ -1,19 +1,55 @@
+const DEBUG = false;
+class Debug {
+    constructor() {
+        this.debugPar = document.getElementById("debug");
+        this.debugPar.style.display = DEBUG ? "" : "none";
+    }
+    clear() {
+        if (!DEBUG) return;
+        this.debugPar.innerHTML = "";
+    }
+    append(...html) {
+        if (!DEBUG) return;
+        this.debugPar.innerHTML += html.join(" ");
+    }
+    appendLine(...html) {
+        if (!DEBUG) return;
+        this.debugPar.innerHTML += "<br>" + html.join(" ");;
+    }
+}
+var debug = new Debug();
 class Zoom {
     constructor() { }
     reset() {
-        // this.debugPar = document.getElementById("debug");
+        if (DEBUG) {
+            this.debugPar = document.getElementById("debug");
+            this.debugPar.style.display = "";
+        }
         this.zoomUpperLimit = document.getElementById("zoomUpperLimit").innerText === "true";
         this.marginPixels = 20;
         this.img = document.getElementById("image");
         this.naturalWidth = this.img.naturalWidth;
         this.naturalHeight = this.img.naturalHeight;
         this.zoom = (window.innerWidth - this.marginPixels) / this.naturalWidth * 100;
+        if (this.zoom > 100) this.zoom = 100;
         this.img.style.width = "";
         this.img.style.maxWidth = "";
         document.body.style.width = "";
         if (document.body.offsetHeight < window.innerHeight) document.body.style.height = window.innerHeight - this.marginPixels + "px";
+        debug.clear();
+        debug.append(`
+            initial zoom:${this.zoom}<br>
+            image naturalWidth:${this.naturalWidth}<br>
+            image width:${this.img.width}<br>
+            window width:${window.innerWidth}<br>
+            window height:${window.innerHeight}<br>
+            body width:${document.body.offsetWidth}<br>
+            body height:${document.body.offsetHeight}<br>
+            scroll Width:${window.innerWidth - document.body.clientWidth}<br>
+        `);
     }
     setZoom(zoom) {
+        debug.appendLine("org: ", this.zoom);
         let winWidth = window.innerWidth;
         let contentWidth = winWidth - this.marginPixels
         let minWidth = contentWidth < this.naturalWidth ? contentWidth : this.naturalWidth;
@@ -36,18 +72,7 @@ class Zoom {
             if (body.offsetHeight < window.innerHeight) body.style.height = window.innerHeight - this.marginPixels + "px";
         }
         this.zoom = zoom;
-        // this.debugPar.innerHTML = `
-        //     image naturalWidth:${naturalWidth}<br>
-        //     image zoom:${img.style.zoom}<br>
-        //     image width:${img.width}<br>
-        //     window width:${winWidth}<br>
-        //     window height:${window.innerHeight}<br>
-        //     body width:${body.offsetWidth}<br>
-        //     body height:${body.offsetHeight}<br>
-        //     scrollWidth:${window.innerWidth - body.clientWidth}<br>
-        //     bodyWidth:${bodyWidth}<br>
-        //     imgWidth:${imgWidth}<br>
-        // `;
+        debug.appendLine("cur: ", this.zoom);
     }
     setScroll(left, top) {
         document.body.scrollLeft = left;
