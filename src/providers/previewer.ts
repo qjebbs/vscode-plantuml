@@ -39,6 +39,10 @@ class Previewer implements vscode.TextDocumentContentProvider {
     private killingLock: boolean = false;
 
     initialize() {
+        this.reset();
+    }
+
+    reset() {
         let tplPath: string = path.join(context.extensionPath, "templates");
         let tplPreviewPath: string = path.join(tplPath, "preview.html");
         let tplPreviewErrorPath: string = path.join(tplPath, "preview-error.html");
@@ -46,6 +50,12 @@ class Previewer implements vscode.TextDocumentContentProvider {
         this.template = '`' + fs.readFileSync(tplPreviewPath, "utf-8") + '`';
         this.templateError = '`' + fs.readFileSync(tplPreviewErrorPath, "utf-8") + '`';
         this.templateProcessing = '`' + fs.readFileSync(tplPreviewProcessingPath, "utf-8") + '`';
+
+        this.rendered = null;
+        this.uiStatus = "";
+        this.images = [];
+        this.imageError = "";
+        this.error = "";
     }
 
     provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): string {
@@ -185,6 +195,9 @@ class Previewer implements vscode.TextDocumentContentProvider {
             let ds = new Diagrams().AddDocument(editor.document);
             if (!ds.diagrams.length) return;
 
+            //reset in case that starting commnad in none-diagram area, 
+            //or it may show last error image and may cause wrong "TargetChanged" result on cursor move.
+            this.reset();
             this.TargetChanged;
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, localize(17, null))
                 .then(
