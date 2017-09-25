@@ -232,6 +232,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
             lastTimestamp = new Date().getTime();
             setTimeout(() => {
                 if (new Date().getTime() - lastTimestamp >= 400) {
+                    if (!new Diagram().GetCurrent().content) return;
                     this.update(false);
                 }
             }, 500);
