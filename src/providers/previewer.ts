@@ -228,7 +228,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
         let lastTimestamp = new Date().getTime();
         disposable = vscode.workspace.onDidChangeTextDocument(e => {
             if (!e || !e.document || !e.document.uri) return;
-            if (e.document.uri.scheme !== "file") return;
+            if (e.document.uri.scheme == "plantuml") return;
             lastTimestamp = new Date().getTime();
             setTimeout(() => {
                 if (new Date().getTime() - lastTimestamp >= 400) {
