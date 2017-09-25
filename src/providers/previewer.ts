@@ -239,10 +239,10 @@ class Previewer implements vscode.TextDocumentContentProvider {
         });
         disposables.push(disposable);
         disposable = vscode.window.onDidChangeTextEditorSelection(e => {
-            if (!this.TargetChanged) return;
             lastTimestamp = new Date().getTime();
             setTimeout(() => {
                 if (new Date().getTime() - lastTimestamp >= 400) {
+                    if (!this.TargetChanged) return;
                     this.update(true);
                 }
             }, 500);
