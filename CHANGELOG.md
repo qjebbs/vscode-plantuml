@@ -1,5 +1,12 @@
 # VSCode PlantUML Changelog
 
+## 2.3.0
+
+- Improvement: Syntax error folded into an icon in preview, to reduce distraction during authoring.
+- Improvement: Preview logic optimize
+- Improvement: Add ja translation
+- Fix: Autoupdate not work on unsaved, fix [#65](https://github.com/qjebbs/vscode-plantuml/issues/65)
+
 ## 2.2.2
 
 - Fix: Incorrect initial zoom level when preview image is small
