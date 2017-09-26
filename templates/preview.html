@@ -54,6 +54,39 @@
         #page-ctrls {
             display: inline-block;
         }
+
+        #error-warning {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            text-align: left;
+        }
+
+        #error-warning #error-icon {
+            width: 2em;
+            height: 2em;
+            filter: drop-shadow(0.2em 0.2em 0.3em rgba(0, 0, 0, 0.2))
+        }
+
+        #errmsg p {
+            outline: red 1px solid;
+            color: red;
+            font-weight: bold;
+            margin: 0 0 0.5em 0;
+            padding: 0.5em;
+        }
+
+        #error-warning #errmsg {
+            display: none;
+        }
+
+        #error-warning:hover #errmsg {
+            display: block;
+            padding: 1em 1em;
+            background-color: black;
+            opacity: 0.8;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -73,6 +106,13 @@
         </div>
     </div>
     <p id="debug">debug</p>
+    <div id="error-warning">
+        <img id="error-icon" src="${tmplPath}/img/error.svg"></img>
+        <div id="errmsg">
+            <p id="errtxt">${error}</p>
+            <img src="${imageError}" style="max-width: 100%;">
+        </div>
+    </div>
     <div style="display:none;">
         <div id="images">
             ${images}
@@ -81,8 +121,8 @@
         <a id="sendStatus" href=""></a>
         <p id="zoomUpperLimit">${zoomUpperLimit}</p>
     </div>
-    <script nonce="${nonce}" src="${jsPath}/dragscroll.js"></script>
-    <script nonce="${nonce}" src="${jsPath}/preview.js"></script>
+    <script nonce="${nonce}" src="${tmplPath}/js/dragscroll.js"></script>
+    <script nonce="${nonce}" src="${tmplPath}/js/preview.js"></script>
 </body>
 
 </html>

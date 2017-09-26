@@ -19,7 +19,7 @@ class Debug {
 }
 var debug = new Debug();
 class Zoom {
-    constructor() { }
+    constructor() {}
     reset() {
         if (DEBUG) {
             this.debugPar = document.getElementById("debug");
@@ -109,7 +109,9 @@ class Zoom {
                 document.body.style.width = "";
             }
         };
-        window.onmousewheel = function () { return false };
+        window.onmousewheel = function () {
+            return false
+        };
     }
     followMousePointer(mouseAt) {
         let e = event || window.event;
@@ -185,9 +187,15 @@ String.format = function format() {
 let zoomer;
 let switcher;
 let sendStatus;
+
 function saveStatus() {
     if (sendStatus) {
-        let status = JSON.stringify({ page: switcher.current, zoom: zoomer.zoom, x: document.body.scrollLeft, y: document.body.scrollTop });
+        let status = JSON.stringify({
+            page: switcher.current,
+            zoom: zoomer.zoom,
+            x: document.body.scrollLeft,
+            y: document.body.scrollTop
+        });
         // console.log("save status: " + status);
         sendStatus.attributes["href"].value = encodeURI('command:plantuml.previewStatus?' + status);
         sendStatus.click();
@@ -208,5 +216,8 @@ window.addEventListener("load", () => {
             zoomer.setScroll(status.x, status.y);
         }
     }
+    if (!document.getElementById("errtxt").innerText.trim())
+        document.getElementById("error-warning").style.display = "none";
+
 });
 window.addEventListener("mouseup", () => saveStatus());

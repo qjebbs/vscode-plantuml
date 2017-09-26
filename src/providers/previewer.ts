@@ -33,7 +33,6 @@ class Previewer implements vscode.TextDocumentContentProvider {
     private zoomUpperLimit: boolean = true;
 
     private template: string;
-    private templateError: string;
     private templateProcessing: string;
 
     private killingLock: boolean = false;
@@ -45,12 +44,10 @@ class Previewer implements vscode.TextDocumentContentProvider {
     reset() {
         let tplPath: string = path.join(context.extensionPath, "templates");
         let tplPreviewPath: string = path.join(tplPath, "preview.html");
-        let tplPreviewErrorPath: string = path.join(tplPath, "preview-error.html");
         let tplPreviewProcessingPath: string = path.join(tplPath, "preview-processing.html");
         this.template = '`' + fs.readFileSync(tplPreviewPath, "utf-8") + '`';
-        this.templateError = '`' + fs.readFileSync(tplPreviewErrorPath, "utf-8") + '`';
         this.templateProcessing = '`' + fs.readFileSync(tplPreviewProcessingPath, "utf-8") + '`';
-
+        
         this.rendered = null;
         this.uiStatus = "";
         this.images = [];
@@ -59,35 +56,37 @@ class Previewer implements vscode.TextDocumentContentProvider {
     }
 
     provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): string {
-        let image: string;
-        let images: string;
-        let imageError: string;
-        let error: string;
-        image = this.images[0];
-        images = this.images.reduce((p, c) => {
+        let image = this.images[0];
+        let images = this.images.reduce((p, c) => {
             return `${p}<img src="${c}">`
         }, "");
-        switch (this.status) {
-            case previewStatus.default:
-                let zoomUpperLimit = this.zoomUpperLimit;
-                let status = this.uiStatus;
-                let nonce = Math.random().toString(36).substr(2);
-                let jsPath = "file:///" + path.join(context.extensionPath, "templates", "js");
-                let pageInfo = localize(20, null);
-                return eval(this.template);
-            case previewStatus.error:
-                imageError = this.imageError;
-                error = this.error.replace(/\n/g, "<br />");
-                return eval(this.templateError);
-            case previewStatus.processing:
-                let icon = "file:///" + path.join(context.extensionPath, "images", "icon.png");
-                let processingTip = localize(9, null);
-                image = calculateExportPath(this.rendered, config.previewFileType);
-                image = addFileIndex(image, 0, this.rendered.pageCount);
-                if (!fs.existsSync(image)) image = ""; else image = "file:///" + image;
-                return eval(this.templateProcessing);
-            default:
-                return "";
+        let imageError: string;
+        let error: string;
+        try {
+            switch (this.status) {
+                case previewStatus.default:
+                case previewStatus.error:
+                    let zoomUpperLimit = this.zoomUpperLimit;
+                    let status = this.uiStatus;
+                    let nonce = Math.random().toString(36).substr(2);
+                    let tmplPath = "file:///" + path.join(context.extensionPath, "templates");
+                    let pageInfo = localize(20, null);
+                    imageError = this.imageError;
+                    error = this.error.replace(/\n/g, "<br />");
+                    if (!image) image = imageError;
+                    return eval(this.template);
+                case previewStatus.processing:
+                    let icon = "file:///" + path.join(context.extensionPath, "images", "icon.png");
+                    let processingTip = localize(9, null);
+                    image = calculateExportPath(this.rendered, config.previewFileType);
+                    image = addFileIndex(image, 0, this.rendered.pageCount);
+                    if (!fs.existsSync(image)) image = ""; else image = "file:///" + image;
+                    return eval(this.templateProcessing);
+                default:
+                    return "";
+            }
+        } catch (error) {
+            return error
         }
     }
     setUIStatus(status: string) {
@@ -153,6 +152,8 @@ class Previewer implements vscode.TextDocumentContentProvider {
                 this.task = null;
                 this.status = previewStatus.default;
 
+                this.error = "";
+                this.imageError = "";
                 this.images = result.reduce((p, buf) => {
                     let b64 = buf.toString('base64');
                     if (!b64) return p;
