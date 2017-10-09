@@ -45,7 +45,7 @@ export class Diagram {
     title: string;
     start: vscode.Position;
     end: vscode.Position;
-    pageCount: number;
+    pageCount: number = 1;
     lines: string[];
     index: number = 0;
     constructor(content?: string) {
@@ -95,7 +95,7 @@ export class Diagram {
         if (this.start && this.end) {
             this.lines = [];
             this.content = includer.addIncludes(document.getText(new vscode.Range(this.start, this.end)));
-            for (let i = this.start.line; i < this.end.line; i++) {
+            for (let i = this.start.line; i <= this.end.line; i++) {
                 this.lines.push(document.lineAt(i).text);
             }
             this.getIndex();
@@ -113,11 +113,9 @@ export class Diagram {
     }
     private getPageCount() {
         let regNewPage = /^\s*newpage\b/i;
-        let newPageCount = 0;
         for (let text of this.lines) {
-            if (regNewPage.test(text)) newPageCount++;
+            if (regNewPage.test(text)) this.pageCount++;
         }
-        this.pageCount = ++newPageCount;
     }
     private getTitle() {
         let RegFName = /@start(\w+)\s+(.+?)\s*$/i;
