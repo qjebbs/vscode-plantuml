@@ -36,7 +36,7 @@ export class Diagrams {
 }
 
 export class Diagram {
-    editor: vscode.TextEditor;
+    document: vscode.TextDocument
     path: string;
     fileName: string;
     dir: string;
@@ -47,6 +47,7 @@ export class Diagram {
     end: vscode.Position;
     pageCount: number;
     lines: string[];
+    index: number = 0;
     constructor(content?: string) {
         if (!content) return;
         this.content = content;
@@ -61,6 +62,7 @@ export class Diagram {
     }
     DiagramAt(lineNumber: number, document?: vscode.TextDocument): Diagram {
         if (!document) document = vscode.window.activeTextEditor.document;
+        this.document = document;
         this.path = document.uri.fsPath;
         this.fileName = path.basename(this.path);
         let i = this.fileName.lastIndexOf(".");
@@ -96,6 +98,7 @@ export class Diagram {
             for (let i = this.start.line; i < this.end.line; i++) {
                 this.lines.push(document.lineAt(i).text);
             }
+            this.getIndex();
             this.getTitle();
             this.getPageCount();
         }
@@ -135,9 +138,19 @@ export class Diagram {
         if (this.titleRaw) {
             this.title = title.Deal(this.titleRaw);
         } else if (this.start && this.end) {
-            this.title = `${this.fileName}@${this.start.line + 1}-${this.end.line + 1}`;
+            // this.title = `${this.fileName}@${this.start.line + 1}-${this.end.line + 1}`;
+            if (this.index)
+                this.title = `${this.fileName}-${this.index}`;
+            else
+                this.title = this.fileName;
         } else {
             this.title = "Untitled";
+        }
+    }
+    private getIndex() {
+        if (!this.document) return;
+        for (let i = 0; i < this.start.line; i++) {
+            if (diagramStartReg.test(this.document.lineAt(i).text)) this.index++;
         }
     }
 }
