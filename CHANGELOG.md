@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.3.1
+
+- Change diagram default name rule, resolve [#69](https://github.com/qjebbs/vscode-plantuml/issues/69)
+
 ## 2.3.0
 
 - Improvement: Syntax error folded into an icon in preview, to reduce distraction during authoring.
