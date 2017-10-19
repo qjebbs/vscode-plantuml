@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.3.2
+
+- Fix: Formating problems. 
+[#70](https://github.com/qjebbs/vscode-plantuml/issues/70), 
+[#73](https://github.com/qjebbs/vscode-plantuml/issues/73)
+
 ## 2.3.1
 
 - Change diagram default name rule, resolve [#69](https://github.com/qjebbs/vscode-plantuml/issues/69)
