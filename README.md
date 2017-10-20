@@ -21,14 +21,14 @@ Note that some settings are changed after Version 2.0.0:
 - Preview Diagram, Press `Alt-D` to start PlantUML preview.
   - Auto update.
   - Zoom & scroll support.
-  - Muli-Page Diagram support.
+  - Multi-Page Diagram support.
   - Instant preview, if diagram's been exported.
   - From local or server.
 - Export Diagrams
   - At cursor, in current file, in whole workspace, in workspace selected.
   - Concurrent export.
   - Generate URLs.
-  - Muli-Page Diagram support.
+  - Multi-Page Diagram support.
   - From local or server. **NEW!!**
 - Editing Supports
   - Format PlantUML code. **NEW!!**
@@ -38,7 +38,7 @@ Note that some settings are changed after Version 2.0.0:
   - Symbol List support.
 - MarkDown integrating support. **NEW!!**  [View Demo](#markdown-integrating)
 
-> Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Muli-Page Diagram support`. (Later than `V1.2017.15`)
+> Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Multi-Page Diagram support`. (Later than `V1.2017.15`)
 
 ## How to install
 
@@ -86,9 +86,9 @@ zoom & scroll:
 
 ![zoom demo](images/zoom_demo.gif)
 
-Muli-Page View:
+Multi-Page View:
 
-![Muli-Page demo](images/newpage_demo.png)
+![Multi-Page demo](images/newpage_demo.png)
 
 Export diagram:
 
