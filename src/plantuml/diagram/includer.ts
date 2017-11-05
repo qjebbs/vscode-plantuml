@@ -19,8 +19,7 @@ class Includer {
         let includes = "";
         let confs = config.includes;
         let paths = [];
-        for (let i in confs) {
-            let c = confs[i];
+        for (let c of confs) {
             if (!c) continue;
             if (!path.isAbsolute(c)) {
                 paths.push(...(this._findWorkspace(c) || this._findIntegrated(c) || []));
