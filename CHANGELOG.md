@@ -1,5 +1,13 @@
 # VSCode PlantUML Changelog
 
+## 2.3.3
+
+- Fix: 
+[#68](https://github.com/qjebbs/vscode-plantuml/issues/68), 
+[#74](https://github.com/qjebbs/vscode-plantuml/issues/74). 
+
+Thanks [c835722](https://github.com/c835722) for figuring out how it occurs.
+
 ## 2.3.2
 
 - Fix: Formating problems. 
