@@ -289,7 +289,7 @@ Please post and view issues on [GitHub][issues]
 
 Thanks for your encouragements!
 
-    Claus Appel
+    Claus Appel, 三島木​一磨
 
 -----------------------------------------------------------------------------------------------------------
 
