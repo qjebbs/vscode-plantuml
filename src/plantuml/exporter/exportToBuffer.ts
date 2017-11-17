@@ -23,6 +23,6 @@ export function exportToBuffer(diagram: Diagram, format: string, bar?: vscode.St
  * @param bar display prcessing message in bar if it's given.
  * @returns ExportTask.
  */
-export function getMapData(diagram: Diagram): Promise<string> {
-    return appliedRender().getMapData(diagram);
+export function getMapData(diagram: Diagram): Promise<string[]> {
+    return appliedRender().getMapData(diagram, "");
 }

@@ -161,50 +161,88 @@ class LocalRender implements IRender {
         }
     }
 
-    getMapData(diagram: Diagram): Promise<string> {
-        if (!diagram.content) return Promise.resolve("");
-        let params = [
-            '-Djava.awt.headless=true',
-            '-jar',
-            config.jar,
-            '-pipemap',
-            '-charset',
-            'utf-8',
-        ];
-        //add user args
-        params.unshift(...config.commandArgs);
-        let process = child_process.spawn(this.java, params);
-        return new Promise<string>((resolve, reject) => {
-            let buffs: Buffer[] = [];
-            let bufflen = 0;
-            let stderror = '';
+    getMapData(diagram: Diagram, savePath: string): Promise<string[]> {
+        let processes: child_process.ChildProcess[] = [];
+        let maps: string[] = [];
+        let pms = [...Array(diagram.pageCount).keys()].reduce((pChain, index) => {
+            if (!diagram.content) return Promise.resolve("");
+            let params = [
+                '-Djava.awt.headless=true',
+                '-jar',
+                config.jar,
+                '-pipemap',
+                "-pipeimageindex",
+                `${index}`,
+                '-charset',
+                'utf-8',
+            ];
+            //add user args
+            params.unshift(...config.commandArgs);
+            let process = child_process.spawn(this.java, params);
+            processes.push(process);
+            return pChain.then(
+                result => {
 
-            if (process.killed) {
-                return Promise.resolve("");
+                    if (process.killed) {
+                        return Promise.resolve("");
+                    }
+
+                    if (diagram.content !== null) {
+                        process.stdin.write(diagram.content);
+                        process.stdin.end();
+                    }
+
+                    let pms = new Promise<string>((resolve, reject) => {
+                        let buffs: Buffer[] = [];
+                        let bufflen = 0;
+                        let stderror = '';
+                        let savePath2 = "";
+                        if (savePath) {
+                            savePath2 = addFileIndex(savePath, index, diagram.pageCount);
+                            let f = fs.createWriteStream(savePath2);
+                            process.stdout.pipe(f);
+                        } else {
+                            process.stdout.on('data', function (x: Buffer) {
+                                buffs.push(x);
+                                bufflen += x.length;
+                            });
+                        }
+
+                        process.stdout.on('close', () => {
+                            let stdout = Buffer.concat(buffs, bufflen).toString();
+                            if (!stderror) {
+                                if (!savePath) {
+                                    maps.push(stdout);
+                                } else {
+                                    maps.push(savePath2);
+                                }
+                                resolve(null);
+                            } else {
+                                stderror = localize(10, null, diagram.title, stderror);
+                                reject(stderror);
+                            }
+                        })
+                        process.stderr.on('data', function (x) {
+                            stderror += x;
+                        });
+                    });
+                },
+                err => {
+                    return Promise.reject(err);
+                });
+        }, Promise.resolve(""));
+        return new Promise<string[]>(
+            (resolve, reject) => {
+                pms.then(
+                    () => {
+                        resolve(maps);
+                    },
+                    err => {
+                        reject(err);
+                    }
+                )
             }
-
-            if (diagram.content !== null) {
-                process.stdin.write(diagram.content);
-                process.stdin.end();
-            }
-
-            process.stdout.on('data', function (x: Buffer) {
-                buffs.push(x);
-                bufflen += x.length;
-            });
-
-            process.stdout.on('close', () => {
-                let stdout = Buffer.concat(buffs, bufflen).toString();
-                if (!stderror) {
-                    resolve(stdout);
-                } else {
-                    reject(stderror);
-                }
-            })
-            process.stderr.on('data', function (x) {
-                stderror += x;
-            });
-        });
+        )
     }
 }
 export const localRender = new LocalRender();
