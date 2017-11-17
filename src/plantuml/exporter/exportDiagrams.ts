@@ -40,7 +40,10 @@ function doExportsUnLimited(diagrams: Diagram[], format: string, bar: vscode.Sta
         mkdirsSync(path.dirname(savePath));
         return exportDiagram(diagram, format, savePath, bar).promise.then(
             r => r,
-            err => errors.push(...parseError(err))
+            err => {
+                errors.push(...parseError(err))
+                return [];
+            }
         );
     })
     return new Promise((resolve, reject) => {
@@ -97,7 +100,7 @@ function doExportsLimited(diagrams: Diagram[], format: string, concurrency: numb
                 },
                 err => {
                     errors.push(...parseError(err));
-                    return;
+                    return [];
                 })
         );
     }
