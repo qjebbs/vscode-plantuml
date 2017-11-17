@@ -109,6 +109,6 @@ export function addFileIndex(fileName: string, index: number, count: number): st
     let ext = path.extname(fileName);
     return path.join(
         path.dirname(fileName),
-        bsName.substr(0, bsName.length - ext.length) + "-" + (index + 1) + ext,
+        bsName.substr(0, bsName.length - ext.length) + " page " + (index + 1) + ext,
     );
 }
