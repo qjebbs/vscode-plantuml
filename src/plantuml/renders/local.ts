@@ -160,5 +160,51 @@ class LocalRender implements IRender {
             )
         }
     }
+
+    getMapData(diagram: Diagram): Promise<string> {
+        if (!diagram.content) return Promise.resolve("");
+        let params = [
+            '-Djava.awt.headless=true',
+            '-jar',
+            config.jar,
+            '-pipemap',
+            '-charset',
+            'utf-8',
+        ];
+        //add user args
+        params.unshift(...config.commandArgs);
+        let process = child_process.spawn(this.java, params);
+        return new Promise<string>((resolve, reject) => {
+            let buffs: Buffer[] = [];
+            let bufflen = 0;
+            let stderror = '';
+
+            if (process.killed) {
+                return Promise.resolve("");
+            }
+
+            if (diagram.content !== null) {
+                process.stdin.write(diagram.content);
+                process.stdin.end();
+            }
+
+            process.stdout.on('data', function (x: Buffer) {
+                buffs.push(x);
+                bufflen += x.length;
+            });
+
+            process.stdout.on('close', () => {
+                let stdout = Buffer.concat(buffs, bufflen).toString();
+                if (!stderror) {
+                    resolve(stdout);
+                } else {
+                    reject(stderror);
+                }
+            })
+            process.stderr.on('data', function (x) {
+                stderror += x;
+            });
+        });
+    }
 }
 export const localRender = new LocalRender();

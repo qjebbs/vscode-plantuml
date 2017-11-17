@@ -86,6 +86,37 @@ class PlantumlServer implements IRender {
             promise: Promise.all(allPms),
         }
     }
+    getMapData(diagram: Diagram): Promise<string> {
+        if (!diagram.content) return Promise.resolve("");
+        let requestUrl = this.makeURL(diagram, "map");
+
+        return new Promise<string>((resolve, reject) => {
+
+            request(
+                {
+                    method: 'GET'
+                    , uri: requestUrl
+                    , encoding: null // for byte encoding. Otherwise string.
+                    , gzip: true
+                }
+                , (error, response, body) => {
+                    if (!error && response.statusCode === 200) {
+                        resolve(body);
+                    } else {
+                        let stderror;
+                        if (!error) {
+                            stderror = "Unexpected Statuscode: "
+                                + response.statusCode + "\n"
+                                + "for GET " + requestUrl;
+                        } else {
+                            stderror = error.message;
+                        }
+                        reject(stderror);
+                    }
+                })
+        });
+
+    }
     /**
      * make url for a diagram
      * @param diagram diagram to make the URL
