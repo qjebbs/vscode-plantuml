@@ -81,7 +81,7 @@ class ConfigReader {
     }
 
     get serverIndexParameter(): string {
-        return this._read<string>('urlServerIndexParameter');
+        return this._read<string>('serverIndexParameter');
     }
 
     get urlFormat(): string {
