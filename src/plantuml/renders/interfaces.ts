@@ -38,7 +38,7 @@ export interface IRender {
      * @returns ExportTask.
      */
     render(diagram: Diagram, format: string, savePath: string): RenderTask;
-    getMapData(diagram: Diagram, savePath: string): Promise<string[]>;
+    getMapData(diagram: Diagram, savePath: string): RenderTask;
     /**
      * formats return an string array of formats that the exporter supports.
      * @returns an array of supported formats

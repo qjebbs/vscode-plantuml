@@ -42,91 +42,62 @@ class PlantumlServer implements IRender {
                 if (config.serverIndexParameter) {
                     requestUrl += "?" + config.serverIndexParameter + "=" + index;
                 }
-
-                let pms = new Promise<Buffer>((resolve, reject) => {
-
-                    request(
-                        {
-                            method: 'GET'
-                            , uri: requestUrl
-                            , encoding: null // for byte encoding. Otherwise string.
-                            , gzip: true
-                        }
-                        , (error, response, body) => {
-                            if (!error && response.statusCode === 200) {
-                                if (savePath) {
-                                    let savePath2 = addFileIndex(savePath, index, diagram.pageCount);
-                                    fs.writeFileSync(savePath2, body);
-                                    resolve(new Buffer(savePath2));
-                                } else {
-                                    resolve(body);
-                                }
+                let savePath2 = savePath ? addFileIndex(savePath, index, diagram.pageCount) : "";
+                return this.httpWrapper(requestUrl, savePath2).then(
+                    result => new Promise<Buffer>(
+                        (resolve, reject) => {
+                            let stdout = result[0];
+                            let stderr = result[1].toString();
+                            if (stderr.length) {
+                                reject(stderr);
                             } else {
-                                let stderror;
-                                if (!error) {
-                                    stderror = "Unexpected Statuscode: "
-                                        + response.statusCode + "\n"
-                                        + "for GET " + requestUrl;
-                                } else {
-                                    stderror = error.message;
-                                    body = new Buffer("");
-                                }
-                                stderror = localize(10, null, diagram.title, stderror);
-                                reject(<RenderError>{ error: stderror, out: body });
-                            }
-                        })
-                });
-                return pms;
-
+                                resolve(stdout)
+                            };
+                        }
+                    )
+                );
             },
             Promise.resolve(new Buffer(""))
         );
         return <RenderTask>{
-            processes: null,
+            processes: [],
             promise: Promise.all(allPms),
         }
     }
-    getMapData(diagram: Diagram, savePath: string): Promise<string[]> {
-        let allPms = [...Array(diagram.pageCount).keys()].map(index => {
-            if (!diagram.content) return Promise.resolve("");
-            let requestUrl = this.makeURL(diagram, "map");
-            if (config.serverIndexParameter) {
-                requestUrl += "?" + config.serverIndexParameter + "=" + index;
-            }
-
-            return new Promise<string>((resolve, reject) => {
-
-                request(
-                    {
-                        method: 'GET'
-                        , uri: requestUrl
-                        , encoding: null // for byte encoding. Otherwise string.
-                        , gzip: true
-                    }
-                    , (error, response, body) => {
-                        if (!error && response.statusCode === 200) {
+    getMapData(diagram: Diagram, savePath: string): RenderTask {
+        return this.render(diagram, "map", savePath);
+    }
+    private httpWrapper(requestUrl: string, savePath?: string): Promise<[Buffer, Buffer]> {
+        return new Promise<[Buffer, Buffer]>((resolve, reject) => {
+            request(
+                {
+                    method: 'GET'
+                    , uri: requestUrl
+                    , encoding: null // for byte encoding. Otherwise string.
+                    , gzip: true
+                }
+                , (error, response, body) => {
+                    let stdout = "";
+                    let stderr = "";
+                    if (!error) {
+                        if (response.statusCode === 200) {
                             if (savePath) {
-                                let savePath2 = addFileIndex(savePath, index, diagram.pageCount);
-                                fs.writeFileSync(savePath2, body);
-                                resolve(savePath2);
+                                fs.writeFileSync(savePath, body);
+                                stdout = savePath;
                             } else {
-                                resolve(body);
+                                stdout = body
                             }
                         } else {
-                            let stderror;
-                            if (!error) {
-                                stderror = "Unexpected Statuscode: "
-                                    + response.statusCode + "\n"
-                                    + "for GET " + requestUrl;
-                            } else {
-                                stderror = error.message;
-                            }
-                            reject(stderror);
+                            stderr = "Unexpected Statuscode: "
+                                + response.statusCode + "\n"
+                                + "for GET " + requestUrl;
                         }
-                    })
-            });
+                    } else {
+                        stderr = error.message;
+                    }
+                    resolve([new Buffer(stdout), new Buffer(stderr)]);
+                })
         });
-        return Promise.all(allPms);
     }
     /**
      * make url for a diagram

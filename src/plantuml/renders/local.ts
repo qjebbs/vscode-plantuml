@@ -101,10 +101,9 @@ class LocalRender implements IRender {
                             process.stdin.write(diagram.content);
                             process.stdin.end();
                         }
-                        let savePath2 = addFileIndex(savePath, index, diagram.pageCount);
-                        let f = savePath ? fs.createWriteStream(savePath2) : null;
+                        let savePath2 = savePath ? addFileIndex(savePath, index, diagram.pageCount) : "";
 
-                        let pms = this.processWrapper(process, f).then(
+                        let pms = this.processWrapper(process, savePath2).then(
                             result => new Promise<Buffer>((resolve, reject) => {
                                 let stdout = result[0];
                                 let stderr = result[1].toString();
@@ -143,11 +142,11 @@ class LocalRender implements IRender {
         }
     }
 
-    getMapData(diagram: Diagram, savePath: string): Promise<string[]> {
+    getMapData(diagram: Diagram, savePath: string): RenderTask {
         let processes: child_process.ChildProcess[] = [];
-        let maps: string[] = [];
+        let maps: Buffer[] = [];
         let pms = [...Array(diagram.pageCount).keys()].reduce((pChain, index) => {
-            if (!diagram.content) return Promise.resolve("");
+            if (!diagram.content) return Promise.resolve(null);
             let params = [
                 '-Djava.awt.headless=true',
                 '-jar',
@@ -166,7 +165,7 @@ class LocalRender implements IRender {
                 () => {
 
                     if (process.killed) {
-                        return Promise.resolve("");
+                        return Promise.resolve(null);
                     }
 
                     if (diagram.content !== null) {
@@ -174,12 +173,11 @@ class LocalRender implements IRender {
                         process.stdin.end();
                     }
 
-                    let savePath2 = addFileIndex(savePath, index, diagram.pageCount);
-                    let f = savePath ? fs.createWriteStream(savePath2) : null;
+                    let savePath2 = savePath ? addFileIndex(savePath, index, diagram.pageCount) : "";
 
-                    let pms = this.processWrapper(process, f).then(
+                    return this.processWrapper(process, savePath2).then(
                         result => new Promise<Buffer>((resolve, reject) => {
-                            let stdout = result[0].toString();
+                            let stdout = result[0];
                             let stderr = result[1].toString();
                             if (stderr.length) {
                                 stderr = localize(10, null, diagram.title, stderr);
@@ -194,41 +192,49 @@ class LocalRender implements IRender {
                 err => {
                     return Promise.reject(err);
                 });
-        }, Promise.resolve(""));
-        return new Promise<string[]>(
-            (resolve, reject) => {
-                pms.then(
-                    () => {
-                        resolve(maps);
-                    },
-                    err => {
-                        reject(err);
-                    }
-                )
-            }
-        )
+        }, Promise.resolve(null));
+        return <RenderTask>{
+            processes: processes,
+            promise: new Promise<Buffer[]>(
+                (resolve, reject) => {
+                    pms.then(
+                        () => {
+                            resolve(maps);
+                        },
+                        err => {
+                            reject(err);
+                        }
+                    )
+                }
+            )
+        }
     }
-    private processWrapper(process: child_process.ChildProcess, pipeFile?: fs.WriteStream): Promise<[Buffer, Buffer]> {
+    private processWrapper(process: child_process.ChildProcess, pipeFilePath?: string): Promise<[Buffer, Buffer]> {
         return new Promise<[Buffer, Buffer]>((resolve, reject) => {
             let buffOut: Buffer[] = [];
             let buffOutLen = 0;
             let buffErr: Buffer[] = [];
             let buffErrLen = 0;
-            if (pipeFile) {
-                process.stdout.pipe(pipeFile);
-            } else {
-                process.stdout.on('data', function (x: Buffer) {
-                    buffOut.push(x);
-                    buffOutLen += x.length;
-                });
-            }
+
+            // let pipeFile = pipeFilePath ? fs.createWriteStream(pipeFilePath) : null;
+            // if (pipeFile) process.stdout.pipe(pipeFile);
+
+            process.stdout.on('data', function (x: Buffer) {
+                buffOut.push(x);
+                buffOutLen += x.length;
+            });
+
             process.stderr.on('data', function (x: Buffer) {
                 buffErr.push(x);
                 buffErrLen += x.length;
             });
 
             process.stdout.on('close', () => {
-                let stdout = pipeFile ? pipeFile.path as Buffer : Buffer.concat(buffOut, buffOutLen);
+                let stdout = Buffer.concat(buffOut, buffOutLen);
+                if (pipeFilePath && stdout.length) {
+                    fs.writeFileSync(pipeFilePath, stdout);
+                    stdout = new Buffer(pipeFilePath);
+                }
                 let stderr = Buffer.concat(buffErr, buffErrLen);
                 resolve([stdout, stderr]);
             });
