@@ -90,7 +90,7 @@ class LocalRender implements IRender {
                 let process = child_process.spawn(this.java, params);
                 processes.push(process);
                 return pChain.then(
-                    result => {
+                    () => {
 
                         if (process.killed) {
                             buffers = null;
@@ -101,40 +101,22 @@ class LocalRender implements IRender {
                             process.stdin.write(diagram.content);
                             process.stdin.end();
                         }
+                        let savePath2 = addFileIndex(savePath, index, diagram.pageCount);
+                        let f = savePath ? fs.createWriteStream(savePath2) : null;
 
-                        let pms = new Promise<Buffer>((resolve, reject) => {
-                            let buffs: Buffer[] = [];
-                            let bufflen = 0;
-                            let stderror = '';
-                            let savePath2 = "";
-                            if (savePath) {
-                                savePath2 = addFileIndex(savePath, index, diagram.pageCount);
-                                let f = fs.createWriteStream(savePath2);
-                                process.stdout.pipe(f);
-                            } else {
-                                process.stdout.on('data', function (x: Buffer) {
-                                    buffs.push(x);
-                                    bufflen += x.length;
-                                });
-                            }
-                            process.stdout.on('close', () => {
-                                let stdout = Buffer.concat(buffs, bufflen)
-                                if (!stderror) {
-                                    if (!savePath) {
-                                        buffers.push(stdout);
-                                    } else {
-                                        buffers.push(new Buffer(savePath2));
-                                    }
-                                    resolve(null);
+                        let pms = this.processWrapper(process, f).then(
+                            result => new Promise<Buffer>((resolve, reject) => {
+                                let stdout = result[0];
+                                let stderr = result[1].toString();
+                                if (stderr.length) {
+                                    stderr = localize(10, null, diagram.title, stderr);
+                                    reject(<RenderError>{ error: stderr, out: stdout });
                                 } else {
-                                    stderror = localize(10, null, diagram.title, stderror);
-                                    reject(<RenderError>{ error: stderror, out: stdout });
-                                }
+                                    buffers.push(stdout);
+                                    resolve(null)
+                                };
                             })
-                            process.stderr.on('data', function (x) {
-                                stderror += x;
-                            });
-                        });
+                        );
                         return pms;
                     },
                     err => {
@@ -181,7 +163,7 @@ class LocalRender implements IRender {
             let process = child_process.spawn(this.java, params);
             processes.push(process);
             return pChain.then(
-                result => {
+                () => {
 
                     if (process.killed) {
                         return Promise.resolve("");
@@ -192,40 +174,22 @@ class LocalRender implements IRender {
                         process.stdin.end();
                     }
 
-                    let pms = new Promise<string>((resolve, reject) => {
-                        let buffs: Buffer[] = [];
-                        let bufflen = 0;
-                        let stderror = '';
-                        let savePath2 = "";
-                        if (savePath) {
-                            savePath2 = addFileIndex(savePath, index, diagram.pageCount);
-                            let f = fs.createWriteStream(savePath2);
-                            process.stdout.pipe(f);
-                        } else {
-                            process.stdout.on('data', function (x: Buffer) {
-                                buffs.push(x);
-                                bufflen += x.length;
-                            });
-                        }
+                    let savePath2 = addFileIndex(savePath, index, diagram.pageCount);
+                    let f = savePath ? fs.createWriteStream(savePath2) : null;
 
-                        process.stdout.on('close', () => {
-                            let stdout = Buffer.concat(buffs, bufflen).toString();
-                            if (!stderror) {
-                                if (!savePath) {
-                                    maps.push(stdout);
-                                } else {
-                                    maps.push(savePath2);
-                                }
-                                resolve(null);
+                    let pms = this.processWrapper(process, f).then(
+                        result => new Promise<Buffer>((resolve, reject) => {
+                            let stdout = result[0].toString();
+                            let stderr = result[1].toString();
+                            if (stderr.length) {
+                                stderr = localize(10, null, diagram.title, stderr);
+                                reject(stderr);
                             } else {
-                                stderror = localize(10, null, diagram.title, stderror);
-                                reject(stderror);
-                            }
+                                maps.push(stdout);
+                                resolve(null)
+                            };
                         })
-                        process.stderr.on('data', function (x) {
-                            stderror += x;
-                        });
-                    });
+                    );
                 },
                 err => {
                     return Promise.reject(err);
@@ -243,6 +207,32 @@ class LocalRender implements IRender {
                 )
             }
         )
+    }
+    private processWrapper(process: child_process.ChildProcess, pipeFile?: fs.WriteStream): Promise<[Buffer, Buffer]> {
+        return new Promise<[Buffer, Buffer]>((resolve, reject) => {
+            let buffOut: Buffer[] = [];
+            let buffOutLen = 0;
+            let buffErr: Buffer[] = [];
+            let buffErrLen = 0;
+            if (pipeFile) {
+                process.stdout.pipe(pipeFile);
+            } else {
+                process.stdout.on('data', function (x: Buffer) {
+                    buffOut.push(x);
+                    buffOutLen += x.length;
+                });
+            }
+            process.stderr.on('data', function (x: Buffer) {
+                buffErr.push(x);
+                buffErrLen += x.length;
+            });
+
+            process.stdout.on('close', () => {
+                let stdout = pipeFile ? pipeFile.path as Buffer : Buffer.concat(buffOut, buffOutLen);
+                let stderr = Buffer.concat(buffErr, buffErrLen);
+                resolve([stdout, stderr]);
+            });
+        });
     }
 }
 export const localRender = new LocalRender();
