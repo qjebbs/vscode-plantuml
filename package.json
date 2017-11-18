@@ -1,292 +1,292 @@
 {
-  "name": "plantuml",
-  "displayName": "NG PlantUML",
-  "description": "Preview & generate PlantUML diagrams in VSCode.",
-  "icon": "images/icon.png",
-  "version": "1.7.1",
-  "publisher": "jkeys089",
-  "engines": {
-    "vscode": "^1.10.2"
-  },
-  "license": "SEE LICENSE IN LICENSE.txt",
-  "bugs": {
-    "url": "https://github.com/jkeys089/vscode-plantuml/issues"
-  },
-  "homepage": "https://github.com/jkeys089/vscode-plantuml/blob/master/README.md",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jkeys089/vscode-plantuml.git"
-  },
-  "categories": [
-    "Languages",
-    "Other"
-  ],
-  "activationEvents": [
-    "onLanguage:diagram",
-    "onCommand:plantuml.exportCurrent",
-    "onCommand:plantuml.exportDocument",
-    "onCommand:plantuml.exportWorkspace",
-    "onCommand:plantuml.preview",
-    "onCommand:plantuml.URLCurrent",
-    "onCommand:plantuml.URLDocument"
-  ],
-  "main": "./out/src/extension",
-  "contributes": {
-    "languages": [
-      {
-        "id": "diagram",
-        "extensions": [
-          ".wsd",
-          ".pu",
-          ".puml",
-          ".plantuml",
-          ".iuml"
-        ],
-        "aliases": [
-          "Diagram",
-          "PlantUML"
-        ],
-        "configuration": "./language-configuration.json"
-      }
-    ],
-    "grammars": [
-      {
-        "language": "diagram",
-        "scopeName": "source.wsd",
-        "path": "./syntaxes/diagram.tmLanguage"
-      }
-    ],
-    "commands": [
-      {
-        "command": "plantuml.exportCurrent",
-        "title": "%plantuml.exportCurrent.title%",
-        "category": "PlantUML"
-      },
-      {
-        "command": "plantuml.exportDocument",
-        "title": "%plantuml.exportDocument.title%",
-        "category": "PlantUML"
-      },
-      {
-        "command": "plantuml.exportWorkspace",
-        "title": "%plantuml.exportWorkspace.title%",
-        "category": "PlantUML"
-      },
-      {
-        "command": "plantuml.preview",
-        "title": "%plantuml.preview.title%",
-        "category": "PlantUML"
-      },
-      {
-        "command": "plantuml.URLCurrent",
-        "title": "%plantuml.URLCurrent.title%",
-        "category": "PlantUML"
-      },
-      {
-        "command": "plantuml.URLDocument",
-        "title": "%plantuml.URLDocument.title%",
-        "category": "PlantUML"
-      }
-    ],
-    "menus": {
-      "editor/context": [
-        {
-          "when": "editorLangId == diagram",
-          "command": "plantuml.preview",
-          "group": "PlantUML"
-        },
-        {
-          "when": "editorLangId == diagram",
-          "command": "plantuml.exportCurrent",
-          "group": "PlantUML"
-        },
-        {
-          "when": "editorLangId == diagram",
-          "command": "plantuml.exportDocument",
-          "group": "PlantUML"
-        },
-        {
-          "when": "editorLangId == diagram",
-          "command": "plantuml.URLCurrent",
-          "group": "PlantUML"
-        },
-        {
-          "when": "editorLangId == diagram",
-          "command": "plantuml.URLDocument",
-          "group": "PlantUML"
-        }
-      ],
-      "explorer/context": [
-        {
-          "command": "plantuml.exportWorkspace",
-          "group": "PlantUML"
-        }
-      ]
+    "name": "plantuml",
+    "displayName": "NG PlantUML",
+    "description": "Preview & generate PlantUML diagrams in VSCode.",
+    "icon": "images/icon.png",
+    "version": "1.8.0",
+    "publisher": "jkeys089",
+    "engines": {
+        "vscode": "^1.10.2"
     },
-    "keybindings": [
-      {
-        "command": "plantuml.preview",
-        "key": "Alt+d"
-      }
+    "license": "SEE LICENSE IN LICENSE.txt",
+    "bugs": {
+        "url": "https://github.com/jkeys089/vscode-plantuml/issues"
+    },
+    "homepage": "https://github.com/jkeys089/vscode-plantuml/blob/master/README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jkeys089/vscode-plantuml.git"
+    },
+    "categories": [
+        "Languages",
+        "Other"
     ],
-    "snippets": [
-      {
-        "language": "diagram",
-        "path": "./snippets/general.json"
-      },
-      {
-        "language": "diagram",
-        "path": "./snippets/activity.json"
-      },
-      {
-        "language": "diagram",
-        "path": "./snippets/usecase.json"
-      },
-      {
-        "language": "diagram",
-        "path": "./snippets/sequence.json"
-      },
-      {
-        "language": "diagram",
-        "path": "./snippets/class.json"
-      },
-      {
-        "language": "diagram",
-        "path": "./snippets/state.json"
-      },
-      {
-        "language": "diagram",
-        "path": "./snippets/component.json"
-      },
-      {
-        "language": "diagram",
-        "path": "./snippets/salt.json"
-      },
-      {
-        "language": "diagram",
-        "path": "./snippets/eggs.json"
-      }
+    "activationEvents": [
+        "onLanguage:diagram",
+        "onCommand:plantuml.exportCurrent",
+        "onCommand:plantuml.exportDocument",
+        "onCommand:plantuml.exportWorkspace",
+        "onCommand:plantuml.preview",
+        "onCommand:plantuml.URLCurrent",
+        "onCommand:plantuml.URLDocument"
     ],
-    "configuration": {
-      "type": "object",
-      "title": "PlantUML configuration",
-      "properties": {
-        "plantuml.exportFormat": {
-          "type": "string",
-          "default": "",
-          "enum": [
-            "",
-            "png",
-            "svg",
-            "eps",
-            "pdf",
-            "vdx",
-            "xmi",
-            "scxml",
-            "html",
-            "txt",
-            "utxt",
-            "latex",
-            "latex:nopreamble"
-          ],
-          "description": "Export format. Leave it blank to pick format everytime you export."
+    "main": "./out/src/extension",
+    "contributes": {
+        "languages": [
+            {
+                "id": "diagram",
+                "extensions": [
+                    ".wsd",
+                    ".pu",
+                    ".puml",
+                    ".plantuml",
+                    ".iuml"
+                ],
+                "aliases": [
+                    "Diagram",
+                    "PlantUML"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "diagram",
+                "scopeName": "source.wsd",
+                "path": "./syntaxes/diagram.tmLanguage"
+            }
+        ],
+        "commands": [
+            {
+                "command": "plantuml.exportCurrent",
+                "title": "%plantuml.exportCurrent.title%",
+                "category": "PlantUML"
+            },
+            {
+                "command": "plantuml.exportDocument",
+                "title": "%plantuml.exportDocument.title%",
+                "category": "PlantUML"
+            },
+            {
+                "command": "plantuml.exportWorkspace",
+                "title": "%plantuml.exportWorkspace.title%",
+                "category": "PlantUML"
+            },
+            {
+                "command": "plantuml.preview",
+                "title": "%plantuml.preview.title%",
+                "category": "PlantUML"
+            },
+            {
+                "command": "plantuml.URLCurrent",
+                "title": "%plantuml.URLCurrent.title%",
+                "category": "PlantUML"
+            },
+            {
+                "command": "plantuml.URLDocument",
+                "title": "%plantuml.URLDocument.title%",
+                "category": "PlantUML"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "when": "editorLangId == diagram",
+                    "command": "plantuml.preview",
+                    "group": "PlantUML"
+                },
+                {
+                    "when": "editorLangId == diagram",
+                    "command": "plantuml.exportCurrent",
+                    "group": "PlantUML"
+                },
+                {
+                    "when": "editorLangId == diagram",
+                    "command": "plantuml.exportDocument",
+                    "group": "PlantUML"
+                },
+                {
+                    "when": "editorLangId == diagram",
+                    "command": "plantuml.URLCurrent",
+                    "group": "PlantUML"
+                },
+                {
+                    "when": "editorLangId == diagram",
+                    "command": "plantuml.URLDocument",
+                    "group": "PlantUML"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "command": "plantuml.exportWorkspace",
+                    "group": "PlantUML"
+                }
+            ]
         },
-        "plantuml.fileExtensions": {
-          "type": "string",
-          "default": ".wsd,.pu,.puml,.plantuml,.iuml",
-          "description": "File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like \".java\"."
-        },
-        "plantuml.exportInPlace": {
-          "type": "boolean",
-          "default": false,
-          "description": "Export diagrams in the same folder as the host file with the same name as the host file."
-        },
-        "plantuml.exportSubFolder": {
-          "type": "boolean",
-          "default": true,
-          "description": "Export diagrams to a folder which has same name with host file (ignored if plantuml.exportInPlace is true)."
-        },
-        "plantuml.exportOutDirName": {
-          "type": "string",
-          "default": "out",
-          "description": "Export workspace diagrams will be organized in a directory named with value specified here (ignored if plantuml.exportInPlace is true)."
-        },
-        "plantuml.previewAutoUpdate": {
-          "type": "boolean",
-          "default": true,
-          "description": "Decides if automatically update the preview window."
-        },
-        "plantuml.previewFileType": {
-          "type": "string",
-          "default": "png",
-          "enum": [
-            "png",
-            "svg"
-          ],
-          "description": "Preview file type. Png or svg support."
-        },
-        "plantuml.urlServer": {
-          "type": "string",
-          "default": "http://www.plantuml.com/plantuml",
-          "description": "Plantuml server to generate UML diagrams on-the-fly."
-        },
-        "plantuml.urlFormat": {
-          "type": "string",
-          "default": "",
-          "enum": [
-            "",
-            "png",
-            "svg",
-            "txt"
-          ],
-          "description": "URL format. Leave it blank to pick format everytime you make a URL."
-        },
-        "plantuml.urlResult": {
-          "type": "string",
-          "default": "MarkDown",
-          "enum": [
-            "MarkDown",
-            "SimpleURL"
-          ],
-          "description": "URL result type. Simple URL or ready for MarkDown use."
-        },
-        "plantuml.previewFromUrlServer": {
-          "type": "boolean",
-          "default": false,
-          "description": "Use plantuml.urlServer to generate preview images."
-        },
-        "plantuml.includes": {
-          "type": "array",
-          "default": [],
-          "description": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more."
-        },
-        "plantuml.experimental.formatInLine": {
-          "type": "boolean",
-          "default": false,
-          "description": "Experimental! \nFormat provide by this plugin only indent code blocks by default and not change your line text.\nYou can enable inline format with this setting, but it's very early experimental function, and it may broke your code! Use it at your own risk!"
+        "keybindings": [
+            {
+                "command": "plantuml.preview",
+                "key": "Alt+d"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "diagram",
+                "path": "./snippets/general.json"
+            },
+            {
+                "language": "diagram",
+                "path": "./snippets/activity.json"
+            },
+            {
+                "language": "diagram",
+                "path": "./snippets/usecase.json"
+            },
+            {
+                "language": "diagram",
+                "path": "./snippets/sequence.json"
+            },
+            {
+                "language": "diagram",
+                "path": "./snippets/class.json"
+            },
+            {
+                "language": "diagram",
+                "path": "./snippets/state.json"
+            },
+            {
+                "language": "diagram",
+                "path": "./snippets/component.json"
+            },
+            {
+                "language": "diagram",
+                "path": "./snippets/salt.json"
+            },
+            {
+                "language": "diagram",
+                "path": "./snippets/eggs.json"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "PlantUML configuration",
+            "properties": {
+                "plantuml.exportFormat": {
+                    "type": "string",
+                    "default": "",
+                    "enum": [
+                        "",
+                        "png",
+                        "svg",
+                        "eps",
+                        "pdf",
+                        "vdx",
+                        "xmi",
+                        "scxml",
+                        "html",
+                        "txt",
+                        "utxt",
+                        "latex",
+                        "latex:nopreamble"
+                    ],
+                    "description": "Export format. Leave it blank to pick format everytime you export."
+                },
+                "plantuml.fileExtensions": {
+                    "type": "string",
+                    "default": ".wsd,.pu,.puml,.plantuml,.iuml",
+                    "description": "File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like \".java\"."
+                },
+                "plantuml.exportInPlace": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Export diagrams in the same folder as the host file with the same name as the host file."
+                },
+                "plantuml.exportSubFolder": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Export diagrams to a folder which has same name with host file (ignored if plantuml.exportInPlace is true)."
+                },
+                "plantuml.exportOutDirName": {
+                    "type": "string",
+                    "default": "out",
+                    "description": "Export workspace diagrams will be organized in a directory named with value specified here (ignored if plantuml.exportInPlace is true)."
+                },
+                "plantuml.previewAutoUpdate": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Decides if automatically update the preview window."
+                },
+                "plantuml.previewFileType": {
+                    "type": "string",
+                    "default": "png",
+                    "enum": [
+                        "png",
+                        "svg"
+                    ],
+                    "description": "Preview file type. Png or svg support."
+                },
+                "plantuml.urlServer": {
+                    "type": "string",
+                    "default": "http://www.plantuml.com/plantuml",
+                    "description": "Plantuml server to generate UML diagrams on-the-fly."
+                },
+                "plantuml.urlFormat": {
+                    "type": "string",
+                    "default": "",
+                    "enum": [
+                        "",
+                        "png",
+                        "svg",
+                        "txt"
+                    ],
+                    "description": "URL format. Leave it blank to pick format everytime you make a URL."
+                },
+                "plantuml.urlResult": {
+                    "type": "string",
+                    "default": "MarkDown",
+                    "enum": [
+                        "MarkDown",
+                        "SimpleURL"
+                    ],
+                    "description": "URL result type. Simple URL or ready for MarkDown use."
+                },
+                "plantuml.previewFromUrlServer": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Use plantuml.urlServer to generate preview images."
+                },
+                "plantuml.includes": {
+                    "type": "array",
+                    "default": [],
+                    "description": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more."
+                },
+                "plantuml.experimental.formatInLine": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Experimental! \nFormat provide by this plugin only indent code blocks by default and not change your line text.\nYou can enable inline format with this setting, but it's very early experimental function, and it may broke your code! Use it at your own risk!"
+                }
+            }
         }
-      }
+    },
+    "scripts": {
+        "vscode:prepublish": "tsc -p ./",
+        "compile": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "build": "node ./build.js"
+    },
+    "devDependencies": {
+        "@types/mocha": "^2.2.32",
+        "@types/node": "^6.0.40",
+        "js-yaml": "^3.8.3",
+        "mocha": "^2.3.3",
+        "plist": "^2.0.1",
+        "typescript": "2.3.4",
+        "vscode": "^1.0.0"
+    },
+    "dependencies": {
+        "dev-null": "^0.1.1",
+        "node-plantuml": "^0.5.0",
+        "request": "^2.81.0",
+        "vscode-nls": "^2.0.2"
     }
-  },
-  "scripts": {
-    "vscode:prepublish": "tsc -p ./",
-    "compile": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "build": "node ./build.js"
-  },
-  "devDependencies": {
-    "@types/mocha": "^2.2.32",
-    "@types/node": "^6.0.40",
-    "js-yaml": "^3.8.3",
-    "mocha": "^2.3.3",
-    "plist": "^2.0.1",
-    "typescript": "^2.0.3",
-    "vscode": "^1.0.0"
-  },
-  "dependencies": {
-    "dev-null": "^0.1.1",
-    "node-plantuml": "^0.5.0",
-    "request": "^2.81.0",
-    "vscode-nls": "^2.0.2"
-  }
 }

@@ -1,3 +1,6 @@
+### 1.8.0
+- Pull in plugin compatibility fix from [upstream](https://github.com/qjebbs/vscode-plantuml/commit/247c84ddd94061608c768809a4c44468c3facf10).
+
 ### 1.7.1
 - Add "zh-tw" language and update "ja" translation.
 - Small syntax highlight fix.
