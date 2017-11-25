@@ -92,6 +92,7 @@ class LocalRender implements IRender {
                 params.push(taskType);
                 if (format) params.push("-t" + format);
                 if (diagram.dir && path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
+                if (diagram.path) params.push("-filename", path.basename(diagram.path));
                 //add user args
                 params.unshift(...config.commandArgs);
                 let process = child_process.spawn(this.java, params);
