@@ -58,6 +58,13 @@ class LocalRender implements IRender {
      * @returns ExportTask.
      */
     render(diagram: Diagram, format: string, savePath: string): RenderTask {
+        return this.createTask(diagram, "-pipe", savePath, format);
+    }
+
+    getMapData(diagram: Diagram, savePath: string): RenderTask {
+        return this.createTask(diagram, "-pipemap", savePath);
+    }
+    private createTask(diagram: Diagram, taskType: string, savePath: string, format?: string): RenderTask {
         if (!this.javeInstalled) {
             let pms = Promise.reject(localize(5, null));
             return <RenderTask>{ promise: pms };
@@ -79,11 +86,11 @@ class LocalRender implements IRender {
                     config.jar,
                     "-pipeimageindex",
                     `${index}`,
-                    "-t" + format,
-                    '-pipe',
                     '-charset',
                     'utf-8',
                 ];
+                params.push(taskType);
+                if (format) params.push("-t" + format);
                 if (diagram.dir && path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
                 //add user args
                 params.unshift(...config.commandArgs);
@@ -132,74 +139,6 @@ class LocalRender implements IRender {
                     pms.then(
                         () => {
                             resolve(buffers);
-                        },
-                        err => {
-                            reject(err);
-                        }
-                    )
-                }
-            )
-        }
-    }
-
-    getMapData(diagram: Diagram, savePath: string): RenderTask {
-        let processes: child_process.ChildProcess[] = [];
-        let maps: Buffer[] = [];
-        let pms = [...Array(diagram.pageCount).keys()].reduce((pChain, index) => {
-            if (!diagram.content) return Promise.resolve(null);
-            let params = [
-                '-Djava.awt.headless=true',
-                '-jar',
-                config.jar,
-                '-pipemap',
-                "-pipeimageindex",
-                `${index}`,
-                '-charset',
-                'utf-8',
-            ];
-            //add user args
-            params.unshift(...config.commandArgs);
-            let process = child_process.spawn(this.java, params);
-            processes.push(process);
-            return pChain.then(
-                () => {
-
-                    if (process.killed) {
-                        return Promise.resolve(null);
-                    }
-
-                    if (diagram.content !== null) {
-                        process.stdin.write(diagram.content);
-                        process.stdin.end();
-                    }
-
-                    let savePath2 = savePath ? addFileIndex(savePath, index, diagram.pageCount) : "";
-
-                    return this.processWrapper(process, savePath2).then(
-                        result => new Promise<Buffer>((resolve, reject) => {
-                            let stdout = result[0];
-                            let stderr = result[1].toString();
-                            if (stderr.length) {
-                                stderr = localize(10, null, diagram.title, stderr);
-                                reject(stderr);
-                            } else {
-                                maps.push(stdout);
-                                resolve(null)
-                            };
-                        })
-                    );
-                },
-                err => {
-                    return Promise.reject(err);
-                });
-        }, Promise.resolve(null));
-        return <RenderTask>{
-            processes: processes,
-            promise: new Promise<Buffer[]>(
-                (resolve, reject) => {
-                    pms.then(
-                        () => {
-                            resolve(maps);
                         },
                         err => {
                             reject(err);
