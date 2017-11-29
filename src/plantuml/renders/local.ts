@@ -7,11 +7,11 @@ import { IRender, RenderTask, RenderError } from './interfaces'
 import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
 import { context, localize } from '../common';
-import { addFileIndex } from '../tools';
+import { addFileIndex, processWrapper } from '../tools';
 
 class LocalRender implements IRender {
     private java: string = "java";
-    private javeInstalled: boolean = true;
+    private javaInstalled: boolean = true;
 
     constructor() {
         this.testJava();
@@ -19,7 +19,7 @@ class LocalRender implements IRender {
     private testJava() {
         var process = child_process.exec(this.java + " -version", (e, stdout, stderr) => {
             if (e instanceof Error) {
-                this.javeInstalled = false;
+                this.javaInstalled = false;
             }
         });
     }
@@ -65,7 +65,7 @@ class LocalRender implements IRender {
         return this.createTask(diagram, "-pipemap", savePath);
     }
     private createTask(diagram: Diagram, taskType: string, savePath: string, format?: string): RenderTask {
-        if (!this.javeInstalled) {
+        if (!this.javaInstalled) {
             let pms = Promise.reject(localize(5, null));
             return <RenderTask>{ promise: pms };
         }
@@ -111,7 +111,7 @@ class LocalRender implements IRender {
                         }
                         let savePath2 = savePath ? addFileIndex(savePath, index, diagram.pageCount) : "";
 
-                        let pms = this.processWrapper(process, savePath2).then(
+                        let pms = processWrapper(process, savePath2).then(
                             result => new Promise<Buffer>((resolve, reject) => {
                                 let stdout = result[0];
                                 let stderr = result[1].toString();
@@ -148,37 +148,6 @@ class LocalRender implements IRender {
                 }
             )
         }
-    }
-    private processWrapper(process: child_process.ChildProcess, pipeFilePath?: string): Promise<[Buffer, Buffer]> {
-        return new Promise<[Buffer, Buffer]>((resolve, reject) => {
-            let buffOut: Buffer[] = [];
-            let buffOutLen = 0;
-            let buffErr: Buffer[] = [];
-            let buffErrLen = 0;
-
-            // let pipeFile = pipeFilePath ? fs.createWriteStream(pipeFilePath) : null;
-            // if (pipeFile) process.stdout.pipe(pipeFile);
-
-            process.stdout.on('data', function (x: Buffer) {
-                buffOut.push(x);
-                buffOutLen += x.length;
-            });
-
-            process.stderr.on('data', function (x: Buffer) {
-                buffErr.push(x);
-                buffErrLen += x.length;
-            });
-
-            process.stdout.on('close', () => {
-                let stdout = Buffer.concat(buffOut, buffOutLen);
-                if (pipeFilePath && stdout.length) {
-                    fs.writeFileSync(pipeFilePath, stdout);
-                    stdout = new Buffer(pipeFilePath);
-                }
-                let stderr = Buffer.concat(buffErr, buffErrLen);
-                resolve([stdout, stderr]);
-            });
-        });
     }
 }
 export const localRender = new LocalRender();
