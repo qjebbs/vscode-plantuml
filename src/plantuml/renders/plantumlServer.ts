@@ -82,8 +82,12 @@ class PlantumlServer implements IRender {
                     if (!error) {
                         if (response.statusCode === 200) {
                             if (savePath) {
-                                fs.writeFileSync(savePath, body);
-                                stdout = savePath;
+                                if (body.length) {
+                                    fs.writeFileSync(savePath, body);
+                                    stdout = savePath;
+                                } else {
+                                    stdout = "";
+                                }
                             } else {
                                 stdout = body
                             }
