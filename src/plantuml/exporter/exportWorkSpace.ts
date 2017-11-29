@@ -87,8 +87,9 @@ function doBuild(uris: vscode.Uri[], format: string) {
                     diagramCnt += diagrams.length;
                     return list + diagrams.reduce((oneDiagramList, files) => {
                         if (!files || !files.length) return oneDiagramList;
-                        fileCnt += files.length;
-                        return oneDiagramList + "\n" + files.join("\n");
+                        let filtered = files.filter(v => !!v.length);
+                        fileCnt += filtered.length;
+                        return oneDiagramList + "\n" + filtered.join("\n");
                     }, "");
                 }, "");
                 let report = localize(28, null, results.length, diagramCnt, fileCnt, stopWatch.runTime() / 1000) + fileLst;

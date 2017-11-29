@@ -52,9 +52,10 @@ export async function exportDocument(all: boolean) {
                 let btn = await vscode.window.showInformationMessage(localize(4, null), viewReport);
                 if (btn !== viewReport) return;
                 let fileCnt = 0;
-                let fileLst = results.reduce((p, c) => {
-                    fileCnt += c.length;
-                    return p + "\n" + c.join("\n");
+                let fileLst = results.reduce((prev, files) => {
+                    let filtered = files.filter(v => !!v.length);
+                    fileCnt += filtered.length;
+                    return prev + "\n" + filtered.join("\n");
                 }, "");
                 showMessagePanel(
                     outputPanel,
