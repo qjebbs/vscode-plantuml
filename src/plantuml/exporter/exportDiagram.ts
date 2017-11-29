@@ -6,6 +6,7 @@ import { localize } from '../common';
 import { appliedRender } from './appliedRender'
 import { ChildProcess } from 'child_process';
 import * as path from 'path';
+import { config } from '../config';
 
 /**
  * export a diagram to file or to Buffer.
@@ -21,7 +22,7 @@ export function exportDiagram(diagram: Diagram, format: string, savePath: string
         bar.text = localize(7, null, diagram.title + "." + format.split(":")[0]);
     }
     let renderTask = appliedRender().render(diagram, format, savePath);
-    if (!savePath) return renderTask;
+    if (!config.exportMapFile || !savePath) return renderTask;
 
     let bsName = path.basename(savePath);
     let ext = path.extname(savePath);

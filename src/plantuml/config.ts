@@ -68,6 +68,10 @@ class ConfigReader {
         return this._read<number>('exportConcurrency') || 3;
     }
 
+    get exportMapFile(): boolean {
+        return this._read<boolean>('exportMapFile') || false;
+    }
+
     get previewAutoUpdate(): boolean {
         return this._read<boolean>('previewAutoUpdate');
     }

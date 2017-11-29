@@ -19,5 +19,6 @@
 	"plantuml.configuration.urlResult": "URL-Format. Einfache URL oder für den MarkDown Einsatz.",
 	"plantuml.configuration.render": "Wähle den Diagramm-Renderer für den Export und die Vorschau.\nLokal: Der traditionelle Weg bei dem die Diagramme lokal gerendert werden. Dafür benötigen Sie Java and GraphViz.\nPlantUMLServer: Rendert die Diagramme mit Hilfe eines Servers der über \"plantuml.server\" definiert wird. Es ist deutlich schneller, aber benötigt einen Server.\nLokal ist die Standardkonfiguration.",
 	"plantuml.configuration.includes": "Eingebundene Dateien oder Ordner für die Vorschau/den Export von Diagrammen. Dadurch wird der Import \"!include path/to/include.wsd\" für jedes einzelne Diagramm nicht mehr benötigt.",
-	"plantuml.configuration.commandArgs": "CommandArgs erlauben das Hinzufügen von Java-Befehlen, wie z.B. \"-DPLANTUML_LIMIT_SIZE=8192\"."
+	"plantuml.configuration.commandArgs": "CommandArgs erlauben das Hinzufügen von Java-Befehlen, wie z.B. \"-DPLANTUML_LIMIT_SIZE=8192\".",
+	"plantuml.configuration.exportMapFile": "Determine whether export image map (.cmapx) file when export."
 }

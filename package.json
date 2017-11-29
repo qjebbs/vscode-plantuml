@@ -218,6 +218,11 @@
           "default": "out",
           "description": "%plantuml.configuration.exportOutDirName%"
         },
+        "plantuml.exportMapFile": {
+          "type": "boolean",
+          "default": false,
+          "description": "%plantuml.configuration.exportMapFile%"
+        },
         "plantuml.previewAutoUpdate": {
           "type": "boolean",
           "default": true,
