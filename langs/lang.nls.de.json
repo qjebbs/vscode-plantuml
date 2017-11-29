@@ -30,5 +30,7 @@
 	"{0} Dokumente, {1} Diagramme, {2} Dateien exportiert in {3} Sekunden:",
 	"Keine Diagramme exportiert.",
 	"Diagram unnamed. Try \"@startuml name\"",
-	"Duplicate diagram name \"{0}\"."
+	"Duplicate diagram name \"{0}\".",
+	"Select to Extract...",
+	"Extracting ({0}/{1}): {2}"
 ]

@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as child_process from 'child_process';
 
 import { RenderError } from './renders/interfaces';
 import { Diagram } from './diagram/diagram';
@@ -111,4 +112,35 @@ export function addFileIndex(fileName: string, index: number, count: number): st
         path.dirname(fileName),
         bsName.substr(0, bsName.length - ext.length) + " page " + (index + 1) + ext,
     );
+}
+export function processWrapper(process: child_process.ChildProcess, pipeFilePath?: string): Promise<[Buffer, Buffer]> {
+    return new Promise<[Buffer, Buffer]>((resolve, reject) => {
+        let buffOut: Buffer[] = [];
+        let buffOutLen = 0;
+        let buffErr: Buffer[] = [];
+        let buffErrLen = 0;
+
+        // let pipeFile = pipeFilePath ? fs.createWriteStream(pipeFilePath) : null;
+        // if (pipeFile) process.stdout.pipe(pipeFile);
+
+        process.stdout.on('data', function (x: Buffer) {
+            buffOut.push(x);
+            buffOutLen += x.length;
+        });
+
+        process.stderr.on('data', function (x: Buffer) {
+            buffErr.push(x);
+            buffErrLen += x.length;
+        });
+
+        process.stdout.on('close', () => {
+            let stdout = Buffer.concat(buffOut, buffOutLen);
+            if (pipeFilePath && stdout.length) {
+                fs.writeFileSync(pipeFilePath, stdout);
+                stdout = new Buffer(pipeFilePath);
+            }
+            let stderr = Buffer.concat(buffErr, buffErrLen);
+            resolve([stdout, stderr]);
+        });
+    });
 }
