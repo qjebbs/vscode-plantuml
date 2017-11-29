@@ -6,7 +6,7 @@
   "version": "2.3.3",
   "publisher": "jebbs",
   "engines": {
-    "vscode": "^1.15.0"
+    "vscode": "^1.17.0"
   },
   "license": "SEE LICENSE IN LICENSE.txt",
   "bugs": {
@@ -30,7 +30,8 @@
     "onCommand:plantuml.exportWorkspace",
     "onCommand:plantuml.preview",
     "onCommand:plantuml.URLCurrent",
-    "onCommand:plantuml.URLDocument"
+    "onCommand:plantuml.URLDocument",
+    "onCommand:plantuml.extractDocument"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -87,6 +88,11 @@
       {
         "command": "plantuml.URLDocument",
         "title": "%plantuml.URLDocument.title%",
+        "category": "PlantUML"
+      },
+      {
+        "command": "plantuml.extractSource",
+        "title": "%plantuml.extractSource.title%",
         "category": "PlantUML"
       }
     ],
@@ -304,7 +310,7 @@
     "mocha": "^2.3.3",
     "plist": "^2.0.1",
     "typescript": "^2.0.3",
-    "vscode": "^1.1.0"
+    "vscode": "^1.1.8"
   },
   "dependencies": {
     "request": "^2.81.0",

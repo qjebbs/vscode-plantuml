@@ -5,6 +5,7 @@
 	"plantuml.preview.title": "预览光标位置图表",
 	"plantuml.URLCurrent.title": "为光标位置图表创建链接",
 	"plantuml.URLDocument.title": "为当前文件图表创建链接",
+	"plantuml.extractSource.title": "从图片中提取 PlantUML 图表源码",
 	"plantuml.configuration.configTitle": "PlantUML 配置",
 	"plantuml.configuration.exportFormat": "导出格式。若留空，则在每次导出时选择格式。",
 	"plantuml.configuration.jar": "自定义 plantuml.jar 的位置。留空则使用内置的版本。",

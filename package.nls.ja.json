@@ -5,6 +5,7 @@
 	"plantuml.preview.title": "カーソル位置のダイアグラムをプレビュー",
 	"plantuml.URLCurrent.title": "カーソル位置のダイアグラムをURLに変換",
 	"plantuml.URLDocument.title": "ファイル内のダイアグラムをURLに変換",
+	"plantuml.extractSource.title": "Extract PlantUML Diagram Source from Image",
 	"plantuml.configuration.configTitle": "PlantUML configuration",
 	"plantuml.configuration.exportFormat": "エクスポートのフォーマット指定。空白の場合はエクスポート実行ごとにフォーマットを選択します",
 	"plantuml.configuration.jar": "代替の plantuml.jar の位置を指定。 空白の場合は組み込みのjarファイルを使用します",

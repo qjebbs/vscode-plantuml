@@ -16,6 +16,7 @@ import { CommandExportDocument } from './commands/exportDocument';
 import { CommandExportWorkspace } from './commands/exportWorkspace';
 import { CommandURLCurrent } from './commands/urlCurrent';
 import { CommandURLDocument } from './commands/urlDocument';
+import { CommandExtractSource } from './commands/extractSource';
 import { CommandPreviewStatus } from './commands/previewStatus';
 import { plantumlPlugin } from './markdown-it-plantuml/index';
 import { Diagnoser } from './providers/diagnoser';
@@ -37,6 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
         context.subscriptions.push(new CommandURLCurrent());
         context.subscriptions.push(new CommandURLDocument());
         context.subscriptions.push(new CommandPreviewStatus());
+        context.subscriptions.push(new CommandExtractSource());
         //register preview provider
         context.subscriptions.push(...previewer.register());
         //register symbol provider
