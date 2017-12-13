@@ -29,14 +29,17 @@ Note that some settings are changed after Version 2.0.0:
   - Concurrent export.
   - Generate URLs.
   - Multi-Page Diagram support.
-  - From local or server. **NEW!!**
+  - From local or server.
+  - Image map (cmapx) support.  **NEW!!**
 - Editing Supports
-  - Format PlantUML code. **NEW!!**
+  - Format PlantUML code.
   - All type syntax highlight.
   - All type snippets.
   - Auto Include.
   - Symbol List support.
-- MarkDown integrating support. **NEW!!**  [View Demo](#markdown-integrating)
+- Others
+  - MarkDown integrating support. [View Demo](#markdown-integrating)
+  - Extracting source from images support. **NEW!!**
 
 > Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Multi-Page Diagram support`. (Later than `V1.2017.15`)
 
@@ -97,6 +100,10 @@ Export diagram:
 Generate URLs:
 
 ![url demo](images/url_demo.gif)
+
+## Extract Diagram Source
+
+![extract demo](images/extract_demo.png)
 
 ## About Format
 
@@ -257,6 +264,7 @@ This extension contributes the following settings:
 - `plantuml.exportSubFolder`: export diagrams to a folder which has same name with host file.
 - `plantuml.exportConcurrency`: decides concurrency count when export multiple diagrams.
 - `plantuml.exportOutDirName`: export workspace diagrams will be organized in a directory named with value specified here.
+- `plantuml.exportMapFile`: Determine whether export image map (.cmapx) file when export.
 - `plantuml.previewAutoUpdate`: Dedecides if automatically update the preview window.
 - `plantuml.previewFileType`: Preview file type, png or svg support. But svg preview cannot support sudoku, earth diagrams etc.
 - `plantuml.server`: PlantUML server to generate UML diagrams on-the-fly.

@@ -1,5 +1,16 @@
 # VSCode PlantUML Changelog
 
+## 2.4.0
+
+- New Feature: Add command for extracting source from png files.
+- New Feature: Image map (cmapx) export. Configure `exportMapFile` true to enable it.
+- New Feature: %filename% var support.
+- Update embeded `plantuml.jar` to latest.
+- Some optimizations.
+- Bug fixes & Code optimizations.
+
+Thanks [arnaudroques](https://github.com/arnaudroques) for working on `plantuml.jar` for these features.
+
 ## 2.3.3
 
 - Fix: 
