@@ -31,7 +31,7 @@
     "onCommand:plantuml.preview",
     "onCommand:plantuml.URLCurrent",
     "onCommand:plantuml.URLDocument",
-    "onCommand:plantuml.extractDocument"
+    "onCommand:plantuml.extractSource"
   ],
   "main": "./out/src/extension",
   "contributes": {
