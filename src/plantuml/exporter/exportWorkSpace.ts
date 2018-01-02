@@ -7,7 +7,7 @@ import { RenderError } from '../renders/interfaces'
 import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
 import { outputPanel, context, localize, bar } from '../common';
-import { showMessagePanel, parseError, StopWatch } from '../tools';
+import { showMessagePanel, parseError, StopWatch, isSubPath } from '../tools';
 import { exportURIs, exportURIsResult } from './exportURIs';
 
 export function exportWorkSpace(uri: vscode.Uri);
@@ -27,8 +27,10 @@ export async function exportWorkSpace(para) {
         } else if (para instanceof vscode.Uri) {
             //commnad from the explorer/context
             if (fs.statSync(para.fsPath).isDirectory()) {
-                let relPath = path.relative(vscode.workspace.rootPath, para.fsPath);
-                doBuild(await vscode.workspace.findFiles(`${relPath}/**/*${exts}`, ""), format);
+                let folder = vscode.workspace.getWorkspaceFolder(para);
+                let relPath = path.relative(folder.uri.fsPath, para.fsPath);
+                let files = await vscode.workspace.findFiles(`${relPath}/**/*${exts}`, "");
+                doBuild(files.filter(file => isSubPath(file.fsPath, folder.uri.fsPath)), format);
             } else {
                 doBuild([para], format);
             }

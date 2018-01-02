@@ -36,7 +36,8 @@ export class Diagrams {
 }
 
 export class Diagram {
-    document: vscode.TextDocument
+    document: vscode.TextDocument;
+    parentUri: vscode.Uri;
     path: string;
     fileName: string;
     dir: string;
@@ -63,6 +64,7 @@ export class Diagram {
     DiagramAt(lineNumber: number, document?: vscode.TextDocument): Diagram {
         if (!document) document = vscode.window.activeTextEditor.document;
         this.document = document;
+        this.parentUri = document.uri;
         this.path = document.uri.fsPath;
         this.fileName = path.basename(this.path);
         let i = this.fileName.lastIndexOf(".");

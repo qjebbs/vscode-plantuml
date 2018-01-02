@@ -88,7 +88,9 @@ export function calculateExportPath(diagram: Diagram, format: string): string {
     let outDirName = config.exportOutDirName;
     let subDir = config.exportSubFolder;
     let dir = "";
-    let wkdir = vscode.workspace.rootPath;
+    let folder = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
+    let wkdir = folder.uri.fsPath;
+
     //if current document is in workspace, organize exports in 'out' directory.
     //if not, export beside the document.
     if (wkdir && isSubPath(diagram.path, wkdir)) dir = path.join(wkdir, outDirName);
