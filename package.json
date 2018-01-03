@@ -285,6 +285,7 @@
         "plantuml.includes": {
           "type": "array",
           "default": [],
+          "scope": "resource",
           "description": "%plantuml.configuration.includes%"
         },
         "plantuml.commandArgs": {

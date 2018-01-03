@@ -8,20 +8,37 @@ export const RenderType = {
     PlantUMLServer: 'PlantUMLServer'
 };
 
+type ConfigMap = {
+    [key: string]: vscode.WorkspaceConfiguration;
+}
+
 let conf = vscode.workspace.getConfiguration('plantuml');
 
 class ConfigReader {
+    private _folderConfs: ConfigMap = {};
     private _jar: string;
 
     private _read<T>(key: string): T {
         return conf.get<T>(key);
+    }
+    private _inspect<T>(key: string, uri?: vscode.Uri) {
+        if (!uri) return conf.inspect<T>(key);
+        let folderConf = this._folderConfs[uri.fsPath];
+        if (!folderConf) folderConf = vscode.workspace.getConfiguration('plantuml', uri);
+        this._folderConfs[uri.fsPath] = folderConf;
+        return folderConf.inspect<T>(key);
     }
 
     watch(): vscode.Disposable {
         return vscode.workspace.onDidChangeConfiguration(() => {
             conf = vscode.workspace.getConfiguration('plantuml');
             this._jar = "";
-        })
+            if (!vscode.workspace.workspaceFolders) return;
+            this._folderConfs = {};
+            vscode.workspace.workspaceFolders.map(
+                f => this._folderConfs[f.uri.fsPath] = vscode.workspace.getConfiguration('plantuml', f.uri)
+            );
+        });
     }
 
     get jar(): string {
@@ -100,8 +117,12 @@ class ConfigReader {
         return this._read<string>('render');
     }
 
-    get includes(): string[] {
-        return this._read<string[]>('includes') || [];
+    includes(uri: vscode.Uri): string[] {
+        let confs = this._inspect<string[]>('includes', uri);
+        if (confs.workspaceFolderValue && confs.workspaceFolderValue.length) return confs.workspaceFolderValue;
+        if (confs.workspaceValue && confs.workspaceValue.length) return confs.workspaceValue;
+        if (confs.globalValue && confs.globalValue.length) return confs.globalValue;
+        return [];
     }
     get commandArgs(): string[] {
         return this._read<string[]>('commandArgs') || [];

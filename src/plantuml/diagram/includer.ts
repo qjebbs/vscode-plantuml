@@ -4,40 +4,58 @@ import * as fs from 'fs';
 
 import { config } from '../config';
 import { context } from '../common';
+import { Diagram } from './diagram';
+
+type FolderIncludes = {
+    [key: string]: includeCache;
+}
+
+interface includeCache {
+    // folderPath:string;
+    includes: string;
+    settings: string;
+}
 
 class Includer {
-    private _calculated: string
-    private _includes: string
-    // private _includeContent: string
+    private _calculated: FolderIncludes = {};
 
-    addIncludes(content: string): string {
-        if (this._calculated != config.includes.sort().toString()) this._calcIncludes();
-        if (!this._includes) return content;
-        return content.replace(/\n\s*'\s*autoinclude\s*\n/i, `${this._includes}\n`);
+    addIncludes(diagram: Diagram): string {
+        // FIXME: _findIntegrated not work when no folder open
+        let folder = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
+        if (!folder) return diagram.content;
+        let folderPath = folder.uri.fsPath;
+        let cache = this._calculated[folderPath]
+        // FIXME: not watch changes of include file.
+        if (!cache || cache.settings != config.includes(diagram.parentUri).sort().toString()) {
+            cache = this._calcIncludes(folder.uri);
+            this._calculated[folderPath] = cache;
+        }
+        if (!cache.includes) return diagram.content;
+        return diagram.content.replace(/\n\s*'\s*autoinclude\s*\n/i, `${cache.includes}\n`);
     }
-    private _calcIncludes() {
+    private _calcIncludes(uri: vscode.Uri): includeCache {
         let includes = "";
-        let confs = config.includes;
+        let confs = config.includes(uri);
         let paths = [];
         for (let c of confs) {
             if (!c) continue;
             if (!path.isAbsolute(c)) {
-                paths.push(...(this._findWorkspace(c) || this._findIntegrated(c) || []));
+                paths.push(...(this._findWorkspace(uri.fsPath, c) || this._findIntegrated(c) || []));
                 continue;
             }
             if (fs.existsSync(c)) paths.push(c);
         }
-        this._includes = paths.reduce((pre, cur) => `${pre}\n!include ${cur}`, "");
-        // FIXME: not watch changes of include file.
-        // this._includeContent = paths.reduce((pre, cur) => `${pre}\n${fs.readFileSync(cur, "utf-8")}`, "");
-        this._calculated = confs.sort().toString();
+        return <includeCache>{
+            settings: confs.sort().toString(),
+            includes: paths.reduce((pre, cur) => `${pre}\n!include ${cur}`, ""),
+        };
     }
-    private _findWorkspace(p: string): string[] {
-        if (!vscode.workspace.rootPath) return null;
-        p = path.join(vscode.workspace.rootPath, p);
-        if (fs.existsSync(p)) {
-            if (fs.statSync(p).isDirectory()) return fs.readdirSync(p).map(f => path.join(p, f));
-            return [p];
+    private _findWorkspace(folder: string, conf: string): string[] {
+        if (!folder) return null;
+        conf = path.join(folder, conf);
+        if (fs.existsSync(conf)) {
+            if (fs.statSync(conf).isDirectory()) return fs.readdirSync(conf).map(f => path.join(conf, f));
+            return [conf];
         }
         return null;
     }

@@ -96,7 +96,8 @@ export class Diagram {
         }
         if (this.start && this.end) {
             this.lines = [];
-            this.content = includer.addIncludes(document.getText(new vscode.Range(this.start, this.end)));
+            this.content = document.getText(new vscode.Range(this.start, this.end));
+            this.content = includer.addIncludes(this);
             for (let i = this.start.line; i <= this.end.line; i++) {
                 this.lines.push(document.lineAt(i).text);
             }
