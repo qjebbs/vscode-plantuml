@@ -15,7 +15,6 @@ export async function extractSource() {
 
     let imgs = await vscode.window.showOpenDialog(<vscode.OpenDialogOptions>{
         openLabel: localize(32, null),
-        defaultUri: vscode.Uri.file(vscode.workspace.rootPath || ""),
         canSelectMany: true,
         filters: { 'Images': ['png'] },
     });

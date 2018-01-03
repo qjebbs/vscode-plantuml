@@ -14,7 +14,7 @@ export function exportWorkSpace(uri: vscode.Uri);
 export function exportWorkSpace(uris: vscode.Uri[]);
 export async function exportWorkSpace(para) {
     try {
-        if (!vscode.workspace.rootPath) { return; }
+        if (!vscode.workspace.workspaceFolders) { return; }
         let format = config.exportFormat;
         if (!format) {
             format = await vscode.window.showQuickPick(appliedRender().formats());
