@@ -18,15 +18,13 @@ class ConfigReader {
     private _folderConfs: ConfigMap = {};
     private _jar: string;
 
-    private _read<T>(key: string): T {
-        return conf.get<T>(key);
-    }
-    private _inspect<T>(key: string, uri?: vscode.Uri) {
-        if (!uri) return conf.inspect<T>(key);
+    private _read<T>(key: string, uri?: vscode.Uri) {
+        if (!uri) return conf.get<T>(key);
         let folderConf = this._folderConfs[uri.fsPath];
         if (!folderConf) folderConf = vscode.workspace.getConfiguration('plantuml', uri);
         this._folderConfs[uri.fsPath] = folderConf;
-        return folderConf.inspect<T>(key);
+        let results = folderConf.inspect<T>(key);
+        return results.workspaceFolderValue || results.workspaceValue || results.globalValue || results.defaultValue;
     }
 
     watch(): vscode.Disposable {
@@ -118,11 +116,7 @@ class ConfigReader {
     }
 
     includes(uri: vscode.Uri): string[] {
-        let confs = this._inspect<string[]>('includes', uri);
-        if (confs.workspaceFolderValue && confs.workspaceFolderValue.length) return confs.workspaceFolderValue;
-        if (confs.workspaceValue && confs.workspaceValue.length) return confs.workspaceValue;
-        if (confs.globalValue && confs.globalValue.length) return confs.globalValue;
-        return [];
+        return this._read<string[]>('includes', uri);
     }
     get commandArgs(): string[] {
         return this._read<string[]>('commandArgs') || [];
