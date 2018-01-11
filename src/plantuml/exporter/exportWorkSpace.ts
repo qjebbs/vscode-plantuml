@@ -24,7 +24,12 @@ export async function exportWorkSpace(para) {
             return !file.format;
         }, false);
         if (hasEmptyFormat) {
-            let userPickFormat = await vscode.window.showQuickPick(appliedRender().formats());
+            let userPickFormat = await vscode.window.showQuickPick(
+                appliedRender().formats(),
+                <vscode.QuickPickOptions>{
+                    placeHolder: localize(34, null)
+                }
+            );
             if (!userPickFormat) return;
             files.map(file => {
                 file.format = file.format || userPickFormat;

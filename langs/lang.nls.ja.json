@@ -32,5 +32,6 @@
 	"ダイアグラム名が未設定です。 \"@startuml name\" のように設定してください",
 	"ダイアグラム名が重複しています: \"{0}\"",
 	"Select to Extract...",
-	"Extracting ({0}/{1}): {2}"
+	"Extracting ({0}/{1}): {2}",
+	"Select a default format, applied to no export format configured diagrams."
 ]

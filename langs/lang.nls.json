@@ -32,5 +32,6 @@
 	"Diagram unnamed. Try \"@startuml name\"",
 	"Duplicate diagram name \"{0}\".",
 	"Select to Extract...",
-	"Extracting ({0}/{1}): {2}"
+	"Extracting ({0}/{1}): {2}",
+	"Select a default format, applied to no export format configured diagrams."
 ]
