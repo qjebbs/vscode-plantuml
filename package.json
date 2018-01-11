@@ -181,6 +181,7 @@
       "properties": {
         "plantuml.exportFormat": {
           "type": "string",
+          "scope": "resource",
           "default": "",
           "enum": [
             "",
@@ -206,11 +207,13 @@
         },
         "plantuml.fileExtensions": {
           "type": "string",
+          "scope": "resource",
           "default": ".wsd,.pu,.puml,.plantuml,.iuml",
           "description": "%plantuml.configuration.fileExtensions%"
         },
         "plantuml.exportSubFolder": {
           "type": "boolean",
+          "scope": "resource",
           "default": true,
           "description": "%plantuml.configuration.exportSubFolder%"
         },
@@ -221,11 +224,13 @@
         },
         "plantuml.exportOutDirName": {
           "type": "string",
+          "scope": "resource",
           "default": "out",
           "description": "%plantuml.configuration.exportOutDirName%"
         },
         "plantuml.exportMapFile": {
           "type": "boolean",
+          "scope": "resource",
           "default": false,
           "description": "%plantuml.configuration.exportMapFile%"
         },
@@ -284,8 +289,8 @@
         },
         "plantuml.includes": {
           "type": "array",
-          "default": [],
           "scope": "resource",
+          "default": [],
           "description": "%plantuml.configuration.includes%"
         },
         "plantuml.commandArgs": {

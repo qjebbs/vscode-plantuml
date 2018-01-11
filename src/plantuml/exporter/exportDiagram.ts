@@ -22,7 +22,7 @@ export function exportDiagram(diagram: Diagram, format: string, savePath: string
         bar.text = localize(7, null, diagram.title + "." + format.split(":")[0]);
     }
     let renderTask = appliedRender().render(diagram, format, savePath);
-    if (!config.exportMapFile || !savePath) return renderTask;
+    if (!config.exportMapFile(diagram.parentUri) || !savePath) return renderTask;
 
     let bsName = path.basename(savePath);
     let ext = path.extname(savePath);

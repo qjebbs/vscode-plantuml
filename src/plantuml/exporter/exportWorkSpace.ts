@@ -8,58 +8,86 @@ import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
 import { outputPanel, context, localize, bar } from '../common';
 import { showMessagePanel, parseError, StopWatch, isSubPath } from '../tools';
-import { exportURIs, exportURIsResult } from './exportURIs';
+import { exportFiles, exportFilesResult } from './exportURIs';
+import { FileAndFormat } from './exportURI';
 
 export function exportWorkSpace(uri: vscode.Uri);
 export function exportWorkSpace(uris: vscode.Uri[]);
 export async function exportWorkSpace(para) {
     try {
         if (!vscode.workspace.workspaceFolders) { return; }
-        let format = config.exportFormat;
-        if (!format) {
-            format = await vscode.window.showQuickPick(appliedRender().formats());
-            if (!format) return;
-        }
+
         outputPanel.clear();
-        let exts = config.fileExtensions;
-        if (!para) {
-            doBuild(await vscode.workspace.findFiles(`**/*${exts}`, ""), format);
-        } else if (para instanceof vscode.Uri) {
-            //commnad from the explorer/context
-            if (fs.statSync(para.fsPath).isDirectory()) {
-                let folder = vscode.workspace.getWorkspaceFolder(para);
-                let relPath = path.relative(folder.uri.fsPath, para.fsPath);
-                let files = await vscode.workspace.findFiles(`${relPath}/**/*${exts}`, "");
-                doBuild(files.filter(file => isSubPath(file.fsPath, folder.uri.fsPath)), format);
-            } else {
-                doBuild([para], format);
-            }
-        } else if (para instanceof Array) {
-            //FIXME: directory uri(s) in array
-            let uris: vscode.Uri[] = [];
-            for (let p of para) {
-                if (p instanceof vscode.Uri) {
-                    uris.push(p);
-                }
-            }
-            doBuild(uris, format);
+        let files = await getFileList(para);
+        let hasEmptyFormat: boolean = files.reduce((hasEmpty, file) => {
+            if (hasEmpty) return true;
+            return !file.format;
+        }, false);
+        if (hasEmptyFormat) {
+            let userPickFormat = await vscode.window.showQuickPick(appliedRender().formats());
+            if (!userPickFormat) return;
+            files.map(file => {
+                file.format = file.format || userPickFormat;
+            });
         }
+        doBuild(files);
     } catch (error) {
         showMessagePanel(outputPanel, error);
     }
 }
-function doBuild(uris: vscode.Uri[], format: string) {
-    if (!uris.length) {
+
+function getFileList(): Promise<FileAndFormat[]>;
+function getFileList(uri: vscode.Uri): Promise<FileAndFormat[]>;
+function getFileList(uris: vscode.Uri[]): Promise<FileAndFormat[]>;
+async function getFileList(para?): Promise<FileAndFormat[]> {
+    let _files: FileAndFormat[] = [];
+
+    if (!vscode.workspace.workspaceFolders) { return []; }
+
+    if (!para) {
+        for (let folder of vscode.workspace.workspaceFolders) {
+            _files.push(...await getFileList(folder.uri));
+        }
+    } else if (para instanceof Array) {
+        for (let u of para.filter(p => p instanceof vscode.Uri)) {
+            _files.push(...await getFileList(u));
+        }
+    } else if (para instanceof vscode.Uri) {
+        if (fs.statSync(para.fsPath).isDirectory()) {
+            let exts = config.fileExtensions(para);
+            let folder = vscode.workspace.getWorkspaceFolder(para);
+            let relPath = path.relative(folder.uri.fsPath, para.fsPath);
+            let files = await vscode.workspace.findFiles(`${relPath}/**/*${exts}`, "");
+            files.filter(file => isSubPath(file.fsPath, folder.uri.fsPath))
+                .map(
+                f => _files.push(
+                    <FileAndFormat>{
+                        uri: f,
+                        format: config.exportFormat(f)
+                    }
+                )
+                );
+        } else {
+            _files.push(<FileAndFormat>{
+                uri: para,
+                format: config.exportFormat(para)
+            });
+        }
+    }
+    return _files;
+}
+function doBuild(files: FileAndFormat[]) {
+    if (!files.length) {
         vscode.window.showInformationMessage(localize(8, null));
         return;
     }
     let stopWatch = new StopWatch();
     stopWatch.start();
 
-    exportURIs(uris, format, bar).then(
+    exportFiles(files, bar).then(
         async r => {
             stopWatch.stop();
-            r = r as exportURIsResult;
+            r = r as exportFilesResult;
             let results = r.results;
             let errors = r.errors;
             bar.hide();

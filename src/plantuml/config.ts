@@ -56,8 +56,8 @@ class ConfigReader {
         })();
     }
 
-    get fileExtensions(): string {
-        let extReaded = this._read<string>('fileExtensions').replace(/\s/g, "");
+    fileExtensions(uri: vscode.Uri): string {
+        let extReaded = this._read<string>('fileExtensions', uri).replace(/\s/g, "");
         let exts = extReaded || ".*";
         if (exts.indexOf(",") > 0) exts = `{${exts}}`;
         //REG: .* | .wsd | {.wsd,.java}
@@ -67,24 +67,24 @@ class ConfigReader {
         return exts;
     }
 
-    get exportOutDirName(): string {
-        return this._read<string>('exportOutDirName') || "out";
+    exportOutDirName(uri: vscode.Uri): string {
+        return this._read<string>('exportOutDirName', uri) || "out";
     }
 
-    get exportFormat(): string {
-        return this._read<string>('exportFormat');
+    exportFormat(uri: vscode.Uri): string {
+        return this._read<string>('exportFormat', uri);
     }
 
-    get exportSubFolder(): boolean {
-        return this._read<boolean>('exportSubFolder');
+    exportSubFolder(uri: vscode.Uri): boolean {
+        return this._read<boolean>('exportSubFolder', uri);
     }
 
     get exportConcurrency(): number {
         return this._read<number>('exportConcurrency') || 3;
     }
 
-    get exportMapFile(): boolean {
-        return this._read<boolean>('exportMapFile') || false;
+    exportMapFile(uri: vscode.Uri): boolean {
+        return this._read<boolean>('exportMapFile', uri) || false;
     }
 
     get previewAutoUpdate(): boolean {

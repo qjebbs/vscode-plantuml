@@ -85,8 +85,8 @@ export class StopWatch {
     }
 }
 export function calculateExportPath(diagram: Diagram, format: string): string {
-    let outDirName = config.exportOutDirName;
-    let subDir = config.exportSubFolder;
+    let outDirName = config.exportOutDirName(diagram.parentUri);
+    let subDir = config.exportSubFolder(diagram.parentUri);
     let dir = "";
     let folder = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
     let wkdir = folder ? folder.uri.fsPath : "";

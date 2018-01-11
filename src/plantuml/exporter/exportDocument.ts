@@ -21,7 +21,7 @@ export async function exportDocument(all: boolean) {
             vscode.window.showInformationMessage(localize(1, null));
             return;
         };
-        let format = config.exportFormat;
+        let format = config.exportFormat(editor.document.uri);
         if (!format) {
             format = await vscode.window.showQuickPick(appliedRender().formats());
             if (!format) return;
