@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.5.0
+
+- Improvement: Full multi-root workspace support.
+
 ## 2.4.0
 
 - New Feature: Add command for extracting source from png files.

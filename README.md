@@ -30,7 +30,7 @@ Note that some settings are changed after Version 2.0.0:
   - Generate URLs.
   - Multi-Page Diagram support.
   - From local or server.
-  - Image map (cmapx) support.  **NEW!!**
+  - Image map (cmapx) support.
 - Editing Supports
   - Format PlantUML code.
   - All type syntax highlight.
@@ -38,8 +38,9 @@ Note that some settings are changed after Version 2.0.0:
   - Auto Include.
   - Symbol List support.
 - Others
+  - Multi-root Workspace Support.  **NEW!!**
   - MarkDown integrating support. [View Demo](#markdown-integrating)
-  - Extracting source from images support. **NEW!!**
+  - Extracting source from images support.
 
 > Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Multi-Page Diagram support`. (Later than `V1.2017.15`)
 
