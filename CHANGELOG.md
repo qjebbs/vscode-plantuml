@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.5.1
+
+- Fix: Incorrect logic for source scope settings, [#90](https://github.com/qjebbs/vscode-plantuml/issues/90)
+
 ## 2.5.0
 
 - Improvement: Full multi-root workspace support.
