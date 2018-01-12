@@ -24,7 +24,10 @@ class ConfigReader {
         if (!folderConf) folderConf = vscode.workspace.getConfiguration('plantuml', uri);
         this._folderConfs[uri.fsPath] = folderConf;
         let results = folderConf.inspect<T>(key);
-        return results.workspaceFolderValue || results.workspaceValue || results.globalValue || results.defaultValue;
+        if (results.workspaceFolderValue !== undefined) return results.workspaceFolderValue;
+        if (results.workspaceValue !== undefined) return results.workspaceValue;
+        if (results.globalValue !== undefined) return results.globalValue;
+        return results.defaultValue;
     }
 
     watch(): vscode.Disposable {
