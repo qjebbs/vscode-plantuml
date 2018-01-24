@@ -19,15 +19,13 @@ export function setContext(ctx: vscode.ExtensionContext) {
     localize = nls.loadMessageBundle(join(context.extensionPath, "langs", "lang.json"));
 }
 
-export async function javaInstalled(): Promise<boolean> {
-    if (_javaInstalled === undefined)
-        _javaInstalled = await new Promise<boolean>((resolve, reject) => {
-            child_process.exec(java + " -version", (e, stdout, stderr) => {
-                if (e instanceof Error) {
-                    resolve(false);
-                }
-                resolve(true);
-            });
-        });
+export function javaInstalled(): boolean {
+    if (!_javaInstalled){
+        try {
+            child_process.execSync(java + " -version");
+            _javaInstalled = true
+        } catch (error) {
+            _javaInstalled = false
+        }}
     return _javaInstalled;
 }

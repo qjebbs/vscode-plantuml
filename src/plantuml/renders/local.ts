@@ -6,23 +6,11 @@ import * as path from 'path';
 import { IRender, RenderTask, RenderError } from './interfaces'
 import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
-import { context, localize } from '../common';
+import { context, localize, java, javaInstalled } from '../common';
 import { addFileIndex, processWrapper } from '../tools';
 
 class LocalRender implements IRender {
-    private java: string = "java";
-    private javaInstalled: boolean = true;
 
-    constructor() {
-        this.testJava();
-    }
-    private testJava() {
-        var process = child_process.exec(this.java + " -version", (e, stdout, stderr) => {
-            if (e instanceof Error) {
-                this.javaInstalled = false;
-            }
-        });
-    }
     /**
      * Indicates the exporter should limt concurrency or not.
      * @returns boolean
@@ -65,7 +53,7 @@ class LocalRender implements IRender {
         return this.createTask(diagram, "-pipemap", savePath);
     }
     private createTask(diagram: Diagram, taskType: string, savePath: string, format?: string): RenderTask {
-        if (!this.javaInstalled) {
+        if (!javaInstalled()) {
             let pms = Promise.reject(localize(5, null));
             return <RenderTask>{ promise: pms };
         }
@@ -95,7 +83,7 @@ class LocalRender implements IRender {
                 if (diagram.path) params.push("-filename", path.basename(diagram.path));
                 //add user args
                 params.unshift(...config.commandArgs);
-                let process = child_process.spawn(this.java, params);
+                let process = child_process.spawn(java, params);
                 processes.push(process);
                 return pChain.then(
                     () => {

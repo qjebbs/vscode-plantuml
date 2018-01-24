@@ -8,7 +8,7 @@ import { processWrapper } from '../tools';
 
 export async function extractSource() {
 
-    if (!await javaInstalled()) {
+    if (!javaInstalled()) {
         vscode.window.showErrorMessage(localize(5, null));
         return;
     }
