@@ -3,6 +3,8 @@ class Debug {
     constructor() {
         this.debugPar = document.getElementById("debug");
         this.debugPar.style.display = DEBUG ? "" : "none";
+        if (DEBUG) this.show();
+        else this.hide();
     }
     clear() {
         if (!DEBUG) return;
@@ -16,15 +18,17 @@ class Debug {
         if (!DEBUG) return;
         this.debugPar.innerHTML += "<br>" + html.join(" ");;
     }
+    show() {
+        this.debugPar.style.display = "";
+    }
+    hide() {
+        this.debugPar.style.display = "none";
+    }
 }
 var debug = new Debug();
 class Zoom {
     constructor() {}
     reset() {
-        if (DEBUG) {
-            this.debugPar = document.getElementById("debug");
-            this.debugPar.style.display = "";
-        }
         this.zoomUpperLimit = document.getElementById("zoomUpperLimit").innerText === "true";
         this.marginPixels = 20;
         this.img = document.getElementById("image");
