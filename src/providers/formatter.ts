@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import { config } from '../plantuml/config';
-import { outputPanel } from '../plantuml/common';
 import { showMessagePanel, parseError } from '../plantuml/tools';
 import { formatRules } from '../plantuml/formatRules';
 import * as fmt from '../plantuml/formatter/formatter';
@@ -21,7 +20,7 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
         try {
             return this._formatter.formate(document, options, token);
         } catch (error) {
-            showMessagePanel(outputPanel, parseError(error));
+            showMessagePanel(parseError(error));
         }
     }
     register(): vscode.Disposable[] {

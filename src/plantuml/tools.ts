@@ -6,6 +6,7 @@ import * as child_process from 'child_process';
 import { RenderError } from './renders/interfaces';
 import { Diagram } from './diagram/diagram';
 import { config } from './config';
+import { outputPanel } from './common';
 
 export function mkdirs(dirname, callback) {
     fs.exists(dirname, function (exists) {
@@ -55,19 +56,19 @@ export function parseError(error: any): RenderError[] {
     }
 }
 
-export function showMessagePanel(panel: vscode.OutputChannel, message: any) {
-    panel.clear();
+export function showMessagePanel(message: any) {
+    outputPanel.clear();
     let errs: RenderError[];
     if (typeof (message) === "string") {
-        panel.appendLine(message);
+        outputPanel.appendLine(message);
     } else if (errs = parseError(message)) {
         for (let e of errs) {
-            panel.appendLine(e.error);
+            outputPanel.appendLine(e.error);
         }
     } else {
-        panel.appendLine(new Object(message).toString());
+        outputPanel.appendLine(new Object(message).toString());
     }
-    panel.show();
+    outputPanel.show();
 }
 
 export class StopWatch {

@@ -6,7 +6,7 @@ import { appliedRender } from './appliedRender'
 import { RenderError } from '../renders/interfaces'
 import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
-import { outputPanel, context, localize, bar } from '../common';
+import { context, localize, bar } from '../common';
 import { showMessagePanel, parseError, StopWatch, isSubPath } from '../tools';
 import { exportFiles, exportFilesResult } from './exportURIs';
 import { FileAndFormat } from './exportURI';
@@ -14,31 +14,28 @@ import { FileAndFormat } from './exportURI';
 export function exportWorkSpace(uri: vscode.Uri);
 export function exportWorkSpace(uris: vscode.Uri[]);
 export async function exportWorkSpace(para) {
-    try {
-        if (!vscode.workspace.workspaceFolders) { return; }
 
-        outputPanel.clear();
-        let files = await getFileList(para);
-        let hasEmptyFormat: boolean = files.reduce((hasEmpty, file) => {
-            if (hasEmpty) return true;
-            return !file.format;
-        }, false);
-        if (hasEmptyFormat) {
-            let userPickFormat = await vscode.window.showQuickPick(
-                appliedRender().formats(),
-                <vscode.QuickPickOptions>{
-                    placeHolder: localize(34, null)
-                }
-            );
-            if (!userPickFormat) return;
-            files.map(file => {
-                file.format = file.format || userPickFormat;
-            });
-        }
-        doBuild(files);
-    } catch (error) {
-        showMessagePanel(outputPanel, error);
+    if (!vscode.workspace.workspaceFolders) { return; }
+
+    showMessagePanel("");
+    let files = await getFileList(para);
+    let hasEmptyFormat: boolean = files.reduce((hasEmpty, file) => {
+        if (hasEmpty) return true;
+        return !file.format;
+    }, false);
+    if (hasEmptyFormat) {
+        let userPickFormat = await vscode.window.showQuickPick(
+            appliedRender().formats(),
+            <vscode.QuickPickOptions>{
+                placeHolder: localize(34, null)
+            }
+        );
+        if (!userPickFormat) return;
+        files.map(file => {
+            file.format = file.format || userPickFormat;
+        });
     }
+    doBuild(files);
 }
 
 function getFileList(): Promise<FileAndFormat[]>;
@@ -65,12 +62,12 @@ async function getFileList(para?): Promise<FileAndFormat[]> {
             let files = await vscode.workspace.findFiles(`${relPath}/**/*${exts}`, "");
             files.filter(file => isSubPath(file.fsPath, folder.uri.fsPath))
                 .map(
-                f => _files.push(
-                    <FileAndFormat>{
-                        uri: f,
-                        format: config.exportFormat(f)
-                    }
-                )
+                    f => _files.push(
+                        <FileAndFormat>{
+                            uri: f,
+                            format: config.exportFormat(f)
+                        }
+                    )
                 );
         } else {
             _files.push(<FileAndFormat>{
@@ -133,7 +130,7 @@ function doBuild(files: FileAndFormat[]) {
                         return p + (p ? "\n" : "") + c.error;
                     }, "");
                 }
-                showMessagePanel(outputPanel, report);
+                showMessagePanel(report);
             }
         }
     );
