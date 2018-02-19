@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.5.3
+
+- Improvement: Syntax highlight for PlantUML code inside Markdown. Thanks to [cazeaux](https://github.com/qjebbs/vscode-plantuml/pull/95).
+- Code optimize.
+
 ## 2.5.2
 
 - Improvement: Lazy check java, solve [#93](https://github.com/qjebbs/vscode-plantuml/issues/93)
