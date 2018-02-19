@@ -57,6 +57,16 @@
         "language": "diagram",
         "scopeName": "source.wsd",
         "path": "./syntaxes/diagram.tmLanguage"
+      },
+      {
+        "scopeName": "markdown.plantuml.codeblock",
+        "path": "./syntaxes/codeblock.json",
+        "injectTo": [
+          "text.html.markdown"
+        ],
+        "embeddedLanguages": {
+          "meta.embedded.block.plantuml": "javascript"
+        }
       }
     ],
     "commands": [

@@ -1,0 +1,28 @@
+{
+    "fileTypes": [],
+    "injectionSelector": "L:markup.fenced_code.block.markdown",
+    "patterns": [
+        {
+            "include": "#plantuml-code-block"
+        }
+    ],
+    "repository": {
+        "plantuml-code-block": {
+            "begin": "plantuml(\\s+[^`~]*)?$",
+            "end": "(^|\\G)(?=\\s*[`~]{3,}\\s*$)",
+            "patterns": [
+                {
+                    "begin": "(^|\\G)(\\s*)(.*)",
+                    "while": "(^|\\G)(?!\\s*([`~]{3,})\\s*$)",
+                    "contentName": "meta.embedded.block.plantuml",
+                    "patterns": [
+                        {
+                            "include": "source.wsd"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "scopeName": "markdown.plantuml.codeblock"
+}
