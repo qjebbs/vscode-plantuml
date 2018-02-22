@@ -59,7 +59,7 @@ repository:
     - comment: comment block
       name: comment.block.source.wsd
       begin: (?i)^\s*(/')
-      end: (?i)^.*('/)
+      end: (?i)('/)\s*$
   Style:
     patterns:
     - comment: inline style
