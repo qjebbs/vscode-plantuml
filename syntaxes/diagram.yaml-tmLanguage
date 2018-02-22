@@ -140,7 +140,7 @@ repository:
       - name: comment.line.multiple.note.source.wsd
         match: .+?
     - comment: inline note of over
-      match: (?i)^\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(?:(\w+)(?:,\s*(\w+))*)))|(on\s+link))\s*(#\w+)?\s*:\s*(.+)$
+      match: (?i)^\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(?:(".+?"|\w+)(?:,\s*(".+?"|\w+))*)))|(on\s+link))\s*(#\w+)?\s*:\s*(.+)$
       captures:
         '1': {name: keyword.other.noteof.source.wsd}
         '2': {name: constant.numeric.noteof.source.wsd}
@@ -152,7 +152,7 @@ repository:
         '8': {name: constant.numeric.noteof.source.wsd}
         '9': {name: comment.line.noteof.source.wsd}
     - comment: multi-line note of over
-      begin: (?i)^\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(?:(\w+)(?:,\s*(\w+))*)))|(on\s+link))\s*(#\w+)?\s*$
+      begin: (?i)^\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(?:(".+?"|\w+)(?:,\s*(".+?"|\w+))*)))|(on\s+link))\s*(#\w+)?\s*$
       beginCaptures:
         '1': {name: keyword.other.noteof.source.wsd}
         '2': {name: constant.numeric.noteof.source.wsd}
