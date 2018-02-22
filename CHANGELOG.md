@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.5.4
+
+- Improvement: Add setting `jarArgs`, solve [#97](https://github.com/qjebbs/vscode-plantuml/issues/97)
+- Improvement: Remove error text display below the preview image.
+- Fix: Some syntax highlight fix, solve [#83](https://github.com/qjebbs/vscode-plantuml/issues/83), [#96](https://github.com/qjebbs/vscode-plantuml/issues/96)
+
 ## 2.5.3
 
 - Improvement: Syntax highlight for PlantUML code inside Markdown. Thanks to [cazeaux](https://github.com/qjebbs/vscode-plantuml/pull/95).
