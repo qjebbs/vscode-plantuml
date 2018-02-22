@@ -170,7 +170,7 @@ Disadvantages:
 - Cannot render very-large diagrams (HTTP 413 error).
 - Cannot render diagrams with `!include` in it.
 - Less format support: png, svg, txt.
-- Some settings are not applicable: `plantuml.jar`, `plantuml.commandArgs`.
+- Some settings are not applicable: `plantuml.jar`, `plantuml.commandArgs`, `plantuml.jarArgs`.
 - Cannot collect syntax error of diagrams in report.
 
 ## Use PlantUML Server as render
@@ -274,6 +274,7 @@ This extension contributes the following settings:
 - `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
 - `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write "!include path/to/include.wsd" for every single diagram any more.
 - `plantuml.commandArgs`: commandArgs allows you add command arguments to java command, such as `-DPLANTUML_LIMIT_SIZE=8192`.
+- `plantuml.jarArgs`: jarArgs allows you add arguments to plantuml.jar, such as `-config plantuml.config`.
 
 ## Known Issues
 
