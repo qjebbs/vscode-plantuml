@@ -124,6 +124,9 @@ class ConfigReader {
     get commandArgs(): string[] {
         return this._read<string[]>('commandArgs') || [];
     }
+    get jarArgs(): string[] {
+        return this._read<string[]>('jarArgs') || [];
+    }
 }
 
 export const config = new ConfigReader();

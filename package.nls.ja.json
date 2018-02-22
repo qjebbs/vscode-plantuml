@@ -21,5 +21,6 @@
 	"plantuml.configuration.render": "ダイアグラムのエクスポートとプレビューの描画方法を選択します。\nLocal: 伝統的なローカルで描画する方法です。あなたはまずはじめに JAVA と GraphViz を設定する必要があります。\nPlantUMLServer: \"plantuml.server\" の設定で指定されたサーバーでダイアグラムを描画します。こちらのほうが高速ですが、別途サーバーが必要です。\nデフォルトでは Local が設定されます",
 	"plantuml.configuration.includes": "ダイアグラムをプレビューまたはエクスポートする前に読み込むファイルまたはディレクトリを指定できます。 この設定を行なうと、個々のダイアグラムに毎回 \"!include path/to/include.wsd\" などと指定する必要がなくなります",
 	"plantuml.configuration.commandArgs": "commandArgsを使用すると、Javaコマンドに引数を追加できます。 \n例：\"-DPLANTUML_LIMIT_SIZE=8192\".",
+	"plantuml.configuration.jarArgs": "jarArgs allows you add arguments to plantuml.jar, such as \"-config plantuml.config\".",
 	"plantuml.configuration.exportMapFile": "Determine whether export image map (.cmapx) file when export."
 }

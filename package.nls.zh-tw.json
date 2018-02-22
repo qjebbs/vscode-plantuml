@@ -21,5 +21,6 @@
 	"plantuml.configuration.render": "Select diagram render for both export and preview.\nLocal: Render digrams locally in traditional way. You need to set up JAVA and GraphViz first.\nPlantUMLServer: Render diagrams by server which is specified with \"plantuml.server\". It's much faster, but requires a server.\nLocal is the default configuration.",
 	"plantuml.configuration.includes": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more.",
 	"plantuml.configuration.commandArgs": "commandArgs allows you add arguments to java command, such as \"-DPLANTUML_LIMIT_SIZE=8192\".",
+	"plantuml.configuration.jarArgs": "jarArgs allows you add arguments to plantuml.jar, such as \"-config plantuml.config\".",
 	"plantuml.configuration.exportMapFile": "Determine whether export image map (.cmapx) file when export."
 }
