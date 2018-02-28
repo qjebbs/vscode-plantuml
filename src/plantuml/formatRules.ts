@@ -102,7 +102,7 @@ let rules = <RulesWriting>{
                 {
                     comment: "block multi-line header, legend, footer",
                     isBlock: true,
-                    begin: /{{LB}}(header|legend|footer){{LE}}/i,
+                    begin: /{{LB}}(?:(center|left|right)\s+)?(header|legend|footer){{LE}}/i,
                     end: /{{LB}}end\s*(header|legend|footer){{LE}}/i,
                     patterns: {
                         type: ElementType.word,

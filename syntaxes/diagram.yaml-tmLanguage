@@ -177,9 +177,10 @@ repository:
         '2': {name: comment.line.noteas.source.wsd}
         '4': {name: support.variable.noteas.source.wsd}
     - comment: multi-line header, legend, footer
-      begin: (?i)^\s*(header|legend|footer)\s*\n
+      begin: (?i)^\s*(?:(center|left|right)\s+)?(header|legend|footer)\s*\n
       beginCaptures:
-        '1': {name: keyword.other.header_legend_footer.source.wsd}
+        '1': {name: constant.numeric.noteof.source.wsd}
+        '2': {name: keyword.other.header_legend_footer.source.wsd}
       end: (?i)^\s*(end\s?(header|legend|footer))
       endCaptures:
         '1': {name: keyword.other.header_legend_footer.source.wsd}
@@ -187,10 +188,11 @@ repository:
       - name: comment.line.header_legend_footer.source.wsd
         match: .+?
     - comment: header, legend, footer
-      match: (?i)^\s*(header|legend|footer)\s+(.+?)\s*$
+      match: (?i)^\s*(?:(center|left|right)\s+)?(header|legend|footer)\s+(.+?)\s*$
       captures:
-        '1': {name: keyword.other.title.source.wsd}
-        '2': {name: comment.line.header_legend_footer.source.wsd}
+        '1': {name: constant.numeric.noteof.source.wsd}
+        '2': {name: keyword.other.title.source.wsd}
+        '3': {name: comment.line.header_legend_footer.source.wsd}
     - comment: Preprocessings
       name: support.class.preprocessings.source.wsd
       match: (?i)(!include|!enddefinelong|!definelong|!define|!ifdef|!else|!endif)
