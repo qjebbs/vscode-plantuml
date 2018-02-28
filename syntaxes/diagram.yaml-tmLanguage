@@ -184,7 +184,7 @@ repository:
     - comment: multi-line header, legend, footer
       begin: (?i)^\s*(?:(center|left|right)\s+)?(header|legend|footer)\s*\n
       beginCaptures:
-        '1': {name: constant.numeric.noteof.source.wsd}
+        '1': {name: constant.numeric.header_legend_footer.source.wsd}
         '2': {name: keyword.other.header_legend_footer.source.wsd}
       end: (?i)^\s*(end\s?(header|legend|footer))
       endCaptures:
@@ -195,8 +195,8 @@ repository:
     - comment: header, legend, footer
       match: (?i)^\s*(?:(center|left|right)\s+)?(header|legend|footer)\s+(.+?)\s*$
       captures:
-        '1': {name: constant.numeric.noteof.source.wsd}
-        '2': {name: keyword.other.title.source.wsd}
+        '1': {name: constant.numeric.header_legend_footer.source.wsd}
+        '2': {name: keyword.other.header_legend_footer.source.wsd}
         '3': {name: comment.line.header_legend_footer.source.wsd}
     - comment: Preprocessings
       name: support.class.preprocessings.source.wsd
