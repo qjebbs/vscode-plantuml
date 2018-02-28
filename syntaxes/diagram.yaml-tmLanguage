@@ -63,27 +63,28 @@ repository:
   Style:
     patterns:
     - comment: inline style
-      match: (?i)^\s*(skinparam)\s+(\w+?)\s+((<<\s*.+?\s*>>)\s+)?([^\{\}]+?)\s*$
+      match: (?i)^\s*(skinparam)\s+(\w+)(<<\s*.+?\s*>>)?\s+([^\{\}]+?)\s*$
       captures:
         '1': {name: keyword.other.skinparam.source.wsd}
         '2': {name: keyword.other.skinparam.keyword.source.wsd}
-        '4': {name: constant.numeric.skinparam.keyword.source.wsd}
-        '5': {name: string.quoted.double.skinparam.value.source.wsd}
+        '3': {name: constant.numeric.skinparam.keyword.source.wsd}
+        '4': {name: string.quoted.double.skinparam.value.source.wsd}
     - comment: style block
-      begin: (?i)^\s*((skinparam)(\s+(\w+?))?|(\w+)(\w*?)?)\s*\{\s*$
+      begin: (?i)^\s*(?:(skinparam)(?:\s+(\w+?)(<<\s*.+?\s*>>)?)?|(\w+)(<<\s*.+?\s*>>)?)\s*\{\s*$
       beginCaptures:
-        '2': {name: keyword.other.skinparam.source.wsd}
+        '1': {name: keyword.other.skinparam.source.wsd}
+        '2': {name: keyword.other.skinparam.keyword.source.wsd}
+        '3': {name: constant.numeric.skinparam.keyword.source.wsd}
         '4': {name: keyword.other.skinparam.keyword.source.wsd}
-        '5': {name: keyword.other.skinparam.keyword.source.wsd}
-        '6': {name: keyword.other.skinparam.keyword.source.wsd}
+        '5': {name: constant.numeric.skinparam.keyword.source.wsd}
       end: ^\s*(?<!\\)\}\s*$
       patterns:
       - comment: inline style
-        match: (?i)^\s*(\w+?)\s+((<<\s*.+?\s*>>)\s+)?([^\{\}]+?)\s*$
+        match: (?i)^\s*(\w+)(<<\s*.+?\s*>>)?\s+([^\{\}]+?)\s*$
         captures:
           '1': {name: keyword.other.skinparam.keyword.source.wsd}
-          '3': {name: constant.numeric.skinparam.keyword.source.wsd}
-          '4': {name: string.quoted.double.skinparam.value.source.wsd}
+          '2': {name: constant.numeric.skinparam.keyword.source.wsd}
+          '3': {name: string.quoted.double.skinparam.value.source.wsd}
       - include: $self
   Keywords:
     patterns:
