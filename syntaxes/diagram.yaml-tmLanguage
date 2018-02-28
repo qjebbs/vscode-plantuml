@@ -125,6 +125,11 @@ repository:
         '8': {name: keyword.operator.scale.source.wsd}
         '9': {name: constant.numeric.scale.source.wsd}
         '11': {name: keyword.other.scale.source.wsd}
+    - comment: inline caption
+      match: (?i)^\s*(caption)\s+(.+)\s*$
+      captures:
+        '1': {name: keyword.other.note.source.wsd}
+        '2': {name: constant.numeric.caption.source.wsd}
     - comment: inline note
       match: (?i)^\s*(note\s(left|right))\s*:\s*(.+)\s*$
       captures:
