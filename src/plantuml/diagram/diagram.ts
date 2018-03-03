@@ -31,6 +31,11 @@ export class Diagrams {
                 this.diagrams.push(d);
             }
         }
+        // if no diagram block found, try add entire document
+        if (!this.diagrams.length) {
+            let d = new Diagram().DiagramAt(0, document);
+            if (d) this.diagrams.push(d);
+        }
         return this
     }
 }
@@ -90,6 +95,15 @@ export class Diagram {
                 return this;
             }
         }
+        // if no diagram block found, add entire document
+        if (
+            !(this.start && this.end) &&
+            document.getText().trim() &&
+            document.languageId == "diagram"
+        ) {
+            this.start = document.lineAt(0).range.start;
+            this.end = document.lineAt(document.lineCount - 1).range.end;
+        }
         if (this.start && this.end) {
             this.lines = [];
             this.content = document.getText(new vscode.Range(this.start, this.end));
@@ -101,7 +115,7 @@ export class Diagram {
             this.getTitle();
             this.getPageCount();
         }
-        return this;
+        return this.content ? this : undefined;
     }
     isEqual(d: Diagram): boolean {
         if (this.dir !== d.dir) return false;
