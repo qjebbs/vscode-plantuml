@@ -1,5 +1,14 @@
 # VSCode PlantUML Changelog
 
+## 2.5.5
+
+- Fix: Some syntax highlights fix,
+[#99](https://github.com/qjebbs/vscode-plantuml/issues/99)
+[#100](https://github.com/qjebbs/vscode-plantuml/issues/100)
+[#101](https://github.com/qjebbs/vscode-plantuml/issues/101)
+[#102](https://github.com/qjebbs/vscode-plantuml/issues/102)
+- Improvement: Treat entire diagram file as a diagram, if not `@startxxx` is given, solve [#91](https://github.com/qjebbs/vscode-plantuml/issues/91)
+
 ## 2.5.4
 
 - Improvement: Add setting `jarArgs`, solve [#97](https://github.com/qjebbs/vscode-plantuml/issues/97)
