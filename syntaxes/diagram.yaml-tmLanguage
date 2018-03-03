@@ -202,7 +202,7 @@ repository:
       name: support.class.preprocessings.source.wsd
       match: (?i)(!include|!enddefinelong|!definelong|!define|!ifdef|!else|!endif)
     - comment: links
-      begin: (?i)((?:(?:(?:\s+[ox]|[+*])?(?:<\|?|<<|\\\\|\\|//|\})?)(?=[-.]))[-.]+(\[(?:\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\w+)(?:[-\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\w+))?\b)\])?(?:(left|right|up|down)(?:[-.]))?[-.]*(?:(?:\|?>|>>|\\\\|\\|//|\{)?(?:[ox]\s+|[+*])?))
+      begin: (?i)((?:(?:(?:\s+[ox]|[+*])?(?:<\|?|<<|\\\\|\\|//|\})?)(?=[-.~=]))[-.~=]+(\[(?:\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\w+)(?:[-\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\w+))?\b)\])?(?:(left|right|up|down)(?:[-.~=]))?[-.]*(?:(?:\|?>|>>|\\\\|\\|//|\{)?(?:[ox]\s+|[+*])?))
       beginCaptures:
         '1': {name: keyword.control.note.source.wsd}
         '2': {name: constant.numeric.link.color.source.wsd}
