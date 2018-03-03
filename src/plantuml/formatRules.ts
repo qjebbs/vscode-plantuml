@@ -185,7 +185,7 @@ let rules = <RulesWriting>{
                 {
                     comment: "sequence grouping",
                     isBlock: true,
-                    begin: /{{LB}}(loop|par|break|critical|group)\b\s*(.+)?{{LE}}/i,
+                    begin: /{{LB}}(opt|loop|par|break|critical|group)\b\s*(.+)?{{LE}}/i,
                     end: /{{LB}}(end){{LE}}/i,
                     beginCaptures: {
                         1: ElementType.word,
