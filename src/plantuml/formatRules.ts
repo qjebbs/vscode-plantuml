@@ -75,8 +75,8 @@ let rules = <RulesWriting>{
                 {
                     comment: "block {}",
                     isBlock: true,
-                    begin: /\{[!#+T*-/]?/i,
-                    end: /\}/i,
+                    begin: /({{LB}}|[^-])\{[!#+T*-/]?/i,
+                    end: /\}(?!-)/i,
                     patterns: {
                         includes: ["Quoted", "Block"],
                     }
