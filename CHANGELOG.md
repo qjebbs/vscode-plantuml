@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.5.6
+
+- Fix: Some syntax highligh and formating fixes.
+- Code optimize.
+
 ## 2.5.5
 
 - Fix: Some syntax highlights fix,
