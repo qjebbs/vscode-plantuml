@@ -4,9 +4,11 @@ import { showMessagePanel, parseError } from '../plantuml/tools';
 import { formatRules } from '../plantuml/formatRules';
 import * as fmt from '../plantuml/formatter/formatter';
 
-class Formatter implements vscode.DocumentFormattingEditProvider {
+export class Formatter extends vscode.Disposable implements vscode.DocumentFormattingEditProvider {
     private _formatter: fmt.Formatter;
+    private _disposables: vscode.Disposable[] = [];
     constructor() {
+        super(() => this.dispose());
         this._formatter = new fmt.Formatter(
             formatRules,
             {
@@ -15,6 +17,16 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
                 newLineForBlockStart: false
             }
         );
+        this._disposables.push(
+            vscode.languages.registerDocumentFormattingEditProvider(
+                <vscode.DocumentFilter>{ language: "diagram" },
+                this
+            )
+        );
+    }
+
+    dispose() {
+        this._disposables && this._disposables.length && this._disposables.map(d => d.dispose());
     }
     public provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
         try {
@@ -23,15 +35,4 @@ class Formatter implements vscode.DocumentFormattingEditProvider {
             showMessagePanel(parseError(error));
         }
     }
-    register(): vscode.Disposable[] {
-        let ds: vscode.Disposable[] = [];
-        let d = vscode.languages.registerDocumentFormattingEditProvider(
-            <vscode.DocumentFilter>{ language: "diagram" },
-            this
-        );
-        ds.push(d);
-        return ds;
-    }
 }
-
-export const formatter = new Formatter();

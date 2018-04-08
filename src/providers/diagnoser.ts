@@ -3,26 +3,29 @@ import { Diagrams } from '../plantuml/diagram/diagram';
 import { Uri } from 'vscode';
 import { localize } from '../plantuml/common';
 
-export class Diagnoser {
-
-    constructor(ext: vscode.Extension<any>) {
-        this.langID = ext.packageJSON.contributes.languages[0].id;
-        this.extName = ext.packageJSON.name;
-    }
+export class Diagnoser extends vscode.Disposable {
+    private _disposables: vscode.Disposable[] = [];
     private DiagnosticCollection: vscode.DiagnosticCollection;
     private langID: string;
     private extName: string;
-    register(): vscode.Disposable[] {
-        let ds: vscode.Disposable[] = [];
+
+    constructor(ext: vscode.Extension<any>) {
+        super(() => this.dispose());
+        this.langID = ext.packageJSON.contributes.languages[0].id;
+        this.extName = ext.packageJSON.name;
         this.DiagnosticCollection = vscode.languages.createDiagnosticCollection(this.extName);
-        ds.push(
+        this._disposables.push(
             this.DiagnosticCollection,
             vscode.workspace.onDidOpenTextDocument(doc => this.diagnose(doc)),
             vscode.workspace.onDidChangeTextDocument(e => this.diagnose(e.document)),
             vscode.workspace.onDidCloseTextDocument(doc => this.removeDiagnose(doc)),
         );
-        return ds;
     }
+
+    dispose() {
+        this._disposables && this._disposables.length && this._disposables.map(d => d.dispose());
+    }
+    
     diagnose(document: vscode.TextDocument) {
         if (document.languageId !== this.langID) return;
         let diagrams = new Diagrams().AddDocument(document);

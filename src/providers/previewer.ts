@@ -15,17 +15,18 @@ enum previewStatus {
     error,
     processing,
 }
-class Previewer implements vscode.TextDocumentContentProvider {
+class Previewer extends vscode.Disposable implements vscode.TextDocumentContentProvider {
 
     Emittor = new vscode.EventEmitter<vscode.Uri>();
     onDidChange = this.Emittor.event;
     Uri = vscode.Uri.parse('plantuml://preview');
 
+    private _disposables: vscode.Disposable[] = [];
+    private watchDisposables: vscode.Disposable[] = [];
     private status: previewStatus;
     private uiStatus: string;
     private rendered: Diagram;
     private task: RenderTask;
-    private watchDisposables: vscode.Disposable[] = [];
 
     private images: string[];
     private imageError: string;
@@ -37,8 +38,14 @@ class Previewer implements vscode.TextDocumentContentProvider {
 
     private killingLock: boolean = false;
 
-    initialize() {
-        this.reset();
+    constructor() {
+        super(() => this.dispose());
+        this.register();
+    }
+
+    dispose() {
+        this._disposables && this._disposables.length && this._disposables.map(d => d.dispose());
+        this.watchDisposables && this.watchDisposables.length && this.watchDisposables.map(d => d.dispose());
     }
 
     reset() {
@@ -47,7 +54,7 @@ class Previewer implements vscode.TextDocumentContentProvider {
         let tplPreviewProcessingPath: string = path.join(tplPath, "preview-processing.html");
         this.template = '`' + fs.readFileSync(tplPreviewPath, "utf-8") + '`';
         this.templateProcessing = '`' + fs.readFileSync(tplPreviewProcessingPath, "utf-8") + '`';
-        
+
         this.rendered = null;
         this.uiStatus = "";
         this.images = [];
@@ -180,14 +187,12 @@ class Previewer implements vscode.TextDocumentContentProvider {
         this.status = previewStatus.processing;
         this.Emittor.fire(this.Uri);
     }
-    register(): vscode.Disposable[] {
-        this.initialize();
+    register() {
         let disposable: vscode.Disposable;
-        let disposables: vscode.Disposable[] = [];
 
         //register provider
         disposable = vscode.workspace.registerTextDocumentContentProvider('plantuml', this);
-        disposables.push(disposable);
+        this._disposables.push(disposable);
 
         //register command
         disposable = vscode.commands.registerCommand('plantuml.preview', () => {
@@ -202,21 +207,20 @@ class Previewer implements vscode.TextDocumentContentProvider {
             this.TargetChanged;
             return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, localize(17, null))
                 .then(
-                success => {
-                    //active source editor
-                    vscode.window.showTextDocument(editor.document);
-                    //update preview
-                    if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
-                    this.update(true);
-                    return;
-                },
-                reason => {
-                    vscode.window.showErrorMessage(reason);
-                }
+                    success => {
+                        //active source editor
+                        vscode.window.showTextDocument(editor.document);
+                        //update preview
+                        if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
+                        this.update(true);
+                        return;
+                    },
+                    reason => {
+                        vscode.window.showErrorMessage(reason);
+                    }
                 );
         });
-        disposables.push(disposable);
-        return disposables;
+        this._disposables.push(disposable);
     }
     startWatch() {
         if (this.watchDisposables.length) {

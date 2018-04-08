@@ -1,10 +1,11 @@
 import * as vscode from 'vscode';
 import { Diagrams } from '../plantuml/diagram/diagram'
 
-class Symbol implements vscode.DocumentSymbolProvider {
-    register() {
-        //register Symbol provider
-        let ds: vscode.Disposable[] = [];
+export class Symbol extends vscode.Disposable implements vscode.DocumentSymbolProvider {
+    private _disposables: vscode.Disposable[] = [];
+
+    constructor() {
+        super(() => this.dispose());
         let sel: vscode.DocumentSelector = [
             "diagram",
             "markdown",
@@ -34,9 +35,13 @@ class Symbol implements vscode.DocumentSymbolProvider {
             "vb",
             "plaintext"
         ];
-        let d = vscode.languages.registerDocumentSymbolProvider(sel, this);
-        ds.push(d);
-        return ds;
+        this._disposables.push(
+            vscode.languages.registerDocumentSymbolProvider(sel, this)
+        );
+    }
+
+    dispose() {
+        this._disposables && this._disposables.length && this._disposables.map(d => d.dispose());
     }
     provideDocumentSymbols(document: vscode.TextDocument, token: vscode.CancellationToken): vscode.SymbolInformation[] {
         let results: vscode.SymbolInformation[] = [];
@@ -55,4 +60,3 @@ class Symbol implements vscode.DocumentSymbolProvider {
         return results;
     }
 }
-export const symboler = new Symbol();

@@ -6,8 +6,8 @@ import * as nls from "vscode-nls";
 
 import { config } from './plantuml/config';
 import { previewer } from './providers/previewer';
-import { symboler } from "./providers/symboler";
-import { formatter } from "./providers/formatter";
+import { Symbol } from "./providers/symboler";
+import { Formatter } from "./providers/formatter";
 import { notifyOnNewVersion } from "./plantuml/messages";
 import { setContext, outputPanel, bar } from "./plantuml/common";
 
@@ -30,37 +30,33 @@ export function activate(context: vscode.ExtensionContext) {
         const version = ext.packageJSON.version;
         notifyOnNewVersion(context, version);
 
-        context.subscriptions.push(config.watch());
-        //register commands
-        context.subscriptions.push(new CommandExportCurrent());
-        context.subscriptions.push(new CommandExportDocument());
-        context.subscriptions.push(new CommandExportWorkspace());
-        context.subscriptions.push(new CommandURLCurrent());
-        context.subscriptions.push(new CommandURLDocument());
-        context.subscriptions.push(new CommandPreviewStatus());
-        context.subscriptions.push(new CommandExtractSource());
-        //register preview provider
-        context.subscriptions.push(...previewer.register());
-        //register symbol provider
-        context.subscriptions.push(...symboler.register());
-        //register formatter provider
-        context.subscriptions.push(...formatter.register());
-        //register diagnoser
-        context.subscriptions.push(...new Diagnoser(ext).register());
+        context.subscriptions.push(
+            new CommandExportCurrent(),
+            new CommandExportDocument(),
+            new CommandExportWorkspace(),
+            new CommandURLCurrent(),
+            new CommandURLDocument(),
+            new CommandPreviewStatus(),
+            new CommandExtractSource(),
+            new Formatter(),
+            new Symbol(),
+            new Diagnoser(ext),
+            previewer,
+            config,
+        );
         return {
             extendMarkdownIt(md: any) {
                 return md.use(plantumlPlugin(md));
             }
         }
     } catch (error) {
-        outputPanel.clear()
+        outputPanel.clear();
         outputPanel.append(error);
     }
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() {
-    previewer.stopWatch();
     outputPanel.dispose();
     bar.dispose()
 }
