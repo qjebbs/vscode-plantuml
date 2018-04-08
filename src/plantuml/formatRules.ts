@@ -73,15 +73,6 @@ let rules = <RulesWriting>{
             name: "Block",
             rules: [
                 {
-                    comment: "block {}",
-                    isBlock: true,
-                    begin: /({{LB}}|[^-])\{[!#+T*-/]?/i,
-                    end: /\}(?!-)/i,
-                    patterns: {
-                        includes: ["Quoted", "Block"],
-                    }
-                },
-                {
                     comment: "block multiple note",
                     isBlock: true,
                     begin: /{{LB}}note\s+(left|right){{LE}}/i,
@@ -218,7 +209,21 @@ let rules = <RulesWriting>{
                     patterns: {
                         includes: ["Quoted", "Block"],
                     }
-                }
+                },
+                // block {} must be the last rule,
+                // to avoid bad format like "note left of Foo {"
+                // or, the "{" is matched by this rule, "note left of Foo " will be matched 
+                // to "block multiple note of over", though that rule requires line ending instead of "{"
+                // because "{" has been taken.
+                {
+                    comment: "block {}",
+                    isBlock: true,
+                    begin: /({{LB}}|[^-])\{[!#+T*-/]?/i,
+                    end: /\}(?!-)/i,
+                    patterns: {
+                        includes: ["Quoted", "Block"],
+                    }
+                },
             ]
         },
         {
