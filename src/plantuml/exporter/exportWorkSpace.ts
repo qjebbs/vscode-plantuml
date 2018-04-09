@@ -17,7 +17,6 @@ export async function exportWorkSpace(para) {
 
     if (!vscode.workspace.workspaceFolders) { return; }
 
-    showMessagePanel("");
     let files = await getFileList(para);
     let hasEmptyFormat: boolean = files.reduce((hasEmpty, file) => {
         if (hasEmpty) return true;

@@ -25,7 +25,6 @@ export async function exportDocument(all: boolean) {
         format = await vscode.window.showQuickPick(appliedRender().formats());
         if (!format) return;
     }
-    showMessagePanel("");
     let ds = new Diagrams();
     if (all) {
         ds.AddDocument();
