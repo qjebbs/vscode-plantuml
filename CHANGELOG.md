@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.5.7
+
+- Fix: Read config for unsaved file issue, resolve [#109](https://github.com/qjebbs/vscode-plantuml/issues/109)
+
 ## 2.5.6
 
 - Fix: Some syntax highligh and formating fixes.
