@@ -50,7 +50,7 @@ export abstract class ConfigReader extends vscode.Disposable {
         let func: (settingRoot: vscode.Uri, settingValue: T) => T = undefined;
         if (para.length) func = para.shift();
 
-        let settingRoot = vscode.workspace.getWorkspaceFolder(uri).uri;
+        let folder = vscode.workspace.getWorkspaceFolder(uri);
         let value: T = undefined;
         if (results.workspaceFolderValue !== undefined)
             value = results.workspaceFolderValue;
@@ -60,7 +60,7 @@ export abstract class ConfigReader extends vscode.Disposable {
             value = results.globalValue;
         else
             value = results.defaultValue;
-        if (func) return func(settingRoot, value);
+        if (func && folder && folder.uri) return func(folder.uri, value);
         return value;
     }
 
