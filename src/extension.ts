@@ -43,6 +43,8 @@ export function activate(context: vscode.ExtensionContext) {
             new Diagnoser(ext),
             previewer,
             config,
+            outputPanel,
+            bar,
         );
         return {
             extendMarkdownIt(md: any) {
@@ -56,7 +58,4 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {
-    outputPanel.dispose();
-    bar.dispose()
-}
+export function deactivate() { }

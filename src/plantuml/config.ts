@@ -9,12 +9,6 @@ export const RenderType = {
     PlantUMLServer: 'PlantUMLServer'
 };
 
-type ConfigMap = {
-    [key: string]: vscode.WorkspaceConfiguration;
-}
-
-let conf = vscode.workspace.getConfiguration('plantuml');
-
 class Config extends ConfigReader {
     private _jar: string;
 
