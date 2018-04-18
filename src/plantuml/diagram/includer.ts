@@ -20,14 +20,12 @@ class Includer {
     private _calculated: FolderIncludes = {};
 
     addIncludes(diagram: Diagram): string {
-        // FIXME: _findIntegrated not work when no folder open
         let folder = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
-        if (!folder) return diagram.content;
-        let folderPath = folder.uri.fsPath;
-        let cache = this._calculated[folderPath]
-        // FIXME: not watch changes of include file.
-        if (!cache || cache.settings != config.includes(diagram.parentUri).sort().toString()) {
-            cache = this._calcIncludes(folder.uri);
+        let folderPath = folder ? folder.uri.fsPath : "";
+        let folderUri = folder ? folder.uri : undefined;
+        let cache = this._calculated[folderPath];
+        if (!cache || cache.settings != config.includes(folderUri).sort().toString()) {
+            cache = this._calcIncludes(folderUri);
             this._calculated[folderPath] = cache;
         }
         if (!cache.includes) return diagram.content;
@@ -40,7 +38,9 @@ class Includer {
         for (let c of confs) {
             if (!c) continue;
             if (!path.isAbsolute(c)) {
-                paths.push(...(this._findWorkspace(uri.fsPath, c) || this._findIntegrated(c) || []));
+                let ws = uri ? this._findWorkspace(uri.fsPath, c) : [];
+                let inte = this._findIntegrated(c);
+                paths.push(...ws, ...inte);
                 continue;
             }
             if (fs.existsSync(c)) paths.push(c);
@@ -51,18 +51,18 @@ class Includer {
         };
     }
     private _findWorkspace(folder: string, conf: string): string[] {
-        if (!folder) return null;
+        if (!folder) return [];
         conf = path.join(folder, conf);
         if (fs.existsSync(conf)) {
             if (fs.statSync(conf).isDirectory()) return fs.readdirSync(conf).map(f => path.join(conf, f));
             return [conf];
         }
-        return null;
+        return [];
     }
     private _findIntegrated(p: string): string[] {
         p = path.join(context.extensionPath, "includes", p + ".wsd");
         if (fs.existsSync(p)) return [p];
-        return null;
+        return [];
     }
     private _canNotInclude(content: string): boolean {
         let lines = content.split("\n");
