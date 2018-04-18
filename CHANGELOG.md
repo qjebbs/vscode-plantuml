@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.5.8
+
+- Fix: Calc auto include for no-current-workspace file, resolve [#110](https://github.com/qjebbs/vscode-plantuml/issues/110)
+- Improvement: Error catch optimize
+- Code optimize.
+
 ## 2.5.7
 
 - Fix: Read config for unsaved file issue, resolve [#109](https://github.com/qjebbs/vscode-plantuml/issues/109)
