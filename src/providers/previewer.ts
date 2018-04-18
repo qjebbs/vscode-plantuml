@@ -7,7 +7,7 @@ import { RenderTask, RenderError } from '../plantuml/renders/interfaces'
 import { Diagram, Diagrams } from '../plantuml/diagram/diagram';
 import { config } from '../plantuml/config';
 import { context, localize } from '../plantuml/common';
-import { parseError, calculateExportPath, addFileIndex } from '../plantuml/tools';
+import { parseError, calculateExportPath, addFileIndex, showMessagePanel } from '../plantuml/tools';
 import { exportToBuffer } from "../plantuml/exporter/exportToBuffer";
 
 enum previewStatus {
@@ -100,28 +100,32 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         this.uiStatus = status;
     }
     update(processingTip: boolean) {
-        //FIXME: last update may not happen due to killingLock
-        if (this.killingLock) return;
-        if (this.task) this.task.canceled = true;
-        if (this.task && this.task.processes && this.task.processes.length) {
-            this.killingLock = true;
-            //kill lats unfinished task.
-            // let pid = this.process.pid;
-            this.task.processes.map((p, i) => {
-                p.kill()
-                if (i == this.task.processes.length - 1) {
-                    //start next preview only when last process is killed
-                    p.on('exit', (code) => {
-                        // console.log(`killed (${pid} ${code}) and restart!`);
-                        this.task.processes = [];
-                        this.doUpdate(processingTip);
-                        this.killingLock = false;
-                    })
-                }
-            });
-            return;
+        try {
+            //FIXME: last update may not happen due to killingLock
+            if (this.killingLock) return;
+            if (this.task) this.task.canceled = true;
+            if (this.task && this.task.processes && this.task.processes.length) {
+                this.killingLock = true;
+                //kill lats unfinished task.
+                // let pid = this.process.pid;
+                this.task.processes.map((p, i) => {
+                    p.kill()
+                    if (i == this.task.processes.length - 1) {
+                        //start next preview only when last process is killed
+                        p.on('exit', (code) => {
+                            // console.log(`killed (${pid} ${code}) and restart!`);
+                            this.task.processes = [];
+                            this.doUpdate(processingTip);
+                            this.killingLock = false;
+                        })
+                    }
+                });
+                return;
+            }
+            this.doUpdate(processingTip).catch(e => showMessagePanel(e));
+        } catch (error) {
+            showMessagePanel(error);
         }
-        this.doUpdate(processingTip);
     }
     get TargetChanged(): boolean {
         let current = new Diagram().GetCurrent();
@@ -136,7 +140,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         }
         return changed;
     }
-    private doUpdate(processingTip: boolean) {
+    private async doUpdate(processingTip: boolean) {
         let diagram = new Diagram().GetCurrent();
         if (!diagram.content) {
             this.status = previewStatus.error;
@@ -153,7 +157,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
 
         // console.log(`start pid ${this.process.pid}!`);
         if (processingTip) this.processing();
-        task.promise.then(
+        await task.promise.then(
             result => {
                 if (task.canceled) return;
                 this.task = null;
@@ -196,29 +200,33 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
 
         //register command
         disposable = vscode.commands.registerCommand('plantuml.preview', () => {
-            var editor = vscode.window.activeTextEditor;
-            if (!editor) return;
-            let ds = new Diagrams().AddDocument(editor.document);
-            if (!ds.diagrams.length) return;
+            try {
+                var editor = vscode.window.activeTextEditor;
+                if (!editor) return;
+                let ds = new Diagrams().AddDocument(editor.document);
+                if (!ds.diagrams.length) return;
 
-            //reset in case that starting commnad in none-diagram area, 
-            //or it may show last error image and may cause wrong "TargetChanged" result on cursor move.
-            this.reset();
-            this.TargetChanged;
-            return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, localize(17, null))
-                .then(
-                    success => {
-                        //active source editor
-                        vscode.window.showTextDocument(editor.document);
-                        //update preview
-                        if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
-                        this.update(true);
-                        return;
-                    },
-                    reason => {
-                        vscode.window.showErrorMessage(reason);
-                    }
-                );
+                //reset in case that starting commnad in none-diagram area, 
+                //or it may show last error image and may cause wrong "TargetChanged" result on cursor move.
+                this.reset();
+                this.TargetChanged;
+                return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, localize(17, null))
+                    .then(
+                        success => {
+                            //active source editor
+                            vscode.window.showTextDocument(editor.document);
+                            //update preview
+                            if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
+                            this.update(true);
+                            return;
+                        },
+                        reason => {
+                            vscode.window.showErrorMessage(reason);
+                        }
+                    );
+            } catch (error) {
+                showMessagePanel(error);
+            }
         });
         this._disposables.push(disposable);
     }
