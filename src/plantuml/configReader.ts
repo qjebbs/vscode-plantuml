@@ -38,19 +38,20 @@ export abstract class ConfigReader extends vscode.Disposable {
      */
     read<T>(key: string, uri: vscode.Uri, func?: (settingRoot: vscode.Uri, settingValue: T) => T): T;
     read<T>(key: string, ...para: any[]): T {
-        if (!para || !para.length) return this._conf.get<T>(key);
+        if (!para || !para.length || !para[0]) return this._conf.get<T>(key); // no uri? return global value.
         let uri = para.shift() as vscode.Uri;
-        let folderConf = this._folderConfs[uri.fsPath];
+        let folder = vscode.workspace.getWorkspaceFolder(uri);
+        if (!folder || !folder.uri) return this._conf.get<T>(key); // new file or not current workspace file? return global value.
+        let folderConf = this._folderConfs[folder.uri.fsPath];
         if (!folderConf) {
-            folderConf = vscode.workspace.getConfiguration(this._section, uri);
-            this._folderConfs[uri.fsPath] = folderConf;
+            folderConf = vscode.workspace.getConfiguration(this._section, folder.uri);
+            this._folderConfs[folder.uri.fsPath] = folderConf;
         }
         let results = folderConf.inspect<T>(key);
 
         let func: (settingRoot: vscode.Uri, settingValue: T) => T = undefined;
         if (para.length) func = para.shift();
 
-        let folder = vscode.workspace.getWorkspaceFolder(uri);
         let value: T = undefined;
         if (results.workspaceFolderValue !== undefined)
             value = results.workspaceFolderValue;
