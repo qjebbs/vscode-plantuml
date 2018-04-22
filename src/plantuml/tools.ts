@@ -147,3 +147,16 @@ export function processWrapper(process: child_process.ChildProcess, pipeFilePath
         });
     });
 }
+
+export function testJava(java: string): boolean {
+    let _javaInstalled = false;
+    if (!_javaInstalled) {
+        try {
+            child_process.execSync(java + " -version");
+            _javaInstalled = true
+        } catch (error) {
+            _javaInstalled = false
+        }
+    }
+    return _javaInstalled;
+}

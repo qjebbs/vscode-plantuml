@@ -6,7 +6,7 @@ import * as path from 'path';
 import { IRender, RenderTask, RenderError } from './interfaces'
 import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
-import { context, localize, java, javaInstalled } from '../common';
+import { context, localize } from '../common';
 import { addFileIndex, processWrapper } from '../tools';
 
 class LocalRender implements IRender {
@@ -53,7 +53,7 @@ class LocalRender implements IRender {
         return this.createTask(diagram, "-pipemap", savePath);
     }
     private createTask(diagram: Diagram, taskType: string, savePath: string, format?: string): RenderTask {
-        if (!javaInstalled()) {
+        if (!config.java) {
             let pms = Promise.reject(localize(5, null));
             return <RenderTask>{ promise: pms };
         }
@@ -87,7 +87,7 @@ class LocalRender implements IRender {
                 if (diagram.path) params.push("-filename", path.basename(diagram.path));
                 // Add user jar args
                 params.push(...config.jarArgs);
-                let process = child_process.spawn(java, params);
+                let process = child_process.spawn(config.java, params);
                 processes.push(process);
                 return pChain.then(
                     () => {

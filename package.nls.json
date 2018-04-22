@@ -22,5 +22,6 @@
 	"plantuml.configuration.includes": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more.",
 	"plantuml.configuration.commandArgs": "commandArgs allows you add arguments to java command, such as \"-DPLANTUML_LIMIT_SIZE=8192\".",
 	"plantuml.configuration.jarArgs": "jarArgs allows you add arguments to plantuml.jar, such as \"-config plantuml.config\".",
-	"plantuml.configuration.exportMapFile": "Determine whether export image map (.cmapx) file when export."
+	"plantuml.configuration.exportMapFile": "Determine whether export image map (.cmapx) file when export.",
+	"plantuml.configuration.java": "Java executable location."
 }

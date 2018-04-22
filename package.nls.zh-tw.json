@@ -22,5 +22,6 @@
 	"plantuml.configuration.includes": "預覽/匯出時自動參考到圖表中的檔案或資料夾 。 讓您不需要到處寫 \"!include path/to/include.wsd\"。",
 	"plantuml.configuration.commandArgs": "執行 JAVA 加入的參數， 例如 \"-DPLANTUML_LIMIT_SIZE=8192\"。",
 	"plantuml.configuration.jarArgs": "執行 plantuml.jar 加入的參數， 例如 \"-config plantuml.config\"。",
-	"plantuml.configuration.exportMapFile": "決定是否在匯出圖表的同時會出圖像地圖 (.cmapx)。"
+	"plantuml.configuration.exportMapFile": "決定是否在匯出圖表的同時會出圖像地圖 (.cmapx)。",
+	"plantuml.configuration.java": "Java executable location."
 }

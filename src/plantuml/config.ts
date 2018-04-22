@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { localize, context } from './common';
 import { ConfigReader } from './configReader';
+import { testJava } from './tools';
 
 export const RenderType = {
     Local: 'Local',
@@ -11,13 +12,15 @@ export const RenderType = {
 
 class Config extends ConfigReader {
     private _jar: string;
+    private _java: string;
 
-    constructor(){
+    constructor() {
         super('plantuml');
     }
 
-    onChange(){
+    onChange() {
         this._jar = "";
+        this._java = "";
     }
 
     get jar(): string {
@@ -104,6 +107,15 @@ class Config extends ConfigReader {
     }
     get jarArgs(): string[] {
         return this.read<string[]>('jarArgs') || [];
+    }
+    get java(): string {
+        return this._java || (() => {
+            let java = this.read<string>('java') || "java";
+            if (testJava(java)) {
+                this._java = java;
+            }
+            return this._java;
+        })();
     }
 }
 

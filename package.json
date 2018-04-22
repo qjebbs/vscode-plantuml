@@ -210,6 +210,11 @@
           ],
           "description": "%plantuml.configuration.exportFormat%"
         },
+        "plantuml.java": {
+          "type": "string",
+          "default": "java",
+          "description": "%plantuml.configuration.java%"
+        },
         "plantuml.jar": {
           "type": "string",
           "default": "",

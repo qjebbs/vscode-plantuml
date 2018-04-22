@@ -4,7 +4,7 @@
 	"Kein Diagramm zum Exportieren.",
 	"Es wurde kein gültiges Diagramm gefunden!",
 	"Export der Diagramm(e) war erfolgreich.",
-	"Java nicht installiert!\nWenn Sie Java installiert haben, fügen Sie bitte den Java-Bin-Pfad zur PATH-Umgebungsvariable hinzu.",
+	"Cannot find java!\nIf you've installed java, please add java bin path to PATH environment variable.\nOr, configure java executable path with \"plantuml.java\".",
 	"'plantuml.jar' konnte nicht gefunden werden.\nBitte laden Sie es herunter und platzieren Sie es hier: \n{0}",
 	"PlantUML exportiert: {0}",
 	"Keine Datei zum Exportieren.",

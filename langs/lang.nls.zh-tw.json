@@ -4,7 +4,7 @@
 	"無圖表可匯出",
 	"目前位置未找到有效的圖表！",
 	"匯出圖表成功。",
-	"java尚未安裝\n如果已經有安裝java，請確認java的bin路徑在 PATH的環境參數裡面。",
+	"Cannot find java!\nIf you've installed java, please add java bin path to PATH environment variable.\nOr, configure java executable path with \"plantuml.java\".",
 	"找不到'plantuml.jar'。\n請下載並且放到這個位置：\n{0}",
 	"PlantUML 匯出中: {0}",
 	"工作區沒找到檔案可以匯出。",

@@ -4,7 +4,7 @@
 	"No diagram to export.",
 	"No valid diagram found here!",
 	"Export diagram(s) success.",
-	"java not installed!\nIf you've installed java, please add java bin path to PATH environment variable.",
+	"Cannot find java!\nIf you've installed java, please add java bin path to PATH environment variable.\nOr, configure java executable path with \"plantuml.java\".",
 	"Can't find 'plantuml.jar'.\nPlease download and place it here: \n{0}",
 	"PlantUML Exporting: {0}",
 	"No file to export.",

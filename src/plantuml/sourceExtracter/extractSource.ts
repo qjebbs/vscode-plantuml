@@ -2,13 +2,13 @@ import * as vscode from 'vscode';
 import * as child_process from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { localize, languageid, javaInstalled, java, bar } from '../common';
+import { localize, languageid, bar } from '../common';
 import { config } from '../config';
 import { processWrapper } from '../tools';
 
 export async function extractSource() {
 
-    if (!javaInstalled()) {
+    if (!config.java) {
         vscode.window.showErrorMessage(localize(5, null));
         return;
     }
@@ -53,7 +53,7 @@ function extract(imgs: vscode.Uri[]) {
                         bar.show();
                         bar.text = localize(33, null, index + 1, imgs.length, path.basename(img.fsPath));
                     }
-                    let process = child_process.spawn(java, params);
+                    let process = child_process.spawn(config.java, params);
 
                     let pms = processWrapper(process).then(
                         result => new Promise<Buffer>((resolve, reject) => {
