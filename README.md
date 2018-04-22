@@ -259,6 +259,7 @@ Translations are welcome. [lang.nls.json](https://github.com/qjebbs/vscode-plant
 
 This extension contributes the following settings:
 
+- `plantuml.java`: Java executable location.
 - `plantuml.jar`: Alternate plantuml.jar location. Leave it blank to use integrated jar.
 - `plantuml.fileExtensions`: File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like ".java".
 - `plantuml.exportFormat`: format to export. default is not set, user may pick one format everytime exports. You can still set a format for it if you don't want to pick.

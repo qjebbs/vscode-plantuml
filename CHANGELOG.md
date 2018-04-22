@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.5.9
+
+- Improvement: Configurable Java executable path, resolve [#72](https://github.com/qjebbs/vscode-plantuml/issues/72), [#112](https://github.com/qjebbs/vscode-plantuml/issues/112)
+- Update traditional chinese translation.
+- Fix: Graphviz download url. Thanks [binderclip](https://github.com/binderclip).
+
 ## 2.5.8
 
 - Fix: Calc auto include for no-current-workspace file, resolve [#110](https://github.com/qjebbs/vscode-plantuml/issues/110)
