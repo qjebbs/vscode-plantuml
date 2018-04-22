@@ -3,7 +3,6 @@ import * as nls from "vscode-nls";
 import { join } from "path";
 
 export const languageid = "diagram";
-export const java: string = "java";
 
 export var outputPanel = vscode.window.createOutputChannel("PlantUML");
 export var context: vscode.ExtensionContext;
