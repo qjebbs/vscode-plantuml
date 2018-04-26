@@ -300,7 +300,7 @@ Please post and view issues on [GitHub][issues]
 
 Thanks for your encouragements!
 
-    Claus Appel, 三島木​一磨
+    Claus Appel, 三島木​一磨, 富吉​佑季
 
 -----------------------------------------------------------------------------------------------------------
 
