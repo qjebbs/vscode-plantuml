@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.5.10
+
+- Update embedded default plantuml.jar
+
 ## 2.5.9
 
 - Improvement: Configurable Java executable path, resolve [#72](https://github.com/qjebbs/vscode-plantuml/issues/72), [#112](https://github.com/qjebbs/vscode-plantuml/issues/112)
