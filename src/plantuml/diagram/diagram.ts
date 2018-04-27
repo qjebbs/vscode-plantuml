@@ -8,18 +8,63 @@ import { config } from '../config';
 export const diagramStartReg = /@start/i;
 export const diagramEndReg = /@end/i;
 
+
+export function currentDiagram(): Diagram {
+    let editor = vscode.window.activeTextEditor;
+    if (editor) return diagramAt(editor.document, editor.selection.anchor.line);
+}
+
+export function diagramAt(document: vscode.TextDocument, lineNumber: number): Diagram {
+    let start: vscode.Position;
+    let end: vscode.Position;
+    let content: string = "";
+    for (let i = lineNumber; i >= 0; i--) {
+        let line = document.lineAt(i);
+        if (diagramStartReg.test(line.text)) {
+            start = line.range.start;
+            break;
+        } else if (i != lineNumber && diagramEndReg.test(line.text)) {
+            return this;
+        }
+    }
+    for (let i = lineNumber; i < document.lineCount; i++) {
+        let line = document.lineAt(i);
+        if (diagramEndReg.test(line.text)) {
+            end = line.range.end
+            break;
+        } else if (i != lineNumber && diagramStartReg.test(line.text)) {
+            return this;
+        }
+    }
+    // if no diagram block found, add entire document
+    if (
+        !(start && end) &&
+        document.getText().trim() &&
+        document.languageId == "diagram"
+    ) {
+        start = document.lineAt(0).range.start;
+        end = document.lineAt(document.lineCount - 1).range.end;
+    }
+    let diagram: Diagram = undefined;
+    if (start && end) {
+        content = document.getText(new vscode.Range(start, end));
+        diagram = new Diagram(content, document, start, end);
+    }
+    return diagram ? includer.addIncludes(diagram) : undefined;
+}
+
 export function diagramsOf(document: vscode.TextDocument): Diagram[] {
     let diagrams: Diagram[] = [];
     for (let i = 0; i < document.lineCount; i++) {
         let line = document.lineAt(i);
         if (diagramStartReg.test(line.text)) {
-            let d = new Diagram().DiagramAt(i, document);
+            let d = diagramAt(document, i);
             diagrams.push(d);
         }
     }
     // if no diagram block found, try add entire document
     if (!diagrams.length) {
-        let d = new Diagram().DiagramAt(0, document);
+        let d = diagramAt(document, 0);
         if (d) diagrams.push(d);
     }
     return diagrams;
@@ -39,68 +84,26 @@ export class Diagram {
     pageCount: number = 1;
     lines: string[];
     index: number = 0;
-    constructor(content?: string) {
-        if (!content) return;
+    constructor(content: string);
+    constructor(content: string, document: vscode.TextDocument, start: vscode.Position, end: vscode.Position);
+    constructor(content: string, ...para: any[]) {
         this.content = content;
-        this.lines = content.split('\n');
-        this.getTitle();
-        this.getPageCount();
-    }
-    GetCurrent(): Diagram {
-        let editor = vscode.window.activeTextEditor;
-        if (editor) this.DiagramAt(editor.selection.anchor.line);
-        return this;
-    }
-    DiagramAt(lineNumber: number, document?: vscode.TextDocument): Diagram {
-        if (!document) document = vscode.window.activeTextEditor.document;
-        this.document = document;
-        this.parentUri = document.uri;
-        this.path = document.uri.fsPath;
-        this.fileName = path.basename(this.path);
-        let i = this.fileName.lastIndexOf(".");
-        if (i >= 0) this.fileName = this.fileName.substr(0, i);
-        this.dir = path.dirname(this.path);
-        if (!path.isAbsolute(this.dir)) this.dir = "";
-
-        for (let i = lineNumber; i >= 0; i--) {
-            let line = document.lineAt(i);
-            if (diagramStartReg.test(line.text)) {
-                this.start = line.range.start;
-                break;
-            } else if (i != lineNumber && diagramEndReg.test(line.text)) {
-                return this;
-            }
-        }
-        for (let i = lineNumber; i < document.lineCount; i++) {
-            let line = document.lineAt(i);
-            if (diagramEndReg.test(line.text)) {
-                this.end = line.range.end
-                break;
-            } else if (i != lineNumber && diagramStartReg.test(line.text)) {
-                return this;
-            }
-        }
-        // if no diagram block found, add entire document
-        if (
-            !(this.start && this.end) &&
-            document.getText().trim() &&
-            document.languageId == "diagram"
-        ) {
-            this.start = document.lineAt(0).range.start;
-            this.end = document.lineAt(document.lineCount - 1).range.end;
-        }
-        if (this.start && this.end) {
-            this.lines = [];
-            this.content = document.getText(new vscode.Range(this.start, this.end));
-            this.content = includer.addIncludes(this);
-            for (let i = this.start.line; i <= this.end.line; i++) {
-                this.lines.push(document.lineAt(i).text);
-            }
+        this.lines = content.replace(/\r/g, "").split('\n');
+        if (para && para.length == 3) {
+            this.document = para[0];
+            this.start = para[1];
+            this.end = para[2];
+            this.parentUri = this.document.uri;
+            this.path = this.document.uri.fsPath;
+            this.fileName = path.basename(this.path);
+            let i = this.fileName.lastIndexOf(".");
+            if (i >= 0) this.fileName = this.fileName.substr(0, i);
+            this.dir = path.dirname(this.path);
+            if (!path.isAbsolute(this.dir)) this.dir = "";
+            this.getPageCount();
             this.getIndex();
             this.getTitle();
-            this.getPageCount();
         }
-        return this.content ? this : undefined;
     }
     isEqual(d: Diagram): boolean {
         if (this.dir !== d.dir) return false;
@@ -144,7 +147,6 @@ export class Diagram {
         }
     }
     private getIndex() {
-        if (!this.document) return;
         for (let i = 0; i < this.start.line; i++) {
             if (diagramStartReg.test(this.document.lineAt(i).text)) this.index++;
         }

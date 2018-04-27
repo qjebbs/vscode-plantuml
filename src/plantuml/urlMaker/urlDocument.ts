@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as nls from "vscode-nls";
 
-import { Diagram, diagramsOf } from '../diagram/diagram';
+import { Diagram, diagramsOf, currentDiagram } from '../diagram/diagram';
 import { config } from '../config';
 import { outputPanel, context, localize, bar } from '../common';
 import { plantumlServer } from '../renders/plantumlServer';
@@ -31,8 +31,8 @@ export async function makeDocumentURL(all: boolean) {
             return;
         }
     } else {
-        let dg = new Diagram().GetCurrent();
-        if (!dg.content) {
+        let dg = currentDiagram();
+        if (!dg) {
             vscode.window.showWarningMessage(localize(3, null));
             return;
         }

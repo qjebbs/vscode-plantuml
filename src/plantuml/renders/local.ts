@@ -97,7 +97,7 @@ class LocalRender implements IRender {
                             return Promise.resolve(null);
                         }
 
-                        if (diagram.content !== null) {
+                        if (diagram && diagram.content) {
                             process.stdin.write(diagram.content);
                             process.stdin.end();
                         }

@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as child_process from 'child_process';
 
 import { RenderTask, RenderError } from '../plantuml/renders/interfaces'
-import { Diagram, diagramsOf } from '../plantuml/diagram/diagram';
+import { Diagram, diagramsOf, currentDiagram } from '../plantuml/diagram/diagram';
 import { config } from '../plantuml/config';
 import { context, localize } from '../plantuml/common';
 import { parseError, calculateExportPath, addFileIndex, showMessagePanel } from '../plantuml/tools';
@@ -128,8 +128,8 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         }
     }
     get TargetChanged(): boolean {
-        let current = new Diagram().GetCurrent();
-        if (!current.content) return false;
+        let current = currentDiagram();
+        if (!current) return false;
         let changed = (!this.rendered || !this.rendered.isEqual(current));
         if (changed) {
             this.rendered = current;
@@ -141,8 +141,8 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         return changed;
     }
     private async doUpdate(processingTip: boolean) {
-        let diagram = new Diagram().GetCurrent();
-        if (!diagram.content) {
+        let diagram = currentDiagram();
+        if (!diagram) {
             this.status = previewStatus.error;
             this.error = localize(3, null);
             this.images = [];
@@ -245,7 +245,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
             lastTimestamp = new Date().getTime();
             setTimeout(() => {
                 if (new Date().getTime() - lastTimestamp >= 400) {
-                    if (!new Diagram().GetCurrent().content) return;
+                    if (!currentDiagram()) return;
                     this.update(false);
                 }
             }, 500);

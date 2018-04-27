@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 
 import { appliedRender } from './appliedRender'
-import { Diagram, diagramsOf } from '../diagram/diagram';
+import { Diagram, currentDiagram, diagramsOf } from '../diagram/diagram';
 import { config } from '../config';
 import { localize, bar } from '../common';
 import { showMessagePanel, StopWatch } from '../tools';
@@ -33,8 +33,8 @@ export async function exportDocument(all: boolean) {
             return;
         }
     } else {
-        let dg = new Diagram().GetCurrent();
-        if (!dg.content) {
+        let dg = currentDiagram();
+        if (!dg) {
             vscode.window.showInformationMessage(localize(3, null));
             return;
         }

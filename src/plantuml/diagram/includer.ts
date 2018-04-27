@@ -19,7 +19,7 @@ interface includeCache {
 class Includer {
     private _calculated: FolderIncludes = {};
 
-    addIncludes(diagram: Diagram): string {
+    addIncludes(diagram: Diagram): Diagram {
         let folder = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
         let folderPath = folder ? folder.uri.fsPath : "";
         let folderUri = folder ? folder.uri : undefined;
@@ -28,8 +28,8 @@ class Includer {
             cache = this._calcIncludes(folderUri);
             this._calculated[folderPath] = cache;
         }
-        if (!cache.includes) return diagram.content;
-        return diagram.content.replace(/\n\s*'\s*autoinclude\s*\n/i, `${cache.includes}\n`);
+        if (cache.includes) diagram.content = diagram.content.replace(/\n\s*'\s*autoinclude\s*\n/i, `${cache.includes}\n`);
+        return diagram;
     }
     private _calcIncludes(uri: vscode.Uri): includeCache {
         let includes = "";
