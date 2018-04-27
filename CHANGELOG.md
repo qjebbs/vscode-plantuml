@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.5.11
+
+- Fix: No diagram tip on first open preview, resolve [#115](https://github.com/qjebbs/vscode-plantuml/issues/115).
+- Code optimize.
+
 ## 2.5.10
 
 - Update embedded default plantuml.jar
