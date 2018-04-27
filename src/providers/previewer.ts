@@ -214,11 +214,17 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                     .then(
                         success => {
                             //active source editor
-                            vscode.window.showTextDocument(editor.document);
-                            //update preview
-                            if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
-                            this.update(true);
-                            return;
+                            vscode.window.showTextDocument(editor.document).then(
+                                () => {
+                                    //update preview
+                                    if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
+                                    this.update(true);
+                                    return;
+                                },
+                                reason => {
+                                    vscode.window.showErrorMessage(reason);
+                                }
+                            );
                         },
                         reason => {
                             vscode.window.showErrorMessage(reason);
