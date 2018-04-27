@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Diagrams } from '../plantuml/diagram/diagram'
+import { diagramsOf } from '../plantuml/diagram/diagram'
 
 export class Symbol extends vscode.Disposable implements vscode.DocumentSymbolProvider {
     private _disposables: vscode.Disposable[] = [];
@@ -46,8 +46,8 @@ export class Symbol extends vscode.Disposable implements vscode.DocumentSymbolPr
     provideDocumentSymbols(document: vscode.TextDocument, token: vscode.CancellationToken): vscode.SymbolInformation[] {
         let results: vscode.SymbolInformation[] = [];
 
-        let ds = new Diagrams().AddDocument(document);
-        for (let d of ds.diagrams) {
+        let diagrams = diagramsOf(document);
+        for (let d of diagrams) {
             results.push(
                 new vscode.SymbolInformation(
                     d.title,

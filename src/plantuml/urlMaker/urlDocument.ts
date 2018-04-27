@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as nls from "vscode-nls";
 
-import { Diagram, Diagrams } from '../diagram/diagram';
+import { Diagram, diagramsOf } from '../diagram/diagram';
 import { config } from '../config';
 import { outputPanel, context, localize, bar } from '../common';
 import { plantumlServer } from '../renders/plantumlServer';
@@ -23,10 +23,10 @@ export async function makeDocumentURL(all: boolean) {
         format = await vscode.window.showQuickPick(plantumlServer.formats());
         if (!format) return;
     }
-    let ds = new Diagrams();
+    let diagrams: Diagram[] = [];
     if (all) {
-        ds.AddDocument();
-        if (!ds.diagrams.length) {
+        diagrams = diagramsOf(editor.document);
+        if (!diagrams.length) {
             vscode.window.showWarningMessage(localize(15, null));
             return;
         }
@@ -36,10 +36,10 @@ export async function makeDocumentURL(all: boolean) {
             vscode.window.showWarningMessage(localize(3, null));
             return;
         }
-        ds.Add(dg);
+        diagrams.push(dg);
         editor.selections = [new vscode.Selection(dg.start, dg.end)];
     }
-    let urls = makeURLs(ds.diagrams, config.server, format, bar)
+    let urls = makeURLs(diagrams, config.server, format, bar)
     bar.hide();
 
     outputPanel.clear();

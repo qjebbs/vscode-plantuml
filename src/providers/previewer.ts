@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as child_process from 'child_process';
 
 import { RenderTask, RenderError } from '../plantuml/renders/interfaces'
-import { Diagram, Diagrams } from '../plantuml/diagram/diagram';
+import { Diagram, diagramsOf } from '../plantuml/diagram/diagram';
 import { config } from '../plantuml/config';
 import { context, localize } from '../plantuml/common';
 import { parseError, calculateExportPath, addFileIndex, showMessagePanel } from '../plantuml/tools';
@@ -203,8 +203,8 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
             try {
                 var editor = vscode.window.activeTextEditor;
                 if (!editor) return;
-                let ds = new Diagrams().AddDocument(editor.document);
-                if (!ds.diagrams.length) return;
+                let diagrams = diagramsOf(editor.document);
+                if (!diagrams.length) return;
 
                 //reset in case that starting commnad in none-diagram area, 
                 //or it may show last error image and may cause wrong "TargetChanged" result on cursor move.

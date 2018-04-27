@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as child_process from 'child_process';
 
-import { Diagram, Diagrams } from '../diagram/diagram';
+import { Diagram } from '../diagram/diagram';
 
 export interface RenderError {
     /**

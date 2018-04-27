@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
 import { RenderTask, } from '../renders/interfaces';
-import { Diagram, Diagrams } from '../diagram/diagram';
+import { Diagram, diagramsOf } from '../diagram/diagram';
 import { exportDiagrams } from './exportDiagrams';
 
 export interface FileAndFormat {
@@ -17,7 +17,7 @@ export interface FileAndFormat {
  */
 export async function exportFile(file: FileAndFormat, bar?: vscode.StatusBarItem): Promise<Buffer[][]> {
     let doc = await vscode.workspace.openTextDocument(file.uri);
-    let ds = new Diagrams().AddDocument(doc)
-    if (!ds.diagrams.length) return Promise.resolve(<Buffer[][]>[]);
-    return exportDiagrams(ds.diagrams, file.format, bar);
+    let diagrams = diagramsOf(doc);
+    if (!diagrams.length) return Promise.resolve(<Buffer[][]>[]);
+    return exportDiagrams(diagrams, file.format, bar);
 }

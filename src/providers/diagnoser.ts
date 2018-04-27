@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Diagrams } from '../plantuml/diagram/diagram';
+import { diagramsOf } from '../plantuml/diagram/diagram';
 import { Uri } from 'vscode';
 import { localize } from '../plantuml/common';
 
@@ -25,13 +25,13 @@ export class Diagnoser extends vscode.Disposable {
     dispose() {
         this._disposables && this._disposables.length && this._disposables.map(d => d.dispose());
     }
-    
+
     diagnose(document: vscode.TextDocument) {
         if (document.languageId !== this.langID) return;
-        let diagrams = new Diagrams().AddDocument(document);
+        let diagrams = diagramsOf(document);
         let diagnostics: vscode.Diagnostic[] = [];
         let names = {};
-        diagrams.diagrams.map(d => {
+        diagrams.map(d => {
             let range = document.lineAt(d.start.line).range;
             if (!d.titleRaw) {
                 diagnostics.push(

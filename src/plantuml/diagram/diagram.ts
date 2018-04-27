@@ -7,37 +7,22 @@ import { config } from '../config';
 
 export const diagramStartReg = /@start/i;
 export const diagramEndReg = /@end/i;
-export class Diagrams {
-    diagrams: Diagram[] = [];
-    Add(diagram: Diagram) {
-        this.diagrams.push(diagram);
-        return this;
-    }
-    AddCurrent() {
-        let d = new Diagram();
-        d.GetCurrent();
-        this.diagrams.push(d);
-        return this
-    }
-    AddDocument(document?: vscode.TextDocument) {
-        if (!document) {
-            let editor = vscode.window.activeTextEditor;
-            document = editor.document;
+
+export function diagramsOf(document: vscode.TextDocument): Diagram[] {
+    let diagrams: Diagram[] = [];
+    for (let i = 0; i < document.lineCount; i++) {
+        let line = document.lineAt(i);
+        if (diagramStartReg.test(line.text)) {
+            let d = new Diagram().DiagramAt(i, document);
+            diagrams.push(d);
         }
-        for (let i = 0; i < document.lineCount; i++) {
-            let line = document.lineAt(i);
-            if (diagramStartReg.test(line.text)) {
-                let d = new Diagram().DiagramAt(i, document);
-                this.diagrams.push(d);
-            }
-        }
-        // if no diagram block found, try add entire document
-        if (!this.diagrams.length) {
-            let d = new Diagram().DiagramAt(0, document);
-            if (d) this.diagrams.push(d);
-        }
-        return this
     }
+    // if no diagram block found, try add entire document
+    if (!diagrams.length) {
+        let d = new Diagram().DiagramAt(0, document);
+        if (d) diagrams.push(d);
+    }
+    return diagrams;
 }
 
 export class Diagram {

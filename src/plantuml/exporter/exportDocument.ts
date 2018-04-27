@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 
 import { appliedRender } from './appliedRender'
-import { Diagram, Diagrams } from '../diagram/diagram';
+import { Diagram, diagramsOf } from '../diagram/diagram';
 import { config } from '../config';
 import { localize, bar } from '../common';
 import { showMessagePanel, StopWatch } from '../tools';
@@ -25,10 +25,10 @@ export async function exportDocument(all: boolean) {
         format = await vscode.window.showQuickPick(appliedRender().formats());
         if (!format) return;
     }
-    let ds = new Diagrams();
+    let diagrams: Diagram[] = [];
     if (all) {
-        ds.AddDocument();
-        if (!ds.diagrams.length) {
+        diagrams = diagramsOf(editor.document);
+        if (!diagrams.length) {
             vscode.window.showInformationMessage(localize(2, null));
             return;
         }
@@ -38,10 +38,10 @@ export async function exportDocument(all: boolean) {
             vscode.window.showInformationMessage(localize(3, null));
             return;
         }
-        ds.Add(dg);
+        diagrams.push(dg);
         editor.selections = [new vscode.Selection(dg.start, dg.end)];
     }
-    exportDiagrams(ds.diagrams, format, bar).then(
+    exportDiagrams(diagrams, format, bar).then(
         async results => {
             stopWatch.stop();
             bar.hide();
@@ -56,7 +56,7 @@ export async function exportDocument(all: boolean) {
                 return prev + "\n" + filtered.join("\n");
             }, "");
             showMessagePanel(
-                localize(27, null, ds.diagrams.length, fileCnt, stopWatch.runTime() / 1000) + fileLst
+                localize(27, null, diagrams.length, fileCnt, stopWatch.runTime() / 1000) + fileLst
             );
         },
         error => {
