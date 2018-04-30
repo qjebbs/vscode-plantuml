@@ -201,7 +201,7 @@ function saveStatus() {
             y: document.body.scrollTop
         });
         // console.log("save status: " + status);
-        sendStatus.attributes["href"].value = encodeURI('command:plantuml.previewStatus?' + status);
+        sendStatus.attributes["href"].value = 'command:plantuml.previewStatus?' + encodeURIComponent(status);
         sendStatus.click();
     }
 }
