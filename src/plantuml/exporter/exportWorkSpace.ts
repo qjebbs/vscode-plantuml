@@ -6,7 +6,7 @@ import { appliedRender } from './appliedRender'
 import { RenderError } from '../renders/interfaces'
 import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
-import { context, localize, bar } from '../common';
+import { localize, bar } from '../common';
 import { showMessagePanel, parseError, StopWatch, isSubPath } from '../tools';
 import { exportFiles, exportFilesResult } from './exportURIs';
 import { FileAndFormat } from './exportURI';

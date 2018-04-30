@@ -9,7 +9,8 @@ import { previewer } from './providers/previewer';
 import { Symbol } from "./providers/symboler";
 import { Formatter } from "./providers/formatter";
 import { notifyOnNewVersion } from "./plantuml/messages";
-import { setContext, outputPanel, bar } from "./plantuml/common";
+import { outputPanel, bar } from "./plantuml/common";
+import { contextManager } from './plantuml/context';
 
 import { CommandExportCurrent } from './commands/exportCurrent';
 import { CommandExportDocument } from './commands/exportDocument';
@@ -24,7 +25,7 @@ import { Diagnoser } from './providers/diagnoser';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-    setContext(context);
+    contextManager.set(context);
     try {
         const ext = vscode.extensions.getExtension("jebbs.plantuml");
         const version = ext.packageJSON.version;

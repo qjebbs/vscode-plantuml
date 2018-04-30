@@ -3,8 +3,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 import { config } from '../config';
-import { context } from '../common';
 import { Diagram } from './diagram';
+import { contextManager } from '../context';
 
 type FolderIncludes = {
     [key: string]: includeCache;
@@ -60,7 +60,7 @@ class Includer {
         return [];
     }
     private _findIntegrated(p: string): string[] {
-        p = path.join(context.extensionPath, "includes", p + ".wsd");
+        p = path.join(contextManager.context.extensionPath, "includes", p + ".wsd");
         if (fs.existsSync(p)) return [p];
         return [];
     }

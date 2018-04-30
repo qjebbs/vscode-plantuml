@@ -3,7 +3,7 @@ import * as nls from "vscode-nls";
 
 import { Diagram, diagramsOf, currentDiagram } from '../diagram/diagram';
 import { config } from '../config';
-import { outputPanel, context, localize, bar } from '../common';
+import { outputPanel,localize, bar } from '../common';
 import { plantumlServer } from '../renders/plantumlServer';
 
 interface pURL {

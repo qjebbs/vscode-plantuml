@@ -6,9 +6,10 @@ import * as child_process from 'child_process';
 import { RenderTask, RenderError } from '../plantuml/renders/interfaces'
 import { Diagram, diagramsOf, currentDiagram } from '../plantuml/diagram/diagram';
 import { config } from '../plantuml/config';
-import { context, localize } from '../plantuml/common';
+import { localize } from '../plantuml/common';
 import { parseError, calculateExportPath, addFileIndex, showMessagePanel } from '../plantuml/tools';
 import { exportToBuffer } from "../plantuml/exporter/exportToBuffer";
+import { contextManager } from '../plantuml/context';
 
 enum previewStatus {
     default,
@@ -49,7 +50,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
     }
 
     reset() {
-        let tplPath: string = path.join(context.extensionPath, "templates");
+        let tplPath: string = path.join(contextManager.context.extensionPath, "templates");
         let tplPreviewPath: string = path.join(tplPath, "preview.html");
         let tplPreviewProcessingPath: string = path.join(tplPath, "preview-processing.html");
         this.template = '`' + fs.readFileSync(tplPreviewPath, "utf-8") + '`';
@@ -76,14 +77,14 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                     let zoomUpperLimit = this.zoomUpperLimit;
                     let status = this.uiStatus;
                     let nonce = Math.random().toString(36).substr(2);
-                    let tmplPath = "file:///" + path.join(context.extensionPath, "templates");
+                    let tmplPath = "file:///" + path.join(contextManager.context.extensionPath, "templates");
                     let pageInfo = localize(20, null);
                     imageError = this.imageError;
                     error = this.error.replace(/\n/g, "<br />");
                     if (!image) image = imageError;
                     return eval(this.template);
                 case previewStatus.processing:
-                    let icon = "file:///" + path.join(context.extensionPath, "images", "icon.png");
+                    let icon = "file:///" + path.join(contextManager.context.extensionPath, "images", "icon.png");
                     let processingTip = localize(9, null);
                     image = calculateExportPath(this.rendered, config.previewFileType);
                     image = addFileIndex(image, 0, this.rendered.pageCount);
