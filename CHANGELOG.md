@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.5.12
+
+- Fix: If-else format, resolve [#116](https://github.com/qjebbs/vscode-plantuml/issues/116).
+
 ## 2.5.11
 
 - Fix: No diagram tip on first open preview, resolve [#115](https://github.com/qjebbs/vscode-plantuml/issues/115).
