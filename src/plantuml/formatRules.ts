@@ -102,7 +102,7 @@ let rules = <RulesWriting>{
                 {
                     comment: "block if-else-if",
                     isBlock: true,
-                    begin: /{{LB}}if\s*\(.*\)/i,
+                    begin: /{{LB}}if\s*\(.*?\)(?:\s*then(\s*\(.*?\))?)?{{LE}}/i,
                     again: /{{LB}}else(?:\s*\(.*\))?/i,
                     end: /{{LB}}endif{{LE}}/i,
                     beginCaptures: {
