@@ -79,6 +79,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                     let nonce = Math.random().toString(36).substr(2);
                     let tmplPath = "file:///" + path.join(contextManager.context.extensionPath, "templates");
                     let pageInfo = localize(20, null);
+                    let wheelAction = config.previewWheelAction;
                     imageError = this.imageError;
                     error = this.error.replace(/\n/g, "<br />");
                     if (!image) image = imageError;

@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
 import { localize } from './common';
@@ -81,7 +82,9 @@ class Config extends ConfigReader {
     }
 
     get previewWheelAction(): string {
-        return this.read<string>('previewWheelAction') || "auto";
+        let act = this.read<string>('previewWheelAction') || "auto";
+        if (act == "auto") act = os.platform() == "darwin" ? "pan" : "zoom";
+        return act;
     }
 
     get server(): string {

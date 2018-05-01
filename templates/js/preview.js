@@ -30,6 +30,7 @@ class Zoom {
     constructor() {}
     reset() {
         this.zoomUpperLimit = document.getElementById("zoomUpperLimit").innerText === "true";
+        this.isWheelActionZoom = document.getElementById("wheelAction").innerText === "zoom";
         this.marginPixels = 20;
         this.img = document.getElementById("image");
         this.naturalWidth = this.img.naturalWidth;
@@ -85,9 +86,9 @@ class Zoom {
     add() {
         this.reset();
         document.body.addEventListener("mousewheel", () => {
-            console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
+            // console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
             // scroll to zoom, or ctrl key pressed scroll
-            if (false || event.ctrlKey) {
+            if (this.isWheelActionZoom || event.ctrlKey) {
                 // ctrlKey == true: pinch
                 let delta = event.ctrlKey ? event.wheelDelta / 60 : event.wheelDelta / 12;
                 let mouseAt = this.getMousePointer();
