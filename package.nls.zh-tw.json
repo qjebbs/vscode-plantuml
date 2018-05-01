@@ -15,6 +15,7 @@
 	"plantuml.configuration.exportOutDirName": "匯出的圖片將會被放在此設定名稱的資料夾喜愛按",
 	"plantuml.configuration.previewAutoUpdate": "決定是否要在内容變更的時候自動更新預覽的圖片",
 	"plantuml.configuration.previewFileType": "預覽的檔案格式。支援 Png 和 svg。",
+	"plantuml.configuration.previewWheelAction": "Decides how mouse wheel acts in preview window.\nzoom: mosue wheel to zoom\npan: mouse wheel to pan.\nauto: \"pan\" for MacOS, \"zoom\" for Windows and Linux",
 	"plantuml.configuration.server": "產生圖表使用的 Plantuml 伺服器",
 	"plantuml.configuration.urlFormat": "超鏈接檔案格式。 若留空，則在每次產生的時候選擇格式。",
 	"plantuml.configuration.urlResult": "超鏈接輸出格式。 一般超鏈接還是MarkDown格式。",

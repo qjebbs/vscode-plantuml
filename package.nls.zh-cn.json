@@ -15,6 +15,7 @@
 	"plantuml.configuration.exportOutDirName": "所有导出图片都将被组织到项目根目录下以此设置为名称的目录下。",
 	"plantuml.configuration.previewAutoUpdate": "决定是否在内容变更和选定图表变更时自动刷新预览窗口",
 	"plantuml.configuration.previewFileType": "预览界面使用的文件格式。支持 Png 和 svg。",
+	"plantuml.configuration.previewWheelAction": "决定滚轮在预览界面中的用途。\nzoom: 使用滚轮缩放。\npan: 使用滚轮平移。\nauto: 在 MacOS 中用作平移， Windows 和 Linux 用作缩放。",
 	"plantuml.configuration.server": "生成图表超链接使用的 Plantuml 服务器。",
 	"plantuml.configuration.urlFormat": "超链接文件格式。若留空，则在每次生成时选择格式。",
 	"plantuml.configuration.urlResult": "超链接输出类型。仅超链接或 MarkDown 格式。",

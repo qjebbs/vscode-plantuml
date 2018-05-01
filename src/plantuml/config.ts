@@ -80,6 +80,10 @@ class Config extends ConfigReader {
         return this.read<string>('previewFileType') || "png";
     }
 
+    get previewWheelAction(): string {
+        return this.read<string>('previewWheelAction') || "auto";
+    }
+
     get server(): string {
         return this.read<string>('server') || "http://www.plantuml.com/plantuml";
     }
