@@ -269,6 +269,7 @@ This extension contributes the following settings:
 - `plantuml.exportMapFile`: Determine whether export image map (.cmapx) file when export.
 - `plantuml.previewAutoUpdate`: Dedecides if automatically update the preview window.
 - `plantuml.previewFileType`: Preview file type, png or svg support. But svg preview cannot support sudoku, earth diagrams etc.
+-	`plantuml.previewWheelAction`: Decides how mouse wheel acts in preview window.
 - `plantuml.server`: PlantUML server to generate UML diagrams on-the-fly.
 - `plantuml.render`: Select diagram render for both export and preview.
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.

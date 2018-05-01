@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.6.0
+
+- Improvement: Optimized for MacOS touchpad.
+
 ## 2.5.12
 
 - Fix: If-else format, resolve [#116](https://github.com/qjebbs/vscode-plantuml/issues/116).
