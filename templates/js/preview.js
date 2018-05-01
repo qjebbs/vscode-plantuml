@@ -85,16 +85,23 @@ class Zoom {
     add() {
         this.reset();
         document.body.addEventListener("mousewheel", () => {
-            let mouseAt = this.getMousePointer();
-            if (this.zoomUpperLimit) {
-                this.setZoom(this.zoom + event.wheelDelta / 12);
-            } else {
-                // zoom level increase / decrease by 30% for each wheel scroll
-                this.setZoom(this.zoom * (event.wheelDelta / 600 + 1));
-            }
-            this.followMousePointer(mouseAt);
+            console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
+            // scroll to zoom, or ctrl key pressed scroll
+            if (false || event.ctrlKey) {
+                // ctrlKey == true: pinch
+                let delta = event.ctrlKey ? event.wheelDelta / 60 : event.wheelDelta / 12;
+                let mouseAt = this.getMousePointer();
+                if (this.zoomUpperLimit) {
+                    this.setZoom(this.zoom + delta);
+                } else {
+                    // zoom level increase / decrease by 30% for each wheel scroll
+                    this.setZoom(this.zoom * (delta / 50 + 1));
+                }
+                this.followMousePointer(mouseAt);
+                if(event.preventDefault) event.preventDefault();
+                return false;
+            } 
             saveStatus();
-            return false;
         });
         window.onresize = () => {
             let winWidth = window.innerWidth;
@@ -112,9 +119,6 @@ class Zoom {
                 this.img.style.maxWidth = "";
                 document.body.style.width = "";
             }
-        };
-        window.onmousewheel = function () {
-            return false
         };
     }
     followMousePointer(mouseAt) {
@@ -213,12 +217,17 @@ window.addEventListener("load", () => {
     zoomer.add();
     let jsonStatus = document.getElementById("status").innerHTML;
     if (jsonStatus) {
-        let status = JSON.parse(jsonStatus);
-        if (status) {
-            switcher.moveTo(status.page);
-            zoomer.setZoom(status.zoom);
-            zoomer.setScroll(status.x, status.y);
-        }
+        let status = {};
+        try {
+            status = JSON.parse(jsonStatus);
+        } catch (error) {}
+        status.page = status.page || 1;
+        status.zoom = status.zoom || 1;
+        status.x = status.x || 0;
+        status.y = status.y || 0;
+        switcher.moveTo(status.page);
+        zoomer.setZoom(status.zoom);
+        zoomer.setScroll(status.x, status.y);
     }
     if (!document.getElementById("errtxt").innerText.trim())
         document.getElementById("error-warning").style.display = "none";
