@@ -64,6 +64,8 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
     }
 
     provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): string {
+        //start watching changes
+        if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
         let image = this.images[0];
         let images = this.images.reduce((p, c) => {
             return `${p}<img src="${c}">`
@@ -219,7 +221,6 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                             vscode.window.showTextDocument(editor.document).then(
                                 () => {
                                     //update preview
-                                    if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
                                     this.update(true);
                                     return;
                                 },
@@ -239,9 +240,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         this._disposables.push(disposable);
     }
     startWatch() {
-        if (this.watchDisposables.length) {
-            return;
-        }
+        if (this.watchDisposables.length) return;
         let disposable: vscode.Disposable;
         let disposables: vscode.Disposable[] = [];
 
