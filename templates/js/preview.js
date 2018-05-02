@@ -63,7 +63,6 @@ class Zoom {
 
         if (this.zoomUpperLimit && zoom > maxZoom) zoom = maxZoom;
         if (zoom < minZoom || (minZoom == maxZoom && this.zoomUpperLimit)) {
-            zoom = minZoom;
             this.img.style.width = "";
             this.img.style.maxWidth = "";
             document.body.style.width = "";
@@ -85,6 +84,24 @@ class Zoom {
     }
     add() {
         this.reset();
+        document.getElementById("btnZoomIn").addEventListener("click", () => {
+            this.setZoom(this.zoom += 10);
+            this.setToggleIcon();
+            saveStatus();
+        });
+        document.getElementById("btnZoomOut").addEventListener("click", () => {
+            this.setZoom(this.zoom -= 10);
+            this.setToggleIcon();
+            saveStatus();
+        });
+        document.getElementById("btnZoomToggle").addEventListener("click", () => {
+            if (this.img.style.width)
+                this.setZoom(0);
+            else
+                this.setZoom(100);
+            this.setToggleIcon();
+            saveStatus();
+        });
         document.body.addEventListener("mousewheel", () => {
             // console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
             // scroll to zoom, or ctrl key pressed scroll
@@ -99,10 +116,11 @@ class Zoom {
                     this.setZoom(this.zoom * (delta / 50 + 1));
                 }
                 this.followMousePointer(mouseAt);
-                if(event.preventDefault) event.preventDefault();
+                if (event.preventDefault) event.preventDefault();
+                this.setToggleIcon();
+                saveStatus();
                 return false;
-            } 
-            saveStatus();
+            }
         });
         window.onresize = () => {
             let winWidth = window.innerWidth;
@@ -141,6 +159,19 @@ class Zoom {
         }
         return mouseAt;
     }
+
+    setToggleIcon() {
+        let fit = document.getElementById("icon-fit");
+        let expand = document.getElementById("icon-expand");
+        if (this.img.style.width) {
+            fit.style.display = "";
+            expand.style.display = "none";
+        } else {
+            fit.style.display = "none";
+            expand.style.display = "";
+        }
+
+    }
 }
 class Switcher {
     constructor() {
@@ -155,8 +186,8 @@ class Switcher {
     }
     add() {
         if (this.images.length <= 1) {
-            document.getElementById("placeholder").style.display = "none";
-            document.getElementById("controls").style.display = "none";
+            // document.getElementById("placeholder").style.display = "none";
+            document.getElementById("page-ctrls").style.display = "none";
             return;
         }
         document.getElementById("btnNext").addEventListener("click", () => {
