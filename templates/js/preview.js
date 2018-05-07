@@ -84,6 +84,16 @@ class Zoom {
     }
     add() {
         this.reset();
+        this.img.addEventListener("dblclick", () => {
+            let mouseAt = this.getMousePointer();
+            if (this.img.style.width)
+                this.setZoom(0);
+            else
+                this.setZoom(100);
+            this.followMousePointer(mouseAt);
+            this.setToggleIcon();
+            saveStatus();
+        })
         document.getElementById("btnZoomIn").addEventListener("click", () => {
             this.setZoom(this.zoom += 10);
             this.setToggleIcon();
