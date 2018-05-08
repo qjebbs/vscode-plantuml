@@ -1,31 +1,3 @@
-const DEBUG = false;
-class Debug {
-    constructor() {
-        this.debugPar = document.getElementById("debug");
-        this.debugPar.style.display = DEBUG ? "" : "none";
-        if (DEBUG) this.show();
-        else this.hide();
-    }
-    clear() {
-        if (!DEBUG) return;
-        this.debugPar.innerHTML = "";
-    }
-    append(...html) {
-        if (!DEBUG) return;
-        this.debugPar.innerHTML += html.join(" ");
-    }
-    appendLine(...html) {
-        if (!DEBUG) return;
-        this.debugPar.innerHTML += "<br>" + html.join(" ");;
-    }
-    show() {
-        this.debugPar.style.display = "";
-    }
-    hide() {
-        this.debugPar.style.display = "none";
-    }
-}
-var debug = new Debug();
 class Zoom {
     constructor() {}
     reset() {
@@ -41,17 +13,6 @@ class Zoom {
         this.img.style.maxWidth = "";
         document.body.style.width = "";
         if (document.body.offsetHeight < window.innerHeight) document.body.style.height = window.innerHeight - this.marginPixels + "px";
-        debug.clear();
-        debug.append(`
-            initial zoom:${this.zoom}<br>
-            image naturalWidth:${this.naturalWidth}<br>
-            image width:${this.img.width}<br>
-            window width:${window.innerWidth}<br>
-            window height:${window.innerHeight}<br>
-            body width:${document.body.offsetWidth}<br>
-            body height:${document.body.offsetHeight}<br>
-            scroll Width:${window.innerWidth - document.body.clientWidth}<br>
-        `);
     }
     smoothZomm(to, callback, ...args) {
         let winWidth = window.innerWidth;
@@ -71,7 +32,6 @@ class Zoom {
         }
     }
     setZoom(zoom) {
-        debug.appendLine("org: ", this.zoom);
         let winWidth = window.innerWidth;
         let contentWidth = winWidth - this.marginPixels
         let minWidth = contentWidth < this.naturalWidth ? contentWidth : this.naturalWidth;
@@ -93,7 +53,6 @@ class Zoom {
             if (body.offsetHeight < window.innerHeight) body.style.height = window.innerHeight - this.marginPixels + "px";
         }
         this.zoom = zoom;
-        debug.appendLine("cur: ", this.zoom);
     }
     setScroll(left, top) {
         document.body.scrollLeft = left;
