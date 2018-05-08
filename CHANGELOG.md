@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.6.1
+
+- Fix: previewWheelAction default value.
+
 ## 2.6.0
 
 - Improvement: Optimized for MacOS touchpad.
