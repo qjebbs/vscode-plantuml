@@ -1,5 +1,12 @@
 # VSCode PlantUML Changelog
 
+## 2.6.2
+
+- Improvement: Smoothly zooming.
+- Improvement: Add zooming controls.
+- Improvement: Double click to switch zooming between fit window / original size
+- Fix: Restart watching after preview is closed by VSCode, resolve [#89](https://github.com/qjebbs/vscode-plantuml/issues/89).
+
 ## 2.6.1
 
 - Fix: previewWheelAction default value.
