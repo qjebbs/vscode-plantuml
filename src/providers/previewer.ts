@@ -214,24 +214,12 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                 //or it may show last error image and may cause wrong "TargetChanged" result on cursor move.
                 this.reset();
                 this.TargetChanged;
-                return vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, localize(17, null))
+                //update preview
+                this.update(true);
+                vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, localize(17, null))
                     .then(
-                        success => {
-                            //active source editor
-                            vscode.window.showTextDocument(editor.document).then(
-                                () => {
-                                    //update preview
-                                    this.update(true);
-                                    return;
-                                },
-                                reason => {
-                                    vscode.window.showErrorMessage(reason);
-                                }
-                            );
-                        },
-                        reason => {
-                            vscode.window.showErrorMessage(reason);
-                        }
+                        () => vscode.window.showTextDocument(editor.document),
+                        reason => vscode.window.showErrorMessage(reason)
                     );
             } catch (error) {
                 showMessagePanel(error);
