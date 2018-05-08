@@ -53,6 +53,23 @@ class Zoom {
             scroll Width:${window.innerWidth - document.body.clientWidth}<br>
         `);
     }
+    smoothZomm(to, callback, ...args) {
+        let winWidth = window.innerWidth;
+        let contentWidth = winWidth - this.marginPixels
+        let minWidth = contentWidth < this.naturalWidth ? contentWidth : this.naturalWidth;
+        let minZoom = parseInt(minWidth / this.naturalWidth * 100);
+        if (to < minZoom) to = minZoom - 1;
+        let from = this.zoom;
+        const interval = 10;
+        const level = 10;
+        const delta = (to - from) / level;
+        for (let i = 1; i <= level; i++) {
+            setTimeout(() => {
+                this.setZoom(from + delta * i);
+                callback(...args);
+            }, interval * i);
+        }
+    }
     setZoom(zoom) {
         debug.appendLine("org: ", this.zoom);
         let winWidth = window.innerWidth;
@@ -86,31 +103,37 @@ class Zoom {
         this.reset();
         this.img.addEventListener("dblclick", () => {
             let mouseAt = this.getMousePointer();
+            let afterZoom = () => {
+                this.followMousePointer(mouseAt);
+                this.setToggleIcon();
+                saveStatus();
+            }
             if (this.img.style.width)
-                this.setZoom(0);
+                this.smoothZomm(0, afterZoom);
             else
-                this.setZoom(100);
-            this.followMousePointer(mouseAt);
-            this.setToggleIcon();
-            saveStatus();
+                this.smoothZomm(100, afterZoom);
         })
         document.getElementById("btnZoomIn").addEventListener("click", () => {
-            this.setZoom(this.zoom += 10);
-            this.setToggleIcon();
-            saveStatus();
+            this.smoothZomm(this.zoom + 10, () => {
+                this.setToggleIcon();
+                saveStatus();
+            });
         });
         document.getElementById("btnZoomOut").addEventListener("click", () => {
-            this.setZoom(this.zoom -= 10);
-            this.setToggleIcon();
-            saveStatus();
+            this.smoothZomm(this.zoom - 10, () => {
+                this.setToggleIcon();
+                saveStatus();
+            });
         });
         document.getElementById("btnZoomToggle").addEventListener("click", () => {
+            let afterZoom = () => {
+                this.setToggleIcon();
+                saveStatus();
+            }
             if (this.img.style.width)
-                this.setZoom(0);
+                this.smoothZomm(0, afterZoom);
             else
-                this.setZoom(100);
-            this.setToggleIcon();
-            saveStatus();
+                this.smoothZomm(100, afterZoom);
         });
         document.body.addEventListener("mousewheel", () => {
             // console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
@@ -126,9 +149,9 @@ class Zoom {
                     this.setZoom(this.zoom * (delta / 50 + 1));
                 }
                 this.followMousePointer(mouseAt);
-                if (event.preventDefault) event.preventDefault();
                 this.setToggleIcon();
                 saveStatus();
+                if (event.preventDefault) event.preventDefault();
                 return false;
             }
         });
@@ -154,16 +177,16 @@ class Zoom {
         let e = event || window.event;
         let imgWidth = parseInt(this.naturalWidth * this.zoom / 100);
         let imgHeight = parseInt(this.naturalHeight * this.zoom / 100);
-        document.body.scrollLeft += parseInt(imgWidth * mouseAt.imageX + this.marginPixels / 2) - mouseAt.x;
-        document.body.scrollTop += parseInt(imgHeight * mouseAt.imageY + this.marginPixels / 2) - mouseAt.y;
+        document.body.scrollLeft = parseInt(imgWidth * mouseAt.imageX + this.marginPixels / 2) - mouseAt.x;
+        document.body.scrollTop = parseInt(imgHeight * mouseAt.imageY + this.marginPixels / 2) - mouseAt.y;
     }
     getMousePointer() {
         let imgWidth = parseInt(this.naturalWidth * this.zoom / 100);
         let imgHeight = parseInt(this.naturalHeight * this.zoom / 100);
         let e = event || window.event;
         let mouseAt = {
-            x: e.clientX + document.body.scrollLeft,
-            y: e.clientY + document.body.scrollTop,
+            x: e.clientX,
+            y: e.clientY,
             imageX: (e.clientX + document.body.scrollLeft - this.marginPixels / 2) / imgWidth,
             imageY: (e.clientY + document.body.scrollTop - this.marginPixels / 2) / imgHeight,
         }
