@@ -100,40 +100,30 @@ class Zoom {
         document.body.scrollTop = top;
     }
     add() {
+        let afterZoom = mouseAt => {
+            this.followMousePointer(mouseAt);
+            this.setToggleIcon();
+            saveStatus();
+        }
         this.reset();
         this.img.addEventListener("dblclick", () => {
             let mouseAt = this.getMousePointer();
-            let afterZoom = () => {
-                this.followMousePointer(mouseAt);
-                this.setToggleIcon();
-                saveStatus();
-            }
             if (this.img.style.width)
-                this.smoothZomm(0, afterZoom);
+                this.smoothZomm(0, afterZoom, mouseAt);
             else
-                this.smoothZomm(100, afterZoom);
+                this.smoothZomm(100, afterZoom, mouseAt);
         })
         document.getElementById("btnZoomIn").addEventListener("click", () => {
-            this.smoothZomm(this.zoom + 10, () => {
-                this.setToggleIcon();
-                saveStatus();
-            });
+            this.smoothZomm(this.zoom + 10, afterZoom, this.getImageCenterMousePointer());
         });
         document.getElementById("btnZoomOut").addEventListener("click", () => {
-            this.smoothZomm(this.zoom - 10, () => {
-                this.setToggleIcon();
-                saveStatus();
-            });
+            this.smoothZomm(this.zoom - 10, afterZoom, this.getImageCenterMousePointer());
         });
         document.getElementById("btnZoomToggle").addEventListener("click", () => {
-            let afterZoom = () => {
-                this.setToggleIcon();
-                saveStatus();
-            }
             if (this.img.style.width)
-                this.smoothZomm(0, afterZoom);
+                this.smoothZomm(0, afterZoom, this.getImageCenterMousePointer());
             else
-                this.smoothZomm(100, afterZoom);
+                this.smoothZomm(100, afterZoom, this.getImageCenterMousePointer());
         });
         document.body.addEventListener("mousewheel", () => {
             // console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
@@ -180,19 +170,26 @@ class Zoom {
         document.body.scrollLeft = parseInt(imgWidth * mouseAt.imageX + this.marginPixels / 2) - mouseAt.x;
         document.body.scrollTop = parseInt(imgHeight * mouseAt.imageY + this.marginPixels / 2) - mouseAt.y;
     }
-    getMousePointer() {
+    getMousePointer(x, y) {
         let imgWidth = parseInt(this.naturalWidth * this.zoom / 100);
         let imgHeight = parseInt(this.naturalHeight * this.zoom / 100);
         let e = event || window.event;
+        let clientX = x || e.clientX
+        let clientY = y || e.clientY
         let mouseAt = {
-            x: e.clientX,
-            y: e.clientY,
-            imageX: (e.clientX + document.body.scrollLeft - this.marginPixels / 2) / imgWidth,
-            imageY: (e.clientY + document.body.scrollTop - this.marginPixels / 2) / imgHeight,
+            x: clientX,
+            y: clientY,
+            imageX: (clientX + document.body.scrollLeft - this.marginPixels / 2) / imgWidth,
+            imageY: (clientY + document.body.scrollTop - this.marginPixels / 2) / imgHeight,
         }
         return mouseAt;
     }
-
+    getImageCenterMousePointer() {
+        let ph = document.getElementById("placeholder");
+        let x = (window.innerWidth - this.marginPixels) / 2;
+        let y = (window.innerHeight - this.marginPixels - ph.clientHeight) / 2;
+        return this.getMousePointer(x, y);
+    }
     setToggleIcon() {
         let fit = document.getElementById("icon-fit");
         let expand = document.getElementById("icon-expand");
