@@ -1,6 +1,6 @@
 # VSCode PlantUML Changelog
 
-## 2.6.2
+## 2.6.3
 
 - Improvement: Smoothly zooming.
 - Improvement: Add zooming controls.
