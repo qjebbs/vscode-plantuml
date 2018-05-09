@@ -1,58 +1,60 @@
 class Zoom {
     constructor() {}
     reset() {
+        this.margin = 100;
         this.zoomUpperLimit = document.getElementById("zoomUpperLimit").innerText === "true";
         this.isWheelActionZoom = document.getElementById("wheelAction").innerText === "zoom";
-        this.marginPixels = 20;
         this.img = document.getElementById("image");
+        this.imgContainer = document.getElementById("image-container");
         this.naturalWidth = this.img.naturalWidth;
         this.naturalHeight = this.img.naturalHeight;
-        this.zoom = (window.innerWidth - this.marginPixels) / this.naturalWidth * 100;
-        if (this.zoom > 100) this.zoom = 100;
-        this.img.style.width = "";
-        this.img.style.maxWidth = "";
-        document.body.style.width = "";
-        if (document.body.offsetHeight < window.innerHeight) document.body.style.height = window.innerHeight - this.marginPixels + "px";
+        this.setZoom(0);
+        document.body.scrollLeft = window.innerWidth / 2 + this.img.clientWidth / 2 - this.margin;
+        document.body.scrollTop = window.innerHeight / 2 + this.img.clientHeight / 2 - this.margin;
     }
     smoothZomm(to, callback, ...args) {
         let winWidth = window.innerWidth;
-        let contentWidth = winWidth - this.marginPixels
-        let minWidth = contentWidth < this.naturalWidth ? contentWidth : this.naturalWidth;
+        let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
         let minZoom = parseInt(minWidth / this.naturalWidth * 100);
-        if (to < minZoom) to = minZoom - 1;
+        if (to < minZoom) to = minZoom;
         let from = this.zoom;
+        if (from == to) return;
         const interval = 10;
         const level = 10;
         const delta = (to - from) / level;
         for (let i = 1; i <= level; i++) {
             setTimeout(() => {
-                this.setZoom(from + delta * i);
-                callback(...args);
+                if (this.setZoom(from + delta * i) && callback) callback(...args);
             }, interval * i);
         }
     }
     setZoom(zoom) {
         let winWidth = window.innerWidth;
-        let contentWidth = winWidth - this.marginPixels
-        let minWidth = contentWidth < this.naturalWidth ? contentWidth : this.naturalWidth;
+        let winHeight = window.innerHeight;
+        let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
         let minZoom = parseInt(minWidth / this.naturalWidth * 100);
         const maxZoom = 100;
 
-        if (this.zoomUpperLimit && zoom > maxZoom) zoom = maxZoom;
-        if (zoom < minZoom || (minZoom == maxZoom && this.zoomUpperLimit)) {
-            this.img.style.width = "";
-            this.img.style.maxWidth = "";
-            document.body.style.width = "";
+        let imgWidth = 0;
+        let imgHeight = 0;
+        if (this.zoomUpperLimit && zoom > maxZoom) {
+            zoom = maxZoom;
+            imgWidth = this.naturalWidth;
+        } else if (zoom < minZoom) {
             zoom = minZoom;
+            imgWidth = minWidth;
         } else {
-            let imgWidth = parseInt(this.naturalWidth * zoom / 100);
-            this.img.style.width = imgWidth + 'px';
-            let body = document.body;
-            let bodyWidth = imgWidth + this.marginPixels < winWidth ? winWidth : imgWidth + this.marginPixels;
-            body.style.width = bodyWidth + 'px'
-            if (body.offsetHeight < window.innerHeight) body.style.height = window.innerHeight - this.marginPixels + "px";
+            imgWidth = parseInt(this.naturalWidth * zoom / 100);
         }
+        let sizeChanged = !(this.zoom == zoom && this.img.clientWidth == imgWidth);
+        if (sizeChanged) this.img.style.width = imgWidth + 'px';
+        imgHeight = parseInt(this.naturalHeight * zoom / 100);
+        let ctnWidth = winWidth * 2 + imgWidth - this.margin * 2;
+        let ctnHeight = winHeight * 2 + imgHeight - this.margin * 2;
+        this.imgContainer.style.width = ctnWidth + 'px'
+        this.imgContainer.style.height = ctnHeight + "px";
         this.zoom = zoom;
+        return sizeChanged;
     }
     setScroll(left, top) {
         document.body.scrollLeft = left;
@@ -64,25 +66,30 @@ class Zoom {
             this.setToggleIcon();
             saveStatus();
         }
+        let resetZoom = () => {
+            this.reset();
+            this.setToggleIcon();
+            saveStatus();
+        }
         this.reset();
         this.img.addEventListener("dblclick", () => {
             let mouseAt = this.getMousePointer();
-            if (this.img.style.width)
-                this.smoothZomm(0, afterZoom, mouseAt);
-            else
+            if (this.img.clientWidth >= this.naturalWidth) {
+                resetZoom();
+            } else
                 this.smoothZomm(100, afterZoom, mouseAt);
         })
         document.getElementById("btnZoomIn").addEventListener("click", () => {
-            this.smoothZomm(this.zoom + 10, afterZoom, this.getImageCenterMousePointer());
+            this.smoothZomm(this.zoom + 10, afterZoom, this.getWindowCenterMousePointer());
         });
         document.getElementById("btnZoomOut").addEventListener("click", () => {
-            this.smoothZomm(this.zoom - 10, afterZoom, this.getImageCenterMousePointer());
+            this.smoothZomm(this.zoom - 10, afterZoom, this.getWindowCenterMousePointer());
         });
         document.getElementById("btnZoomToggle").addEventListener("click", () => {
-            if (this.img.style.width)
-                this.smoothZomm(0, afterZoom, this.getImageCenterMousePointer());
-            else
-                this.smoothZomm(100, afterZoom, this.getImageCenterMousePointer());
+            if (this.img.clientWidth >= this.naturalWidth) {
+                resetZoom();
+            } else
+                this.smoothZomm(100, afterZoom, this.getWindowCenterMousePointer());
         });
         document.body.addEventListener("mousewheel", () => {
             // console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
@@ -104,62 +111,44 @@ class Zoom {
                 return false;
             }
         });
-        window.onresize = () => {
-            let winWidth = window.innerWidth;
-            let contentWidth = winWidth - this.marginPixels
-            let minWidth = contentWidth < this.naturalWidth ? contentWidth : this.naturalWidth;
-            let minZoom = parseInt(minWidth / this.naturalWidth * 100);
-
-            if (this.img.style.width == "") {
-                // console.log("update zoom value due to resize");
-                this.zoom = minZoom;
-            } else if (this.zoom < minZoom) {
-                // console.log("change zoom to fit");
-                this.zoom = minZoom;
-                this.img.style.width = "";
-                this.img.style.maxWidth = "";
-                document.body.style.width = "";
-            }
-        };
+        window.onresize = () => this.reset();
     }
     followMousePointer(mouseAt) {
         let e = event || window.event;
-        let imgWidth = parseInt(this.naturalWidth * this.zoom / 100);
-        let imgHeight = parseInt(this.naturalHeight * this.zoom / 100);
-        document.body.scrollLeft = parseInt(imgWidth * mouseAt.imageX + this.marginPixels / 2) - mouseAt.x;
-        document.body.scrollTop = parseInt(imgHeight * mouseAt.imageY + this.marginPixels / 2) - mouseAt.y;
+        let imgWidth = this.img.clientWidth;
+        let imgHeight = this.img.clientHeight;
+        document.body.scrollLeft = parseInt(imgWidth * mouseAt.imageX + window.innerWidth - this.margin) - mouseAt.x;
+        document.body.scrollTop = parseInt(imgHeight * mouseAt.imageY + window.innerHeight - this.margin) - mouseAt.y;
     }
     getMousePointer(x, y) {
-        let imgWidth = parseInt(this.naturalWidth * this.zoom / 100);
-        let imgHeight = parseInt(this.naturalHeight * this.zoom / 100);
+        let imgWidth = this.img.clientWidth;
+        let imgHeight = this.img.clientHeight;
         let e = event || window.event;
         let clientX = x || e.clientX
         let clientY = y || e.clientY
         let mouseAt = {
             x: clientX,
             y: clientY,
-            imageX: (clientX + document.body.scrollLeft - this.marginPixels / 2) / imgWidth,
-            imageY: (clientY + document.body.scrollTop - this.marginPixels / 2) / imgHeight,
+            imageX: (clientX + document.body.scrollLeft - window.innerWidth + this.margin) / imgWidth,
+            imageY: (clientY + document.body.scrollTop - window.innerHeight + this.margin) / imgHeight,
         }
         return mouseAt;
     }
-    getImageCenterMousePointer() {
-        let ph = document.getElementById("placeholder");
-        let x = (window.innerWidth - this.marginPixels) / 2;
-        let y = (window.innerHeight - this.marginPixels - ph.clientHeight) / 2;
+    getWindowCenterMousePointer() {
+        let x = window.innerWidth / 2;
+        let y = window.innerHeight / 2;
         return this.getMousePointer(x, y);
     }
     setToggleIcon() {
         let fit = document.getElementById("icon-fit");
         let expand = document.getElementById("icon-expand");
-        if (this.img.style.width) {
+        if (this.img.clientWidth >= this.naturalWidth) {
             fit.style.display = "";
             expand.style.display = "none";
         } else {
             fit.style.display = "none";
             expand.style.display = "";
         }
-
     }
 }
 class Switcher {
@@ -175,7 +164,6 @@ class Switcher {
     }
     add() {
         if (this.images.length <= 1) {
-            // document.getElementById("placeholder").style.display = "none";
             document.getElementById("page-ctrls").style.display = "none";
             return;
         }
@@ -252,6 +240,7 @@ window.addEventListener("load", () => {
     }
     if (!document.getElementById("errtxt").innerText.trim())
         document.getElementById("error-warning").style.display = "none";
+    document.getElementById("image-container").style.margin = "0";
 
 });
 window.addEventListener("mouseup", () => saveStatus());
