@@ -9,13 +9,17 @@ class Zoom {
         this.naturalWidth = this.img.naturalWidth;
         this.naturalHeight = this.img.naturalHeight;
         this.setZoom(0);
-        document.body.scrollLeft = window.innerWidth / 2 + this.img.clientWidth / 2 - this.margin;
-        document.body.scrollTop = window.innerHeight / 2 + this.img.clientHeight / 2 - this.margin;
+        // document.body.scrollLeft = window.innerWidth / 2 + this.img.clientWidth / 2 - this.margin;
+        // document.body.scrollTop = window.innerHeight / 2 + this.img.clientHeight / 2 - this.margin;
+        let mp = this.getWindowCenterMousePointer();
+        mp.imageX = 0.5;
+        mp.imageY = 0.5;
+        this.followMousePointer(mp);
     }
     smoothZomm(to, callback, ...args) {
         let winWidth = window.innerWidth;
         let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
-        let minZoom = parseInt(minWidth / this.naturalWidth * 100);
+        let minZoom = minWidth / this.naturalWidth * 100;
         if (to < minZoom) to = minZoom;
         let from = this.zoom;
         if (from == to) return;
@@ -32,7 +36,7 @@ class Zoom {
         let winWidth = window.innerWidth;
         let winHeight = window.innerHeight;
         let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
-        let minZoom = parseInt(minWidth / this.naturalWidth * 100);
+        let minZoom = minWidth / this.naturalWidth * 100;
         const maxZoom = 100;
 
         let imgWidth = 0;
@@ -44,11 +48,11 @@ class Zoom {
             zoom = minZoom;
             imgWidth = minWidth;
         } else {
-            imgWidth = parseInt(this.naturalWidth * zoom / 100);
+            imgWidth = this.naturalWidth * zoom / 100;
         }
         let sizeChanged = !(this.zoom == zoom && this.img.clientWidth == imgWidth);
         if (sizeChanged) this.img.style.width = imgWidth + 'px';
-        imgHeight = parseInt(this.naturalHeight * zoom / 100);
+        imgHeight = this.naturalHeight * zoom / 100;
         let ctnWidth = winWidth * 2 + imgWidth - this.margin * 2;
         let ctnHeight = winHeight * 2 + imgHeight - this.margin * 2;
         this.imgContainer.style.width = ctnWidth + 'px'
@@ -117,8 +121,8 @@ class Zoom {
         let e = event || window.event;
         let imgWidth = this.img.clientWidth;
         let imgHeight = this.img.clientHeight;
-        document.body.scrollLeft = parseInt(imgWidth * mouseAt.imageX + window.innerWidth - this.margin) - mouseAt.x;
-        document.body.scrollTop = parseInt(imgHeight * mouseAt.imageY + window.innerHeight - this.margin) - mouseAt.y;
+        document.body.scrollLeft = imgWidth * mouseAt.imageX + window.innerWidth - this.margin - mouseAt.x;
+        document.body.scrollTop = imgHeight * mouseAt.imageY + window.innerHeight - this.margin - mouseAt.y;
     }
     getMousePointer(x, y) {
         let imgWidth = this.img.clientWidth;
