@@ -256,7 +256,7 @@
         },
         "plantuml.previewFileType": {
           "type": "string",
-          "default": "png",
+          "default": "svg",
           "enum": [
             "png",
             "svg"
