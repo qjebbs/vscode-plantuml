@@ -1,0 +1,170 @@
+::-webkit-scrollbar {
+    display: none
+}
+
+.btn {
+    background-color: #3f5058;
+    border-radius: 3px;
+    border-style: none;
+    color: white;
+    padding: 0 0.8rem;
+    height: 2rem;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0089c9;
+}
+
+svg.icon-font {
+    max-width: 1rem;
+    max-height: 1rem;
+    fill: currentColor;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    cursor: move;
+}
+
+body.vscode-light {
+    background-color: #f8f8f8;
+}
+
+#image {
+    background-color: #fff;
+    /* box-shadow: 0px 0px 5px #999; */
+    border-radius: 3px;
+}
+
+#image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#ctrl-container {
+    width: 100%;
+    height: 3rem;
+    position: fixed;
+    top: calc(100% - 4rem);
+    text-align: center;
+}
+
+#controls {
+    padding: 0.5rem 0.5rem;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    display: inline-block;
+}
+
+#controls span {
+    color: #333;
+    text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;
+    margin-left: 1rem;
+    margin: 0 1rem 0 1rem;
+}
+
+#page-ctrls {
+    display: inline-block;
+}
+
+#error-warning {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    text-align: left;
+}
+
+#error-warning #error-icon {
+    width: 2em;
+    height: 2em;
+    filter: drop-shadow(0.2em 0.2em 0.3em rgba(0, 0, 0, 0.2))
+}
+
+#errmsg p {
+    outline: red 1px solid;
+    color: red;
+    font-weight: bold;
+    margin: 0 0 0.5em 0;
+    padding: 0.5em;
+}
+
+#error-warning #errmsg {
+    display: none;
+}
+
+#error-warning:hover #errmsg {
+    display: block;
+    padding: 1em 1em;
+    background-color: black;
+    opacity: 0.8;
+    border-radius: 5px;
+}
+
+#spinner-container {
+    width: 90px;
+    padding: 10px;
+    position: fixed;
+    left: calc(50% - 45px);
+    top: calc(50% - 30px);
+    background: rgba(128, 128, 128, 0.2);
+    border-radius: 5px;
+    text-align: center;
+}
+
+#spinner-container span {
+    color: black;
+    text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;
+}
+
+.spinner {
+    /*width: 90px;*/
+    height: 40px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.spinner>div {
+    background-color: #67CF22;
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+    animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+    animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+    animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+    animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+    animation-delay: -0.8s;
+}
+
+@keyframes stretchdelay {
+    0%,
+    40%,
+    100% {
+        transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1.0);
+    }
+}
+
+img[src=""] {
+    opacity: 0;
+}
+
+.full-height {
+    height: 100%;
+}

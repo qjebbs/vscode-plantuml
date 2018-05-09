@@ -72,23 +72,23 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         }, "");
         let imageError: string;
         let error: string;
+        let tmplPath = "file:///" + path.join(contextManager.context.extensionPath, "templates");
+        let zoomUpperLimit = this.zoomUpperLimit;
+        let status = this.uiStatus;
+        let nonce = Math.random().toString(36).substr(2);
+        let pageInfo = localize(20, null);
+        let wheelAction = config.previewWheelAction;
+        let icon = "file:///" + path.join(contextManager.context.extensionPath, "images", "icon.png");
+        let processingTip = localize(9, null);
         try {
             switch (this.status) {
                 case previewStatus.default:
                 case previewStatus.error:
-                    let zoomUpperLimit = this.zoomUpperLimit;
-                    let status = this.uiStatus;
-                    let nonce = Math.random().toString(36).substr(2);
-                    let tmplPath = "file:///" + path.join(contextManager.context.extensionPath, "templates");
-                    let pageInfo = localize(20, null);
-                    let wheelAction = config.previewWheelAction;
                     imageError = this.imageError;
                     error = this.error.replace(/\n/g, "<br />");
                     if (!image) image = imageError;
                     return eval(this.template);
                 case previewStatus.processing:
-                    let icon = "file:///" + path.join(contextManager.context.extensionPath, "images", "icon.png");
-                    let processingTip = localize(9, null);
                     image = calculateExportPath(this.rendered, config.previewFileType);
                     image = addFileIndex(image, 0, this.rendered.pageCount);
                     if (!fs.existsSync(image)) image = ""; else image = "file:///" + image;
