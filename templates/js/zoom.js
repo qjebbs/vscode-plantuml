@@ -84,10 +84,10 @@ class Zoom {
                 this.smoothZomm(100, afterZoom, mouseAt);
         })
         document.getElementById("btnZoomIn").addEventListener("click", () => {
-            this.smoothZomm(this.zoom + 10, afterZoom, this.getWindowCenterMousePointer());
+            this.smoothZomm(this.zoom * 1.2, afterZoom, this.getWindowCenterMousePointer());
         });
         document.getElementById("btnZoomOut").addEventListener("click", () => {
-            this.smoothZomm(this.zoom - 10, afterZoom, this.getWindowCenterMousePointer());
+            this.smoothZomm(this.zoom / 1.2, afterZoom, this.getWindowCenterMousePointer());
         });
         document.getElementById("btnZoomToggle").addEventListener("click", () => {
             if (this.img.clientWidth >= this.naturalWidth) {
