@@ -3,6 +3,10 @@
 <head>
     <meta http-equiv="Content-Security-Policy" content="script-src 'nonce-${nonce}';">
     <link rel="stylesheet" href="${tmplPath}/css/preview.css">
+    <script nonce="${nonce}" src="${tmplPath}/js/dragscroll.js"></script>
+    <script nonce="${nonce}" src="${tmplPath}/js/switcher.js"></script>
+    <script nonce="${nonce}" src="${tmplPath}/js/zoom.js"></script>
+    <script nonce="${nonce}" src="${tmplPath}/js/preview.js"></script>
 </head>
 
 <body class="dragscroll">
@@ -72,8 +76,6 @@
         <p id="zoomUpperLimit">${zoomUpperLimit}</p>
         <p id="wheelAction">${wheelAction}</p>
     </div>
-    <script nonce="${nonce}" src="${tmplPath}/js/dragscroll.js"></script>
-    <script nonce="${nonce}" src="${tmplPath}/js/preview.js"></script>
 </body>
 
 </html>
