@@ -2,6 +2,8 @@ class Zoom {
     constructor() {}
     reset() {
         this.margin = 100;
+        this.blankX = 0;
+        this.blankY = 0;
         this.zoomUpperLimit = document.getElementById("zoomUpperLimit").innerText === "true";
         this.isWheelActionZoom = document.getElementById("wheelAction").innerText === "zoom";
         this.img = document.getElementById("image");
@@ -9,8 +11,6 @@ class Zoom {
         this.naturalWidth = this.img.naturalWidth;
         this.naturalHeight = this.img.naturalHeight;
         this.setZoom(0);
-        // document.body.scrollLeft = window.innerWidth / 2 + this.img.clientWidth / 2 - this.margin;
-        // document.body.scrollTop = window.innerHeight / 2 + this.img.clientHeight / 2 - this.margin;
         let mp = this.getWindowCenterMousePointer();
         mp.imageX = 0.5;
         mp.imageY = 0.5;
@@ -53,8 +53,12 @@ class Zoom {
         let sizeChanged = !(this.zoom == zoom && this.img.clientWidth == imgWidth);
         if (sizeChanged) this.img.style.width = imgWidth + 'px';
         imgHeight = this.naturalHeight * zoom / 100;
-        let ctnWidth = winWidth * 2 + imgWidth - this.margin * 2;
-        let ctnHeight = winHeight * 2 + imgHeight - this.margin * 2;
+        let blankX = winWidth - this.margin;
+        let blankY = winHeight - this.margin;
+        this.balnkX = blankX < 0 ? 0 : blankX;
+        this.blankY = blankY < 0 ? 0 : blankY;
+        let ctnWidth = this.balnkX * 2 + imgWidth;
+        let ctnHeight = this.blankY * 2 + imgHeight;
         this.imgContainer.style.width = ctnWidth + 'px'
         this.imgContainer.style.height = ctnHeight + "px";
         this.zoom = zoom;
@@ -121,8 +125,8 @@ class Zoom {
         let e = event || window.event;
         let imgWidth = this.img.clientWidth;
         let imgHeight = this.img.clientHeight;
-        document.body.scrollLeft = imgWidth * mouseAt.imageX + window.innerWidth - this.margin - mouseAt.x;
-        document.body.scrollTop = imgHeight * mouseAt.imageY + window.innerHeight - this.margin - mouseAt.y;
+        document.body.scrollLeft = imgWidth * mouseAt.imageX + this.balnkX - mouseAt.x;
+        document.body.scrollTop = imgHeight * mouseAt.imageY + this.blankY - mouseAt.y;
     }
     getMousePointer(x, y) {
         let imgWidth = this.img.clientWidth;
@@ -133,8 +137,8 @@ class Zoom {
         let mouseAt = {
             x: clientX,
             y: clientY,
-            imageX: (clientX + document.body.scrollLeft - window.innerWidth + this.margin) / imgWidth,
-            imageY: (clientY + document.body.scrollTop - window.innerHeight + this.margin) / imgHeight,
+            imageX: (clientX + document.body.scrollLeft - this.balnkX) / imgWidth,
+            imageY: (clientY + document.body.scrollTop - this.blankY) / imgHeight,
         }
         return mouseAt;
     }
