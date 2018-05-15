@@ -1,4 +1,3 @@
-
 let zoomer;
 let switcher;
 let sendStatus;
@@ -20,8 +19,6 @@ window.addEventListener("load", () => {
     sendStatus = document.getElementById("sendStatus");
     zoomer = new Zoom();
     switcher = new Switcher();
-    switcher.add();
-    zoomer.add();
     let jsonStatus = document.getElementById("status").innerHTML;
     if (jsonStatus) {
         let status = {};

@@ -8,8 +8,6 @@ class Switcher {
         for (let e of document.getElementById("images").getElementsByTagName("img")) {
             this.images.push(e.src);
         }
-    }
-    add() {
         if (this.images.length <= 1) {
             document.getElementById("page-ctrls").style.display = "none";
             return;
