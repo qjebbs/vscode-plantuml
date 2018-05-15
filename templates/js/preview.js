@@ -20,18 +20,22 @@ window.addEventListener("load", () => {
     zoomer = new Zoom();
     switcher = new Switcher();
     let jsonStatus = document.getElementById("status").innerHTML;
+    let status = undefined;
     if (jsonStatus) {
-        let status = {};
         try {
             status = JSON.parse(jsonStatus);
-        } catch (error) {}
-        status.page = status.page || 1;
-        status.zoom = status.zoom || 1;
-        status.x = status.x || 0;
-        status.y = status.y || 0;
+        } catch (error) {
+            console.log("parse preview status error:\n", error);
+            status = undefined;
+        }
+    }
+    if (status) {
         switcher.moveTo(status.page);
         zoomer.setZoom(status.zoom);
         zoomer.setScroll(status.x, status.y);
+    } else {
+        switcher.moveTo(1);
+        zoomer.reset();
     }
     if (!document.getElementById("errtxt").innerText.trim())
         document.getElementById("error-warning").style.display = "none";

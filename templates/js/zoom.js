@@ -1,16 +1,12 @@
 class Zoom {
     constructor() {
-        this.margin = 100;
-        this.blankX = 0;
-        this.blankY = 0;
         this.zoomUpperLimit = document.getElementById("zoomUpperLimit").innerText === "true";
         this.isWheelActionZoom = document.getElementById("wheelAction").innerText === "zoom";
         this.img = document.getElementById("image");
         this.imgContainer = document.getElementById("image-container");
         this.naturalWidth = this.img.naturalWidth;
         this.naturalHeight = this.img.naturalHeight;
-        let afterZoom = mouseAt => {
-            this.followMousePointer(mouseAt);
+        let afterZoom = () => {
             this.setToggleIcon();
             saveStatus();
         }
@@ -19,25 +15,24 @@ class Zoom {
             this.setToggleIcon();
             saveStatus();
         }
-        this.reset();
         this.img.addEventListener("dblclick", () => {
             let mouseAt = this.getMousePointer();
             if (this.img.clientWidth >= this.naturalWidth) {
                 resetZoom();
             } else
-                this.smoothZomm(100, afterZoom, mouseAt);
+                this.smoothZomm(100, mouseAt, afterZoom);
         })
         document.getElementById("btnZoomIn").addEventListener("click", () => {
-            this.smoothZomm(this.zoom * 1.2, afterZoom, this.getWindowCenterMousePointer());
+            this.smoothZomm(this.zoom * 1.2, this.getWindowCenterMousePointer(), afterZoom);
         });
         document.getElementById("btnZoomOut").addEventListener("click", () => {
-            this.smoothZomm(this.zoom / 1.2, afterZoom, this.getWindowCenterMousePointer());
+            this.smoothZomm(this.zoom / 1.2, this.getWindowCenterMousePointer(), afterZoom);
         });
         document.getElementById("btnZoomToggle").addEventListener("click", () => {
             if (this.img.clientWidth >= this.naturalWidth) {
                 resetZoom();
             } else
-                this.smoothZomm(100, afterZoom, this.getWindowCenterMousePointer());
+                this.smoothZomm(100, this.getWindowCenterMousePointer(), afterZoom);
         });
         document.body.addEventListener("mousewheel", () => {
             // console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
@@ -50,9 +45,8 @@ class Zoom {
                     this.setZoom(this.zoom + delta);
                 } else {
                     // zoom level increase / decrease by 30% for each wheel scroll
-                    this.setZoom(this.zoom * (delta / 50 + 1));
+                    this.setZoom(this.zoom * (delta / 50 + 1), mouseAt);
                 }
-                this.followMousePointer(mouseAt);
                 this.setToggleIcon();
                 saveStatus();
                 if (event.preventDefault) event.preventDefault();
@@ -62,13 +56,13 @@ class Zoom {
         window.onresize = () => this.reset();
     }
     reset() {
-        this.setZoom(0);
         let mp = this.getWindowCenterMousePointer();
         mp.imageX = 0.5;
         mp.imageY = 0.5;
-        this.followMousePointer(mp);
+        this.setZoom(0, mp);
     }
-    smoothZomm(to, callback, ...args) {
+    smoothZomm(to, mouseAt, callback, ...args) {
+        mouseAt = mouseAt || this.getMousePointer();
         let winWidth = window.innerWidth;
         let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
         let minZoom = minWidth / this.naturalWidth * 100;
@@ -76,15 +70,15 @@ class Zoom {
         let from = this.zoom;
         if (from == to) return;
         const interval = 10;
-        const level = 10;
+        const level = 1;
         const delta = (to - from) / level;
         for (let i = 1; i <= level; i++) {
             setTimeout(() => {
-                if (this.setZoom(from + delta * i) && callback) callback(...args);
+                if (this.setZoom(from + delta * i, mouseAt) && callback) callback(...args);
             }, interval * i);
         }
     }
-    setZoom(zoom) {
+    setZoom(zoom, mouseAt) {
         let winWidth = window.innerWidth;
         let winHeight = window.innerHeight;
         let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
@@ -105,40 +99,51 @@ class Zoom {
         let sizeChanged = !(this.zoom == zoom && this.img.clientWidth == imgWidth);
         if (sizeChanged) this.img.style.width = imgWidth + 'px';
         imgHeight = this.naturalHeight * zoom / 100;
-        let blankX = winWidth - this.margin;
-        let blankY = winHeight - this.margin;
-        this.balnkX = blankX < 0 ? 0 : blankX;
-        this.blankY = blankY < 0 ? 0 : blankY;
-        let ctnWidth = this.balnkX * 2 + imgWidth;
-        let ctnHeight = this.blankY * 2 + imgHeight;
-        this.imgContainer.style.width = ctnWidth + 'px'
-        this.imgContainer.style.height = ctnHeight + "px";
         this.zoom = zoom;
+        if (sizeChanged && mouseAt) this.followMousePointer(mouseAt, imgWidth, imgHeight);
         return sizeChanged;
     }
     setScroll(left, top) {
         document.body.scrollLeft = left;
         document.body.scrollTop = top;
     }
-    followMousePointer(mouseAt) {
-        let e = event || window.event;
-        let imgWidth = this.img.clientWidth;
-        let imgHeight = this.img.clientHeight;
-        document.body.scrollLeft = imgWidth * mouseAt.imageX + this.balnkX - mouseAt.x;
-        document.body.scrollTop = imgHeight * mouseAt.imageY + this.blankY - mouseAt.y;
+    followMousePointer(mouseAt, imgWidth, imgHeight) {
+        imgWidth = imgWidth || this.img.clientWidth;
+        imgHeight = imgHeight || this.img.clientHeight;
+
+        let blankRight = window.innerWidth - imgWidth * (1 - mouseAt.imageX) - mouseAt.x;
+        let blankLeft = mouseAt.x - imgWidth * mouseAt.imageX;
+        let blankBottom = window.innerHeight - imgHeight * (1 - mouseAt.imageY) - mouseAt.y;
+        let blankTop = mouseAt.y - imgHeight * mouseAt.imageY;
+        blankRight = blankRight < 0 ? 0 : blankRight;
+        blankLeft = blankLeft < 0 ? 0 : blankLeft;
+        blankBottom = blankBottom < 0 ? 0 : blankBottom;
+        blankTop = blankTop < 0 ? 0 : blankTop;
+
+        let blankX = Math.max(blankLeft, blankRight);
+        let blankY = Math.max(blankBottom, blankTop);
+
+        this.imgContainer.style.width = (blankX * 2 + imgWidth) + 'px'
+        this.imgContainer.style.height = (blankY * 2 + imgHeight) + "px";
+
+        let scrollLeft = imgWidth * mouseAt.imageX + blankX - mouseAt.x;
+        let scrollTop = imgHeight * mouseAt.imageY + blankY - mouseAt.y;
+
+        document.body.scrollLeft = scrollLeft;
+        document.body.scrollTop = scrollTop;
+
     }
     getMousePointer(x, y) {
-        let imgWidth = this.img.clientWidth;
-        let imgHeight = this.img.clientHeight;
         let e = event || window.event;
         let clientX = x || e.clientX
         let clientY = y || e.clientY
         let mouseAt = {
             x: clientX,
             y: clientY,
-            imageX: (clientX + document.body.scrollLeft - this.balnkX) / imgWidth,
-            imageY: (clientY + document.body.scrollTop - this.blankY) / imgHeight,
+            imageX: (clientX + document.body.scrollLeft - this.img.x) / this.img.clientWidth,
+            imageY: (clientY + document.body.scrollTop - this.img.y) / this.img.clientHeight,
         }
+        // console.log(this.bx, this.img.x, this.by, this.img.y);
         return mouseAt;
     }
     getWindowCenterMousePointer() {
