@@ -16,13 +16,23 @@ class Zoom {
             this.reset();
             saveStatus();
         }
-        this.img.addEventListener("dblclick", () => {
-            let mouseAt = this.getMousePointer();
-            if (this.iconFit.style.display == "") {
-                resetZoom();
-            } else
-                this.smoothZomm(100, mouseAt, afterZoom);
+        this.imgContainer.addEventListener("click", e => {
+            if (e.button == 0) {
+                let scale = 1 + (e.altKey ? -0.2 : 0.2);
+                this.smoothZomm(this.status.zoom * scale, this.getMousePointer(), afterZoom);
+            } else if (e.button == 1) {
+                if (this.iconFit.style.display == "")
+                    resetZoom();
+                else
+                    this.smoothZomm(100, this.getMousePointer(), afterZoom);
+            }
         })
+        // this.imgContainer.addEventListener("dblclick", () => {
+        //     if (this.iconFit.style.display == "")
+        //         resetZoom();
+        //     else
+        //         this.smoothZomm(100, this.getMousePointer(), afterZoom);
+        // })
         document.getElementById("btnZoomIn").addEventListener("click", () => {
             this.smoothZomm(this.status.zoom * 1.2, this.getWindowCenterMousePointer(), afterZoom);
         });
@@ -167,13 +177,12 @@ class Zoom {
         let e = event || window.event;
         let clientX = x || e.clientX
         let clientY = y || e.clientY
-        let mouseAt = {
+        return {
             x: clientX,
             y: clientY,
             imageX: (clientX + document.body.scrollLeft - this.img.x) / this.img.clientWidth,
             imageY: (clientY + document.body.scrollTop - this.img.y) / this.img.clientHeight,
         }
-        return mouseAt;
     }
     getWindowCenterMousePointer() {
         let x = window.innerWidth / 2;
