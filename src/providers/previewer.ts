@@ -77,7 +77,6 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         let status = this.uiStatus;
         let nonce = Math.random().toString(36).substr(2);
         let pageInfo = localize(20, null);
-        let wheelAction = config.previewWheelAction;
         let icon = "file:///" + path.join(contextManager.context.extensionPath, "images", "icon.png");
         let processingTip = localize(9, null);
         try {

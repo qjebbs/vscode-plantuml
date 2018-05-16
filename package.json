@@ -263,16 +263,6 @@
           ],
           "description": "%plantuml.configuration.previewFileType%"
         },
-        "plantuml.previewWheelAction": {
-          "type": "string",
-          "default": "auto",
-          "enum": [
-            "auto",
-            "zoom",
-            "pan"
-          ],
-          "description": "%plantuml.configuration.previewWheelAction%"
-        },
         "plantuml.server": {
           "type": "string",
           "default": "http://www.plantuml.com/plantuml",

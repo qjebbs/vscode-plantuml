@@ -15,7 +15,6 @@
 	"plantuml.configuration.exportOutDirName": "ワークスペース内のダイアグラムをエクスポートする場合に、この設定で指定されたディレクトリに出力されます",
 	"plantuml.configuration.previewAutoUpdate": "プレビューウィンドウを自動的に更新するかを指定します",
 	"plantuml.configuration.previewFileType": "プレビューのファイルタイプを指定。サポート形式は png または svg です",
-	"plantuml.configuration.previewWheelAction": "Decides how mouse wheel acts in preview window.\nzoom: mosue wheel to zoom\npan: mouse wheel to pan.\nauto: \"pan\" for MacOS, \"zoom\" for Windows and Linux",
 	"plantuml.configuration.server": "その場でUMLダイアグラムを生成するPlantUMLサーバーを指定します",
 	"plantuml.configuration.urlFormat": "URL形式を指定。空白の場合はURLを生成するたびにフォーマットを選択します",
 	"plantuml.configuration.urlResult": "URL出力結果形式を指定。 Simple URL または、MarkDown を使用できます",

@@ -81,12 +81,6 @@ class Config extends ConfigReader {
         return this.read<string>('previewFileType') || "png";
     }
 
-    get previewWheelAction(): string {
-        let act = this.read<string>('previewWheelAction') || "auto";
-        if (act == "auto") act = os.platform() == "darwin" ? "pan" : "zoom";
-        return act;
-    }
-
     get server(): string {
         return this.read<string>('server') || "http://www.plantuml.com/plantuml";
     }
