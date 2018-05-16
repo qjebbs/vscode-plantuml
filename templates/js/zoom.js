@@ -11,23 +11,24 @@ class Zoom {
         let resetZoom = () => {
             this.reset();
         }
-        this.imgContainer.addEventListener("click", e => {
+        let onclick = e => {
             if (e.button == 0) {
                 let scale = 1 + (e.altKey ? -0.2 : 0.2);
-                this.smoothZomm(this.status.zoom * scale, this.getMousePointer());
+                this.smoothZomm(this.status.zoom * scale, this.getMousePointer(e.clientX, e.clientY));
             } else if (e.button == 1) {
                 if (this.iconFit.style.display == "")
                     resetZoom();
                 else
-                    this.smoothZomm(100, this.getMousePointer());
+                    this.smoothZomm(100, this.getMousePointer(e.clientX, e.clientY));
             }
-        })
-        // this.imgContainer.addEventListener("dblclick", () => {
-        //     if (this.iconFit.style.display == "")
-        //         resetZoom();
-        //     else
-        //         this.smoothZomm(100, this.getMousePointer());
-        // })
+        }
+        let ondblclick = e => {
+            if (this.iconFit.style.display == "")
+                resetZoom();
+            else
+                this.smoothZomm(100, this.getMousePointer(e.clientX, e.clientY));
+        }
+        addClickEvent(this.imgContainer, onclick);
         document.getElementById("btnZoomIn").addEventListener("click", () => {
             this.smoothZomm(this.status.zoom * 1.2, this.getWindowCenterMousePointer());
         });
@@ -40,13 +41,13 @@ class Zoom {
             } else
                 this.smoothZomm(100, this.getWindowCenterMousePointer());
         });
-        document.body.addEventListener("mousewheel", () => {
+        document.body.addEventListener("mousewheel", e => {
             // console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
             // scroll to zoom, or ctrl key pressed scroll
             if (event.ctrlKey) {
                 // ctrlKey == true: pinch
                 let delta = event.ctrlKey ? event.wheelDelta / 60 : event.wheelDelta / 12;
-                let mouseAt = this.getMousePointer();
+                let mouseAt = this.getMousePointer(e.clientX, e.clientY);
                 if (this.zoomUpperLimit) {
                     this.pointZoom(this.status.zoom + delta, mouseAt);
                 } else {
@@ -73,7 +74,6 @@ class Zoom {
         this.pointZoom(0, mp);
     }
     smoothZomm(to, mouseAt, callback, ...args) {
-        mouseAt = mouseAt || this.getMousePointer();
         let winWidth = window.innerWidth;
         let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
         let minZoom = minWidth / this.naturalWidth * 100;
@@ -167,14 +167,11 @@ class Zoom {
         saveStatus();
     }
     getMousePointer(x, y) {
-        let e = event || window.event;
-        let clientX = x || e.clientX
-        let clientY = y || e.clientY
         return {
-            x: clientX,
-            y: clientY,
-            imageX: (clientX + document.body.scrollLeft - this.img.x) / this.img.clientWidth,
-            imageY: (clientY + document.body.scrollTop - this.img.y) / this.img.clientHeight,
+            x: x,
+            y: y,
+            imageX: (x + document.body.scrollLeft - this.img.x) / this.img.clientWidth,
+            imageY: (y + document.body.scrollTop - this.img.y) / this.img.clientHeight,
         }
     }
     getWindowCenterMousePointer() {
