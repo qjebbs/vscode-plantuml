@@ -180,7 +180,7 @@ class Zoom {
         return this.getMousePointer(x, y);
     }
     setToggleIcon() {
-        if (this.img.clientWidth >= this.naturalWidth || this.status.x != 0 || this.status.y != 0) {
+        if (this.img.clientWidth >= this.naturalWidth || document.body.scrollLeft != 0 || document.body.scrollTop != 0) {
             this.iconFit.style.display = "";
             this.iconExpand.style.display = "none";
         } else {
