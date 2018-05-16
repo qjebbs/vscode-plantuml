@@ -9,41 +9,37 @@ class Zoom {
         this.naturalWidth = this.img.naturalWidth;
         this.naturalHeight = this.img.naturalHeight;
         this.status = undefined;
-        let afterZoom = () => {
-            saveStatus();
-        }
         let resetZoom = () => {
             this.reset();
-            saveStatus();
         }
         this.imgContainer.addEventListener("click", e => {
             if (e.button == 0) {
                 let scale = 1 + (e.altKey ? -0.2 : 0.2);
-                this.smoothZomm(this.status.zoom * scale, this.getMousePointer(), afterZoom);
+                this.smoothZomm(this.status.zoom * scale, this.getMousePointer());
             } else if (e.button == 1) {
                 if (this.iconFit.style.display == "")
                     resetZoom();
                 else
-                    this.smoothZomm(100, this.getMousePointer(), afterZoom);
+                    this.smoothZomm(100, this.getMousePointer());
             }
         })
         // this.imgContainer.addEventListener("dblclick", () => {
         //     if (this.iconFit.style.display == "")
         //         resetZoom();
         //     else
-        //         this.smoothZomm(100, this.getMousePointer(), afterZoom);
+        //         this.smoothZomm(100, this.getMousePointer());
         // })
         document.getElementById("btnZoomIn").addEventListener("click", () => {
-            this.smoothZomm(this.status.zoom * 1.2, this.getWindowCenterMousePointer(), afterZoom);
+            this.smoothZomm(this.status.zoom * 1.2, this.getWindowCenterMousePointer());
         });
         document.getElementById("btnZoomOut").addEventListener("click", () => {
-            this.smoothZomm(this.status.zoom / 1.2, this.getWindowCenterMousePointer(), afterZoom);
+            this.smoothZomm(this.status.zoom / 1.2, this.getWindowCenterMousePointer());
         });
         document.getElementById("btnZoomToggle").addEventListener("click", () => {
             if (this.iconFit.style.display == "") {
                 resetZoom();
             } else
-                this.smoothZomm(100, this.getWindowCenterMousePointer(), afterZoom);
+                this.smoothZomm(100, this.getWindowCenterMousePointer());
         });
         document.body.addEventListener("mousewheel", () => {
             // console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
@@ -58,7 +54,6 @@ class Zoom {
                     // zoom level increase / decrease by 30% for each wheel scroll
                     this.pointZoom(this.status.zoom * (delta / 50 + 1), mouseAt);
                 }
-                saveStatus();
                 if (event.preventDefault) event.preventDefault();
                 return false;
             }
@@ -70,7 +65,6 @@ class Zoom {
         });
         window.addEventListener("resize", () => {
             this.reset();
-            saveStatus();
         });
     }
     reset() {
@@ -108,7 +102,6 @@ class Zoom {
         if (status.zoom < minZoom) status.zoom = minZoom;
 
         this.applyStatus(status);
-        saveStatus();
     }
     pointZoom(zoom, point) {
         let winWidth = window.innerWidth;
@@ -172,6 +165,7 @@ class Zoom {
         document.body.scrollTop = status.y;
         this.status = status;
         this.setToggleIcon();
+        saveStatus();
     }
     getMousePointer(x, y) {
         let e = event || window.event;
