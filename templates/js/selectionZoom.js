@@ -18,7 +18,7 @@ window.addEventListener("load", () => {
     };
     let flag = false;
     imgContainer.addEventListener("mousedown", e => {
-        if (e.buttons == 1) {
+        if (e.button == 0) {
             flag = true;
             start.x = e.clientX;
             start.y = e.clientY;
