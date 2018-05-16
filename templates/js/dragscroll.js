@@ -38,7 +38,7 @@
                 el[addEventListener](
                     mousedown,
                     el.md = function(e) {
-                        pushed = 1;
+                        if (e.buttons == 2) pushed = 1;
                         lastClientX = e.clientX;
                         lastClientY = e.clientY;
 

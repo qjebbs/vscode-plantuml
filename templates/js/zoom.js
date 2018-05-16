@@ -43,10 +43,10 @@ class Zoom {
                 let delta = event.ctrlKey ? event.wheelDelta / 60 : event.wheelDelta / 12;
                 let mouseAt = this.getMousePointer();
                 if (this.zoomUpperLimit) {
-                    this.setZoom(this.status.zoom + delta, mouseAt);
+                    this.pointZoom(this.status.zoom + delta, mouseAt);
                 } else {
                     // zoom level increase / decrease by 30% for each wheel scroll
-                    this.setZoom(this.status.zoom * (delta / 50 + 1), mouseAt);
+                    this.pointZoom(this.status.zoom * (delta / 50 + 1), mouseAt);
                 }
                 saveStatus();
                 if (event.preventDefault) event.preventDefault();
@@ -67,7 +67,7 @@ class Zoom {
         let mp = this.getWindowCenterMousePointer();
         mp.imageX = 0.5;
         mp.imageY = 0.5;
-        this.setZoom(0, mp);
+        this.pointZoom(0, mp);
     }
     smoothZomm(to, mouseAt, callback, ...args) {
         mouseAt = mouseAt || this.getMousePointer();
@@ -82,11 +82,25 @@ class Zoom {
         const delta = (to - from) / level;
         for (let i = 1; i <= level; i++) {
             setTimeout(() => {
-                if (this.setZoom(from + delta * i, mouseAt) && callback) callback(...args);
+                if (this.pointZoom(from + delta * i, mouseAt) && callback) callback(...args);
             }, interval * i);
         }
     }
-    setZoom(zoom, point) {
+    rectZoom(start, end) {
+        let winWidth = window.innerWidth;
+        let winHeight = window.innerHeight;
+        let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
+        let minZoom = minWidth / this.naturalWidth * 100;
+        const maxZoom = 100;
+
+        let status = this.getRectZoomStatus(start, end);
+        if (this.zoomUpperLimit && status.zoom > maxZoom) status.zoom = maxZoom;
+        if (status.zoom < minZoom) status.zoom = minZoom;
+
+        this.applyStatus(status);
+        saveStatus();
+    }
+    pointZoom(zoom, point) {
         let winWidth = window.innerWidth;
         let winHeight = window.innerHeight;
         let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
@@ -99,6 +113,22 @@ class Zoom {
         let status = this.getPointZoomStatus(zoom, point);
         this.applyStatus(status);
         return true;
+    }
+    getRectZoomStatus(start, end) {
+        let startPoint = this.getMousePointer(start.x, start.y);
+        let endPoint = this.getMousePointer(end.x, end.y);
+        let imgSelCenterX = startPoint.imageX + (endPoint.imageX - startPoint.imageX) / 2;
+        let imgSelCenterY = startPoint.imageY + (endPoint.imageY - startPoint.imageY) / 2;
+        let imgX = (endPoint.imageX - startPoint.imageX) * this.img.clientWidth;
+        let imgY = (endPoint.imageY - startPoint.imageY) * this.img.clientHeight;
+        let scaleX = window.innerWidth / imgX;
+        let scaleY = window.innerHeight / imgY;
+        let scale = Math.min(scaleX, scaleY);
+        let zoom = this.status.zoom * scale;
+        let point = this.getWindowCenterMousePointer();
+        point.imageX = imgSelCenterX;
+        point.imageY = imgSelCenterY;
+        return this.getPointZoomStatus(zoom, point);
     }
     getPointZoomStatus(zoom, point) {
         let imgWidth = this.naturalWidth * zoom / 100;
