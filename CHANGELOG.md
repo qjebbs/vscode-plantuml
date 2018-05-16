@@ -1,5 +1,13 @@
 # VSCode PlantUML Changelog
 
+## 2.6.4
+
+- Improvement: New preview look, better inspecting image shape and size.
+- Improvement: Better following mouse pointer in zoom, especially zooming at a point at the bottom of image.
+- Improvement: Keep zoom and scroll status for all pages.
+- Improvement: Improved keeping status after edit & auto refresh.
+- Change `previewFileType` default setting to `svg`.
+
 ## 2.6.3
 
 - Improvement: Smoothly zooming.
