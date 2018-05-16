@@ -10,12 +10,10 @@ class Zoom {
         this.naturalHeight = this.img.naturalHeight;
         this.status = undefined;
         let afterZoom = () => {
-            this.setToggleIcon();
             saveStatus();
         }
         let resetZoom = () => {
             this.reset();
-            this.setToggleIcon();
             saveStatus();
         }
         this.img.addEventListener("dblclick", () => {
@@ -50,7 +48,6 @@ class Zoom {
                     // zoom level increase / decrease by 30% for each wheel scroll
                     this.setZoom(this.status.zoom * (delta / 50 + 1), mouseAt);
                 }
-                this.setToggleIcon();
                 saveStatus();
                 if (event.preventDefault) event.preventDefault();
                 return false;
@@ -134,6 +131,7 @@ class Zoom {
         document.body.scrollLeft = status.x;
         document.body.scrollTop = status.y;
         this.status = status;
+        this.setToggleIcon();
     }
     getMousePointer(x, y) {
         let e = event || window.event;
