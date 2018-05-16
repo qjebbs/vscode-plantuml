@@ -2,15 +2,17 @@ let zoomer;
 let switcher;
 let sendStatus;
 
+let previewStatus = {
+    page: 1,
+    pageStatus: {}
+}
+
 function saveStatus() {
     if (sendStatus) {
-        let status = JSON.stringify({
-            page: switcher.current,
-            zoom: zoomer.zoom,
-            x: document.body.scrollLeft,
-            y: document.body.scrollTop
-        });
         // console.log("save status: " + status);
+        previewStatus.page = switcher.current;
+        previewStatus.pageStatus[switcher.current] = zoomer.status
+        let status = JSON.stringify(previewStatus);
         sendStatus.attributes["href"].value = 'command:plantuml.previewStatus?' + encodeURIComponent(status);
         sendStatus.click();
     }
@@ -29,17 +31,14 @@ window.addEventListener("load", () => {
             status = undefined;
         }
     }
-    if (status) {
-        switcher.moveTo(status.page);
-        zoomer.setZoom(status.zoom);
-        zoomer.setScroll(status.x, status.y);
-    } else {
-        switcher.moveTo(1);
-        zoomer.reset();
-    }
+    if (status) previewStatus = status;
+    switcher.moveTo(previewStatus.page);
     if (!document.getElementById("errtxt").innerText.trim())
         document.getElementById("error-warning").style.display = "none";
     document.getElementById("image-container").style.margin = "0";
 
 });
-window.addEventListener("mouseup", () => saveStatus());
+window.addEventListener("resize", () => {
+    previewStatus.pageStatus = {};
+    saveStatus();
+});
