@@ -8,15 +8,18 @@ Rich PlantUML support for Visual Studio Code.
 |
 [PlantUML Document](http://plantuml.com/sitemap-language-specification)
 
-Note that some settings are changed after Version 2.0.0:
+## Notice
 
-- `plantuml.previewFromUrlServer` has been replaced by `plantuml.render`
-- `plantuml.urlServer` has been renamed to `plantuml.server`
-- `plantuml.urlServerIndexParameter` has been renamed to `plantuml.serverIndexParameter`
+With new features added to preview, some preview actions have been changed since Version 2.7.0:
 
-> Get **15X times faster export** by utilizing PlantUML Server as render. [How to?](#about-render)
+- Right mouse button drag to pan preview.
+- Toggle zoom by double click has been removed, please consider the toggle button, or middle mouse button.
+- Scroll zoom removed, please consider new features, or Ctrl + Scroll.
+
 
 ## Features
+
+> Get **15X times faster export** by utilizing PlantUML Server as render. [How to?](#about-render)
 
 - Preview Diagram, Press `Alt-D` to start PlantUML preview.
   - Auto update.
