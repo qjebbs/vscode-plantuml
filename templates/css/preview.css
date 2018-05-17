@@ -156,6 +156,37 @@ body.vscode-light {
     }
 }
 
+#spinner-container.small {
+    background: transparent;
+    top: 20px;
+}
+
+.small .spinner {
+    height: 10px;
+}
+
+.small span {
+    display: none;
+}
+
+.small .spinner>div {
+    margin: -2px;
+    width: 10px;
+    border-radius: 5px;
+    animation-name: scaledelay;
+}
+
+@keyframes scaledelay {
+    0%,
+    40%,
+    100% {
+        transform: scale(0.4);
+    }
+    20% {
+        transform: scale(1.0);
+    }
+}
+
 img[src=""] {
     opacity: 0;
 }

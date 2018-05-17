@@ -19,7 +19,7 @@ function saveStatus() {
     }
 }
 window.addEventListener("load", () => {
-
+    switcher = new Switcher();
     let status = undefined;
     try {
         status = JSON.parse(document.getElementById("status").innerHTML);
@@ -34,8 +34,10 @@ window.addEventListener("load", () => {
         document.getElementById("error-warning").style.display = "none";
     if (!settings.showSpinner)
         document.getElementById("spinner-container").remove();
+    else {
+        if (switcher.images.length) document.getElementById("spinner-container").classList.add("small");
+    }
 
-    switcher = new Switcher();
     let imgErr = document.getElementById("image-error");
     if (!switcher.images.length && hasError) {
         switcher.images = [imgErr.currentSrc];
