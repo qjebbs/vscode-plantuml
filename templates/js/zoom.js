@@ -5,6 +5,7 @@ class Zoom {
         this.imgContainer = document.getElementById("image-container");
         this.iconFit = document.getElementById("icon-fit");
         this.iconExpand = document.getElementById("icon-expand");
+        this.ctrlBar = document.getElementById("ctrl-container");
         this.naturalWidth = this.img.naturalWidth;
         this.naturalHeight = this.img.naturalHeight;
         this.status = undefined;
@@ -140,6 +141,7 @@ class Zoom {
     getPointZoomStatus(zoom, point) {
         let imgWidth = this.naturalWidth * zoom / 100;
         let imgHeight = this.naturalHeight * zoom / 100;
+        let ctrlBarSapceY = window.innerHeight - this.ctrlBar.offsetTop;
 
         let blankRight = Math.floor(window.innerWidth - imgWidth * (1 - point.imageX) - point.x);
         let blankLeft = Math.floor(point.x - imgWidth * point.imageX);
@@ -147,7 +149,7 @@ class Zoom {
         let blankTop = Math.floor(point.y - imgHeight * point.imageY);
         blankRight = blankRight < 0 ? 0 : blankRight;
         blankLeft = blankLeft < 0 ? 0 : blankLeft;
-        blankBottom = blankBottom < 0 ? 0 : blankBottom;
+        blankBottom = blankBottom < ctrlBarSapceY ? ctrlBarSapceY : blankBottom;
         blankTop = blankTop < 0 ? 0 : blankTop;
 
         let status = {};
