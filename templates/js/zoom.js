@@ -6,8 +6,6 @@ class Zoom {
         this.iconFit = document.getElementById("icon-fit");
         this.iconExpand = document.getElementById("icon-expand");
         this.ctrlBar = document.getElementById("ctrl-container");
-        this.naturalWidth = this.img.naturalWidth;
-        this.naturalHeight = this.img.naturalHeight;
         this.status = undefined;
         let resetZoom = () => {
             this.reset();
@@ -73,8 +71,8 @@ class Zoom {
     }
     smoothZomm(to, mouseAt, callback, ...args) {
         let winWidth = window.innerWidth;
-        let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
-        let minZoom = minWidth / this.naturalWidth * 100;
+        let minWidth = winWidth < this.img.naturalWidth ? winWidth : this.img.naturalWidth;
+        let minZoom = minWidth / this.img.naturalWidth * 100;
         if (to < minZoom) to = minZoom;
         let from = this.status.zoom;
         if (from == to) return;
@@ -91,8 +89,8 @@ class Zoom {
     rectZoom(start, end) {
         let winWidth = window.innerWidth;
         let winHeight = window.innerHeight;
-        let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
-        let minZoom = minWidth / this.naturalWidth * 100;
+        let minWidth = winWidth < this.img.naturalWidth ? winWidth : this.img.naturalWidth;
+        let minZoom = minWidth / this.img.naturalWidth * 100;
         const maxZoom = 100;
 
         let status = this.getRectZoomStatus(start, end);
@@ -104,8 +102,8 @@ class Zoom {
     pointZoom(zoom, point) {
         let winWidth = window.innerWidth;
         let winHeight = window.innerHeight;
-        let minWidth = winWidth < this.naturalWidth ? winWidth : this.naturalWidth;
-        let minZoom = minWidth / this.naturalWidth * 100;
+        let minWidth = winWidth < this.img.naturalWidth ? winWidth : this.img.naturalWidth;
+        let minZoom = minWidth / this.img.naturalWidth * 100;
         const maxZoom = 100;
 
         if (!point) point = this.getWindowCenterMousePointer();
@@ -113,7 +111,7 @@ class Zoom {
         if (zoom < minZoom + 0.1) {
             // if zoom <= minZoom, reset
             zoom = minZoom;
-            let imgHeight = this.naturalHeight * zoom / 100;
+            let imgHeight = this.img.naturalHeight * zoom / 100;
             point = this.getWindowCenterMousePointer();
             point.imageX = 0.5;
             if (imgHeight < window.innerHeight) {
@@ -145,8 +143,8 @@ class Zoom {
         return this.getPointZoomStatus(zoom, point);
     }
     getPointZoomStatus(zoom, point) {
-        let imgWidth = this.naturalWidth * zoom / 100;
-        let imgHeight = this.naturalHeight * zoom / 100;
+        let imgWidth = this.img.naturalWidth * zoom / 100;
+        let imgHeight = this.img.naturalHeight * zoom / 100;
         let ctrlBarSapceY = window.innerHeight - this.ctrlBar.offsetTop;
 
         let blankRight = Math.floor(window.innerWidth - imgWidth * (1 - point.imageX) - point.x);
@@ -170,8 +168,8 @@ class Zoom {
     }
     applyStatus(status) {
         // console.log("apply status:", status);
-        let imgWidth = this.naturalWidth * status.zoom / 100;
-        let imgHeight = this.naturalHeight * status.zoom / 100;
+        let imgWidth = this.img.naturalWidth * status.zoom / 100;
+        let imgHeight = this.img.naturalHeight * status.zoom / 100;
         this.img.style.width = imgWidth + 'px';
         this.img.style.marginLeft = status.blankLeft + 'px';
         this.img.style.marginRight = status.blankRight + 'px';
@@ -197,7 +195,7 @@ class Zoom {
         return this.getMousePointer(x, y);
     }
     setToggleIcon() {
-        if (this.img.clientWidth >= this.naturalWidth || document.body.scrollLeft != 0 || document.body.scrollTop != 0) {
+        if (this.img.clientWidth >= this.img.naturalWidth || document.body.scrollLeft != 0 || document.body.scrollTop != 0) {
             this.iconFit.style.display = "";
             this.iconExpand.style.display = "none";
         } else {
