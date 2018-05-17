@@ -57,7 +57,7 @@ class Zoom {
                 return false;
             }
         });
-        window.addEventListener("mouseup", () => {
+        window.addEventListener("scroll", () => {
             this.status.x = document.body.scrollLeft;
             this.status.y = document.body.scrollTop;
             saveStatus();
