@@ -1,4 +1,4 @@
-window.addEventListener("load", () => {
+function addCursorManager() {
     document.body.addEventListener("mousedown", e => {
         // console.log(e);
         if (e.button == 2) document.body.style.cursor = "move";
@@ -22,4 +22,4 @@ window.addEventListener("load", () => {
                 document.body.style.cursor = "zoom-in";
         }
     });
-});
+};

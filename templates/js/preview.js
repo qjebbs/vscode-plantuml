@@ -48,6 +48,8 @@ window.addEventListener("load", () => {
         sendStatus = document.getElementById("sendStatus");
         zoomer = new Zoom(settings.zoomUpperLimit);
         switcher.moveTo(previewStatus.page);
+        addCursorManager();
+        addSelectionBox();
     } else {
         document.getElementById("ctrl-container").remove();
         document.getElementById("image-container").remove();
