@@ -27,14 +27,15 @@ window.addEventListener("load", () => {
         settings = undefined;
     }
 
-    if (!document.getElementById("errtxt").innerText.trim())
+    let hasError = !!document.getElementById("errtxt").innerText.trim();
+    if (!hasError)
         document.getElementById("error-warning").style.display = "none";
     if (!settings.showSpinner)
         document.getElementById("spinner-container").remove();
 
     switcher = new Switcher();
     let imgErr = document.getElementById("image-error");
-    if (!switcher.images.length && imgErr.src) switcher.images = [imgErr.src];
+    if (!switcher.images.length && hasError) switcher.images = [imgErr.currentSrc];
     if (switcher.images.length) {
         let status = undefined;
         try {
