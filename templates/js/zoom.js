@@ -85,6 +85,7 @@ class Zoom {
         const delta = (to - from) / level;
         for (let i = 1; i <= level; i++) {
             setTimeout(() => {
+                // console.log("before zoom:", this.img.x, this.img.y, document.body.scrollLeft, document.body.scrollTop);
                 if (this.pointZoom(from + delta * i, mouseAt) && callback) callback(...args);
             }, interval * i);
         }
@@ -136,10 +137,10 @@ class Zoom {
         let imgWidth = this.naturalWidth * zoom / 100;
         let imgHeight = this.naturalHeight * zoom / 100;
 
-        let blankRight = window.innerWidth - imgWidth * (1 - point.imageX) - point.x;
-        let blankLeft = point.x - imgWidth * point.imageX;
-        let blankBottom = window.innerHeight - imgHeight * (1 - point.imageY) - point.y;
-        let blankTop = point.y - imgHeight * point.imageY;
+        let blankRight = Math.floor(window.innerWidth - imgWidth * (1 - point.imageX) - point.x);
+        let blankLeft = Math.floor(point.x - imgWidth * point.imageX);
+        let blankBottom = Math.floor(window.innerHeight - imgHeight * (1 - point.imageY) - point.y);
+        let blankTop = Math.floor(point.y - imgHeight * point.imageY);
         blankRight = blankRight < 0 ? 0 : blankRight;
         blankLeft = blankLeft < 0 ? 0 : blankLeft;
         blankBottom = blankBottom < 0 ? 0 : blankBottom;
@@ -148,8 +149,8 @@ class Zoom {
         let status = {};
         status.blankX = Math.max(blankLeft, blankRight);
         status.blankY = Math.max(blankBottom, blankTop);
-        status.x = imgWidth * point.imageX + status.blankX - point.x;
-        status.y = imgHeight * point.imageY + status.blankY - point.y;
+        status.x = Math.floor(imgWidth * point.imageX + status.blankX - point.x);
+        status.y = Math.floor(imgHeight * point.imageY + status.blankY - point.y);
         status.zoom = zoom
         return status;
     }
