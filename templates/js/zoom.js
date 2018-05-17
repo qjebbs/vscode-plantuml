@@ -179,7 +179,6 @@ class Zoom {
         document.body.scrollTop = status.y;
         this.status = status;
         this.setToggleIcon();
-        saveStatus();
     }
     getMousePointer(x, y) {
         return {
