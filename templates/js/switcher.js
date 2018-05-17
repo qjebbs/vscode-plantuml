@@ -39,7 +39,7 @@ class Switcher {
 
         // restore page status
         let status = previewStatus.pageStatus[page];
-        if (status) {
+        if (status && !status.isReset) {
             zoomer.applyStatus(status);
         } else {
             zoomer.reset();

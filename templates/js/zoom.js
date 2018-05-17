@@ -96,10 +96,12 @@ class Zoom {
         let status = this.getRectZoomStatus(start, end);
         if (this.zoomUpperLimit && status.zoom > maxZoom) status.zoom = maxZoom;
         if (status.zoom < minZoom) status.zoom = minZoom;
+        status.isReset = false;
 
         this.applyStatus(status);
     }
     pointZoom(zoom, point) {
+        let isReset = false;
         let winWidth = window.innerWidth;
         let winHeight = window.innerHeight;
         let minWidth = winWidth < this.img.naturalWidth ? winWidth : this.img.naturalWidth;
@@ -110,6 +112,7 @@ class Zoom {
         if (this.zoomUpperLimit && zoom > maxZoom) zoom = maxZoom;
         if (zoom < minZoom + 0.1) {
             // if zoom <= minZoom, reset
+            isReset = true;
             zoom = minZoom;
             let imgHeight = this.img.naturalHeight * zoom / 100;
             point = this.getWindowCenterMousePointer();
@@ -123,6 +126,7 @@ class Zoom {
         }
 
         let status = this.getPointZoomStatus(zoom, point);
+        status.isReset = isReset;
         this.applyStatus(status);
         return true;
     }
@@ -195,7 +199,7 @@ class Zoom {
         return this.getMousePointer(x, y);
     }
     setToggleIcon() {
-        if (this.img.clientWidth >= this.img.naturalWidth || document.body.scrollLeft != 0 || document.body.scrollTop != 0) {
+        if (!this.status.isReset) {
             this.iconFit.style.display = "";
             this.iconExpand.style.display = "none";
         } else {
