@@ -111,11 +111,17 @@ class Zoom {
         if (!point) point = this.getWindowCenterMousePointer();
         if (this.zoomUpperLimit && zoom > maxZoom) zoom = maxZoom;
         if (zoom < minZoom + 0.1) {
-            // if zoom <= minZoom, reset to window center
+            // if zoom <= minZoom, reset
             zoom = minZoom;
+            let imgHeight = this.naturalHeight * zoom / 100;
             point = this.getWindowCenterMousePointer();
             point.imageX = 0.5;
-            point.imageY = 0.5;
+            if (imgHeight < window.innerHeight) {
+                point.imageY = 0.5;
+            } else {
+                point.y = 0;
+                point.imageY = 0;
+            }
         }
 
         let status = this.getPointZoomStatus(zoom, point);
