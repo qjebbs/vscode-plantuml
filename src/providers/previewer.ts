@@ -86,9 +86,12 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                     return eval(this.template);
                 case previewStatus.processing:
                     error = "";
-                    let exported = calculateExportPath(this.rendered, config.previewFileType);
-                    exported = addFileIndex(exported, 0, this.rendered.pageCount);
-                    if (!fs.existsSync(exported)) images = ""; else images = `<img src="file:///${exported}">`;
+                    images = ["svg", "png"].reduce((p, c) => {
+                        if (p) return p;
+                        let exported = calculateExportPath(this.rendered, c);
+                        exported = addFileIndex(exported, 0, this.rendered.pageCount);
+                        return fs.existsSync(exported) ? images = `<img src="file:///${exported}">` : "";
+                    }, "");
                     return eval(this.template);
                 default:
                     return "";
