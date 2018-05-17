@@ -159,10 +159,12 @@ class Zoom {
         blankTop = blankTop < 0 ? 0 : blankTop;
 
         let status = {};
-        status.blankX = Math.max(blankLeft, blankRight);
-        status.blankY = Math.max(blankBottom, blankTop);
-        status.x = Math.floor(imgWidth * point.imageX + status.blankX - point.x);
-        status.y = Math.floor(imgHeight * point.imageY + status.blankY - point.y);
+        status.blankTop = blankTop;
+        status.blankRight = blankRight;
+        status.blankBottom = blankBottom;
+        status.blankLeft = blankLeft;
+        status.x = Math.floor(imgWidth * point.imageX + status.blankLeft - point.x);
+        status.y = Math.floor(imgHeight * point.imageY + status.blankTop - point.y);
         status.zoom = zoom
         return status;
     }
@@ -171,8 +173,10 @@ class Zoom {
         let imgWidth = this.naturalWidth * status.zoom / 100;
         let imgHeight = this.naturalHeight * status.zoom / 100;
         this.img.style.width = imgWidth + 'px';
-        this.imgContainer.style.width = (status.blankX * 2 + imgWidth) + 'px'
-        this.imgContainer.style.height = (status.blankY * 2 + imgHeight) + "px";
+        this.img.style.marginLeft = status.blankLeft + 'px';
+        this.img.style.marginRight = status.blankRight + 'px';
+        this.img.style.marginTop = status.blankTop + 'px';
+        this.img.style.marginBottom = status.blankBottom + 'px';
         document.body.scrollLeft = status.x;
         document.body.scrollTop = status.y;
         this.status = status;
