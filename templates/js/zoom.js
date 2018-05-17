@@ -31,16 +31,16 @@ class Zoom {
         }
         addClickEvent(this.imgContainer, onclick);
         document.getElementById("btnZoomIn").addEventListener("click", () => {
-            this.smoothZomm(this.status.zoom * 1.2);
+            this.smoothZomm(this.status.zoom * 1.2, this.getWindowCenterMousePointer());
         });
         document.getElementById("btnZoomOut").addEventListener("click", () => {
-            this.smoothZomm(this.status.zoom / 1.2);
+            this.smoothZomm(this.status.zoom / 1.2, this.getWindowCenterMousePointer());
         });
         document.getElementById("btnZoomToggle").addEventListener("click", () => {
             if (this.iconFit.style.display == "") {
                 resetZoom();
             } else
-                this.smoothZomm(100);
+                this.smoothZomm(100, this.getWindowCenterMousePointer());
         });
         document.body.addEventListener("mousewheel", e => {
             // console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
