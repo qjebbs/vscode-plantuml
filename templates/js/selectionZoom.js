@@ -29,7 +29,7 @@ window.addEventListener("load", () => {
             // console.log("select start", start);
         }
     });
-    imgContainer.addEventListener("mousemove", e => {
+    document.body.addEventListener("mousemove", e => {
         if (!flag) return;
         rectStart.x = Math.min(start.x, e.clientX);
         rectStart.y = Math.min(start.y, e.clientY);
