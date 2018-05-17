@@ -50,12 +50,8 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
     }
 
     reset() {
-        let tplPath: string = path.join(contextManager.context.extensionPath, "templates");
-        let tplPreviewPath: string = path.join(tplPath, "preview.html");
-        let tplPreviewProcessingPath: string = path.join(tplPath, "preview-processing.html");
+        let tplPreviewPath: string = path.join(contextManager.context.extensionPath, "templates", "preview.html");
         this.template = '`' + fs.readFileSync(tplPreviewPath, "utf-8") + '`';
-        this.templateProcessing = '`' + fs.readFileSync(tplPreviewProcessingPath, "utf-8") + '`';
-
         this.rendered = null;
         this.uiStatus = "";
         this.images = [];
@@ -66,32 +62,34 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
     provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): string {
         //start watching changes
         if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
-        let image = this.images[0];
         let images = this.images.reduce((p, c) => {
             return `${p}<img src="${c}">`
         }, "");
         let imageError: string;
         let error: string;
         let tmplPath = "file:///" + path.join(contextManager.context.extensionPath, "templates");
-        let zoomUpperLimit = this.zoomUpperLimit;
         let status = this.uiStatus;
         let nonce = Math.random().toString(36).substr(2);
         let pageInfo = localize(20, null);
         let icon = "file:///" + path.join(contextManager.context.extensionPath, "images", "icon.png");
         let processingTip = localize(9, null);
+        let settings = JSON.stringify({
+            zoomUpperLimit: this.zoomUpperLimit,
+            showSpinner: this.status == previewStatus.processing
+        })
         try {
             switch (this.status) {
                 case previewStatus.default:
                 case previewStatus.error:
                     imageError = this.imageError;
                     error = this.error.replace(/\n/g, "<br />");
-                    if (!image) image = imageError;
                     return eval(this.template);
                 case previewStatus.processing:
-                    image = calculateExportPath(this.rendered, config.previewFileType);
-                    image = addFileIndex(image, 0, this.rendered.pageCount);
-                    if (!fs.existsSync(image)) image = ""; else image = "file:///" + image;
-                    return eval(this.templateProcessing);
+                    error = "";
+                    let exported = calculateExportPath(this.rendered, config.previewFileType);
+                    exported = addFileIndex(exported, 0, this.rendered.pageCount);
+                    if (!fs.existsSync(exported)) images = ""; else images = `<img src="file:///${exported}">`;
+                    return eval(this.template);
                 default:
                     return "";
             }

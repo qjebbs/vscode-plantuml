@@ -13,8 +13,20 @@
 </head>
 
 <body class="dragscroll">
+    <div id="spinner-container">
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <div>
+            <span>${processingTip}</span>
+        </div>
+    </div>
     <div id="image-container" style="margin: 10px;">
-        <img id="image" src="${image}">
+        <img id="image" src="">
     </div>
     <div id="ctrl-container">
         <div id="controls">
@@ -67,7 +79,7 @@
         <img id="error-icon" src="${tmplPath}/img/error.svg"></img>
         <div id="errmsg">
             <p id="errtxt">${error}</p>
-            <img src="${imageError}" style="max-width: 100%;">
+            <img id="image-error" src="${imageError}" style="max-width: 100%;">
         </div>
     </div>
     <div style="display:none;">
@@ -76,7 +88,7 @@
         </div>
         <p id="status">${status}</p>
         <a id="sendStatus" href=""></a>
-        <p id="zoomUpperLimit">${zoomUpperLimit}</p>
+        <p id="settings">${settings}</p>
     </div>
 </body>
 

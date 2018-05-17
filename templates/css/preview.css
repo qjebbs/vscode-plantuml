@@ -160,10 +160,6 @@ img[src=""] {
     opacity: 0;
 }
 
-.full-height {
-    height: 100%;
-}
-
 #selectionBox {
     position: absolute;
     border: 1px solid #CCCCCC;

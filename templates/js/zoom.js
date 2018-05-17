@@ -1,6 +1,6 @@
 class Zoom {
-    constructor() {
-        this.zoomUpperLimit = document.getElementById("zoomUpperLimit").innerText === "true";
+    constructor(zoomUpperLimit) {
+        this.zoomUpperLimit = zoomUpperLimit;
         this.img = document.getElementById("image");
         this.imgContainer = document.getElementById("image-container");
         this.iconFit = document.getElementById("icon-fit");

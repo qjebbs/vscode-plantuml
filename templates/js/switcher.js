@@ -26,7 +26,11 @@ class Switcher {
 
     }
     moveTo(page) {
-        if (page < 1 || page > this.images.length || this.current == page) return;
+        if (page < 1 || page > this.images.length) {
+            console.log(`invalid page: target ${page}, range 1 - ${this.images.length}`);
+            return;
+        }
+        if (this.current == page) return;
 
         // switch page
         this.image.src = this.images[page - 1];

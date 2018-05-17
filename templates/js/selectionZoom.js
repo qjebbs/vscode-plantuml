@@ -1,5 +1,9 @@
 window.addEventListener("load", () => {
     let imgContainer = document.getElementById("image-container");
+    if (!imgContainer) {
+        // console.log("cannot initial selection box due to no image-container.");
+        return;
+    }
     let sBox = document.createElement("div");
     imgContainer.appendChild(sBox);
     sBox.id = "selectionBox";
