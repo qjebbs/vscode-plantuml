@@ -30,16 +30,16 @@ class Zoom {
         }
         addClickEvent(this.imgContainer, onclick);
         document.getElementById("btnZoomIn").addEventListener("click", () => {
-            this.smoothZomm(this.status.zoom * 1.2, this.getWindowCenterMousePointer());
+            this.smoothZomm(this.status.zoom * 1.2);
         });
         document.getElementById("btnZoomOut").addEventListener("click", () => {
-            this.smoothZomm(this.status.zoom / 1.2, this.getWindowCenterMousePointer());
+            this.smoothZomm(this.status.zoom / 1.2);
         });
         document.getElementById("btnZoomToggle").addEventListener("click", () => {
             if (this.iconFit.style.display == "") {
                 resetZoom();
             } else
-                this.smoothZomm(100, this.getWindowCenterMousePointer());
+                this.smoothZomm(100);
         });
         document.body.addEventListener("mousewheel", e => {
             // console.log(event.ctrlKey, event.wheelDeltaX, event.wheelDeltaY);
@@ -68,10 +68,7 @@ class Zoom {
         });
     }
     reset() {
-        let mp = this.getWindowCenterMousePointer();
-        mp.imageX = 0.5;
-        mp.imageY = 0.5;
-        this.pointZoom(0, mp);
+        this.pointZoom(0);
     }
     smoothZomm(to, mouseAt, callback, ...args) {
         let winWidth = window.innerWidth;
@@ -110,8 +107,15 @@ class Zoom {
         let minZoom = minWidth / this.naturalWidth * 100;
         const maxZoom = 100;
 
+        if (!point) point = this.getWindowCenterMousePointer();
         if (this.zoomUpperLimit && zoom > maxZoom) zoom = maxZoom;
-        if (zoom < minZoom) zoom = minZoom;
+        if (zoom < minZoom + 0.1) {
+            // if zoom <= minZoom, reset to window center
+            zoom = minZoom;
+            point = this.getWindowCenterMousePointer();
+            point.imageX = 0.5;
+            point.imageY = 0.5;
+        }
 
         let status = this.getPointZoomStatus(zoom, point);
         this.applyStatus(status);
