@@ -9,7 +9,7 @@ export function renderHtml(tokens: markdowIt.Token[], idx: number) {
     if (token.type !== "plantuml") return tokens[idx].content;
     let diagram = new Diagram(token.content);
     return [...Array(diagram.pageCount).keys()].reduce((p, index) => {
-        let requestUrl = plantumlServer.makeURL(diagram, config.previewFileType);
+        let requestUrl = plantumlServer.makeURL(diagram, "svg");
         if (config.serverIndexParameter) {
             requestUrl += "?" + config.serverIndexParameter + "=" + index;
         }

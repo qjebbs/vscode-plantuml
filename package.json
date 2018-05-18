@@ -254,15 +254,6 @@
           "default": true,
           "description": "%plantuml.configuration.previewAutoUpdate%"
         },
-        "plantuml.previewFileType": {
-          "type": "string",
-          "default": "svg",
-          "enum": [
-            "png",
-            "svg"
-          ],
-          "description": "%plantuml.configuration.previewFileType%"
-        },
         "plantuml.server": {
           "type": "string",
           "default": "http://www.plantuml.com/plantuml",

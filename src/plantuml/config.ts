@@ -77,10 +77,6 @@ class Config extends ConfigReader {
         return this.read<boolean>('previewAutoUpdate');
     }
 
-    get previewFileType(): string {
-        return this.read<string>('previewFileType') || "png";
-    }
-
     get server(): string {
         return this.read<string>('server') || "http://www.plantuml.com/plantuml";
     }

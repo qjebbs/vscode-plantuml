@@ -14,7 +14,6 @@
 	"plantuml.configuration.exportConcurrency": "Anzahl von gleichzeitigen Exports bei mehreren Diagrammen.",
 	"plantuml.configuration.exportOutDirName": "Name des Ordners für den Export von Diagrammen aus dem Arbeitsbereich.",
 	"plantuml.configuration.previewAutoUpdate": "Automatisch das Vorschaufenster aktualisieren.",
-	"plantuml.configuration.previewFileType": "Dateityp der Vorschau. Png oder svg werden unterstützt.",
 	"plantuml.configuration.server": "Plantuml-Server zum Generieren von UML-Diagrammen on-the-fly.",
 	"plantuml.configuration.urlFormat": "URL-Format. Lassen Sie es leer, dann können Sie das Format bei jeder URL-Erstellung auswählen.",
 	"plantuml.configuration.urlResult": "URL-Format. Einfache URL oder für den MarkDown Einsatz.",
