@@ -10,12 +10,20 @@ Rich PlantUML support for Visual Studio Code.
 
 ## Notice
 
-With new features added to preview, some preview actions have been changed since Version 2.7.0:
+New designed preview provides various zoom/pan actions since version 2.7.0:
 
-- Right mouse button drag to pan preview.
-- Toggle zoom by double click has been removed, please consider the toggle button, or middle mouse button.
-- Scroll zoom removed, please consider new features, or Ctrl + Scroll.
-
+- Zoom operations: 
+  - Zoom to select area
+  - Pinch to zoom (TouchPad)
+  - Click to zoom in
+  - Alt + click to zoom out
+  - Ctrl + mouse scroll to zoom in/out
+  - Middle mouse button click to toggle zoom
+  - Zoom in / zoom out / toggle buttons of the controls bar.
+- Pan operations:
+  - Right mouse button drag
+  - Two-finger move to pan (TouchPad)
+  - Mouse scroll
 
 ## Features
 
@@ -271,7 +279,6 @@ This extension contributes the following settings:
 - `plantuml.exportOutDirName`: export workspace diagrams will be organized in a directory named with value specified here.
 - `plantuml.exportMapFile`: Determine whether export image map (.cmapx) file when export.
 - `plantuml.previewAutoUpdate`: Dedecides if automatically update the preview window.
-- `plantuml.previewFileType`: Preview file type, png or svg support. But svg preview cannot support sudoku, earth diagrams etc.
 - `plantuml.server`: PlantUML server to generate UML diagrams on-the-fly.
 - `plantuml.render`: Select diagram render for both export and preview.
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.

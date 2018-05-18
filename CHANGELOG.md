@@ -1,5 +1,19 @@
 # VSCode PlantUML Changelog
 
+## 2.7.5
+
+- New Feature: Full functional processing / quick preview page.
+- New Feature: Always request svg for preview, but compatible to some special diagrams outputs of png.
+- Improvement: Smaller loading animation when quick preview
+- Improvement: Controls bar don't covers the image now
+- Improvement: Remove unnecessary margins.
+- Improvement: Align long image to window top when reset to fit window.
+- Improvement: Reset to fit window if zoom out to minimal zoom.
+- Fix: Sometimes toggle icon incorrect.
+- Fix: Wrong natural size if multi-page.
+- Don't limit png max zoom to 100.
+- Remove setting `previewFileType`
+
 ## 2.7.0
 
 - New Feature: Zoom to selected area.
