@@ -62,9 +62,6 @@ class Zoom {
             this.status.y = document.body.scrollTop;
             saveStatus();
         });
-        window.addEventListener("resize", () => {
-            this.reset();
-        });
     }
     reset() {
         this.pointZoom(0);

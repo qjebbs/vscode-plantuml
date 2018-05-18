@@ -57,7 +57,22 @@ window.addEventListener("load", () => {
         document.getElementById("image-container").remove();
     }
 });
-window.addEventListener("resize", () => {
-    previewStatus.pageStatus = {};
-    saveStatus();
-});
+window.addEventListener(
+    "resize",
+    (function () {
+        let onResizeAvailable = false;
+        setTimeout(() => {
+            onResizeAvailable = true;
+        }, 300);
+        return function (e) {
+            if (!onResizeAvailable) {
+                // block unwanted resize event triggered when page initializes.
+                // console.log("rejected resize event.");
+                return;
+            }
+            zoomer.reset();
+            previewStatus.pageStatus = {};
+            saveStatus();
+        }
+    })()
+);
