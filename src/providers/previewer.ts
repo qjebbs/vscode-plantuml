@@ -153,10 +153,8 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
             this.Emittor.fire(this.Uri);
             return;
         }
-        const previewFileType = config.previewFileType;
-        const previewMimeType = previewFileType === 'png' ? 'png' : "svg+xml";
-        this.zoomUpperLimit = previewMimeType === 'png';
-        let task: RenderTask = exportToBuffer(diagram, previewFileType);
+        let task: RenderTask = exportToBuffer(diagram, "svg");
+        this.zoomUpperLimit = false;
         this.task = task;
 
         // console.log(`start pid ${this.process.pid}!`);
@@ -170,9 +168,11 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                 this.error = "";
                 this.imageError = "";
                 this.images = result.reduce((p, buf) => {
+                    let isSvg = buf.slice(0, 5).toString() == "<?xml";
+                    this.zoomUpperLimit = !this.zoomUpperLimit && !isSvg;
                     let b64 = buf.toString('base64');
                     if (!b64) return p;
-                    p.push(`data:image/${previewMimeType};base64,${b64}`);
+                    p.push(`data:image/${isSvg ? "svg+xml" : 'png'};base64,${b64}`);
                     return p;
                 }, <string[]>[]);
                 this.Emittor.fire(this.Uri);
@@ -185,7 +185,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                 this.error = err.error;
                 let b64 = err.out.toString('base64');
                 if (!(b64 || err.error)) return;
-                this.imageError = `data:image/${previewMimeType};base64,${b64}`
+                this.imageError = `data:image/svg+xml;base64,${b64}`
                 this.Emittor.fire(this.Uri);
             }
         );
