@@ -32,7 +32,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
     private images: string[];
     private imageError: string;
     private error: string = "";
-    private zoomUpperLimit: boolean = true;
+    private zoomUpperLimit: boolean = false;
 
     private template: string;
     private templateProcessing: string;
@@ -154,7 +154,6 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
             return;
         }
         let task: RenderTask = exportToBuffer(diagram, "svg");
-        this.zoomUpperLimit = false;
         this.task = task;
 
         // console.log(`start pid ${this.process.pid}!`);
@@ -169,7 +168,6 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                 this.imageError = "";
                 this.images = result.reduce((p, buf) => {
                     let isSvg = buf.slice(0, 5).toString() == "<?xml";
-                    this.zoomUpperLimit = !this.zoomUpperLimit && !isSvg;
                     let b64 = buf.toString('base64');
                     if (!b64) return p;
                     p.push(`data:image/${isSvg ? "svg+xml" : 'png'};base64,${b64}`);
