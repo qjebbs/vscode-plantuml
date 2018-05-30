@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.7.6
+
+- Improvement: Better keep status between quick preview and preview page. (block unwanted resize event)
+- Improvement: Add ";" to snippets prefixes to avoid typing conflict, solve #124
+
 ## 2.7.5
 
 - New Feature: Full functional processing / quick preview page.

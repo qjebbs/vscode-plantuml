@@ -127,17 +127,17 @@ Generate URLs:
 
 This plugin integrates all type diagram snippets. They are splitted into 9 sections:
 
-- `diagram`: snippets for general diagrams elements.
-- `activity`: snippets for activity diagrams.
-- `class`: snippets for class diagrams.
-- `component`: snippets for component diagrams.
-- `state`: snippets for state diagrams.
-- `usecase`: snippets for usecase diagrams.
-- `sequence`: snippets for sequence diagrams.
-- `ui`: snippets for salt diagrams.
-- `egg`: snippets for some funny diagrams, like sudoku, earth.
+- `;diagram`: snippets for general diagrams elements.
+- `;activity`: snippets for activity diagrams.
+- `;class`: snippets for class diagrams.
+- `;component`: snippets for component diagrams.
+- `;state`: snippets for state diagrams.
+- `;usecase`: snippets for usecase diagrams.
+- `;sequence`: snippets for sequence diagrams.
+- `;ui`: snippets for salt diagrams.
+- `;egg`: snippets for some funny diagrams, like sudoku, earth.
 
-For exsample, type `activity if else condition` or `acif` (short version) to trigge following snippet:
+For exsample, type `;activity if else condition` or `;acif` (short version) to trigge following snippet:
 
 ```plantumlcode
 if (cond1?) then (val1)
