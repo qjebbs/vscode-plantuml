@@ -15,8 +15,7 @@ New designed preview provides various zoom/pan actions since version 2.7.0:
 - Zoom operations: 
   - Zoom to select area
   - Pinch to zoom (TouchPad)
-  - Click to zoom in
-  - Alt + click to zoom out
+  - Click to zoom in, alt + click to zoom out
   - Ctrl + mouse scroll to zoom in/out
   - Middle mouse button click to toggle zoom
   - Zoom in / zoom out / toggle buttons of the controls bar.
