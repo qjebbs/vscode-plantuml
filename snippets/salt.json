@@ -1,6 +1,6 @@
 {
 	"UI Diagram Definition": {
-		"prefix": "ui start UI diagram",
+		"prefix": ";ui start UI diagram",
 		"body": [
 			"salt",
 			"{${1:+}",
@@ -10,37 +10,37 @@
 		"description": "Adds the declarative boundaries between which a UI diagram is specified within a PlantUML artifact. Note, all subsequent components must be added between the braces"
 	},
 	"UI Diagram Label": {
-		"prefix": "ui label",
+		"prefix": ";ui label",
 		"body": "${1:label}$0",
 		"description": "Adds a label component to the current view context"
 	},
 	"UI Diagram Radio Button": {
-		"prefix": "ui radio button",
+		"prefix": ";ui radio button",
 		"body": "(${1:X})${2:button label}$0",
 		"description": "Adds a radio button component to the current view context. Place an uppercase X between the parenthesis to indicate selection"
 	},
 	"UI Diagram Checkbox Button": {
-		"prefix": "ui checkbox button",
+		"prefix": ";ui checkbox button",
 		"body": "[${1:X}]${2:button label}$0",
 		"description": "Adds a checkbox button component to the current view context. Place an uppercase X between the parenthesis to indicate selection"
 	},
 	"UI Diagram Textbox Edit": {
-		"prefix": "ui textbox edit",
+		"prefix": ";ui textbox edit",
 		"body": "\"${1:edit-text placeholder}\"$0",
 		"description": "Adds a single line edit textbox component to the current view context"
 	},
 	"UI Diagram Combobox": {
-		"prefix": "ui combobox or select box",
+		"prefix": ";ui combobox or select box",
 		"body": "^${1:drop down placeholder}^$0",
 		"description": "Adds a combobox component to the current view context. Combo boxes or select boxes typically offer the user 5-10 options to select from. Note, this feature only lets you define the first option"
 	},
 	"UI Diagram Grid Row": {
-		"prefix": "ui grid row columns",
+		"prefix": ";ui grid row columns",
 		"body": "${1:component1} | ${2:component2} ${3:| ${4:component3}}\n$0",
 		"description": "Adds a grid row layout to organise component horizontally to the current view context. You may add/remove columns to the row using the '|' delimiter"
 	},
 	"UI Diagram Separator Dotted": {
-		"prefix": "ui seperator line",
+		"prefix": ";ui seperator line",
 		"body": [
 			"${1:..}\n$0",
 			"${2:'line=> dotted: ..; sold: --; double: ==}"
@@ -48,7 +48,7 @@
 		"description": "Adds a line as a separator to appear between the component above and the component below the line in the current view context. You may use dotted, solid or double lines as the separator"
 	},
 	"UI Diagram Treeview": {
-		"prefix": "ui treeview",
+		"prefix": ";ui treeview",
 		"body": [
 			"{T",
 			"\t+Home folder$0",
@@ -61,12 +61,12 @@
 		"description": "Adds a treeview component to the current view context. Note, each node in the tree is represented as a individual line with leading '+' symbols. The number of '+' preceding each label defines its indentation/level"
 	},
 	"UI Diagram Tabbar Horizontal": {
-		"prefix": "ui tab horizontal",
+		"prefix": ";ui tab horizontal",
 		"body": "{/ ${1:Playlists} | ${2:Artists} | ${3:Songs} | ${4:Albums}}\n$0",
 		"description": "Adds a horizontal tab bar component to the current view context. Note, you may use basic HTML in this region. Furthermore, you may add additional tabs using the '|' separator"
 	},
 	"UI Diagram Tabbar Vertical Left": {
-		"prefix": "ui tab vertical left",
+		"prefix": ";ui tab vertical left",
 		"body": [
 			"{/\t${1:Playlists}",
 			"\t${2:Artists}",
@@ -79,12 +79,12 @@
 		"description": "Adds a vertical tab bar component to the current view context. You may use basic HTML in this region in the tab names. The view for the nominated tab is modeled between the lower braces brackets"
 	},
 	"UI Diagram Menubar": {
-		"prefix": "ui main menu",
+		"prefix": ";ui main menu",
 		"body": "{* ${1:File} | ${2:Edit} | ${3:Help}$0\n}",
 		"description": "Adds a menu bar component to the current view context. If you indend to model an opened main menu item them use the main menu opened snippet instead"
 	},
 	"UI Diagram Menu Opened": {
-		"prefix": "ui main menu opened",
+		"prefix": ";ui main menu opened",
 		"body": [
 			"{* ${1:File} | ${2:Edit} | ${3:Help}",
 			"\t${4:File} | ${5:New} | ${6:Open ...} _ | ${7:Exit} $0",
@@ -93,7 +93,7 @@
 		"description": "Adds an expanded main menu bar item component to the current view context"
 	},
 	"UI Diagram Table": {
-		"prefix": "ui table",
+		"prefix": ";ui table",
 		"body": [
 			"{#",
 			"\t=$0 Y-val |=X-val|=Gradient|=Y intercept",

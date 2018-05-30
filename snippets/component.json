@@ -1,6 +1,6 @@
 {
     "Component Diagram Component": {
-        "prefix": "component definition",
+        "prefix": ";component definition",
         "body": [
             "component \"${1:name}\" ${2:${3:as} ${4:alias}} ${5:<<stereotype>>} {",
             "\t$0",
@@ -9,22 +9,22 @@
         "description": "Adds a component to the component diagram. Components may be binary executables or even configuration files."
     },
     "Component Diagram Interface": {
-        "prefix": "component interface definition",
+        "prefix": ";component interface definition",
         "body": "interface \"${1:name}\" ${2:${3:as} ${4:alias}}",
         "description": "Adds an interface to the component diagram"
     },
     "Component Diagram Realisation": {
-        "prefix": "component realisation relationship",
+        "prefix": ";component realisation relationship",
         "body": "${1:interfaceAlias} -${2:-} ${3:componentAlias} ${4::} ${5:label} ${6:<<stereotype>>}\n$0",
         "description": "Creates a realisation of an interface such that the component implements the specification of the interface. The relationship may include a label and/or stereotypes. Note, the length of the line can be forced to change size by adding/removing extra dashes"
     },
     "Component Diagram Dependency": {
-        "prefix": "component dependency relationship",
+        "prefix": ";component dependency relationship",
         "body": "${1:compOrIntf1} <.${2:.} ${3:compOrIntf2} ${4::} ${5:label} ${6:<<stereotype>>}\n$0",
         "description": "Creates a dependency such that the component/interface depends on the other component/interface. The relationship may include a label and/or stereotypes. Note, the length of the line can be forced to change size by adding/removing extra dots"
     },
     "Component Diagram Package": {
-        "prefix": "component package definition",
+        "prefix": ";component package definition",
         "body": [
             "${1|package,node,folder,frame,cloud,database|} \"${2:name}\" ${3:as ${4:alias}} ${5:<<stereotype>>} {",
             "\t$0",
@@ -33,7 +33,7 @@
         "description": "Adds a package to a component diagram that components and/or interfaces physically reside in or bundles together"
     },
     "Component Diagram Link Note": {
-        "prefix": "component note on relationship",
+        "prefix": ";component note on relationship",
         "body": [
             "note ${1|left,right,top,bottom|} on link ${2:#Khaki} : ${3:single-line note}",
             "$0"
@@ -41,7 +41,7 @@
         "description": "Appends a text note directly left|right|top|bottom of the preceding component relationship"
     },
     "Component Diagram Link Multi-Line Note": {
-        "prefix": "component note on relationship multi line",
+        "prefix": ";component note on relationship multi line",
         "body": [
             "note ${1|left,right,top,bottom|} on link ${2:#Khaki}",
             "\t$0",

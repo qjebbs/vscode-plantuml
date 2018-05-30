@@ -1,51 +1,51 @@
 {
     "Use-Case Diagram Use-case": {
-        "prefix": "usecase declaration",
+        "prefix": ";usecase declaration",
         "body": "usecase ${1:alias}${2: as \"${3:longName}\"}${4: <<stereotype>>}\n$0",
         "description": "Adds a use-case declaration. It is typical for use-cases to have meaningful human readable names which are not in camel case or use other programmatic conventions. Therefore, consider using aliases with long names such that the aliases can be referenced in all subsequent associations"
     },
     "Use-Case Diagram Actor": {
-        "prefix": "usecase actor",
+        "prefix": ";usecase actor",
         "body": "actor ${1:alias}${2: as \"${3:longName}\"}${4: <<stereotype>>}\n$0",
         "description": "Adds an actor declaration. It is typical for actors to have meaningful human readable role names which are not in camel case or use other programmatic conventions. Therefore, consider using aliases with long names such that the aliases can be referenced in all subsequent associations"
     },
     "Use-Case Diagram Association": {
-        "prefix": "usecase association relationship",
+        "prefix": ";usecase association relationship",
         "body": "${1:actorAlias} ${2:-}-> ${3:usecaseAlias}${4: : ${5:label}}\n$0",
         "description": "Adds an association between an actor and a use-case (ie. actor exercises use-case) with an optional label to define the relationship. Note, the length of the line can be forced to change size by adding/removing extra dashes"
     },
     "Use-Case Diagram Association Inline": {
-        "prefix": "usecase association relationship inline",
+        "prefix": ";usecase association relationship inline",
         "body": ":${1:actor}: ${2:-}-> (${3:usecase})${4: : ${5:label}}\n$0",
         "description": "Adds an inline (ie. definitions are inlined) association between an actor and a use-case (ie. actor exercises use-case) with an optional label to define the relationship. Note, the length of the line can be forced to change size by adding/removing extra dashes"
     },
     "Use-Case Diagram Extension Relationship": {
-        "prefix": "usecase extension relationship",
+        "prefix": ";usecase extension relationship",
         "body": "${1:usecaseAlias} <.${2:.} ${3:usecaseAlias}${4: : ${5:label}}\n$0",
         "description": "Adds an extension between two use-cases with an optional label to define an extends/includes relationship. Note, the length of the line can be forced to change size by adding/removing extra dots"
     },
     "Use-Case Diagram Extension Relationship Inline": {
-        "prefix": "usecase extension relationship inline",
+        "prefix": ";usecase extension relationship inline",
         "body": "(${1:usecase1}) <.${2:.} (${3:usecase2})${4: : ${5:label}}\n$0",
         "description": "Adds an inline (ie. definitions are inlined) extension between two use-cases with an optional label to define an extends/includes relationship. Note, the length of the line can be forced to change size by adding/removing extra dots"
     },
     "Use-Case Diagram Generalisation Relationship": {
-        "prefix": "usecase generalisation relationship",
+        "prefix": ";usecase generalisation relationship",
         "body": "${1:actor1Alias} <|-${2:-} ${3:actor2Alias}${4: : ${5:label}}\n$0",
         "description": "Adds a generalisation between two actors with an optional label to define the relationship. Note, the length of the line can be forced to change size by adding/removing extra dots"
     },
     "Use-Case Diagram Generalisation Relationship Inline": {
-        "prefix": "usecase generalisation relationship inline",
+        "prefix": ";usecase generalisation relationship inline",
         "body": ":${1:actor1}: <|-${2:-} :${3:actor2}:${4: : ${5:label}}\n$0",
         "description": "Adds an inline (ie. definitions are inlined) generalisation between two actors with an optional label to define the relationship. Note, the length of the line can be forced to change size by adding/removing extra dots"
     },
     "Use-Case Diagram Direction": {
-        "prefix": "usecase left to right direction",
+        "prefix": ";usecase left to right direction",
         "body": "left to right direction\n$0",
         "description": "Force the use-case diagram to render objects from left to right rather than the default top to bottom direction"
     },
     "Use-Case Diagram Rectangle": {
-        "prefix": "usecase rectangle or system to enclose use-cases",
+        "prefix": ";usecase rectangle or system to enclose use-cases",
         "body": [
             "rectangle \"${1:caption}\" {",
             "\t$0",

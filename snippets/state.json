@@ -1,16 +1,16 @@
 {
     "State Transition Diagram Start": {
-        "prefix": "state start",
+        "prefix": ";state start",
         "body": "[*] ${1:-}-> ${2:stateAlias}${3: : ${4:transOrCond}${5: <<${6:stereotype1}>>}}",
         "description": "Adds a basic Start-> State -> Stop template sequence to the current context within the State Trasition Diagram. This can also be used for sub-states. Note, the length of the line can be forced to change size by adding/removing extra dashes"
     },
     "State Transition Diagram Stop": {
-        "prefix": "state stop",
+        "prefix": ";state stop",
         "body": "${1:stateAlias} ${2:-}-> [*]${3: : ${4:transOrCond}${5: <<${6:stereotype1}>>}}",
         "description": "Adds a basic Start-> State -> Stop template sequence to the current context within the State Trasition Diagram. This can also be used for sub-states. Note, the length of the line can be forced to change size by adding/removing extra dashes"
     },
     "State Transition Diagram State": {
-        "prefix": "state definition",
+        "prefix": ";state definition",
         "body": [
             "state \"${1:name}\"${2: as ${3:alias}}${4: <<${5:stereotype1}>>}} {",
             "\t$0",
@@ -19,17 +19,17 @@
         "description": "Adds a state definition to the current context. Sub-states or concurrent states are defined between the {...} brackets. Note, to specify state data, use the state value details snippet."
     },
     "State Transition Diagram Transition": {
-        "prefix": "state transition between states",
+        "prefix": ";state transition between states",
         "body": "${1:stateAlias1} ${2:-}-> ${3:stateAlias2}${4: : ${5:messageOrCond2}${6: <<${7:stereotype1}>>}}$0\n ",
         "description": "Adds a transition between two states. The transition may optionally declare a message and/or condition, and/or a transition stereotype. Note, the length of the line can be forced to change size by adding/removing extra dashes"
     },
     "State Transition Diagram Concurrency": {
-        "prefix": "state concurrency within a state",
+        "prefix": ";state concurrency within a state",
         "body": "--",
         "description": "Adds a concurrency separator within the current state context such that an object can be modeled to be active in multiple sub-states at the same time"
     },
     "State Transition Diagram State Value Info": {
-        "prefix": "state value details",
+        "prefix": ";state value details",
         "body": "state ${1:alias}: ${2:Key=Value}",
         "description": "Adds a current key/value pair to the first compartment of the state, such that it is differentiable from other states in the hosting container"
     }
