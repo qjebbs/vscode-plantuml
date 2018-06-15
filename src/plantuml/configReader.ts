@@ -1,6 +1,4 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
 
 type ConfigMap = {
     [key: string]: vscode.WorkspaceConfiguration;
@@ -24,6 +22,9 @@ export abstract class ConfigReader extends vscode.Disposable {
             }
         );
     }
+    dispose() {
+        this._disposable && this._disposable.dispose();
+    }
     /**
      * read the value of a window scope setting.
      * @param key the key name of a setting
@@ -34,9 +35,16 @@ export abstract class ConfigReader extends vscode.Disposable {
      * read the value of a source scope setting.
      * @param key the key name of a setting
      * @param uri target uri to get setting for
+     */
+    read<T>(key: string, uri: vscode.Uri): T;
+
+    /**
+     * read and convert the value of a source scope setting.
+     * @param key the key name of a setting
+     * @param uri target uri to get setting for
      * @param func the function to convert the setting value. eg.: convert a relative path to absolute.
      */
-    read<T>(key: string, uri: vscode.Uri, func?: (settingRoot: vscode.Uri, settingValue: T) => T): T;
+    read<T>(key: string, uri: vscode.Uri, func: (workspaceFolder: vscode.Uri, value: T) => T): T;
     read<T>(key: string, ...para: any[]): T {
         if (!para || !para.length || !para[0]) return this._conf.get<T>(key); // no uri? return global value.
         let uri = para.shift() as vscode.Uri;
