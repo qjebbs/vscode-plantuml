@@ -25,12 +25,6 @@
     display: none;
 }
 
-span,
-p {
-    color: #333;
-    text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;
-}
-
 .btn {
     background-color: #3f5058;
     border-radius: 3px;
@@ -125,7 +119,6 @@ body.vscode-light {
     background-color: #0089c9;
     border-radius: 100%;
     color: white;
-    text-shadow: none;
 }
 
 #snap-indicator-container.snap-bottom .snap-indicator-bottom {
@@ -154,6 +147,8 @@ body.vscode-light {
 #controls span {
     display: inline-block;
     overflow: hidden;
+    color: #333;
+    text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;
 }
 
 #page-ctrls {
@@ -218,6 +213,11 @@ body.vscode-light {
     width: 6px;
     display: inline-block;
     animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+#spinner-container span {
+    color: black;
+    text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;
 }
 
 .spinner .rect2 {
