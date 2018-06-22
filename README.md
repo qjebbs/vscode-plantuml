@@ -23,6 +23,9 @@ New designed preview provides various zoom/pan actions since version 2.7.0:
   - Right mouse button drag
   - Two-finger move to pan (TouchPad)
   - Mouse scroll
+- Snap to Bottom/Right (since v2.8.0):
+  - Scroll to bottom or/and right till the snap indicator appears. 
+  > Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
 
 ## Features
 
@@ -34,6 +37,7 @@ New designed preview provides various zoom/pan actions since version 2.7.0:
   - Multi-Page Diagram support.
   - Instant preview, if diagram's been exported.
   - From local or server.
+  - Snap to Bottom/Right **NEW!!**
 - Export Diagrams
   - At cursor, in current file, in whole workspace, in workspace selected.
   - Concurrent export.
@@ -48,7 +52,7 @@ New designed preview provides various zoom/pan actions since version 2.7.0:
   - Auto Include.
   - Symbol List support.
 - Others
-  - Multi-root Workspace Support.  **NEW!!**
+  - Multi-root Workspace Support.
   - MarkDown integrating support. [View Demo](#markdown-integrating)
   - Extracting source from images support.
 
