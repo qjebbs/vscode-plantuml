@@ -103,6 +103,39 @@ body.vscode-light {
     font-size: 1.5rem;
 }
 
+#snap-indicator-container {
+    width: 100%;
+    position: fixed;
+    text-align: right;
+}
+
+#snap-indicator-container>p {
+    padding-right: 1em;
+    margin-top: 0.5em;
+}
+
+.snap-indicator {
+    display: none;
+    opacity: 0.8;
+    font-size: 1.1em;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    background-color: #0089c9;
+    border-radius: 100%;
+    color: white;
+    text-shadow: none;
+}
+
+#snap-indicator-container.snap-bottom .snap-indicator-bottom {
+    display: inline-block;
+}
+
+#snap-indicator-container.snap-right .snap-indicator-right {
+    display: inline-block;
+}
+
 #ctrl-container {
     width: 100%;
     height: 3rem;

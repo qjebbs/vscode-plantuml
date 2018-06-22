@@ -5,6 +5,8 @@ class Zoom {
         this.imgContainer = document.getElementById("image-container");
         this.iconToggle = document.getElementById("icon-toggle");
         this.ctrlBar = document.getElementById("ctrl-container");
+        this.snapIndicator = document.getElementById("snap-indicator-container");
+
         this.status = undefined;
         let resetZoom = () => {
             this.reset();
@@ -69,6 +71,15 @@ class Zoom {
                 this.status.imgHeight + this.status.blankBottom + this.status.blankTop -
                 this.status.y - window.innerHeight
             ) < 5;
+            if (this.status.snapBottom && !this.status.snapTop)
+                this.snapIndicator.classList.add('snap-bottom');
+            else
+                this.snapIndicator.classList.remove('snap-bottom');
+            if (this.status.snapRight && !this.status.snapLeft)
+                this.snapIndicator.classList.add('snap-right');
+            else
+                this.snapIndicator.classList.remove('snap-right');
+
             // console.log(this.status.snapTop, this.status.snapRight, this.status.snapBottom, this.status.snapLeft);
             saveStatus();
         });
