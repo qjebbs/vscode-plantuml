@@ -10,9 +10,13 @@
     <script nonce="${nonce}" src="${tmplPath}/js/cursor.js"></script>
     <script nonce="${nonce}" src="${tmplPath}/js/selectionZoom.js"></script>
     <script nonce="${nonce}" src="${tmplPath}/js/clickEvent.js"></script>
+    <script nonce="${nonce}" src="${tmplPath}/js/tip.js"></script>
 </head>
 
 <body class="dragscroll">
+    <div id="tip-container" class="fixed-center">
+        <p id="tip">Snapped to Bottom</p>
+    </div>
     <div id="spinner-container">
         <div class="spinner">
             <div class="rect1"></div>

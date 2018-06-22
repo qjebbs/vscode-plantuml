@@ -25,6 +25,12 @@
     display: none;
 }
 
+span,
+p {
+    color: #333;
+    text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;
+}
+
 .btn {
     background-color: #3f5058;
     border-radius: 3px;
@@ -62,6 +68,41 @@ body.vscode-light {
     max-height: none;
 }
 
+.fixed-center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#tip-container {
+    display: none;
+    opacity: 1;
+}
+
+#tip {
+    color: #0089c9;
+    margin: 0 auto;
+    padding: 0.5em 1em 0.5em 3.5em;
+    border: 1px solid #0089c9;
+    background: #fff;
+    border-radius: 5px;
+    line-height: 2em;
+    overflow: hidden;
+}
+
+#tip-container.fadeout {
+    transition: opacity .5s ease-in-out;
+}
+
+#tip:before {
+    position: absolute;
+    content: "\e88f";
+    font-family: 'Material Icons';
+    left: 1rem;
+    font-size: 1.5rem;
+}
+
 #ctrl-container {
     width: 100%;
     height: 3rem;
@@ -78,8 +119,6 @@ body.vscode-light {
 }
 
 #controls span {
-    color: #333;
-    text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;
     display: inline-block;
     overflow: hidden;
 }
@@ -131,11 +170,6 @@ body.vscode-light {
     background: rgba(128, 128, 128, 0.2);
     border-radius: 5px;
     text-align: center;
-}
-
-#spinner-container span {
-    color: black;
-    text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;
 }
 
 .spinner {
