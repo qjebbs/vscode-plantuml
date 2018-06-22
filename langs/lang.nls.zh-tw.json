@@ -33,5 +33,7 @@
 	"重複的圖表名稱 \"{0}\"。",
 	"選擇要擷取...",
 	"正在擷取 ({0}/{1}): {2}",
-	"請選擇一個默認的格式， 應用於未設定匯出格式的圖表。"
+	"請選擇一個默認的格式， 應用於未設定匯出格式的圖表。",
+	"Snapped to Bottom:\n\nScroll to most bottom after preview updates",
+	"Snapped to Right:\n\nScroll to most right after preview updates"
 ]

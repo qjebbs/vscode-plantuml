@@ -73,10 +73,12 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         let pageInfo = localize(20, null);
         let icon = "file:///" + path.join(contextManager.context.extensionPath, "images", "icon.png");
         let processingTip = localize(9, null);
+        let snapBottomTitle = localize(35, null);
+        let snapRightTitle = localize(36, null);
         let settings = JSON.stringify({
             zoomUpperLimit: this.zoomUpperLimit,
             showSpinner: this.status == previewStatus.processing
-        })
+        });
         try {
             switch (this.status) {
                 case previewStatus.default:

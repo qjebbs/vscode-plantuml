@@ -33,5 +33,7 @@
 	"Duplicate diagram name \"{0}\".",
 	"Select to Extract...",
 	"Extracting ({0}/{1}): {2}",
-	"Select a default format, applied to no export format configured diagrams."
+	"Select a default format, applied to no export format configured diagrams.",
+	"Snapped to Bottom:\n\nScroll to most bottom after preview updates",
+	"Snapped to Right:\n\nScroll to most right after preview updates"
 ]
