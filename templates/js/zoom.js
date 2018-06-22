@@ -60,6 +60,17 @@ class Zoom {
         window.addEventListener("scroll", () => {
             this.status.x = document.body.scrollLeft;
             this.status.y = document.body.scrollTop;
+            this.status.snapLeft = Math.abs(this.status.x) < 5;
+            this.status.snapTop = Math.abs(this.status.y) < 5;
+            this.status.snapRight = Math.abs(
+                this.status.imgWidth + this.status.blankLeft + this.status.blankRight -
+                this.status.x - window.innerWidth
+            ) < 5;
+            this.status.snapBottom = Math.abs(
+                this.status.imgHeight + this.status.blankBottom + this.status.blankTop -
+                this.status.y - window.innerHeight
+            ) < 5;
+            // console.log(this.status.snapTop, this.status.snapRight, this.status.snapBottom, this.status.snapLeft);
             saveStatus();
         });
     }
@@ -154,6 +165,8 @@ class Zoom {
         blankTop = blankTop < 0 ? 0 : blankTop;
 
         let status = {};
+        status.imgWidth = imgWidth;
+        status.imgHeight = imgHeight;
         status.blankTop = blankTop;
         status.blankRight = blankRight;
         status.blankBottom = blankBottom;
@@ -167,13 +180,34 @@ class Zoom {
         // console.log("apply status:", status);
         let imgWidth = this.img.naturalWidth * status.zoom / 100;
         let imgHeight = this.img.naturalHeight * status.zoom / 100;
+        // update image size of saved status, since image may updated
+        status.imgWidth = imgWidth;
+        status.imgHeight = imgHeight;
+
         this.img.style.width = imgWidth + 'px';
         this.img.style.marginLeft = status.blankLeft + 'px';
         this.img.style.marginRight = status.blankRight + 'px';
         this.img.style.marginTop = status.blankTop + 'px';
         this.img.style.marginBottom = status.blankBottom + 'px';
-        document.body.scrollLeft = status.x;
-        document.body.scrollTop = status.y;
+
+        if (status.snapLeft === status.snapRight)
+            // snapLeft & snapLeft all true => image width small than window, no snap
+            // snapLeft & snapLeft all false => of course no snap
+            document.body.scrollLeft = status.x;
+        else if (status.snapLeft)
+            document.body.scrollLeft = 0;
+        else if (status.snapRight)
+            document.body.scrollLeft = imgWidth + status.blankLeft + status.blankRight;
+
+        if (status.snapTop === status.snapBottom)
+            // snapLeft & snapLeft all true => image height small than window, no snap
+            // snapLeft & snapLeft all false => of course no snap
+            document.body.scrollTop = status.y;
+        else if (status.snapTop)
+            document.body.scrollTop = 0;
+        else if (status.snapBottom)
+            document.body.scrollTop = imgHeight + status.blankTop + status.blankBottom;
+
         this.status = status;
         this.setToggleIcon();
     }
