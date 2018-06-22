@@ -1,5 +1,28 @@
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(MaterialIcons-Regular.woff2) format('woff2');
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
 ::-webkit-scrollbar {
-    display: none
+    display: none;
 }
 
 .btn {
@@ -7,7 +30,7 @@
     border-radius: 3px;
     border-style: none;
     color: white;
-    padding: 0 0.8rem;
+    padding: 0 0.5rem;
     height: 2rem;
     cursor: pointer;
 }
@@ -57,8 +80,8 @@ body.vscode-light {
 #controls span {
     color: #333;
     text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;
-    margin-left: 1rem;
-    margin: 0 1rem 0 1rem;
+    display: inline-block;
+    overflow: hidden;
 }
 
 #page-ctrls {
@@ -72,18 +95,18 @@ body.vscode-light {
     text-align: left;
 }
 
-#error-warning #error-icon {
-    width: 2em;
-    height: 2em;
-    filter: drop-shadow(0.2em 0.2em 0.3em rgba(0, 0, 0, 0.2))
+#error-warning .material-icons {
+    display: inline-block;
+    font-size: 2em;
+    color: red;
 }
 
 #errmsg p {
-    outline: red 1px solid;
+    border-bottom: 1px solid red;
     color: red;
     font-weight: bold;
     margin: 0 0 0.5em 0;
-    padding: 0.5em;
+    padding-bottom: 0.5em;
 }
 
 #error-warning #errmsg {
@@ -92,10 +115,11 @@ body.vscode-light {
 
 #error-warning:hover #errmsg {
     display: block;
-    padding: 1em 1em;
+    padding: 1em;
     background-color: black;
     opacity: 0.8;
     border-radius: 5px;
+    border: 1px solid red;
 }
 
 #spinner-container {

@@ -3,8 +3,7 @@ class Zoom {
         this.zoomUpperLimit = zoomUpperLimit;
         this.img = document.getElementById("image");
         this.imgContainer = document.getElementById("image-container");
-        this.iconFit = document.getElementById("icon-fit");
-        this.iconExpand = document.getElementById("icon-expand");
+        this.iconToggle = document.getElementById("icon-toggle");
         this.ctrlBar = document.getElementById("ctrl-container");
         this.status = undefined;
         let resetZoom = () => {
@@ -15,14 +14,14 @@ class Zoom {
                 let scale = 1 + (e.altKey ? -0.2 : 0.2);
                 this.smoothZomm(this.status.zoom * scale, this.getMousePointer(e.clientX, e.clientY));
             } else if (e.button == 1) {
-                if (this.iconFit.style.display == "")
+                if (this.isImageExpanded())
                     resetZoom();
                 else
                     this.smoothZomm(100, this.getMousePointer(e.clientX, e.clientY));
             }
         }
         let ondblclick = e => {
-            if (this.iconFit.style.display == "")
+            if (this.isImageExpanded())
                 resetZoom();
             else
                 this.smoothZomm(100, this.getMousePointer(e.clientX, e.clientY));
@@ -35,7 +34,7 @@ class Zoom {
             this.smoothZomm(this.status.zoom / 1.2, this.getWindowCenterMousePointer());
         });
         document.getElementById("btnZoomToggle").addEventListener("click", () => {
-            if (this.iconFit.style.display == "") {
+            if (this.isImageExpanded()) {
                 resetZoom();
             } else
                 this.smoothZomm(100, this.getWindowCenterMousePointer());
@@ -226,11 +225,12 @@ class Zoom {
     }
     setToggleIcon() {
         if (this.img.clientWidth >= this.img.naturalWidth || document.body.scrollLeft != 0 || document.body.scrollTop != 0) {
-            this.iconFit.style.display = "";
-            this.iconExpand.style.display = "none";
+            this.iconToggle.innerText = "fullscreen_exit";
         } else {
-            this.iconFit.style.display = "none";
-            this.iconExpand.style.display = "";
+            this.iconToggle.innerText = "fullscreen";
         }
+    }
+    isImageExpanded() {
+        return this.iconToggle.innerText == "fullscreen_exit";
     }
 }

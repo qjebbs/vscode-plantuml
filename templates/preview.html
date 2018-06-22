@@ -31,52 +31,28 @@
     <div id="ctrl-container">
         <div id="controls">
             <button class="btn" id="btnZoomOut">
-                <svg t="1525226717433" class="icon-font" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2322"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200">
-                    <defs>
-                        <style type="text/css"></style>
-                    </defs>
-                    <path d="M232.727273 465.454545h372.363636V372.363636H232.727273v93.090909z m513.303272 214.760728A416.721455 416.721455 0 0 0 837.818182 418.909091c0-231.377455-187.531636-418.909091-418.909091-418.909091S0 187.531636 0 418.909091s187.531636 418.909091 418.909091 418.909091c98.909091 0 189.626182-34.443636 261.306182-91.787637l209.780363 209.780364 65.815273-65.815273-209.780364-209.780363zM418.909091 744.727273A325.818182 325.818182 0 1 1 418.909091 93.090909a325.818182 325.818182 0 0 1 0 651.636364z"
-                        p-id="2323"></path>
-                </svg>
+                <i class="material-icons">zoom_out</i>
             </button>
             <button class="btn" id="btnZoomToggle">
-                <svg id="icon-expand" class="icon-font" viewBox="0 0 200 200" width="200" height="200">
-                    <path d="M155,139.4H46V61.5h109V139.4z M0,18.5v48.1h19.2V37.8h28.9V18.5H0z M150.9,18.5v19.2h28.9v28.9H199V18.5H150.9z
-                            M179.8,130.9v28.9h-28.9V179H199v-48.1H179.8z M19.2,159.7v-28.9H0V179h48.1v-19.2H19.2z" />
-                </svg>
-                <svg id="icon-fit" class="icon-font" style="display: none;" viewBox="0 0 200 200" width="200" height="200">
-                    <path d="M146,134.9H55V70h91V134.9z M150.8,142.1v48.1H170v-28.9h28.9v-19.2H150.8z M0.9,140.9v19.2h28.9V189H49v-48.1H0.9z
-                            M29.8,13.7v28.9H0.9v19.2H49V13.7H29.8z M170,43.9V15h-19.2v48.1h48.1V43.9H170z" />
-                </svg>
+                <i id="icon-toggle" class="material-icons">fullscreen</i>
+                <!-- <i class="material-icons">fullscreen_exit</i> -->
             </button>
             <button class="btn" id="btnZoomIn">
-                <svg class="icon-font" viewBox="0 0 1024 1024" width="200" height="200">
-                    <path d="M465.454545 232.727273H372.363636v139.636363H232.727273v93.090909h139.636363v139.636364h93.090909v-139.636364h139.636364V372.363636h-139.636364V232.727273z m280.576 447.488A416.721455 416.721455 0 0 0 837.818182 418.909091c0-231.377455-187.531636-418.909091-418.909091-418.909091S0 187.531636 0 418.909091s187.531636 418.909091 418.909091 418.909091c98.909091 0 189.626182-34.443636 261.306182-91.787637l209.780363 209.780364 65.815273-65.815273-209.780364-209.780363zM418.909091 744.727273A325.818182 325.818182 0 1 1 418.909091 93.090909a325.818182 325.818182 0 0 1 0 651.636364z"
-                        p-id="2437"></path>
-                </svg>
+                <i class="material-icons">zoom_in</i>
             </button>
             <div id="page-ctrls">
                 <button class="btn" id="btnPrev">
-                    <svg class="icon-font" viewBox="0 0 200 200" width="200" height="200">
-                        <path d="M33.3,177.4h4.4c3.7,0,6.7-3,6.7-6.7v-58.5c0.9,0.8,1.9,1.6,3,2.4l98.1,63.3c13,8.4,23.6,2.6,23.6-12.8V33.7
-                            c0-15.4-10.6-21.2-23.6-12.8L47.3,84.2c-1.1,0.7-2.1,1.6-3,2.4V28.1c0-3.7-3-6.7-6.7-6.7h-4.4c-3.7,0-6.7,3-6.7,6.7v142.6
-                            C26.6,174.4,29.6,177.4,33.3,177.4z" />
-                    </svg>
+                    <i class="material-icons">skip_previous</i>
                 </button>
                 <button class="btn" id="btnNext">
-                    <svg class="icon-font" viewBox="0 0 200 200" width="200" height="200">
-                        <path d="M162.3,21.4h-4.4c-3.7,0-6.7,3-6.7,6.7v58.5c-0.9-0.8-1.9-1.6-3-2.4L50.1,20.8c-13-8.4-23.6-2.6-23.6,12.8v131.5
-                            c0,15.4,10.6,21.2,23.6,12.8l98.1-63.4c1.1-0.7,2.1-1.6,3-2.4v58.5c0,3.7,3,6.7,6.7,6.7h4.4c3.7,0,6.7-3,6.7-6.7V28.1
-                            C169,24.4,166,21.4,162.3,21.4z" />
-                    </svg>
+                    <i class="material-icons">skip_next</i>
                 </button>
                 <span id="pageInfo">${pageInfo}</span>
             </div>
         </div>
     </div>
     <div id="error-warning">
-        <img id="error-icon" src="${tmplPath}/img/error.svg"></img>
+        <i class="material-icons">error</i>
         <div id="errmsg">
             <p id="errtxt">${error}</p>
             <img id="image-error" src="${imageError}" style="max-width: 100%;">
