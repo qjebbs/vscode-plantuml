@@ -14,6 +14,7 @@
 	"plantuml.configuration.exportConcurrency": "Decides concurrency count when export multiple diagrams.",
 	"plantuml.configuration.exportOutDirName": "Export workspace diagrams will be organized in a directory named with value specified here.",
 	"plantuml.configuration.previewAutoUpdate": "Decides if automatically update the preview window.",
+	"plantuml.configuration.previewSnapIndicators": "Decides if to display the snap indicators in the preview window.",
 	"plantuml.configuration.server": "Plantuml server to generate UML diagrams on-the-fly.",
 	"plantuml.configuration.urlFormat": "URL format. Leave it blank to pick format everytime you make a URL.",
 	"plantuml.configuration.urlResult": "URL result type. Simple URL or ready for MarkDown use.",

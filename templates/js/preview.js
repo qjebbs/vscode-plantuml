@@ -48,7 +48,7 @@ window.addEventListener("load", () => {
         if (status) previewStatus = status;
         document.getElementById("image-container").style.margin = "0";
         sendStatus = document.getElementById("sendStatus");
-        zoomer = new Zoom(settings.zoomUpperLimit);
+        zoomer = new Zoom(settings);
         switcher.moveTo(previewStatus.page);
         addCursorManager();
         addSelectionBox();

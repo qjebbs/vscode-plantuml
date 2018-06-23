@@ -79,7 +79,8 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         let snapLeftTitle = localize(38, null);
         let settings = JSON.stringify({
             zoomUpperLimit: this.zoomUpperLimit,
-            showSpinner: this.status == previewStatus.processing
+            showSpinner: this.status == previewStatus.processing,
+            showSnapIndicators: config.previewSnapIndicators,
         });
         try {
             switch (this.status) {

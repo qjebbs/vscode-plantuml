@@ -1,6 +1,6 @@
 class Zoom {
-    constructor(zoomUpperLimit) {
-        this.zoomUpperLimit = zoomUpperLimit;
+    constructor(settings) {
+        this.settings = settings;
         this.img = document.getElementById("image");
         this.imgContainer = document.getElementById("image-container");
         this.iconToggle = document.getElementById("icon-toggle");
@@ -48,7 +48,7 @@ class Zoom {
                 // ctrlKey == true: pinch
                 let delta = event.ctrlKey ? event.wheelDelta / 60 : event.wheelDelta / 12;
                 let mouseAt = this.getMousePointer(e.clientX, e.clientY);
-                if (this.zoomUpperLimit) {
+                if (this.settings.zoomUpperLimit) {
                     this.pointZoom(this.status.zoom + delta, mouseAt);
                 } else {
                     // zoom level increase / decrease by 30% for each wheel scroll
@@ -80,6 +80,7 @@ class Zoom {
             this.status.imgHeight + this.status.blankBottom + this.status.blankTop -
             this.status.y - window.innerHeight
         ) < 5;
+        if (!this.settings.showSnapIndicators) return;
         if (this.status.snapBottom !== this.status.snapTop) {
             if (this.status.snapBottom) {
                 this.snapIndicator.classList.add('snap-bottom');
@@ -130,7 +131,7 @@ class Zoom {
         const maxZoom = 100;
 
         let status = this.getRectZoomStatus(start, end);
-        if (this.zoomUpperLimit && status.zoom > maxZoom) status.zoom = maxZoom;
+        if (this.settings.zoomUpperLimit && status.zoom > maxZoom) status.zoom = maxZoom;
         if (status.zoom < minZoom) status.zoom = minZoom;
 
         this.applyStatus(status);
@@ -143,7 +144,7 @@ class Zoom {
         const maxZoom = 100;
 
         if (!point) point = this.getWindowCenterMousePointer();
-        if (this.zoomUpperLimit && zoom > maxZoom) zoom = maxZoom;
+        if (this.settings.zoomUpperLimit && zoom > maxZoom) zoom = maxZoom;
         if (zoom < minZoom + 0.1) {
             // if zoom <= minZoom, reset
             zoom = minZoom;

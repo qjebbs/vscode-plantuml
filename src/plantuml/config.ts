@@ -77,6 +77,10 @@ class Config extends ConfigReader {
         return this.read<boolean>('previewAutoUpdate');
     }
 
+    get previewSnapIndicators(): boolean {
+        return this.read<boolean>('previewSnapIndicators');
+    }
+
     get server(): string {
         return this.read<string>('server') || "http://www.plantuml.com/plantuml";
     }

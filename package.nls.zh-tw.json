@@ -14,6 +14,7 @@
 	"plantuml.configuration.exportConcurrency": "決定匯出多個圖表的時候同時執行的數量。",
 	"plantuml.configuration.exportOutDirName": "匯出的圖片將會被放在此設定名稱的資料夾喜愛按",
 	"plantuml.configuration.previewAutoUpdate": "決定是否要在内容變更的時候自動更新預覽的圖片",
+	"plantuml.configuration.previewSnapIndicators": "Decides if to display the snap indicators in the preview window.",
 	"plantuml.configuration.server": "產生圖表使用的 Plantuml 伺服器",
 	"plantuml.configuration.urlFormat": "超鏈接檔案格式。 若留空，則在每次產生的時候選擇格式。",
 	"plantuml.configuration.urlResult": "超鏈接輸出格式。 一般超鏈接還是MarkDown格式。",

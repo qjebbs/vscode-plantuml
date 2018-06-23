@@ -254,6 +254,11 @@
           "default": true,
           "description": "%plantuml.configuration.previewAutoUpdate%"
         },
+        "plantuml.previewSnapIndicators": {
+          "type": "boolean",
+          "default": false,
+          "description": "%plantuml.configuration.previewSnapIndicators%"
+        },
         "plantuml.server": {
           "type": "string",
           "default": "http://www.plantuml.com/plantuml",
