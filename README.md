@@ -23,8 +23,8 @@ Newly designed preview provides various zoom/pan actions and snap feature:
   - Right mouse button drag
   - Two-finger move to pan (TouchPad)
   - Mouse scroll
-- Snap to Bottom/Right (since v2.8.0):
-  - Scroll to most bottom or right, preview will snap to that border. 
+- Snap to border (since v2.8.0):
+  - Scroll to most bottom/right/top/left, preview will snap to that border. 
   > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
 
 ## Features
@@ -37,7 +37,7 @@ Newly designed preview provides various zoom/pan actions and snap feature:
   - Multi-Page Diagram support.
   - Instant preview, if diagram's been exported.
   - From local or server.
-  - Snap to Bottom/Right **NEW!!**
+  - Snap to Border **NEW!!**
 - Export Diagrams
   - At cursor, in current file, in whole workspace, in workspace selected.
   - Concurrent export.
