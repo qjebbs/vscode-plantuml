@@ -5,10 +5,10 @@
 - New Feature: Snap to Bottom/Right, resolves [#128](https://github.com/qjebbs/vscode-plantuml/issues/128)
 - Improvement: Icon & code optimize.
 
-Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.
+    Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.
 
-How To: Scroll to bottom or/and right till the snap indicator appears.  
-> Thanks [Zooce](https://github.com/Zooce) for the feedback
+    How To: Scroll to bottom or/and right till the snap indicator appears.  
+    > Thanks [Zooce](https://github.com/Zooce) for the feedback
 
 ## 2.7.6
 

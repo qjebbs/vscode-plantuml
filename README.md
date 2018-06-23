@@ -10,22 +10,22 @@ Rich PlantUML support for Visual Studio Code.
 
 ## Notice
 
-New designed preview provides various zoom/pan actions since version 2.7.0:
+Newly designed preview provides various zoom/pan actions and snap feature:
 
-- Zoom operations: 
+- Zoom operations (since version 2.7.0): 
   - Zoom to select area
   - Pinch to zoom (TouchPad)
   - Click to zoom in, alt + click to zoom out
   - Ctrl + mouse scroll to zoom in/out
   - Middle mouse button click to toggle zoom
   - Zoom in / zoom out / toggle buttons of the controls bar.
-- Pan operations:
+- Pan operations (since version 2.7.0):
   - Right mouse button drag
   - Two-finger move to pan (TouchPad)
   - Mouse scroll
 - Snap to Bottom/Right (since v2.8.0):
-  - Scroll to bottom or/and right till the snap indicator appears. 
-  > Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
+  - Scroll to most bottom or right, preview will snap to that border. 
+  > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
 
 ## Features
 
