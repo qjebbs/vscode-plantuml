@@ -35,5 +35,7 @@
 	"正在擷取 ({0}/{1}): {2}",
 	"請選擇一個默認的格式， 應用於未設定匯出格式的圖表。",
 	"Snapped to Bottom:\n\nScroll to most bottom after preview updates",
-	"Snapped to Right:\n\nScroll to most right after preview updates"
+	"Snapped to Right:\n\nScroll to most right after preview updates",
+	"Snapped to Top:\n\nScroll to most top after preview updates",
+	"Snapped to Left:\n\nScroll to most left after preview updates"
 ]

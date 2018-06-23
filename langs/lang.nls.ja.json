@@ -35,5 +35,7 @@
 	"Extracting ({0}/{1}): {2}",
 	"Select a default format, applied to no export format configured diagrams.",
 	"Snapped to Bottom:\n\nScroll to most bottom after preview updates",
-	"Snapped to Right:\n\nScroll to most right after preview updates"
+	"Snapped to Right:\n\nScroll to most right after preview updates",
+	"Snapped to Top:\n\nScroll to most top after preview updates",
+	"Snapped to Left:\n\nScroll to most left after preview updates"
 ]

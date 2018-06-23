@@ -75,6 +75,8 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         let processingTip = localize(9, null);
         let snapBottomTitle = localize(35, null);
         let snapRightTitle = localize(36, null);
+        let snapTopTitle = localize(37, null);
+        let snapLeftTitle = localize(38, null);
         let settings = JSON.stringify({
             zoomUpperLimit: this.zoomUpperLimit,
             showSpinner: this.status == previewStatus.processing

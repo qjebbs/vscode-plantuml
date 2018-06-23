@@ -129,6 +129,14 @@ body.vscode-light {
     display: inline-block;
 }
 
+#snap-indicator-container.snap-top .snap-indicator-top {
+    display: inline-block;
+}
+
+#snap-indicator-container.snap-left .snap-indicator-left {
+    display: inline-block;
+}
+
 #ctrl-container {
     width: 100%;
     height: 3rem;

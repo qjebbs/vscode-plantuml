@@ -71,16 +71,30 @@ class Zoom {
                 this.status.imgHeight + this.status.blankBottom + this.status.blankTop -
                 this.status.y - window.innerHeight
             ) < 5;
-            if (this.status.snapBottom && !this.status.snapTop)
-                this.snapIndicator.classList.add('snap-bottom');
-            else
+            if (this.status.snapBottom !== this.status.snapTop) {
+                if (this.status.snapBottom) {
+                    this.snapIndicator.classList.add('snap-bottom');
+                    this.snapIndicator.classList.remove('snap-top');
+                } else {
+                    this.snapIndicator.classList.add('snap-top');
+                    this.snapIndicator.classList.remove('snap-bottom');
+                }
+            } else {
+                this.snapIndicator.classList.remove('snap-top');
                 this.snapIndicator.classList.remove('snap-bottom');
-            if (this.status.snapRight && !this.status.snapLeft)
-                this.snapIndicator.classList.add('snap-right');
-            else
+            }
+            if (this.status.snapRight !== this.status.snapLeft) {
+                if (this.status.snapRight) {
+                    this.snapIndicator.classList.add('snap-right');
+                    this.snapIndicator.classList.remove('snap-left');
+                } else {
+                    this.snapIndicator.classList.add('snap-left');
+                    this.snapIndicator.classList.remove('snap-right');
+                }
+            } else {
+                this.snapIndicator.classList.remove('snap-left');
                 this.snapIndicator.classList.remove('snap-right');
-
-            // console.log(this.status.snapTop, this.status.snapRight, this.status.snapBottom, this.status.snapLeft);
+            }
             saveStatus();
         });
     }
