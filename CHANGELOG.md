@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.8.1
+
+- Improvement: Hide snap indicators by default, but snap works as it was. 
+
+> Use `plantuml.previewSnapIndicators` to control the indicators visibility.
+
 ## 2.8.0
 
 - New Feature: Snap to Bottom/Right, resolves [#128](https://github.com/qjebbs/vscode-plantuml/issues/128)
