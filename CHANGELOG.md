@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.8.2
+
+- Fix: Duplicate an editor in preview column while starting preview in VSC 1.25.0
+
 ## 2.8.1
 
 - Improvement: Hide snap indicators by default, but snap works as it was. 
