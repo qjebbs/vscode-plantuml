@@ -220,10 +220,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                 //update preview
                 this.update(true);
                 vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, localize(17, null))
-                    .then(
-                        () => vscode.window.showTextDocument(editor.document),
-                        reason => vscode.window.showErrorMessage(reason)
-                    );
+                    .then(null, error => showMessagePanel(error));
             } catch (error) {
                 showMessagePanel(error);
             }
