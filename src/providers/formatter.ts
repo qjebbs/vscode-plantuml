@@ -30,6 +30,10 @@ export class Formatter extends vscode.Disposable implements vscode.DocumentForma
     }
     public provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
         try {
+            if (vscode.workspace.getConfiguration("editor", document.uri).get("formatOnSave")) {
+                console.log("PlantUML format disabled when 'editor.formatOnSave' is on, because it is not reliable enough.");
+                return;
+            }
             return this._formatter.formate(document, options, token);
         } catch (error) {
             showMessagePanel(parseError(error));
