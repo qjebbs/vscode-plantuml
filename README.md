@@ -10,7 +10,10 @@ Rich PlantUML support for Visual Studio Code.
 
 ## Notice
 
-Newly designed preview provides various zoom/pan actions and snap feature:
+1. PlantUML formatter is disabled (since v2.8.3) if `editor.formatOnSave` is on. 
+Because the formatter is not reliable enough according to user feedbacks.
+
+1. Newly designed preview provides various zoom/pan actions and snap feature:
 
 - Zoom operations (since version 2.7.0): 
   - Zoom to select area

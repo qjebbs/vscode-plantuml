@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.8.3
+
+- Disable formatter if formatOnSave is on, solve [#130](https://github.com/qjebbs/vscode-plantuml/issues/130)
+
 ## 2.8.2
 
 - Fix: Duplicate an editor in preview column while starting preview in VSC 1.25.0
