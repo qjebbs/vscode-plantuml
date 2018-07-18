@@ -15,49 +15,49 @@ Because the formatter is not reliable enough according to user feedbacks.
 
 1. Newly designed preview provides various zoom/pan actions and snap feature:
 
-- Zoom operations (since version 2.7.0): 
-  - Zoom to select area
-  - Pinch to zoom (TouchPad)
-  - Click to zoom in, alt + click to zoom out
-  - Ctrl + mouse scroll to zoom in/out
-  - Middle mouse button click to toggle zoom
-  - Zoom in / zoom out / toggle buttons of the controls bar.
-- Pan operations (since version 2.7.0):
-  - Right mouse button drag
-  - Two-finger move to pan (TouchPad)
-  - Mouse scroll
-- Snap to border (since v2.8.0):
-  - Scroll to most bottom/right/top/left, preview will snap to that border. 
-  > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
+    - Zoom operations (since version 2.7.0): 
+      - Zoom to select area
+      - Pinch to zoom (TouchPad)
+      - Click to zoom in, alt + click to zoom out
+      - Ctrl + mouse scroll to zoom in/out
+      - Middle mouse button click to toggle zoom
+      - Zoom in / zoom out / toggle buttons of the controls bar.
+    - Pan operations (since version 2.7.0):
+      - Right mouse button drag
+      - Two-finger move to pan (TouchPad)
+      - Mouse scroll
+    - Snap to border (since v2.8.0):
+      - Scroll to most bottom/right/top/left, preview will snap to that border. 
+      > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
 
 ## Features
 
 > Get **15X times faster export** by utilizing PlantUML Server as render. [How to?](#about-render)
 
 - Preview Diagram, Press `Alt-D` to start PlantUML preview.
-  - Auto update.
-  - Zoom & scroll support.
-  - Multi-Page Diagram support.
-  - Instant preview, if diagram's been exported.
-  - From local or server.
-  - Snap to Border **NEW!!**
+    - Auto update.
+    - Zoom & scroll support.
+    - Multi-Page Diagram support.
+    - Instant preview, if diagram's been exported.
+    - From local or server.
+    - Snap to Border **NEW!!**
 - Export Diagrams
-  - At cursor, in current file, in whole workspace, in workspace selected.
-  - Concurrent export.
-  - Generate URLs.
-  - Multi-Page Diagram support.
-  - From local or server.
-  - Image map (cmapx) support.
+    - At cursor, in current file, in whole workspace, in workspace selected.
+    - Concurrent export.
+    - Generate URLs.
+    - Multi-Page Diagram support.
+    - From local or server.
+    - Image map (cmapx) support.
 - Editing Supports
-  - Format PlantUML code.
-  - All type syntax highlight.
-  - All type snippets.
-  - Auto Include.
-  - Symbol List support.
+    - Format PlantUML code.
+    - All type syntax highlight.
+    - All type snippets.
+    - Auto Include.
+    - Symbol List support.
 - Others
-  - Multi-root Workspace Support.
-  - MarkDown integrating support. [View Demo](#markdown-integrating)
-  - Extracting source from images support.
+    - Multi-root Workspace Support.
+    - MarkDown integrating support. [View Demo](#markdown-integrating)
+    - Extracting source from images support.
 
 > Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Multi-Page Diagram support`. (Later than `V1.2017.15`)
 
