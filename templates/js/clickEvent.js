@@ -1,6 +1,6 @@
 function addClickEvent(element, onclick, ondblclick) {
     let flag = false;
-    let e;
+    let mevent;
     element.addEventListener("mousedown", e => {
         flag = true;
         mevent = e;
@@ -10,7 +10,7 @@ function addClickEvent(element, onclick, ondblclick) {
     });
     document.body.addEventListener("mouseup", e => {
         if (ondblclick)
-            setTimeout(tryClick, 200);
+            setTimeout(tryClick, 200); // wait for dbclick event determine
         else
             tryClick();
 
@@ -24,7 +24,7 @@ function addClickEvent(element, onclick, ondblclick) {
     if (ondblclick) {
         element.addEventListener("dblclick", e => {
             // console.log("dblclick event:", e);
-            flag = false;
+            flag = false; // prevent click event
             ondblclick(e);
         });
     }
