@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.8.4
+
+- Improvement: Multi-page export file names optimize, solve [#134](https://github.com/qjebbs/vscode-plantuml/issues/134)
+
 ## 2.8.3
 
 - Disable formatter if formatOnSave is on, solve [#130](https://github.com/qjebbs/vscode-plantuml/issues/130)
