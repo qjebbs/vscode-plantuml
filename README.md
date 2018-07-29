@@ -83,7 +83,7 @@ It's necessary to have following installed:
 - [Graphviz][Graphviz] : PlantUML requires it to calculate positions in diagram.
 
 [Java]: http://java.com/en/download/ "Download Java"
-[Graphviz]: http://www.graphviz.org/Download/ "Download Graphviz"
+[Graphviz]: http://www.graphviz.org/download/ "Download Graphviz"
 
 > Plugin has integrated a copy of "plantuml.jar", you are good to go now. But if you want to use your own jar (maybe a newer version, or with many dependent jars), specify the jar location with setting `plantuml.jar`.
 
