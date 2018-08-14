@@ -42,8 +42,8 @@
           let w = rectEnd.x - rectStart.x;
           let h = rectEnd.y - rectStart.y;
 
-          sBox.style.left = (rectStart.x + document.body.scrollLeft) + 'px';
-          sBox.style.top = (rectStart.y + document.body.scrollTop) + 'px';
+          sBox.style.left = (rectStart.x + window.scrollX) + 'px';
+          sBox.style.top = (rectStart.y + window.scrollY) + 'px';
           sBox.style.width = Math.abs(w) + 'px';
           sBox.style.height = Math.abs(h) + 'px';
           sBox.style.display = "";

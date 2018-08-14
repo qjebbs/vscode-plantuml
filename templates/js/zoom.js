@@ -59,8 +59,8 @@ class Zoom {
             }
         });
         window.addEventListener("scroll", () => {
-            this.status.x = document.body.scrollLeft;
-            this.status.y = document.body.scrollTop;
+            this.status.x = window.scrollX;
+            this.status.y = window.scrollY;
             this.calcSnap();
             saveStatus();
         });
@@ -118,7 +118,7 @@ class Zoom {
         const delta = (to - from) / level;
         for (let i = 1; i <= level; i++) {
             setTimeout(() => {
-                // console.log("before zoom:", this.img.x, this.img.y, document.body.scrollLeft, document.body.scrollTop);
+                // console.log("before zoom:", this.img.x, this.img.y, window.scrollX, window.scrollY);
                 if (this.pointZoom(from + delta * i, mouseAt) && callback) callback(...args);
             }, interval * i);
         }
@@ -219,23 +219,27 @@ class Zoom {
         this.img.style.marginTop = status.blankTop + 'px';
         this.img.style.marginBottom = status.blankBottom + 'px';
 
+        let scrollX = 0;
+        let scrollY = 0;
         if (status.snapLeft === status.snapRight)
             // snapLeft & snapLeft all true => image width small than window, no snap
             // snapLeft & snapLeft all false => of course no snap
-            document.body.scrollLeft = status.x;
+            scrollX = status.x;
         else if (status.snapLeft)
-            document.body.scrollLeft = 0;
+            scrollX = 0;
         else if (status.snapRight)
-            document.body.scrollLeft = imgWidth + status.blankLeft + status.blankRight;
+            scrollX = imgWidth + status.blankLeft + status.blankRight;
 
         if (status.snapTop === status.snapBottom)
             // snapLeft & snapLeft all true => image height small than window, no snap
             // snapLeft & snapLeft all false => of course no snap
-            document.body.scrollTop = status.y;
+            scrollY = status.y;
         else if (status.snapTop)
-            document.body.scrollTop = 0;
+            scrollY = 0;
         else if (status.snapBottom)
-            document.body.scrollTop = imgHeight + status.blankTop + status.blankBottom;
+            scrollY = imgHeight + status.blankTop + status.blankBottom;
+
+        window.scrollTo(scrollX, scrollY);
 
         this.status = status;
         this.setToggleIcon();
@@ -244,8 +248,8 @@ class Zoom {
         return {
             x: x,
             y: y,
-            imageX: (x + document.body.scrollLeft - this.img.x) / this.img.clientWidth,
-            imageY: (y + document.body.scrollTop - this.img.y) / this.img.clientHeight,
+            imageX: (x + window.scrollX - this.img.x) / this.img.clientWidth,
+            imageY: (y + window.scrollY - this.img.y) / this.img.clientHeight,
         }
     }
     getWindowCenterMousePointer() {
@@ -254,7 +258,7 @@ class Zoom {
         return this.getMousePointer(x, y);
     }
     setToggleIcon() {
-        if (this.img.clientWidth >= this.img.naturalWidth || document.body.scrollLeft != 0 || document.body.scrollTop != 0) {
+        if (this.img.clientWidth >= this.img.naturalWidth || window.scrollX != 0 || window.scrollY != 0) {
             this.iconToggle.innerText = "fullscreen_exit";
         } else {
             this.iconToggle.innerText = "fullscreen";
