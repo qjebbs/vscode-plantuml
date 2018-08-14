@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.8.5
+
+- Fix: Cannot scroll to position after preview zoom in VSCode 1.26.0
+
 ## 2.8.4
 
 - Improvement: Multi-page export file names optimize, solve [#134](https://github.com/qjebbs/vscode-plantuml/issues/134)
