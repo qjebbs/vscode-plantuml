@@ -48,12 +48,13 @@ export class Symbol extends vscode.Disposable implements vscode.DocumentSymbolPr
 
         let diagrams = diagramsOf(document);
         for (let d of diagrams) {
+            const location = new vscode.Location(document.uri, new vscode.Range(d.start, d.end));
             results.push(
                 new vscode.SymbolInformation(
                     d.title,
                     vscode.SymbolKind.Object,
-                    new vscode.Range(d.start, d.end),
-                    document.uri, ""
+                    "",
+                    location
                 )
             );
         }

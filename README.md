@@ -61,6 +61,11 @@ Because the formatter is not reliable enough according to user feedbacks.
 
 > Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Multi-Page Diagram support`. (Later than `V1.2017.15`)
 
+
+## Supported Formats
+
+`*.wsd`, `*.pu`, `*.puml`, `*.plantuml`, `*.iuml`
+
 ## How to install
 
 Launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter.
