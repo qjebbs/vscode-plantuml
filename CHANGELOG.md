@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.8.6
+
+- Fix: Fix preview drag in 1.26.0, solve [#141](https://github.com/qjebbs/vscode-plantuml/issues/141)
+- Code optimize.
+
 ## 2.8.5
 
 - Fix: Cannot scroll to position after preview zoom in VSCode 1.26.0
