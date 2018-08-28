@@ -56,6 +56,7 @@ window.addEventListener("load", () => {
         document.getElementById("ctrl-container").remove();
         document.getElementById("image-container").remove();
     }
+    addDrageScroll()
 });
 window.addEventListener(
     "resize",

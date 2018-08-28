@@ -1,5 +1,5 @@
 function addCursorManager() {
-    document.body.addEventListener("mousedown", e => {
+    document.getElementById('image-container').addEventListener("mousedown", e => {
         // console.log(e);
         if (e.button == 2) document.body.style.cursor = "move";
     });
