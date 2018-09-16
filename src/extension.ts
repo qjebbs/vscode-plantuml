@@ -7,6 +7,8 @@ import * as nls from "vscode-nls";
 import { config } from './plantuml/config';
 import { previewer } from './providers/previewer';
 import { Symbol } from "./providers/symboler";
+import { Completion } from "./providers/completion";
+import { Signature } from "./providers/signature";
 import { Formatter } from "./providers/formatter";
 import { notifyOnNewVersion } from "./plantuml/messages";
 import { outputPanel, bar } from "./plantuml/common";
@@ -41,6 +43,8 @@ export function activate(context: vscode.ExtensionContext) {
             new CommandExtractSource(),
             new Formatter(),
             new Symbol(),
+            new Completion(),
+            new Signature(),
             new Diagnoser(ext),
             previewer,
             config,
