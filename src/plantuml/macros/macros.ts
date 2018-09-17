@@ -16,10 +16,7 @@ export function macrosOf(document: vscode.TextDocument): linq.List<MacroDefiniti
         }
 
         const name = match[1];
-        const params = (match[2] || "")
-            .split(",")
-            .map(p => p.trim())
-            .filter(p => p);
+        const params = splitParams(match[2]);
 
         var existingDef = rawDefinitions.singleOrDefault(d => d.name == name);
         if (!existingDef) {
@@ -31,6 +28,13 @@ export function macrosOf(document: vscode.TextDocument): linq.List<MacroDefiniti
     }
 
     return rawDefinitions;
+}
+
+function splitParams(paramsString: string) : string[] {
+    return (paramsString || "")
+        .split(",")
+        .map(p => p.trim())
+        .filter(p => p);
 }
 
 export function macroCallOf(line: vscode.TextLine, position: number): MacroCallInfo {
