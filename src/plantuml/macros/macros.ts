@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as linq from 'linq-collections'
 
-const macroDefRegex = /!(?:define|definelong) (\w+)(?:\(([\w, ]*)\))?/i;
+const macroDefRegex = /!(?:define|definelong) (\w+)(?:\(([\w, ="]*)\))?/i;
 const macroCallRegex = /(!(?:define|definelong) )?(\w+)\(([\w, "]*)\)?/gi
 
 export function macrosOf(document: vscode.TextDocument): linq.List<MacroDefinition> {
