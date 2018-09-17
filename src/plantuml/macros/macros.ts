@@ -11,19 +11,23 @@ export function macrosOf(document: vscode.TextDocument): linq.List<MacroDefiniti
         const line = document.lineAt(i);
 
         const match = macroDefRegex.exec(line.text);
-
-        if (match) {
-            const name = match[1];
-            const params = (match[2] || "").split(",").map(p => p.trim()).filter(p => p);
-
-            var existingDef = rawDefinitions.singleOrDefault(d => d.name == name);
-            if (!existingDef) {
-                existingDef = new MacroDefinition(name);
-                rawDefinitions.push(existingDef);
-            }
-
-            existingDef.addSignature(params);
+        if (!match) {
+            continue;
         }
+
+        const name = match[1];
+        const params = (match[2] || "")
+            .split(",")
+            .map(p => p.trim())
+            .filter(p => p);
+
+        var existingDef = rawDefinitions.singleOrDefault(d => d.name == name);
+        if (!existingDef) {
+            existingDef = new MacroDefinition(name);
+            rawDefinitions.push(existingDef);
+        }
+
+        existingDef.addSignature(params);
     }
 
     return rawDefinitions;
