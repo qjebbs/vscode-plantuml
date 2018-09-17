@@ -1,0 +1,16 @@
+@startuml macro_tests
+
+!define simple_macro "text"
+
+!define params_macro(p1, p2) "text"
+
+!define params_defaults_macro(p1, color="#F58536") "text"
+
+!define params_overload_macro(p1, p2) "text"
+
+!define params_overload_macro(p1, p2, color="#F58536") "text"
+
+params_overload_macro()
+params_overload_macro(hello, world, )
+
+@enduml

@@ -14,7 +14,7 @@ import { MatchPositions, UnmatchedText } from '../src/plantuml/formatter/matchPo
 import { MultiRegExp2Match, MultiRegExp2 } from '../src/plantuml/formatter/multiRegExp2'
 
 // Defines a Mocha test suite to group tests of similar kind together
-suite("Extension Tests", () => {
+suite("Formatter Tests", () => {
 
     // Defines a Mocha unit test
     test("Something 1", () => {
