@@ -3,7 +3,7 @@
   "displayName": "PlantUML",
   "description": "Rich PlantUML support for Visual Studio Code.",
   "icon": "images/icon.png",
-  "version": "2.8.6",
+  "version": "2.9.0",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.17.0"
@@ -35,22 +35,25 @@
   ],
   "main": "./out/src/extension",
   "contributes": {
-    "languages": [{
-      "id": "diagram",
-      "extensions": [
-        ".wsd",
-        ".pu",
-        ".puml",
-        ".plantuml",
-        ".iuml"
-      ],
-      "aliases": [
-        "Diagram",
-        "PlantUML"
-      ],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
+    "languages": [
+      {
+        "id": "diagram",
+        "extensions": [
+          ".wsd",
+          ".pu",
+          ".puml",
+          ".plantuml",
+          ".iuml"
+        ],
+        "aliases": [
+          "Diagram",
+          "PlantUML"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
         "language": "diagram",
         "scopeName": "source.wsd",
         "path": "./syntaxes/diagram.tmLanguage"
@@ -66,7 +69,8 @@
         }
       }
     ],
-    "commands": [{
+    "commands": [
+      {
         "command": "plantuml.exportCurrent",
         "title": "%plantuml.exportCurrent.title%",
         "category": "PlantUML"
@@ -103,7 +107,8 @@
       }
     ],
     "menus": {
-      "editor/context": [{
+      "editor/context": [
+        {
           "when": "editorLangId == diagram",
           "command": "plantuml.preview",
           "group": "PlantUML"
@@ -129,16 +134,21 @@
           "group": "PlantUML"
         }
       ],
-      "explorer/context": [{
-        "command": "plantuml.exportWorkspace",
-        "group": "PlantUML"
-      }]
+      "explorer/context": [
+        {
+          "command": "plantuml.exportWorkspace",
+          "group": "PlantUML"
+        }
+      ]
     },
-    "keybindings": [{
-      "command": "plantuml.preview",
-      "key": "Alt+d"
-    }],
-    "snippets": [{
+    "keybindings": [
+      {
+        "command": "plantuml.preview",
+        "key": "Alt+d"
+      }
+    ],
+    "snippets": [
+      {
         "language": "diagram",
         "path": "./snippets/general.json"
       },
@@ -311,10 +321,15 @@
   "capabilities": {
     "completionProvider": {
       "resolveProvider": "true",
-      "triggerCharacters": [""]
+      "triggerCharacters": [
+        ""
+      ]
     },
     "signatureHelpProvider": {
-      "triggerCharacters": ["(", ","]
+      "triggerCharacters": [
+        "(",
+        ","
+      ]
     }
   },
   "scripts": {
@@ -330,7 +345,7 @@
     "markdown-it": "^8.3.2",
     "mocha": "^2.3.3",
     "plist": "^2.0.1",
-    "typescript": "^2.0.3",
+    "typescript": "^3.0.3",
     "vscode": "^1.1.10"
   },
   "dependencies": {

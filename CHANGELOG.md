@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.9.0
+
+- New Feature: Initial support of [Macros](http://plantuml.com/preprocessing) IntelliSense (Code Completion & Signature Prompt). 
+Thanks [Ricardo Niepel](https://github.com/RicardoNiepel) for the great work..
+
 ## 2.8.6
 
 - Fix: Fix preview drag in 1.26.0, solve [#141](https://github.com/qjebbs/vscode-plantuml/issues/141)
