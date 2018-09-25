@@ -29,7 +29,6 @@ class Config extends ConfigReader {
         let folder = vscode.workspace.getWorkspaceFolder(uri).uri;
         return this._jar[folder.fsPath] || (() => {
             let jar = evalPathVar(this.read<string>('jar', uri), folder);
-            console.log(jar);
             let intJar = path.join(contextManager.context.extensionPath, "plantuml.jar");
             if (!jar) {
                 jar = intJar;
