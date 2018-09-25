@@ -3,7 +3,7 @@ import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
 import { localize } from './common';
-import { ConfigReader } from './configReader';
+import { ConfigReader, ConfigCache } from './configReader';
 import { testJava } from './tools';
 import { contextManager } from './context';
 
@@ -13,7 +13,7 @@ export const RenderType = {
 };
 
 class Config extends ConfigReader {
-    private _jar: string;
+    private _jar: ConfigCache<string> = {};
     private _java: string;
 
     constructor() {
@@ -21,13 +21,15 @@ class Config extends ConfigReader {
     }
 
     onChange() {
-        this._jar = "";
+        this._jar = {};
         this._java = "";
     }
 
-    get jar(): string {
-        return this._jar || (() => {
-            let jar = this.read<string>('jar');
+    jar(uri: vscode.Uri): string {
+        let folder = vscode.workspace.getWorkspaceFolder(uri).uri;
+        return this._jar[folder.fsPath] || (() => {
+            let jar = evalPathVar(this.read<string>('jar', uri), folder);
+            console.log(jar);
             let intJar = path.join(contextManager.context.extensionPath, "plantuml.jar");
             if (!jar) {
                 jar = intJar;
@@ -37,7 +39,7 @@ class Config extends ConfigReader {
                     jar = intJar;
                 }
             }
-            this._jar = jar;
+            this._jar[folder.fsPath] = jar;
             return jar;
         })();
     }
@@ -119,6 +121,16 @@ class Config extends ConfigReader {
             return this._java;
         })();
     }
+}
+
+
+function evalPathVar(p: string, uri: vscode.Uri) {
+    if (!p) return "";
+    const workspaceFolder = uri.fsPath;
+    let result = eval('`' + p + '`');
+    if (!path.isAbsolute(result))
+        result = path.join(workspaceFolder, result);
+    return result;
 }
 
 export const config = new Config();

@@ -58,7 +58,7 @@ class LocalRender implements IRender {
             let pms = Promise.reject(localize(5, null));
             return <RenderTask>{ promise: pms };
         }
-        if (!fs.existsSync(config.jar)) {
+        if (!fs.existsSync(config.jar(diagram.parentUri))) {
             let pms = Promise.reject(localize(6, null, contextManager.context.extensionPath));
             return <RenderTask>{ promise: pms };
         }
@@ -72,7 +72,7 @@ class LocalRender implements IRender {
                 let params = [
                     '-Djava.awt.headless=true',
                     '-jar',
-                    config.jar,
+                    config.jar(diagram.parentUri),
                     "-pipeimageindex",
                     `${index}`,
                     '-charset',

@@ -41,7 +41,7 @@ function extract(imgs: vscode.Uri[]) {
             let params = [
                 '-Djava.awt.headless=true',
                 '-jar',
-                config.jar,
+                config.jar(null),
                 "-metadata",
                 img.fsPath,
             ];

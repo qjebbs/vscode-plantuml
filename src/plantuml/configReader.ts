@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
-type ConfigMap = {
-    [key: string]: vscode.WorkspaceConfiguration;
+export type ConfigCache<T> = {
+    [key: string]: T;
 }
 
 export abstract class ConfigReader extends vscode.Disposable {
@@ -9,7 +9,7 @@ export abstract class ConfigReader extends vscode.Disposable {
     private _section: string;
     private _disposable: vscode.Disposable;
     private _conf: vscode.WorkspaceConfiguration;
-    private _folderConfs: ConfigMap = {};
+    private _folderConfs: ConfigCache<vscode.WorkspaceConfiguration> = {};
 
     constructor(section: string) {
         super(() => this.dispose());

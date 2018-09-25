@@ -217,6 +217,7 @@
         },
         "plantuml.jar": {
           "type": "string",
+          "scope": "resource",
           "default": "",
           "description": "%plantuml.configuration.jar%"
         },
