@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.9.1
+
+- Improvement: Show digram errors reported by plantuml server, solve [#148](https://github.com/qjebbs/vscode-plantuml/issues/148)
+- Improvement: 'jar' setting now in resource scope, you can use different jar settings for different workspace folders. solve [#147](https://github.com/qjebbs/vscode-plantuml/issues/147)
+
+
 ## 2.9.0
 
 - New Feature: Initial support of [Macros](http://plantuml.com/preprocessing) IntelliSense (Code Completion & Signature Prompt). 
