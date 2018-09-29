@@ -193,7 +193,6 @@ Disadvantages:
 - Cannot render diagrams with `!include` in it.
 - Less format support: png, svg, txt.
 - Some settings are not applicable: `plantuml.jar`, `plantuml.commandArgs`, `plantuml.jarArgs`.
-- Cannot collect syntax error of diagrams in report.
 
 ## Use PlantUML Server as render
 

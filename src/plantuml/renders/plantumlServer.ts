@@ -3,11 +3,17 @@ import * as fs from 'fs';
 import * as zlib from 'zlib';
 
 import { IRender, RenderTask, RenderError } from './interfaces'
-import { Diagram } from '../diagram/diagram';
+import { Diagram, diagramStartReg } from '../diagram/diagram';
 import { config } from '../config';
 import { localize } from '../common';
 import { addFileIndex } from '../tools';
 const request = require('request');
+
+interface PlantumlServerError {
+    error: string
+    line: number
+    description: string
+}
 
 class PlantumlServer implements IRender {
     /**
@@ -47,9 +53,13 @@ class PlantumlServer implements IRender {
                     result => new Promise<Buffer>(
                         (resolve, reject) => {
                             let stdout = result[0];
-                            let stderr = result[1].toString();
-                            if (stderr.length) {
-                                reject(stderr);
+                            let stderr = result[1];
+                            if (stderr) {
+                                let err = stderr.plantumlError ?
+                                    this.parsePlantumlError(stderr.plantumlError, diagram) :
+                                    stderr.message
+                                err = localize(10, null, diagram.title, err);
+                                reject(err);
                             } else {
                                 resolve(stdout)
                             };
@@ -67,8 +77,8 @@ class PlantumlServer implements IRender {
     getMapData(diagram: Diagram, savePath: string): RenderTask {
         return this.render(diagram, "map", savePath);
     }
-    private httpWrapper(requestUrl: string, savePath?: string): Promise<[Buffer, Buffer]> {
-        return new Promise<[Buffer, Buffer]>((resolve, reject) => {
+    private httpWrapper(requestUrl: string, savePath?: string): Promise<[Buffer, any]> {
+        return new Promise<[Buffer, any]>((resolve, reject) => {
             request(
                 {
                     method: 'GET'
@@ -78,7 +88,7 @@ class PlantumlServer implements IRender {
                 }
                 , (error, response, body) => {
                     let stdout = "";
-                    let stderr = "";
+                    let stderr = undefined;
                     if (!error) {
                         if (response.statusCode === 200) {
                             if (savePath) {
@@ -91,15 +101,24 @@ class PlantumlServer implements IRender {
                             } else {
                                 stdout = body
                             }
+                        } else if (response.headers['x-plantuml-diagram-error']) {
+                            stderr = {
+                                plantumlError: <PlantumlServerError>{
+                                    error: response.headers['x-plantuml-diagram-error'],
+                                    line: parseInt(response.headers['x-plantuml-diagram-error-line']),
+                                    description: response.headers['x-plantuml-diagram-description']
+                                }
+                            }
+                            stdout = body
                         } else {
-                            stderr = "Unexpected Statuscode: "
+                            stderr = "Unexpected Error: "
                                 + response.statusCode + "\n"
                                 + "for GET " + requestUrl;
                         }
                     } else {
-                        stderr = error.message;
+                        stderr = error;
                     }
-                    resolve([new Buffer(stdout), new Buffer(stderr)]);
+                    resolve([new Buffer(stdout), stderr]);
                 })
         });
     }
@@ -169,6 +188,20 @@ class PlantumlServer implements IRender {
             }
             return '?';
         }
+    }
+
+    private parsePlantumlError(error: PlantumlServerError, diagram: Diagram): any {
+        let fileLine = error.line;
+        if (diagramStartReg.test(diagram.lines[0])) fileLine += 1;
+        let blankLineCount = 0;
+        for (let i = 1; i < diagram.lines.length; i++) {
+            if (diagram.lines[i].trim()) break;
+            blankLineCount++;
+        }
+        fileLine += blankLineCount;
+        let lineContent = diagram.lines[fileLine - 1];
+        fileLine += diagram.start.line;
+        return `${error.error} (@ Diagram Line ${error.line}, File Line ${fileLine})\n"${lineContent}"\n${error.description}\n`;
     }
 }
 export const plantumlServer = new PlantumlServer();
