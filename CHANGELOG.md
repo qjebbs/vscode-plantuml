@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.9.2
+
+- Fix: fix error reading jar setting for non-worspaceFolder file, fix [#149](https://github.com/qjebbs/vscode-plantuml/issues/149)
+
 ## 2.9.1
 
 - Improvement: Show digram errors reported by plantuml server, solve [#148](https://github.com/qjebbs/vscode-plantuml/issues/148)

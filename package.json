@@ -3,7 +3,7 @@
   "displayName": "PlantUML",
   "description": "Rich PlantUML support for Visual Studio Code.",
   "icon": "images/icon.png",
-  "version": "2.9.1",
+  "version": "2.9.2",
   "publisher": "jebbs",
   "engines": {
     "vscode": "^1.17.0"
