@@ -108,33 +108,30 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
     setUIStatus(status: string) {
         this.uiStatus = status;
     }
-    update(processingTip: boolean) {
-        try {
-            //FIXME: last update may not happen due to killingLock
-            if (this.killingLock) return;
-            if (this.task) this.task.canceled = true;
-            if (this.task && this.task.processes && this.task.processes.length) {
-                this.killingLock = true;
-                //kill lats unfinished task.
-                // let pid = this.process.pid;
-                this.task.processes.map((p, i) => {
-                    p.kill()
-                    if (i == this.task.processes.length - 1) {
-                        //start next preview only when last process is killed
-                        p.on('exit', (code) => {
-                            // console.log(`killed (${pid} ${code}) and restart!`);
-                            this.task.processes = [];
-                            this.doUpdate(processingTip);
-                            this.killingLock = false;
-                        })
-                    }
-                });
-                return;
-            }
-            this.doUpdate(processingTip).catch(e => showMessagePanel(e));
-        } catch (error) {
-            showMessagePanel(error);
-        }
+    async update(processingTip: boolean) {
+        await this.killTasks();
+        // console.log("updating...");
+        // do not await doUpdate, so that preview window could open before update task finish.
+        this.doUpdate(processingTip).catch(e => showMessagePanel(e));
+    }
+    private killTasks() {
+        if (!this.task || !this.task.processes || !this.task.processes.length)
+            return Promise.resolve(true);
+
+        //kill unfinish task.
+        this.task.canceled = true;
+        return Promise.all(
+            this.task.processes.map(p => this.killTask(p))
+        ).then(() => this.task.processes = []);
+    }
+    private killTask(process: child_process.ChildProcess) {
+        return new Promise((resolve, reject) => {
+            process.kill();
+            process.on('exit', (code) => {
+                // console.log(`killed ${process.pid} with code ${code}!`);
+                resolve(true);
+            });
+        })
     }
     get TargetChanged(): boolean {
         let current = currentDiagram();
@@ -206,7 +203,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         this._disposables.push(disposable);
 
         //register command
-        disposable = vscode.commands.registerCommand('plantuml.preview', () => {
+        disposable = vscode.commands.registerCommand('plantuml.preview', async () => {
             try {
                 var editor = vscode.window.activeTextEditor;
                 if (!editor) return;
@@ -218,7 +215,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                 this.reset();
                 this.TargetChanged;
                 //update preview
-                this.update(true);
+                await this.update(true);
                 vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, localize(17, null))
                     .then(null, error => showMessagePanel(error));
             } catch (error) {
