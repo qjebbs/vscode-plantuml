@@ -86,23 +86,28 @@ export class StopWatch {
     }
 }
 export function calculateExportPath(diagram: Diagram, format: string): string {
-    let outDirName = config.exportOutDirName(diagram.parentUri);
-    let subDir = config.exportSubFolder(diagram.parentUri);
-    let dir = "";
+    // return "" if not saved.
+    if (!path.isAbsolute(diagram.dir)) return "";
+
+    let exportDir = "";
+
+    let outDir = config.exportOutDir(diagram.parentUri).fsPath;
+    let diagramsRoot = config.diagramsRoot(diagram.parentUri).fsPath;
     let folder = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
     let wkdir = folder ? folder.uri.fsPath : "";
 
-    // Default, export beside the document.
-    let exportDir = diagram.dir;
-
-    if (!path.isAbsolute(exportDir)) return "";
-    // If current document is in workspace, organize exports in exportOutDir.
-    if (wkdir && isSubPath(diagram.path, wkdir)) {
-        dir = path.join(wkdir, outDirName);
-        exportDir = path.join(dir, path.relative(wkdir, exportDir));
+    if (diagramsRoot && isSubPath(diagram.path, diagramsRoot)) {
+        // If current document is in diagramsRoot, organize exports in exportOutDir.
+        exportDir = path.join(outDir, path.relative(diagramsRoot, diagram.dir));
+    } else if (wkdir && isSubPath(diagram.path, wkdir)) {
+        // If current document is in WorkspaceFolder, organize exports in %outDir%/_WorkspaceFolder_.
+        exportDir = path.join(outDir, "__WorkspaceFolder__", path.relative(wkdir, diagram.dir));
+    } else {
+        // export beside the document.
+        exportDir = diagram.dir;
     }
 
-    if (subDir) {
+    if (config.exportSubFolder(diagram.parentUri)) {
         exportDir = path.join(exportDir, diagram.fileName);
     }
     return path.join(exportDir, diagram.title + "." + format);

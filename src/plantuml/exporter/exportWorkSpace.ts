@@ -47,7 +47,7 @@ async function getFileList(para?): Promise<FileAndFormat[]> {
 
     if (!para) {
         for (let folder of vscode.workspace.workspaceFolders) {
-            _files.push(...await getFileList(folder.uri));
+            _files.push(...await getFileList(config.diagramsRoot(folder.uri)));
         }
     } else if (para instanceof Array) {
         for (let u of para.filter(p => p instanceof vscode.Uri)) {
@@ -58,7 +58,8 @@ async function getFileList(para?): Promise<FileAndFormat[]> {
             let exts = config.fileExtensions(para);
             let folder = vscode.workspace.getWorkspaceFolder(para);
             let relPath = path.relative(folder.uri.fsPath, para.fsPath);
-            let files = await vscode.workspace.findFiles(`${relPath}/**/*${exts}`, "");
+            relPath = relPath ? relPath + '/' : '';
+            let files = await vscode.workspace.findFiles(`${relPath}**/*${exts}`, "");
             files.filter(file => isSubPath(file.fsPath, folder.uri.fsPath))
                 .map(
                     f => _files.push(

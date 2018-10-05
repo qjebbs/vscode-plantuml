@@ -221,6 +221,12 @@
           "default": "",
           "description": "%plantuml.configuration.jar%"
         },
+        "plantuml.diagramsRoot": {
+          "type": "string",
+          "scope": "resource",
+          "default": "",
+          "description": "%plantuml.configuration.diagramsRoot%"
+        },
         "plantuml.fileExtensions": {
           "type": "string",
           "scope": "resource",
@@ -238,11 +244,11 @@
           "default": 3,
           "description": "%plantuml.configuration.exportConcurrency%"
         },
-        "plantuml.exportOutDirName": {
+        "plantuml.exportOutDir": {
           "type": "string",
           "scope": "resource",
           "default": "out",
-          "description": "%plantuml.configuration.exportOutDirName%"
+          "description": "%plantuml.configuration.exportOutDir%"
         },
         "plantuml.exportMapFile": {
           "type": "boolean",

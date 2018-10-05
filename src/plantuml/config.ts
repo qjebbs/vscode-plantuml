@@ -62,8 +62,20 @@ class Config extends ConfigReader {
         return exts;
     }
 
-    exportOutDirName(uri: vscode.Uri): string {
-        return this.read<string>('exportOutDirName', uri) || "out";
+    diagramsRoot(uri: vscode.Uri): vscode.Uri {
+        let fsPath = path.join(
+            vscode.workspace.getWorkspaceFolder(uri).uri.fsPath,
+            this.read<string>("diagramsRoot", uri)
+        );
+        return vscode.Uri.file(fsPath);
+    }
+
+    exportOutDir(uri: vscode.Uri): vscode.Uri {
+        let fsPath = path.join(
+            vscode.workspace.getWorkspaceFolder(uri).uri.fsPath,
+            this.read<string>("exportOutDir", uri) || "out"
+        );
+        return vscode.Uri.file(fsPath);
     }
 
     exportFormat(uri: vscode.Uri): string {
