@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as child_process from 'child_process';
 
-import { RenderTask, RenderError } from '../plantuml/renders/interfaces'
+import { RenderTask } from '../plantuml/renders/interfaces'
 import { Diagram, diagramsOf, currentDiagram } from '../plantuml/diagram/diagram';
 import { config } from '../plantuml/config';
 import { localize } from '../plantuml/common';
@@ -35,9 +35,6 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
     private zoomUpperLimit: boolean = false;
 
     private template: string;
-    private templateProcessing: string;
-
-    private killingLock: boolean = false;
 
     constructor() {
         super(() => this.dispose());
