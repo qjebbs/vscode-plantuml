@@ -10,25 +10,22 @@ Rich PlantUML support for Visual Studio Code.
 
 ## Notice
 
-1. PlantUML formatter is disabled (since v2.8.3) if `editor.formatOnSave` is on. 
-Because the formatter is not reliable enough according to user feedbacks.
+Newly designed preview provides various zoom/pan actions and snap feature:
 
-1. Newly designed preview provides various zoom/pan actions and snap feature:
-
-    - Zoom operations (since version 2.7.0): 
-      - Zoom to select area
-      - Pinch to zoom (TouchPad)
-      - Click to zoom in, alt + click to zoom out
-      - Ctrl + mouse scroll to zoom in/out
-      - Middle mouse button click to toggle zoom
-      - Zoom in / zoom out / toggle buttons of the controls bar.
-    - Pan operations (since version 2.7.0):
-      - Right mouse button drag
-      - Two-finger move to pan (TouchPad)
-      - Mouse scroll
-    - Snap to border (since v2.8.0):
-      - Scroll to most bottom/right/top/left, preview will snap to that border. 
-      > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
+- Zoom operations (since version 2.7.0): 
+    - Zoom to select area
+    - Pinch to zoom (TouchPad)
+    - Click to zoom in, alt + click to zoom out
+    - Ctrl + mouse scroll to zoom in/out
+    - Middle mouse button click to toggle zoom
+    - Zoom in / zoom out / toggle buttons of the controls bar.
+- Pan operations (since version 2.7.0):
+    - Right mouse button drag
+    - Two-finger move to pan (TouchPad)
+    - Mouse scroll
+- Snap to border (since v2.8.0):
+    - Scroll to most bottom/right/top/left, preview will snap to that border. 
+    > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
 
 ## Features
 
@@ -131,6 +128,9 @@ Generate URLs:
 ## About Format
 
 ![format demo](images/format_demo.gif "demo")
+
+> PlantUML formatter is disabled (since v2.8.3) if `editor.formatOnSave` is on. 
+Because the formatter is not reliable enough according to user feedbacks.
 
 ## About Snippets
 
