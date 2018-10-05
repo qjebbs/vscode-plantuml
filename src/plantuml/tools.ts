@@ -92,16 +92,16 @@ export function calculateExportPath(diagram: Diagram, format: string): string {
     let folder = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
     let wkdir = folder ? folder.uri.fsPath : "";
 
-    //if current document is in workspace, organize exports in 'out' directory.
-    //if not, export beside the document.
-    if (wkdir && isSubPath(diagram.path, wkdir)) dir = path.join(wkdir, outDirName);
-
+    // Default, export beside the document.
     let exportDir = diagram.dir;
+
     if (!path.isAbsolute(exportDir)) return "";
-    if (dir && wkdir) {
-        let temp = path.relative(wkdir, exportDir);
-        exportDir = path.join(dir, temp);
+    // If current document is in workspace, organize exports in exportOutDir.
+    if (wkdir && isSubPath(diagram.path, wkdir)) {
+        dir = path.join(wkdir, outDirName);
+        exportDir = path.join(dir, path.relative(wkdir, exportDir));
     }
+
     if (subDir) {
         exportDir = path.join(exportDir, diagram.fileName);
     }
