@@ -1,5 +1,31 @@
 # VSCode PlantUML Changelog
 
+## 2.9.3
+
+- New Setting: Added `diagramsRoot` to specify where diagram files located.
+- Improvement: The setting `exportOutDirName` has been changed to `exportOutDir`
+- Improvement: Eliminate `No valid diagram found here!` tip in some cases.
+
+Has `diagramsRoot` worked together with `exportOutDirName`, you can (for example):
+
+```json
+"plantuml.diagramsRoot": "docs/diagrams/src",
+"plantuml.exportOutDir": "docs/diagrams/out"
+```
+
+You'll get export results like:
+
+```
+Project Folder/
+  docs/
+    diagrams/
+      src/
+        architecture_overview.wsd
+      out/
+        architecture_overview.png
+```
+
+
 ## 2.9.2
 
 - Fix: fix error reading jar setting for non-worspaceFolder file, fix [#149](https://github.com/qjebbs/vscode-plantuml/issues/149)
