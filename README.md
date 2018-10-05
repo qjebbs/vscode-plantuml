@@ -10,22 +10,24 @@ Rich PlantUML support for Visual Studio Code.
 
 ## Notice
 
-Newly designed preview provides various zoom/pan actions and snap feature:
+The setting `exportOutDirName` has been changed to `exportOutDir`, it now accepts a relative path rather than only a folder name. Work together with `diagramsRoot`, you can (for example):
 
-- Zoom operations (since version 2.7.0): 
-    - Zoom to select area
-    - Pinch to zoom (TouchPad)
-    - Click to zoom in, alt + click to zoom out
-    - Ctrl + mouse scroll to zoom in/out
-    - Middle mouse button click to toggle zoom
-    - Zoom in / zoom out / toggle buttons of the controls bar.
-- Pan operations (since version 2.7.0):
-    - Right mouse button drag
-    - Two-finger move to pan (TouchPad)
-    - Mouse scroll
-- Snap to border (since v2.8.0):
-    - Scroll to most bottom/right/top/left, preview will snap to that border. 
-    > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
+```json
+"plantuml.diagramsRoot": "docs/diagrams/src",
+"plantuml.exportOutDir": "docs/diagrams/out"
+```
+
+You'll get export results like:
+
+```
+Project Folder/
+  docs/
+    diagrams/
+      src/
+        architecture_overview.wsd
+      out/
+        architecture_overview.png
+```
 
 ## Features
 
@@ -99,7 +101,24 @@ For windows user, [majkinetor](https://github.com/majkinetor) introduced a way t
 choco install plantuml
 ```
 
-## Preview and Export Demos
+## Preview Demos
+
+Newly designed preview provides various zoom/pan actions and snap feature:
+
+- Zoom operations (since version 2.7.0): 
+    - Zoom to select area
+    - Pinch to zoom (TouchPad)
+    - Click to zoom in, alt + click to zoom out
+    - Ctrl + mouse scroll to zoom in/out
+    - Middle mouse button click to toggle zoom
+    - Zoom in / zoom out / toggle buttons of the controls bar.
+- Pan operations (since version 2.7.0):
+    - Right mouse button drag
+    - Two-finger move to pan (TouchPad)
+    - Mouse scroll
+- Snap to border (since v2.8.0):
+    - Scroll to most bottom/right/top/left, preview will snap to that border. 
+    > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
 
 Auto update:
 
@@ -113,11 +132,13 @@ Multi-Page View:
 
 ![Multi-Page demo](images/newpage_demo.png)
 
+## Export Demos
+
 Export diagram:
 
 ![export demo](images/export_demo.gif)
 
-Generate URLs:
+## Generate URLs
 
 ![url demo](images/url_demo.gif)
 
@@ -278,24 +299,42 @@ Translations are welcome. [lang.nls.json](https://github.com/qjebbs/vscode-plant
 
 ## Extension Settings
 
-This extension contributes the following settings:
+This extension contributes the following settings.
+
+Render Select:
+
+- `plantuml.render`: Select diagram render for both export and preview.
+
+PlantUMLServer Render Settings:
+
+- `plantuml.server`: PlantUML server to generate UML diagrams on-the-fly.
+
+Local Render Settings:
 
 - `plantuml.java`: Java executable location.
+- `plantuml.commandArgs`: commandArgs allows you add command arguments to java command, such as `-DPLANTUML_LIMIT_SIZE=8192`.
 - `plantuml.jar`: Alternate plantuml.jar location. Leave it blank to use integrated jar.
+- `plantuml.jarArgs`: jarArgs allows you add arguments to plantuml.jar, such as `-config plantuml.config`.
+- `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write "!include path/to/include.wsd" for every single diagram any more.
+
+Export Settings:
+
+- `plantuml.diagramsRoot`: Specifies where all diagram files located (releative to workspace folder).
+- `plantuml.exportOutDir`: Exported workspace diagrams will be organized in this directory  (releative path to workspace folder).
 - `plantuml.fileExtensions`: File extensions that find to export. Especially in workspace settings, you may add your own extensions so as to export diagrams in source code files, like ".java".
 - `plantuml.exportFormat`: format to export. default is not set, user may pick one format everytime exports. You can still set a format for it if you don't want to pick.
 - `plantuml.exportSubFolder`: export diagrams to a folder which has same name with host file.
 - `plantuml.exportConcurrency`: decides concurrency count when export multiple diagrams.
-- `plantuml.exportOutDirName`: export workspace diagrams will be organized in a directory named with value specified here.
 - `plantuml.exportMapFile`: Determine whether export image map (.cmapx) file when export.
+
+Preview Settings:
+
 - `plantuml.previewAutoUpdate`: Dedecides if automatically update the preview window.
-- `plantuml.server`: PlantUML server to generate UML diagrams on-the-fly.
-- `plantuml.render`: Select diagram render for both export and preview.
+
+URL Generating Settings:
+
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.
 - `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
-- `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write "!include path/to/include.wsd" for every single diagram any more.
-- `plantuml.commandArgs`: commandArgs allows you add command arguments to java command, such as `-DPLANTUML_LIMIT_SIZE=8192`.
-- `plantuml.jarArgs`: jarArgs allows you add arguments to plantuml.jar, such as `-config plantuml.config`.
 
 ## Known Issues
 
