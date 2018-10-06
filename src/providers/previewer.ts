@@ -66,7 +66,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         let error: string;
         let tmplPath = "file:///" + path.join(contextManager.context.extensionPath, "templates");
         let status = this.uiStatus;
-        let nonce = Math.random().toString(36).substr(2);
+        // let nonce = Math.random().toString(36).substr(2);
         let pageInfo = localize(20, null);
         let icon = "file:///" + path.join(contextManager.context.extensionPath, "images", "icon.png");
         let processingTip = localize(9, null);
@@ -76,7 +76,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         let snapLeftTitle = localize(38, null);
         let settings = JSON.stringify({
             zoomUpperLimit: this.zoomUpperLimit,
-            showSpinner: this.status == previewStatus.processing,
+            showSpinner: this.status === previewStatus.processing,
             showSnapIndicators: config.previewSnapIndicators,
         });
         try {
@@ -119,7 +119,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         this.task.canceled = true;
         return Promise.all(
             this.task.processes.map(p => this.killTask(p))
-        ).then(() => this.task.processes = []);
+        ).then(() => this.task = null);
     }
     private killTask(process: child_process.ChildProcess) {
         return new Promise((resolve, reject) => {
