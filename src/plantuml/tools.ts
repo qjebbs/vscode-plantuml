@@ -90,18 +90,18 @@ export function calculateExportPath(diagram: Diagram, format: string): string {
     if (!path.isAbsolute(diagram.dir)) return "";
 
     let exportDir = "";
-
-    let outDir = config.exportOutDir(diagram.parentUri).fsPath;
-    let diagramsRoot = config.diagramsRoot(diagram.parentUri).fsPath;
     let folder = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
-    let wkdir = folder ? folder.uri.fsPath : "";
-
-    if (diagramsRoot && isSubPath(diagram.path, diagramsRoot)) {
-        // If current document is in diagramsRoot, organize exports in exportOutDir.
-        exportDir = path.join(outDir, path.relative(diagramsRoot, diagram.dir));
-    } else if (wkdir && isSubPath(diagram.path, wkdir)) {
-        // If current document is in WorkspaceFolder, organize exports in %outDir%/_WorkspaceFolder_.
-        exportDir = path.join(outDir, "__WorkspaceFolder__", path.relative(wkdir, diagram.dir));
+    if (folder) {
+        let wkdir = folder ? folder.uri.fsPath : "";
+        let diagramsRoot = config.diagramsRoot(diagram.parentUri).fsPath;
+        let outDir = config.exportOutDir(diagram.parentUri).fsPath;
+        if (diagramsRoot && isSubPath(diagram.path, diagramsRoot)) {
+            // If current document is in diagramsRoot, organize exports in exportOutDir.
+            exportDir = path.join(outDir, path.relative(diagramsRoot, diagram.dir));
+        } else if (wkdir && isSubPath(diagram.path, wkdir)) {
+            // If current document is in WorkspaceFolder, organize exports in %outDir%/_WorkspaceFolder_.
+            exportDir = path.join(outDir, "__WorkspaceFolder__", path.relative(wkdir, diagram.dir));
+        }
     } else {
         // export beside the document.
         exportDir = diagram.dir;

@@ -119,7 +119,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         this.task.canceled = true;
         return Promise.all(
             this.task.processes.map(p => this.killTask(p))
-        ).then(() => this.task.processes = []);
+        ).then(() => this.task = null);
     }
     private killTask(process: child_process.ChildProcess) {
         return new Promise((resolve, reject) => {
