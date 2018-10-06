@@ -21,18 +21,18 @@ export class UI extends vscode.Disposable {
         this._listener = listener
     }
 
-    show(env?: any) {
+    show(env?: any, viewColumn?: vscode.ViewColumn) {
         this.createPanel();
         this.loadFile(env || {});
         this._panel.webview.html = this._content;
-        this._panel.reveal();
+        if (!this._panel.visible) this._panel.reveal(viewColumn ? viewColumn : this._panel.viewColumn);
     }
     close() {
         this.dispose();
     }
-    
-    refresh(env?: any) {
-        this.show(env);
+
+    refresh(env?: any, viewColumn?: vscode.ViewColumn) {
+        this.show(env, viewColumn);
     }
     postMessage(message: any) {
         this.createPanel();
