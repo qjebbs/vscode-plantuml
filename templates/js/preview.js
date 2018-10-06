@@ -1,6 +1,8 @@
+let vscode;
+if (typeof acquireVsCodeApi !== "undefined") vscode = acquireVsCodeApi();
+
 let zoomer;
 let switcher;
-let sendStatus;
 let settings;
 
 let previewStatus = {
@@ -9,13 +11,11 @@ let previewStatus = {
 }
 
 function saveStatus() {
-    if (sendStatus && switcher.current) {
+    if (vscode && switcher.current) {
         previewStatus.page = switcher.current;
         previewStatus.pageStatus[switcher.current] = zoomer.status
-        let status = JSON.stringify(previewStatus);
-        // console.log("save status: " + status);
-        sendStatus.attributes["href"].value = 'command:plantuml.previewStatus?' + encodeURIComponent(status);
-        sendStatus.click();
+        // console.log("save status: " + previewStatus);
+        vscode.postMessage(previewStatus);
     }
 }
 window.addEventListener("load", () => {
@@ -47,7 +47,6 @@ window.addEventListener("load", () => {
     if (switcher.images.length) {
         if (status) previewStatus = status;
         document.getElementById("image-container").style.margin = "0";
-        sendStatus = document.getElementById("sendStatus");
         zoomer = new Zoom(settings);
         switcher.moveTo(previewStatus.page);
         addCursorManager();
