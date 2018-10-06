@@ -165,3 +165,20 @@ export function testJava(java: string): boolean {
     }
     return _javaInstalled;
 }
+
+export function fileToBase64(file: string): string {
+    let mimeType = "";
+    switch (path.extname(file)) {
+        case '.svg':
+            mimeType = 'image/svg+xml';
+            break;
+        case '.png':
+            mimeType = 'image/png';
+            break;
+        default:
+            break;
+    }
+    if (!mimeType) throw new Error("fileToBase64: Unsupported file type.");
+    let b64 = fs.readFileSync(file).toString('base64');
+    return `data:${mimeType};base64,${b64}`
+}

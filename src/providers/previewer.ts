@@ -7,7 +7,7 @@ import { RenderTask } from '../plantuml/renders/interfaces'
 import { Diagram, diagramsOf, currentDiagram } from '../plantuml/diagram/diagram';
 import { config } from '../plantuml/config';
 import { localize } from '../plantuml/common';
-import { parseError, calculateExportPath, addFileIndex, showMessagePanel } from '../plantuml/tools';
+import { parseError, calculateExportPath, addFileIndex, showMessagePanel, fileToBase64 } from '../plantuml/tools';
 import { exportToBuffer } from "../plantuml/exporter/exportToBuffer";
 import { contextManager } from '../plantuml/context';
 import { uiPreview } from '../ui/uiPreview';
@@ -92,7 +92,7 @@ class Previewer extends vscode.Disposable {
                         if (p) return p;
                         let exported = calculateExportPath(this.rendered, c);
                         exported = addFileIndex(exported, 0, this.rendered.pageCount);
-                        return fs.existsSync(exported) ? env.images = `<img src="file:///${exported}">` : "";
+                        return fs.existsSync(exported) ? env.images = `<img src="${fileToBase64(exported)}">` : "";
                     }, "");
                     uiPreview.show(env);
                     break;
