@@ -10,17 +10,14 @@ import { localize } from '../plantuml/common';
 import { parseError, calculateExportPath, addFileIndex, showMessagePanel } from '../plantuml/tools';
 import { exportToBuffer } from "../plantuml/exporter/exportToBuffer";
 import { contextManager } from '../plantuml/context';
+import { uiPreview } from '../ui/uiPreview';
 
 enum previewStatus {
     default,
     error,
     processing,
 }
-class Previewer extends vscode.Disposable implements vscode.TextDocumentContentProvider {
-
-    Emittor = new vscode.EventEmitter<vscode.Uri>();
-    onDidChange = this.Emittor.event;
-    Uri = vscode.Uri.parse('plantuml://preview');
+class Previewer extends vscode.Disposable {
 
     private _disposables: vscode.Disposable[] = [];
     private watchDisposables: vscode.Disposable[] = [];
@@ -56,47 +53,51 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
         this.error = "";
     }
 
-    provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): string {
+    updateWebView(): string {
         //start watching changes
         if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
-        let images = this.images.reduce((p, c) => {
-            return `${p}<img src="${c}">`
-        }, "");
-        let imageError: string;
-        let error: string;
-        let tmplPath = "file:///" + path.join(contextManager.context.extensionPath, "templates");
-        let status = this.uiStatus;
-        let nonce = Math.random().toString(36).substr(2);
-        let pageInfo = localize(20, null);
-        let icon = "file:///" + path.join(contextManager.context.extensionPath, "images", "icon.png");
-        let processingTip = localize(9, null);
-        let snapBottomTitle = localize(35, null);
-        let snapRightTitle = localize(36, null);
-        let snapTopTitle = localize(37, null);
-        let snapLeftTitle = localize(38, null);
-        let settings = JSON.stringify({
-            zoomUpperLimit: this.zoomUpperLimit,
-            showSpinner: this.status == previewStatus.processing,
-            showSnapIndicators: config.previewSnapIndicators,
-        });
+
+        let env = {
+            images: this.images.reduce((p, c) => {
+                return `${p}<img src="${c}">`
+            }, ""),
+            imageError: "",
+            error: "",
+            status: this.uiStatus,
+            nonce: Math.random().toString(36).substr(2),
+            pageInfo: localize(20, null),
+            icon: "file:///" + path.join(contextManager.context.extensionPath, "images", "icon.png"),
+            processingTip: localize(9, null),
+            snapBottomTitle: localize(35, null),
+            snapRightTitle: localize(36, null),
+            snapTopTitle: localize(37, null),
+            snapLeftTitle: localize(38, null),
+            settings: JSON.stringify({
+                zoomUpperLimit: this.zoomUpperLimit,
+                showSpinner: this.status == previewStatus.processing,
+                showSnapIndicators: config.previewSnapIndicators,
+            }),
+        };
         try {
             switch (this.status) {
                 case previewStatus.default:
                 case previewStatus.error:
-                    imageError = this.imageError;
-                    error = this.error.replace(/\n/g, "<br />");
-                    return eval(this.template);
+                    env.imageError = this.imageError;
+                    env.error = this.error.replace(/\n/g, "<br />");
+                    uiPreview.show(env);
+                    break;
                 case previewStatus.processing:
-                    error = "";
-                    images = ["svg", "png"].reduce((p, c) => {
+                    env.error = "";
+                    env.images = ["svg", "png"].reduce((p, c) => {
                         if (p) return p;
                         let exported = calculateExportPath(this.rendered, c);
                         exported = addFileIndex(exported, 0, this.rendered.pageCount);
-                        return fs.existsSync(exported) ? images = `<img src="file:///${exported}">` : "";
+                        return fs.existsSync(exported) ? env.images = `<img src="file:///${exported}">` : "";
                     }, "");
-                    return eval(this.template);
+                    uiPreview.show(env);
+                    break;
                 default:
-                    return "";
+                    break;
             }
         } catch (error) {
             return error
@@ -149,7 +150,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
             this.status = previewStatus.error;
             this.error = localize(3, null);
             this.images = [];
-            this.Emittor.fire(this.Uri);
+            this.updateWebView();
             return;
         }
         let task: RenderTask = exportToBuffer(diagram, "svg");
@@ -172,7 +173,7 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                     p.push(`data:image/${isSvg ? "svg+xml" : 'png'};base64,${b64}`);
                     return p;
                 }, <string[]>[]);
-                this.Emittor.fire(this.Uri);
+                this.updateWebView();
             },
             error => {
                 if (task.canceled) return;
@@ -183,21 +184,17 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                 let b64 = err.out.toString('base64');
                 if (!(b64 || err.error)) return;
                 this.imageError = `data:image/svg+xml;base64,${b64}`
-                this.Emittor.fire(this.Uri);
+                this.updateWebView();
             }
         );
     }
     //display processing tip
     processing() {
         this.status = previewStatus.processing;
-        this.Emittor.fire(this.Uri);
+        this.updateWebView();
     }
     register() {
         let disposable: vscode.Disposable;
-
-        //register provider
-        disposable = vscode.workspace.registerTextDocumentContentProvider('plantuml', this);
-        this._disposables.push(disposable);
 
         //register command
         disposable = vscode.commands.registerCommand('plantuml.preview', async () => {
@@ -213,8 +210,6 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
                 this.TargetChanged;
                 //update preview
                 await this.update(true);
-                vscode.commands.executeCommand('vscode.previewHtml', this.Uri, vscode.ViewColumn.Two, localize(17, null))
-                    .then(null, error => showMessagePanel(error));
             } catch (error) {
                 showMessagePanel(error);
             }
@@ -253,9 +248,10 @@ class Previewer extends vscode.Disposable implements vscode.TextDocumentContentP
 
         //stop watcher when preview window is closed
         disposable = vscode.workspace.onDidCloseTextDocument(e => {
-            if (e.uri.scheme === this.Uri.scheme) {
-                this.stopWatch();
-            }
+            console.log(e);
+            // if (e.uri.scheme === this.Uri.scheme) {
+            //     this.stopWatch();
+            // }
         })
         disposables.push(disposable);
 

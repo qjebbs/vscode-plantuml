@@ -6,7 +6,7 @@
   "version": "2.9.3",
   "publisher": "jebbs",
   "engines": {
-    "vscode": "^1.17.0"
+    "vscode": "^1.23.0"
   },
   "license": "SEE LICENSE IN LICENSE.txt",
   "bugs": {
@@ -353,7 +353,7 @@
     "mocha": "^2.3.3",
     "plist": "^2.0.1",
     "typescript": "^3.0.3",
-    "vscode": "^1.1.10"
+    "vscode": "^1.1.17"
   },
   "dependencies": {
     "request": "^2.81.0",
