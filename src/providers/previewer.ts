@@ -64,7 +64,7 @@ class Previewer extends vscode.Disposable {
             imageError: "",
             error: "",
             status: this.uiStatus,
-            nonce: Math.random().toString(36).substr(2),
+            // nonce: Math.random().toString(36).substr(2),
             pageInfo: localize(20, null),
             icon: "file:///" + path.join(contextManager.context.extensionPath, "images", "icon.png"),
             processingTip: localize(9, null),
@@ -74,7 +74,7 @@ class Previewer extends vscode.Disposable {
             snapLeftTitle: localize(38, null),
             settings: JSON.stringify({
                 zoomUpperLimit: this.zoomUpperLimit,
-                showSpinner: this.status == previewStatus.processing,
+                showSpinner: this.status === previewStatus.processing,
                 showSnapIndicators: config.previewSnapIndicators,
             }),
         };

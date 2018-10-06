@@ -52,11 +52,11 @@ window.addEventListener("load", () => {
         switcher.moveTo(previewStatus.page);
         addCursorManager();
         addSelectionBox();
+        addDrageScroll()
     } else {
         document.getElementById("ctrl-container").remove();
         document.getElementById("image-container").remove();
     }
-    addDrageScroll()
 });
 window.addEventListener(
     "resize",
