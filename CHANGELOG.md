@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.9.4
+
+- Fix: Some bugs.
+
 ## 2.9.3
 
 - New Setting: Added `diagramsRoot` to specify where diagram files located.
