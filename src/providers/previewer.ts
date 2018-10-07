@@ -213,7 +213,7 @@ class Previewer extends vscode.Disposable {
         this._disposables.push(disposable);
         uiPreview.addEventListener("message", e => this.setUIStatus(JSON.stringify(e.message)));
         uiPreview.addEventListener("open", () => this.startWatch());
-        uiPreview.addEventListener("close", () => this.stopWatch());
+        uiPreview.addEventListener("close", () => { this.stopWatch(); this.killTasks(); });
     }
     startWatch() {
         if (!config.previewAutoUpdate) return;
