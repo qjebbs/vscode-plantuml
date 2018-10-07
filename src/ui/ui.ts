@@ -21,6 +21,14 @@ export class UI extends vscode.Disposable {
         this._listener = listener
     }
 
+    get visible(): boolean {
+        return this._panel.visible;
+    }
+
+    get open(): boolean {
+        return !!this._panel;
+    }
+
     show(env?: any, viewColumn?: vscode.ViewColumn) {
         this.createPanel();
         this.loadFile(env || {});
