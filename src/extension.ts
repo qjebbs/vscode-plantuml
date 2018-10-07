@@ -22,6 +22,7 @@ import { CommandURLDocument } from './commands/urlDocument';
 import { CommandExtractSource } from './commands/extractSource';
 import { plantumlPlugin } from './markdown-it-plantuml/index';
 import { Diagnoser } from './providers/diagnoser';
+import { uiPreview } from './ui/uiPreview';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -48,6 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
             config,
             outputPanel,
             bar,
+            uiPreview,
         );
         return {
             extendMarkdownIt(md: any) {
