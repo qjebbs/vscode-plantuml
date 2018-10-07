@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { showMessagePanel } from '../plantuml/tools';
+import { UIEventMap, MessageEvent, UIListener } from './events';
 export class UI extends vscode.Disposable {
     _panel: vscode.WebviewPanel;
     _viewType: string;
@@ -10,15 +11,16 @@ export class UI extends vscode.Disposable {
     _title: string;
     _content: string;
     _disposables: { dispose: () => any }[] = [];
-    _listener: (e: any) => any = undefined;
+    _listener: { [key: string]: UIListener<keyof UIEventMap>[] } = {
+        "message": [],
+    };
 
-    constructor(viewType: string, title: string, file: string, listener: (e: any) => any) {
+    constructor(viewType: string, title: string, file: string) {
         super(() => this.dispose());
         this._viewType = viewType;
         this._title = title;
         this._base = path.dirname(file);
         this._file = file;
-        this._listener = listener
     }
 
     get visible(): boolean {
@@ -46,6 +48,11 @@ export class UI extends vscode.Disposable {
         this.createPanel();
         return this._panel.webview.postMessage(message);
     }
+
+    addEventListener<K extends keyof UIEventMap>(type: K, listener: (ev: UIEventMap[K]) => any): void {
+        this._listener[type].push(listener);
+    }
+
     private createPanel() {
         if (this._panel) return;
         this._panel = vscode.window.createWebviewPanel(
@@ -67,13 +74,20 @@ export class UI extends vscode.Disposable {
 
     private addMessageListener() {
         if (this._panel && this._listener)
-            this._panel.webview.onDidReceiveMessage(this.listenerCatch, this, this._disposables);
+            this._panel.webview.onDidReceiveMessage(this.messageListenerCatch, this, this._disposables);
     }
-    private listenerCatch(e: any): any {
+    private messageListenerCatch(message: Object): any {
         try {
-            let pm = this._listener(e);
-            if (pm instanceof Promise) {
-                pm.catch(error => showMessagePanel(error))
+            let e = <MessageEvent>{
+                caller: this,
+                panel: this._panel,
+                message: message,
+            }
+            for (let listener of this._listener["message"] as UIListener<"message">[]) {
+                let pm = listener(e);
+                if (pm instanceof Promise) {
+                    pm.catch(error => showMessagePanel(error))
+                }
             }
         } catch (error) {
             showMessagePanel(error);

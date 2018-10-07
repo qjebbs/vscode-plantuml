@@ -1,0 +1,17 @@
+import * as vscode from 'vscode';
+import { UI } from './ui';
+
+export interface UIEvent {
+    caller: UI;
+    panel: vscode.WebviewPanel;
+}
+
+export interface MessageEvent extends UIEvent {
+    message: any;
+}
+
+export interface UIEventMap {
+    "message": MessageEvent;
+}
+
+export type UIListener<K extends keyof UIEventMap> = (ev: UIEventMap[K]) => any;
