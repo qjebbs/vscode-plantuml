@@ -6,10 +6,9 @@ import * as child_process from 'child_process';
 import { RenderTask } from '../plantuml/renders/interfaces'
 import { Diagram, diagramsOf, currentDiagram } from '../plantuml/diagram/diagram';
 import { config } from '../plantuml/config';
-import { localize } from '../plantuml/common';
+import { localize, extensionPath } from '../plantuml/common';
 import { parseError, calculateExportPath, addFileIndex, showMessagePanel, fileToBase64 } from '../plantuml/tools';
 import { exportToBuffer } from "../plantuml/exporter/exportToBuffer";
-import { contextManager } from '../plantuml/context';
 import { uiPreview } from '../ui/uiPreview';
 
 enum previewStatus {
@@ -44,7 +43,7 @@ class Previewer extends vscode.Disposable {
     }
 
     reset() {
-        let tplPreviewPath: string = path.join(contextManager.context.extensionPath, "templates", "preview.html");
+        let tplPreviewPath: string = path.join(extensionPath, "templates", "preview.html");
         this.template = '`' + fs.readFileSync(tplPreviewPath, "utf-8") + '`';
         this.rendered = null;
         this.uiStatus = "";
@@ -66,7 +65,7 @@ class Previewer extends vscode.Disposable {
             status: this.uiStatus,
             // nonce: Math.random().toString(36).substr(2),
             pageInfo: localize(20, null),
-            icon: "file:///" + path.join(contextManager.context.extensionPath, "images", "icon.png"),
+            icon: "file:///" + path.join(extensionPath, "images", "icon.png"),
             processingTip: localize(9, null),
             snapBottomTitle: localize(35, null),
             snapRightTitle: localize(36, null),

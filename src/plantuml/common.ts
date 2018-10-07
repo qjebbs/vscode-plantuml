@@ -1,16 +1,12 @@
 import * as vscode from 'vscode';
 import * as nls from "vscode-nls";
 import { join } from "path";
-import { contextManager } from './context';
 
 export const languageid = "diagram";
 
 export var outputPanel = vscode.window.createOutputChannel("PlantUML");
-// export var context: vscode.ExtensionContext;
-export var localize: nls.LocalizeFunc;
 export var bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+export const extensionPath = vscode.extensions.getExtension("jebbs.plantuml").extensionPath;
 
-contextManager.addInitiatedListener(ctx=>{
-    nls.config(<nls.Options>{ locale: vscode.env.language });
-    localize = nls.loadMessageBundle(join(ctx.extensionPath, "langs", "lang.json"));
-});
+nls.config(<nls.Options>{ locale: vscode.env.language });
+export var localize: nls.LocalizeFunc = nls.loadMessageBundle(join(extensionPath, "langs", "lang.json"));

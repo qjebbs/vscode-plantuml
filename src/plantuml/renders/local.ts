@@ -6,9 +6,8 @@ import * as path from 'path';
 import { IRender, RenderTask, RenderError } from './interfaces'
 import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
-import { localize } from '../common';
+import { localize, extensionPath } from '../common';
 import { addFileIndex, processWrapper } from '../tools';
-import { contextManager } from '../context';
 
 class LocalRender implements IRender {
 
@@ -59,7 +58,7 @@ class LocalRender implements IRender {
             return <RenderTask>{ promise: pms };
         }
         if (!fs.existsSync(config.jar(diagram.parentUri))) {
-            let pms = Promise.reject(localize(6, null, contextManager.context.extensionPath));
+            let pms = Promise.reject(localize(6, null, extensionPath));
             return <RenderTask>{ promise: pms };
         }
 

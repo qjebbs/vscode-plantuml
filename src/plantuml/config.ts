@@ -2,10 +2,9 @@ import * as vscode from 'vscode';
 import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
-import { localize } from './common';
+import { localize, extensionPath } from './common';
 import { ConfigReader, ConfigCache } from './configReader';
 import { testJava } from './tools';
-import { contextManager } from './context';
 
 export const RenderType = {
     Local: 'Local',
@@ -37,7 +36,7 @@ class Config extends ConfigReader {
                     result = path.join(workspaceFolder, result);
                 return result;
             });
-            let intJar = path.join(contextManager.context.extensionPath, "plantuml.jar");
+            let intJar = path.join(extensionPath, "plantuml.jar");
             if (!jar) {
                 jar = intJar;
             } else {
