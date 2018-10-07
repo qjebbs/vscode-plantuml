@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { showMessagePanel } from '../plantuml/tools';
-import { UIEventMap, MessageEvent, UIListener } from './events';
+import { UIEventMap, MessageEvent, UIListener, UIEvent } from './events';
 export class UI extends vscode.Disposable {
     _panel: vscode.WebviewPanel;
     _viewType: string;
@@ -12,6 +12,8 @@ export class UI extends vscode.Disposable {
     _content: string;
     _disposables: { dispose: () => any }[] = [];
     _listener: { [key: string]: UIListener<keyof UIEventMap>[] } = {
+        "open": [],
+        "close": [],
         "message": [],
     };
 
@@ -66,6 +68,7 @@ export class UI extends vscode.Disposable {
             }
         );
         this.addMessageListener();
+        this.uiEventListerCatch("open");
         this._panel.onDidDispose(() => {
             this.dispose();
             this._panel = undefined;
@@ -75,6 +78,22 @@ export class UI extends vscode.Disposable {
     private addMessageListener() {
         if (this._panel && this._listener)
             this._panel.webview.onDidReceiveMessage(this.messageListenerCatch, this, this._disposables);
+    }
+    private uiEventListerCatch(type: keyof UIEventMap) {
+        try {
+            let e = <UIEvent>{
+                caller: this,
+                panel: this._panel,
+            }
+            for (let listener of this._listener[type] as UIListener<"open">[]) {
+                let pm = listener(e);
+                if (pm instanceof Promise) {
+                    pm.catch(error => showMessagePanel(error))
+                }
+            }
+        } catch (error) {
+            showMessagePanel(error);
+        }
     }
     private messageListenerCatch(message: Object): any {
         try {
@@ -113,6 +132,8 @@ export class UI extends vscode.Disposable {
         return result;
     }
     dispose() {
+        this.uiEventListerCatch("close");
+        this._panel.dispose();
         this._disposables.length && this._disposables.map(d => d && d.dispose());
         this._disposables = [];
     }

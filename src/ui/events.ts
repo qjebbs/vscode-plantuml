@@ -11,6 +11,8 @@ export interface MessageEvent extends UIEvent {
 }
 
 export interface UIEventMap {
+    "open": UIEvent;
+    "close": UIEvent;
     "message": MessageEvent;
 }
 

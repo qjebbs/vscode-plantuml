@@ -53,9 +53,6 @@ class Previewer extends vscode.Disposable {
     }
 
     updateWebView(): string {
-        //start watching changes
-        if (config.previewAutoUpdate) this.startWatch(); else this.stopWatch();
-
         let env = {
             images: this.images.reduce((p, c) => {
                 return `${p}<img src="${c}">`
@@ -214,9 +211,12 @@ class Previewer extends vscode.Disposable {
             }
         });
         this._disposables.push(disposable);
+        uiPreview.addEventListener("message", e => this.setUIStatus(JSON.stringify(e.message)));
+        uiPreview.addEventListener("open", () => this.startWatch());
+        uiPreview.addEventListener("close", () => this.stopWatch());
     }
     startWatch() {
-        if (this.watchDisposables.length) return;
+        if (!config.previewAutoUpdate) return;
         let disposable: vscode.Disposable;
         let disposables: vscode.Disposable[] = [];
 
