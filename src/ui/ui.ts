@@ -9,7 +9,7 @@ export class UI extends vscode.Disposable {
     _file: string;
     _title: string;
     _content: string;
-    _disposables: vscode.Disposable[] = [];
+    _disposables: { dispose: () => any }[] = [];
     _listener: (e: any) => any = undefined;
 
     constructor(viewType: string, title: string, file: string, listener: (e: any) => any) {
@@ -45,7 +45,8 @@ export class UI extends vscode.Disposable {
             this._title,
             vscode.ViewColumn.Two, <vscode.WebviewOptions>{
                 enableScripts: true,
-                enableCommandUris: true,
+                enableCommandUris: false,
+                retainContextWhenHidden: true,
                 localResourceRoots: [vscode.Uri.file(this._base)],
             }
         );
