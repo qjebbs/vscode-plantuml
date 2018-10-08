@@ -106,11 +106,12 @@ class Previewer extends vscode.Disposable {
         this.doUpdate(processingTip).catch(e => showMessagePanel(e));
     }
     private killTasks() {
-        if (!this.task || !this.task.processes || !this.task.processes.length)
+        if (!this.task) return;
+        this.task.canceled = true;
+
+        if (!this.task.processes || !this.task.processes.length)
             return Promise.resolve(true);
 
-        //kill unfinish task.
-        this.task.canceled = true;
         return Promise.all(
             this.task.processes.map(p => this.killTask(p))
         ).then(() => this.task = null);
