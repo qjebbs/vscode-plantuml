@@ -3,6 +3,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { showMessagePanel } from '../plantuml/tools';
 import { UIEventMap, MessageEvent, UIListener, UIEvent } from './events';
+
+const DEFAULT_VIEWCOLUMN = vscode.ViewColumn.Two;
+
 export class UI extends vscode.Disposable {
     _panel: vscode.WebviewPanel;
     _viewType: string;
@@ -33,16 +36,30 @@ export class UI extends vscode.Disposable {
         return this._panel && this._panel.visible;
     }
 
-    show(file: string, env?: any, viewColumn?: vscode.ViewColumn) {
-        this.update(file, env);
-        if (!this._panel.visible) this._panel.reveal(viewColumn ? viewColumn : this._panel.viewColumn);
+    show(viewColumn: vscode.ViewColumn);
+    show(file: string, env?: any, viewColumn?: vscode.ViewColumn);
+    show(...args: any[]) {
+        let viewColumn: vscode.ViewColumn;
+        // FIXME: file name may conflict with viewColumn keys
+        if (args.length == 1 && args[0] in vscode.ViewColumn) {
+            if (!this._panel) return;
+            viewColumn = args[0];
+        } else {
+            let file = args[0] as string;
+            let env = args[1];
+            viewColumn = args[2] || (this._panel ? this._panel.viewColumn : DEFAULT_VIEWCOLUMN);
+            this.createIfNoPanel(viewColumn);
+            this.update(file, env);
+        }
+        if (!this._panel.visible || viewColumn !== this._panel.viewColumn)
+            this._panel.reveal(viewColumn ? viewColumn : this._panel.viewColumn);
     }
     close() {
         this.dispose();
     }
 
     update(file: string, env?: any) {
-        this.createIfNoPanel();
+        if (!this._panel) return;
         this._panel.webview.html = this.loadFile(file, env || {});
     }
     postMessage(message: any) {
@@ -54,12 +71,12 @@ export class UI extends vscode.Disposable {
         this._listener[type].push(listener);
     }
 
-    private createIfNoPanel() {
+    private createIfNoPanel(viewColumn?: vscode.ViewColumn) {
         if (this._panel) return;
         this._panel = vscode.window.createWebviewPanel(
             this._viewType,
             this._title,
-            vscode.ViewColumn.Two,
+            viewColumn ? viewColumn : DEFAULT_VIEWCOLUMN,
             <vscode.WebviewOptions>{
                 enableScripts: true,
                 enableCommandUris: false,
@@ -72,7 +89,7 @@ export class UI extends vscode.Disposable {
         this._panel.onDidDispose(() => {
             this.dispose();
             this._panel = undefined;
-        }, null, this._disposables);
+        }, this, this._disposables);
     }
 
     private addMessageListener() {
