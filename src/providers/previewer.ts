@@ -9,7 +9,7 @@ import { config } from '../plantuml/config';
 import { localize, extensionPath } from '../plantuml/common';
 import { parseError, calculateExportPath, addFileIndex, showMessagePanel, fileToBase64 } from '../plantuml/tools';
 import { exportToBuffer } from "../plantuml/exporter/exportToBuffer";
-import { uiPreview } from '../ui/uiPreview';
+import { UI } from '../ui/ui';
 
 enum previewStatus {
     default,
@@ -18,10 +18,11 @@ enum previewStatus {
 }
 class Previewer extends vscode.Disposable {
 
+    private _uiPreview: UI;
     private _disposables: vscode.Disposable[] = [];
     private watchDisposables: vscode.Disposable[] = [];
     private status: previewStatus;
-    private uiStatus: string;
+    private previewPageStatus: string;
     private rendered: Diagram;
     private task: RenderTask;
 
@@ -29,8 +30,6 @@ class Previewer extends vscode.Disposable {
     private imageError: string;
     private error: string = "";
     private zoomUpperLimit: boolean = false;
-
-    private template: string;
 
     constructor() {
         super(() => this.dispose());
@@ -43,10 +42,8 @@ class Previewer extends vscode.Disposable {
     }
 
     reset() {
-        let tplPreviewPath: string = path.join(extensionPath, "templates", "preview.html");
-        this.template = '`' + fs.readFileSync(tplPreviewPath, "utf-8") + '`';
         this.rendered = null;
-        this.uiStatus = "";
+        this.previewPageStatus = "";
         this.images = [];
         this.imageError = "";
         this.error = "";
@@ -59,7 +56,7 @@ class Previewer extends vscode.Disposable {
             }, ""),
             imageError: "",
             error: "",
-            status: this.uiStatus,
+            status: this.previewPageStatus,
             // nonce: Math.random().toString(36).substr(2),
             pageInfo: localize(20, null),
             icon: "file:///" + path.join(extensionPath, "images", "icon.png"),
@@ -80,7 +77,7 @@ class Previewer extends vscode.Disposable {
                 case previewStatus.error:
                     env.imageError = this.imageError;
                     env.error = this.error.replace(/\n/g, "<br />");
-                    uiPreview.show(env);
+                    this._uiPreview.show(env);
                     break;
                 case previewStatus.processing:
                     env.error = "";
@@ -90,7 +87,7 @@ class Previewer extends vscode.Disposable {
                         exported = addFileIndex(exported, 0, this.rendered.pageCount);
                         return fs.existsSync(exported) ? env.images = `<img src="${fileToBase64(exported)}">` : "";
                     }, "");
-                    uiPreview.show(env);
+                    this._uiPreview.show(env);
                     break;
                 default:
                     break;
@@ -100,7 +97,7 @@ class Previewer extends vscode.Disposable {
         }
     }
     setUIStatus(status: string) {
-        this.uiStatus = status;
+        this.previewPageStatus = status;
     }
     async update(processingTip: boolean) {
         await this.killTasks();
@@ -136,7 +133,7 @@ class Previewer extends vscode.Disposable {
             this.error = "";
             this.images = [];
             this.imageError = "";
-            this.uiStatus = "";
+            this.previewPageStatus = "";
         }
         return changed;
     }
@@ -211,9 +208,17 @@ class Previewer extends vscode.Disposable {
             }
         });
         this._disposables.push(disposable);
-        uiPreview.addEventListener("message", e => this.setUIStatus(JSON.stringify(e.message)));
-        uiPreview.addEventListener("open", () => this.startWatch());
-        uiPreview.addEventListener("close", () => { this.stopWatch(); this.killTasks(); });
+
+        this._uiPreview = new UI(
+            "plantuml.preview",
+            localize(17, null),
+            path.join(extensionPath, "templates/preview.html"),
+        );
+        this._disposables.push(this._uiPreview);
+
+        this._uiPreview.addEventListener("message", e => this.setUIStatus(JSON.stringify(e.message)));
+        this._uiPreview.addEventListener("open", () => this.startWatch());
+        this._uiPreview.addEventListener("close", () => { this.stopWatch(); this.killTasks(); });
     }
     startWatch() {
         if (!config.previewAutoUpdate) return;
@@ -223,7 +228,6 @@ class Previewer extends vscode.Disposable {
         //register watcher
         let lastTimestamp = new Date().getTime();
         disposable = vscode.workspace.onDidChangeTextDocument(e => {
-            if (!uiPreview.open) return;
             if (!e || !e.document || !e.document.uri) return;
             if (e.document.uri.scheme == "plantuml") return;
             lastTimestamp = new Date().getTime();
@@ -236,7 +240,6 @@ class Previewer extends vscode.Disposable {
         });
         disposables.push(disposable);
         disposable = vscode.window.onDidChangeTextEditorSelection(e => {
-            if (!uiPreview.open) return;
             lastTimestamp = new Date().getTime();
             setTimeout(() => {
                 if (new Date().getTime() - lastTimestamp >= 400) {
