@@ -6,7 +6,7 @@ import { UIEventMap, MessageEvent, UIListener, UIEvent } from './events';
 export class UI extends vscode.Disposable {
     _panel: vscode.WebviewPanel;
     _viewType: string;
-    _base: string;
+    _resourceRoot: string;
     _file: string;
     _title: string;
     _content: string;
@@ -21,12 +21,12 @@ export class UI extends vscode.Disposable {
         super(() => this.dispose());
         this._viewType = viewType;
         this._title = title;
-        this._base = path.dirname(file);
+        this._resourceRoot = path.dirname(file);
         this._file = file;
     }
 
     get visible(): boolean {
-        return this._panel.visible;
+        return this._panel && this._panel.visible;
     }
 
     get open(): boolean {
@@ -34,20 +34,20 @@ export class UI extends vscode.Disposable {
     }
 
     show(env?: any, viewColumn?: vscode.ViewColumn) {
-        this.createPanel();
-        this.loadFile(env || {});
-        this._panel.webview.html = this._content;
+        this.update(env);
         if (!this._panel.visible) this._panel.reveal(viewColumn ? viewColumn : this._panel.viewColumn);
     }
     close() {
         this.dispose();
     }
 
-    refresh(env?: any, viewColumn?: vscode.ViewColumn) {
-        this.show(env, viewColumn);
+    update(env?: any) {
+        this.createIfNoPanel();
+        this.loadFile(env || {});
+        this._panel.webview.html = this._content;
     }
     postMessage(message: any) {
-        this.createPanel();
+        this.createIfNoPanel();
         return this._panel.webview.postMessage(message);
     }
 
@@ -55,7 +55,7 @@ export class UI extends vscode.Disposable {
         this._listener[type].push(listener);
     }
 
-    private createPanel() {
+    private createIfNoPanel() {
         if (this._panel) return;
         this._panel = vscode.window.createWebviewPanel(
             this._viewType,
@@ -64,7 +64,7 @@ export class UI extends vscode.Disposable {
                 enableScripts: true,
                 enableCommandUris: false,
                 retainContextWhenHidden: true,
-                localResourceRoots: [vscode.Uri.file(this._base)],
+                localResourceRoots: [vscode.Uri.file(this._resourceRoot)],
             }
         );
         this.addMessageListener();
@@ -115,13 +115,13 @@ export class UI extends vscode.Disposable {
     private loadFile(env: any) {
         this._content = this.evalHtml(fs.readFileSync(this._file).toString(), env);
     }
-    private evalHtml(html: string, envObj: any): string {
+    private evalHtml(html: string, env: any): string {
         let envReg = /\$\{(\w+)\}/ig;
-        html = html.replace(envReg, '${envObj.$1}');
+        html = html.replace(envReg, '${env.$1}');
         let result: string = eval('`' + html + '`');
         // convert relative "src", "href" paths to absolute
         let linkReg = /(src|href)\s*=\s*([`"'])(.+?)\2/ig;
-        let base: string = this._base;
+        let base: string = this._resourceRoot;
         result = result.replace(linkReg, (match, ...subs) => {
             let uri = subs[2] as string;
             if (!path.isAbsolute(uri)) uri = path.join(base, uri);
