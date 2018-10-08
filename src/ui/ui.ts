@@ -7,9 +7,7 @@ export class UI extends vscode.Disposable {
     _panel: vscode.WebviewPanel;
     _viewType: string;
     _resourceRoot: string;
-    _file: string;
     _title: string;
-    _content: string;
     _disposables: { dispose: () => any }[] = [];
     _listener: { [key: string]: UIListener<keyof UIEventMap>[] } = {
         "open": [],
@@ -17,37 +15,38 @@ export class UI extends vscode.Disposable {
         "message": [],
     };
 
-    constructor(viewType: string, title: string, file: string) {
+    constructor(viewType: string, title: string, resourceRoot: string) {
         super(() => this.dispose());
         this._viewType = viewType;
         this._title = title;
-        this._resourceRoot = path.dirname(file);
-        this._file = file;
+        this._resourceRoot = resourceRoot;
+    }
+
+    dispose() {
+        this.uiEventListerCatch("close");
+        this._panel.dispose();
+        this._disposables.length && this._disposables.map(d => d && d.dispose());
+        this._disposables = [];
     }
 
     get visible(): boolean {
         return this._panel && this._panel.visible;
     }
 
-    get open(): boolean {
-        return !!this._panel;
-    }
-
-    show(env?: any, viewColumn?: vscode.ViewColumn) {
-        this.update(env);
+    show(file: string, env?: any, viewColumn?: vscode.ViewColumn) {
+        this.update(file, env);
         if (!this._panel.visible) this._panel.reveal(viewColumn ? viewColumn : this._panel.viewColumn);
     }
     close() {
         this.dispose();
     }
 
-    update(env?: any) {
+    update(file: string, env?: any) {
         this.createIfNoPanel();
-        this.loadFile(env || {});
-        this._panel.webview.html = this._content;
+        this._panel.webview.html = this.loadFile(file, env || {});
     }
     postMessage(message: any) {
-        this.createIfNoPanel();
+        if (!this._panel) return;
         return this._panel.webview.postMessage(message);
     }
 
@@ -60,7 +59,8 @@ export class UI extends vscode.Disposable {
         this._panel = vscode.window.createWebviewPanel(
             this._viewType,
             this._title,
-            vscode.ViewColumn.Two, <vscode.WebviewOptions>{
+            vscode.ViewColumn.Two,
+            <vscode.WebviewOptions>{
                 enableScripts: true,
                 enableCommandUris: false,
                 retainContextWhenHidden: true,
@@ -112,8 +112,9 @@ export class UI extends vscode.Disposable {
             showMessagePanel(error);
         }
     }
-    private loadFile(env: any) {
-        this._content = this.evalHtml(fs.readFileSync(this._file).toString(), env);
+    private loadFile(file: string, env: any): string {
+        file = path.join(this._resourceRoot, file);
+        return this.evalHtml(fs.readFileSync(file).toString(), env);
     }
     private evalHtml(html: string, env: any): string {
         let envReg = /\$\{(\w+)\}/ig;
@@ -130,11 +131,5 @@ export class UI extends vscode.Disposable {
             return `${subs[0]}=${subs[1]}${uri}${subs[1]}`;
         });
         return result;
-    }
-    dispose() {
-        this.uiEventListerCatch("close");
-        this._panel.dispose();
-        this._disposables.length && this._disposables.map(d => d && d.dispose());
-        this._disposables = [];
     }
 }

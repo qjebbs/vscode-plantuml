@@ -77,7 +77,7 @@ class Previewer extends vscode.Disposable {
                 case previewStatus.error:
                     env.imageError = this.imageError;
                     env.error = this.error.replace(/\n/g, "<br />");
-                    this._uiPreview.show(env);
+                    this._uiPreview.show("preview.html", env);
                     break;
                 case previewStatus.processing:
                     env.error = "";
@@ -87,7 +87,7 @@ class Previewer extends vscode.Disposable {
                         exported = addFileIndex(exported, 0, this.rendered.pageCount);
                         return fs.existsSync(exported) ? env.images = `<img src="${fileToBase64(exported)}">` : "";
                     }, "");
-                    this._uiPreview.show(env);
+                    this._uiPreview.show("preview.html", env);
                     break;
                 default:
                     break;
@@ -213,7 +213,7 @@ class Previewer extends vscode.Disposable {
         this._uiPreview = new UI(
             "plantuml.preview",
             localize(17, null),
-            path.join(extensionPath, "templates/preview.html"),
+            path.join(extensionPath, "templates"),
         );
         this._disposables.push(this._uiPreview);
 
