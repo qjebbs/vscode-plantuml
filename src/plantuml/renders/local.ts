@@ -77,8 +77,17 @@ class LocalRender implements IRender {
                     '-charset',
                     'utf-8',
                 ];
+
+                // calculate the cwd
+                // default, cwd is diagram.dir (for saved file), or undefined (for new file)
+                let cwd = diagram.dir && path.isAbsolute(diagram.dir) ? diagram.dir : undefined;
+                let diagramsRoot = config.diagramsRoot(diagram.parentUri);
+                // if the file was in a workspace, cwd is diagramsRoot
+                if (diagramsRoot) cwd = diagramsRoot.fsPath;
+
                 // Java args
-                if (diagram.dir && path.isAbsolute(diagram.dir)) params.unshift('-Duser.dir=' + diagram.dir);
+                // needed by !include search
+                if (cwd) params.unshift('-Duser.dir=' + cwd);
                 // Add user java args
                 params.unshift(...config.commandArgs);
                 // Jar args
@@ -87,7 +96,13 @@ class LocalRender implements IRender {
                 if (diagram.path) params.push("-filename", path.basename(diagram.path));
                 // Add user jar args
                 params.push(...config.jarArgs);
-                let process = child_process.spawn(config.java, params);
+                let process = child_process.spawn(
+                    config.java,
+                    params,
+                    <child_process.SpawnOptions>{
+                        // needed by !include search
+                        cwd: cwd
+                    });
                 processes.push(process);
                 return pChain.then(
                     () => {
