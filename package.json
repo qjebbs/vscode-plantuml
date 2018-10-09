@@ -350,14 +350,13 @@
     "@types/node": "^6.0.40",
     "js-yaml": "^3.8.3",
     "markdown-it": "^8.3.2",
-    "mocha": "^2.3.3",
     "plist": "^2.0.1",
     "typescript": "^3.0.3",
     "vscode": "^1.1.17"
   },
   "dependencies": {
-    "request": "^2.81.0",
-    "vscode-nls": "^2.0.2",
-    "linq-collections": "*"
+    "linq-collections": "*",
+    "request": "^2.88.0",
+    "vscode-nls": "^2.0.2"
   }
 }
