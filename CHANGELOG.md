@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.9.5
+
+- Improvement: Preview now based on WebView, together with many optimizations.
+- Improvement: Fixed include path (use `diagramsRoot`) for preprocessing (like `!include`), solve [#152](https://github.com/qjebbs/vscode-plantuml/issues/152)
+- Update package dependecies
+
 ## 2.9.4
 
 - Fix: Some bugs.
@@ -10,7 +16,7 @@
 - Improvement: The setting `exportOutDirName` has been changed to `exportOutDir`
 - Improvement: Eliminate `No valid diagram found here!` tip in some cases.
 
-Has `diagramsRoot` worked together with `exportOutDirName`, you can (for example):
+Has `diagramsRoot` worked together with `exportOutDir`, you can (for example):
 
 ```json
 "plantuml.diagramsRoot": "docs/diagrams/src",
