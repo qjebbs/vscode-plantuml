@@ -131,8 +131,8 @@ class Config extends ConfigReader {
     get commandArgs(): string[] {
         return this.read<string[]>('commandArgs') || [];
     }
-    get jarArgs(): string[] {
-        return this.read<string[]>('jarArgs') || [];
+    jarArgs(uri: vscode.Uri): string[] {
+        return this.read<string[]>('jarArgs', uri) || [];
     }
     get java(): string {
         return this._java || (() => {

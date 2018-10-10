@@ -318,6 +318,7 @@
         },
         "plantuml.jarArgs": {
           "type": "array",
+          "scope": "resource",
           "default": [],
           "description": "%plantuml.configuration.jarArgs%"
         }
