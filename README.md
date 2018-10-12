@@ -8,7 +8,19 @@ Rich PlantUML support for Visual Studio Code.
 |
 [PlantUML Document](http://plantuml.com/sitemap-language-specification)
 
-## Notice
+## Notice 1
+
+Latest version has changed the include files seach logic, it's based on fixed path to workspace folder.
+
+If you encounter include problem in your existed projects, to restore previous logic, please add following in workspace settings:
+
+```json
+"plantuml.includeSearch": "Relative",
+```
+
+To new projects, it's recommended to use fixed path, since it's more easy to manage.
+
+## Notice 2
 
 The setting `exportOutDirName` has been changed to `exportOutDir`, it now accepts a relative path rather than only a folder name. Work together with `diagramsRoot`, you can (for example):
 

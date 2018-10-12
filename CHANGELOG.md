@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.9.7
+
+- New Setting: Added `includeSearch` to restore previous include files search logic.
+
 ## 2.9.6
 
 - Improvement: make `jarArgs` resource scope, so that users can have different config between workspaces. See [discusses here](https://github.com/qjebbs/vscode-plantuml/issues/152#issuecomment-428479976).
