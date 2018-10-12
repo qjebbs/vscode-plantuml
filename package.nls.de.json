@@ -24,5 +24,6 @@
 	"plantuml.configuration.commandArgs": "CommandArgs erlauben das Hinzufügen von Java-Befehlen, wie z.B. \"-DPLANTUML_LIMIT_SIZE=8192\".",
 	"plantuml.configuration.jarArgs": "jarArgs allows you add arguments to plantuml.jar, such as \"-config plantuml.config\".",
 	"plantuml.configuration.exportMapFile": "Determine whether export image map (.cmapx) file when export.",
-	"plantuml.configuration.java": "Java executable location."
+	"plantuml.configuration.java": "Java executable location.",
+	"plantuml.configuration.includeSearch": "Specifies the include files search logic.\nFixed Path: fixed path to workspace folder.\nRelative Path: releative path to source files."
 }

@@ -24,5 +24,6 @@
 	"plantuml.configuration.commandArgs": "執行 JAVA 加入的參數， 例如 \"-DPLANTUML_LIMIT_SIZE=8192\"。",
 	"plantuml.configuration.jarArgs": "執行 plantuml.jar 加入的參數， 例如 \"-config plantuml.config\"。",
 	"plantuml.configuration.exportMapFile": "決定是否在匯出圖表的同時會出圖像地圖 (.cmapx)。",
-	"plantuml.configuration.java": "Java executable location."
+	"plantuml.configuration.java": "Java executable location.",
+	"plantuml.configuration.includeSearch": "Specifies the include files search logic.\nFixed Path: fixed path to workspace folder.\nRelative Path: releative path to source files."
 }

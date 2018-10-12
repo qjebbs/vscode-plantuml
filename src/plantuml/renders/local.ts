@@ -5,7 +5,7 @@ import * as path from 'path';
 
 import { IRender, RenderTask, RenderError } from './interfaces'
 import { Diagram } from '../diagram/diagram';
-import { config } from '../config';
+import { config, IncludeSearchType } from '../config';
 import { localize, extensionPath } from '../common';
 import { addFileIndex, processWrapper } from '../tools';
 
@@ -81,10 +81,11 @@ class LocalRender implements IRender {
                 // calculate the cwd
                 // default, cwd is diagram.dir (for saved file), or undefined (for new file)
                 let cwd = diagram.dir && path.isAbsolute(diagram.dir) ? diagram.dir : undefined;
-                let diagramsRoot = config.diagramsRoot(diagram.parentUri);
-                // if the file was in a workspace, cwd is diagramsRoot
-                if (diagramsRoot) cwd = diagramsRoot.fsPath;
-
+                if (config.includeSearch(diagram.parentUri) === IncludeSearchType.Fixed) {
+                    let diagramsRoot = config.diagramsRoot(diagram.parentUri);
+                    // if the file was in a workspace, cwd is diagramsRoot
+                    if (diagramsRoot) cwd = diagramsRoot.fsPath;
+                }
                 // Java args
                 // needed by !include search
                 if (cwd) params.unshift('-Duser.dir=' + cwd);

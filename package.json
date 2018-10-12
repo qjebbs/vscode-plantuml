@@ -227,6 +227,16 @@
           "default": "",
           "description": "%plantuml.configuration.diagramsRoot%"
         },
+        "plantuml.includeSearch": {
+          "type": "string",
+          "scope": "resource",
+          "enum": [
+            "Fixed",
+            "Relative"
+          ],
+          "default": "Fixed",
+          "description": "%plantuml.configuration.includeSearch%"
+        },
         "plantuml.fileExtensions": {
           "type": "string",
           "scope": "resource",
