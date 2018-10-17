@@ -12,8 +12,8 @@ export const RenderType = {
 };
 
 export enum IncludeSearchType {
-    Fixed,
-    Relative
+    DiagramsRoot,
+    SourceFileDir,
 }
 
 class Config extends ConfigReader {

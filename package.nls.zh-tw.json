@@ -25,5 +25,5 @@
 	"plantuml.configuration.jarArgs": "執行 plantuml.jar 加入的參數， 例如 \"-config plantuml.config\"。",
 	"plantuml.configuration.exportMapFile": "決定是否在匯出圖表的同時會出圖像地圖 (.cmapx)。",
 	"plantuml.configuration.java": "Java executable location.",
-	"plantuml.configuration.includeSearch": "Specifies the include files search logic.\nFixed Path: fixed path to workspace folder.\nRelative Path: releative path to source files."
+	"plantuml.configuration.includeSearch": "Specifies the base directory of include files search.\nDiagramsRoot: use the 'diagramsRoot', including path is consistent for all files workspace folder.\nSourceFileDir: the directory of source file, including path may change between files."
 }

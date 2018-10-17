@@ -231,10 +231,10 @@
           "type": "string",
           "scope": "resource",
           "enum": [
-            "Fixed",
-            "Relative"
+            "DiagramsRoot",
+            "SourceFileDir"
           ],
-          "default": "Fixed",
+          "default": "DiagramsRoot",
           "description": "%plantuml.configuration.includeSearch%"
         },
         "plantuml.fileExtensions": {

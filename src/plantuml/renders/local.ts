@@ -81,7 +81,7 @@ class LocalRender implements IRender {
                 // calculate the cwd
                 // default, cwd is diagram.dir (for saved file), or undefined (for new file)
                 let cwd = diagram.dir && path.isAbsolute(diagram.dir) ? diagram.dir : undefined;
-                if (config.includeSearch(diagram.parentUri) === IncludeSearchType.Fixed) {
+                if (config.includeSearch(diagram.parentUri) === IncludeSearchType.DiagramsRoot) {
                     let diagramsRoot = config.diagramsRoot(diagram.parentUri);
                     // if the file was in a workspace, cwd is diagramsRoot
                     if (diagramsRoot) cwd = diagramsRoot.fsPath;
