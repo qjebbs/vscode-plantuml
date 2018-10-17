@@ -10,15 +10,15 @@ Rich PlantUML support for Visual Studio Code.
 
 ## Notice 1
 
-Latest version has changed the include files seach logic, it's based on fixed path to workspace folder.
+Latest version has changed the include files search logic, using `diagramsRoot` as  base directory, which makes including path consistent across all files in workspace folder.
 
-If you encounter include problem in your existed projects, to restore previous logic, please add following in workspace settings:
+If you encounter include problem in your existing projects, to restore previous logic, please add following to workspace settings:
 
 ```json
-"plantuml.includeSearch": "Relative",
+"plantuml.includeSearch": "SourceFileDir",
 ```
 
-To new projects, it's recommended to use fixed path, since it's more easy to manage.
+To new projects, it's recommended to use default setting, since it's more easy to manage.
 
 ## Notice 2
 
