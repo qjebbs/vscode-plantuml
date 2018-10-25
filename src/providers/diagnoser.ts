@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { diagramsOf } from '../plantuml/diagram/diagram';
+import { diagramsOf } from '../plantuml/diagram/tools';
 import { Uri } from 'vscode';
 import { localize } from '../plantuml/common';
 

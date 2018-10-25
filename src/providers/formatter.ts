@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { config } from '../plantuml/config';
 import { showMessagePanel, parseError } from '../plantuml/tools';
 import { formatRules } from '../plantuml/formatRules';
 import * as fmt from '../plantuml/formatter/formatter';

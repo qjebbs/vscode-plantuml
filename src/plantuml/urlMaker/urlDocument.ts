@@ -1,9 +1,10 @@
 import * as vscode from 'vscode';
 import * as nls from "vscode-nls";
 
-import { Diagram, diagramsOf, currentDiagram } from '../diagram/diagram';
+import { Diagram } from '../diagram/diagram';
+import { diagramsOf, currentDiagram } from '../diagram/tools';
 import { config } from '../config';
-import { outputPanel,localize, bar } from '../common';
+import { outputPanel, localize, bar } from '../common';
 import { plantumlServer } from '../renders/plantumlServer';
 
 interface pURL {

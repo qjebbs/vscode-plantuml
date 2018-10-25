@@ -4,7 +4,8 @@ import * as path from 'path';
 import * as child_process from 'child_process';
 
 import { RenderTask } from '../plantuml/renders/interfaces'
-import { Diagram, diagramsOf, currentDiagram } from '../plantuml/diagram/diagram';
+import { Diagram } from '../plantuml/diagram/diagram';
+import { diagramsOf, currentDiagram } from '../plantuml/diagram/tools';
 import { config } from '../plantuml/config';
 import { localize, extensionPath } from '../plantuml/common';
 import { parseError, calculateExportPath, addFileIndex, showMessagePanel, fileToBase64 } from '../plantuml/tools';

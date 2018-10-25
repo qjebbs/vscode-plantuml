@@ -1,10 +1,9 @@
 import * as vscode from 'vscode';
 
-import { RenderTask, RenderError } from '../renders/interfaces';
+import { RenderError } from '../renders/interfaces';
 import { config } from '../config';
 import { localize } from '../common';
 import { parseError } from '../tools';
-import { Diagram } from '../diagram/diagram';
 import { appliedRender } from './appliedRender';
 import { exportFile, FileAndFormat } from './exportURI';
 export interface exportFilesResult {

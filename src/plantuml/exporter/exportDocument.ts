@@ -2,7 +2,8 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 
 import { appliedRender } from './appliedRender'
-import { Diagram, currentDiagram, diagramsOf } from '../diagram/diagram';
+import { Diagram } from '../diagram/diagram';
+import { currentDiagram, diagramsOf } from '../diagram/tools';
 import { config } from '../config';
 import { localize, bar } from '../common';
 import { showMessagePanel, StopWatch } from '../tools';

@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 
-import { RenderTask, } from '../renders/interfaces';
-import { Diagram, diagramsOf } from '../diagram/diagram';
+import { diagramsOf } from '../diagram/tools';
 import { exportDiagrams } from './exportDiagrams';
 
 export interface FileAndFormat {
