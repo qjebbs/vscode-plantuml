@@ -21,11 +21,13 @@ export class Diagram {
     pageCount: number = 1;
     lines: string[];
     index: number = 0;
+    type: DiagramType = DiagramType.UML;
     constructor(content: string);
     constructor(content: string, document: vscode.TextDocument, start: vscode.Position, end: vscode.Position);
     constructor(content: string, ...para: any[]) {
         this.content = content;
         this.lines = content.replace(/\r/g, "").split('\n');
+        this.type = getType(this);
         if (para && para.length == 3) {
             this.document = para[0];
             this.start = para[1];
