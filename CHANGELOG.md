@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.9.8
+
+- Improvement: Rename includeSearch options to avoid ambiguity
+- Improvement: Request png for ditaa in md rendering, solve [#162](https://github.com/qjebbs/vscode-plantuml/issues/162)
+- Update integrated `plantuml.jar` to `Version 1.2018.12`
+
 ## 2.9.7
 
 - New Setting: Added `includeSearch` to restore previous include files search logic.
