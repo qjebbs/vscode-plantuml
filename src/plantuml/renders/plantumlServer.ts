@@ -7,6 +7,7 @@ import { Diagram, diagramStartReg } from '../diagram/diagram';
 import { config } from '../config';
 import { localize } from '../common';
 import { addFileIndex } from '../tools';
+import { httpConfig } from './httpConfig';
 const request = require('request');
 
 interface PlantumlServerError {
@@ -85,6 +86,7 @@ class PlantumlServer implements IRender {
                     , uri: requestUrl
                     , encoding: null // for byte encoding. Otherwise string.
                     , gzip: true
+                    , proxy: httpConfig.proxy()
                 }
                 , (error, response, body) => {
                     let stdout = "";
