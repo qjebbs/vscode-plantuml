@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.9.9
+
+- Improvement: Server render respect 'http.proxy' setting, solve [#169](https://github.com/qjebbs/vscode-plantuml/issues/169)
+
 ## 2.9.8
 
 - Improvement: Rename includeSearch options to avoid ambiguity
