@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.9.10
+
+- Improvement: Preview updates when switch between file histories, fix [#173](https://github.com/qjebbs/vscode-plantuml/issues/173)
+
 ## 2.9.9
 
 - Improvement: Server render respect 'http.proxy' setting, solve [#169](https://github.com/qjebbs/vscode-plantuml/issues/169)
