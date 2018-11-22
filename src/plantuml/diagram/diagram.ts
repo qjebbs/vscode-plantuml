@@ -45,6 +45,7 @@ export class Diagram {
         }
     }
     isEqual(d: Diagram): boolean {
+        if (this.parentUri.scheme !== d.parentUri.scheme) return false;
         if (this.dir !== d.dir) return false;
         if (this.fileName !== d.fileName) return false;
         if (!this.start || !d.start) return false;
