@@ -27,7 +27,7 @@ export class Signature extends vscode.Disposable implements vscode.SignatureHelp
             return null;
         }
 
-        const macros = macrosOf(document);
+        const macros = macrosOf(document, position);
         var macro = macros.firstOrDefault(m => m.name == macroCallInfo.macroName);
         if (!macro) {
             return null;

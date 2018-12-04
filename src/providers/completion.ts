@@ -24,7 +24,7 @@ export class Completion extends vscode.Disposable implements vscode.CompletionIt
         return new Promise<vscode.CompletionItem[]>((resolve, reject) => {
             const results: vscode.CompletionItem[] = [];
 
-            const macros = macrosOf(document);
+            const macros = macrosOf(document, position);
             macros
                 .forEach(macro => {
                     const item = new vscode.CompletionItem(macro.name, vscode.CompletionItemKind.Method);

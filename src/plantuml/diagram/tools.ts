@@ -7,7 +7,10 @@ export function currentDiagram(): Diagram {
     if (editor) return diagramAt(editor.document, editor.selection.anchor.line);
 }
 
-export function diagramAt(document: vscode.TextDocument, lineNumber: number): Diagram {
+export function diagramAt(document: vscode.TextDocument, lineNumber: number): Diagram
+export function diagramAt(document: vscode.TextDocument, position: vscode.Position): Diagram
+export function diagramAt(document: vscode.TextDocument, para: number | vscode.Position): Diagram {
+    let lineNumber = para instanceof vscode.Position ? para.line : para;
     let start: vscode.Position;
     let end: vscode.Position;
     let content: string = "";
