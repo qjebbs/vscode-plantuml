@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
-import { SnippetString } from 'vscode';
 import { LanguageCompletionItems } from '../plantuml/intellisense/languageCompletion';
 import { MacroCompletionItems } from '../plantuml/intellisense/macroCompletion';
+import { diagramAt } from '../plantuml/diagram/tools';
 
 export class Completion extends vscode.Disposable implements vscode.CompletionItemProvider {
     private _disposables: vscode.Disposable[] = [];
@@ -22,8 +22,9 @@ export class Completion extends vscode.Disposable implements vscode.CompletionIt
 
     public provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken)
         : Thenable<vscode.CompletionItem[]> {
+        let diagram = diagramAt(document, position);
         return Promise.all([
-            MacroCompletionItems(document, position, token),
+            MacroCompletionItems(diagram, position, token),
             LanguageCompletionItems()
         ]).then(
             results => [].concat(...results)

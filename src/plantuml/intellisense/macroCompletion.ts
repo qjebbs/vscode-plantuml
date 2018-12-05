@@ -1,10 +1,11 @@
 import * as vscode from 'vscode';
 import { macrosOf } from './macros';
+import { Diagram } from '../diagram/diagram';
 
-export async function MacroCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<vscode.CompletionItem[]> {
+export async function MacroCompletionItems(target: vscode.TextDocument | Diagram, position: vscode.Position, token: vscode.CancellationToken): Promise<vscode.CompletionItem[]> {
     return new Promise<vscode.CompletionItem[]>((resolve, reject) => {
         const results: vscode.CompletionItem[] = [];
-        const macros = macrosOf(document, position);
+        const macros = macrosOf(target, position);
         macros
             .forEach(macro => {
                 const item = new vscode.CompletionItem(macro.name, vscode.CompletionItemKind.Method);

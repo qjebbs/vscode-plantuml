@@ -1,14 +1,15 @@
 import * as vscode from 'vscode';
 import * as linq from 'linq-collections'
 import { diagramAt } from '../diagram/tools';
+import { Diagram } from '../diagram/diagram';
 
 const macroDefRegex = /!(?:define|definelong) (\w+)(?:\(((?:,? *(?:\w)+ *(?:= *".+")?)+)\))?/i;
 const macroCallRegex = /(!(?:define|definelong) )?(\w+)\(([\w, "]*)\)?/gi
 
-export function macrosOf(document: vscode.TextDocument, position: vscode.Position): linq.List<MacroDefinition> {
+export function macrosOf(target: vscode.TextDocument | Diagram, position: vscode.Position): linq.List<MacroDefinition> {
     let rawDefinitions = new linq.List<MacroDefinition>();
 
-    let diagram = diagramAt(document, position);
+    let diagram = target instanceof Diagram ? target : diagramAt(target, position);
 
     for (let line of diagram.lines) {
         const match = macroDefRegex.exec(line);
