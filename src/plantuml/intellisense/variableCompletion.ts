@@ -4,7 +4,7 @@ import { Diagram } from '../diagram/diagram';
 import { diagramAt } from '../diagram/tools';
 
 const REG_VAR = /[0-9a-z_]+/ig;
-const REG_EXCLUDE_PREPROCESS = /^\s*!.+/i;
+const REG_EXCLUDE_LINE = /^\s*(!|@)/i;
 const REG_REMOVE_INLINE_NOTE = /:.+$/i;
 const REG_ENTER_NOTE = /^\s*([rh]?note)(?:\s+(right|left|top|bottom))?(\s+(?:of|over))?[^:]+$/i;
 const REG_LEAVE_NOTE = /^\s*(end\s*[rh]?note)/i
@@ -29,7 +29,7 @@ function collectVariables(target: vscode.TextDocument | Diagram, position: vscod
     for (let i = 0; i < diagram.lines.length; i++) {
         if (i == excludeLine) continue;
         let line = diagram.lines[i];
-        if (REG_EXCLUDE_PREPROCESS.test(line)) continue;
+        if (REG_EXCLUDE_LINE.test(line)) continue;
 
         if (flagNote) {
             // currently in a note block
