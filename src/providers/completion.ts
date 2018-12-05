@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { SnippetString } from 'vscode';
-import { macrosOf } from '../plantuml/macros/macros'
+import { LanguageCompletionItems } from '../plantuml/intellisense/languageCompletion';
+import { MacroCompletionItems } from '../plantuml/intellisense/macroCompletion';
 
 export class Completion extends vscode.Disposable implements vscode.CompletionItemProvider {
     private _disposables: vscode.Disposable[] = [];
@@ -21,20 +22,12 @@ export class Completion extends vscode.Disposable implements vscode.CompletionIt
 
     public provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken)
         : Thenable<vscode.CompletionItem[]> {
-        return new Promise<vscode.CompletionItem[]>((resolve, reject) => {
-            const results: vscode.CompletionItem[] = [];
-
-            const macros = macrosOf(document, position);
-            macros
-                .forEach(macro => {
-                    const item = new vscode.CompletionItem(macro.name, vscode.CompletionItemKind.Method);
-                    item.detail = macro.getDetailLabel();
-                    item.insertText = new SnippetString(macro.name);
-                    results.push(item);
-                });
-
-            return resolve(results);
-        });
+        return Promise.all([
+            MacroCompletionItems(document, position, token),
+            LanguageCompletionItems()
+        ]).then(
+            results => [].concat(...results)
+        )
     }
 
     resolveCompletionItem?(item: vscode.CompletionItem, token: vscode.CancellationToken): vscode.ProviderResult<vscode.CompletionItem> {

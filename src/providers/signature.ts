@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { macrosOf, macroCallOf, MacroCallInfo, MacroDefinition } from '../plantuml/macros/macros'
+import { macrosOf, macroCallOf, MacroCallInfo, MacroDefinition } from '../plantuml/intellisense/macros'
 
 export class Signature extends vscode.Disposable implements vscode.SignatureHelpProvider {
     private _disposables: vscode.Disposable[] = [];
