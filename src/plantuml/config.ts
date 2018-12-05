@@ -30,7 +30,7 @@ class Config extends ConfigReader {
     }
 
     jar(uri: vscode.Uri): string {
-        let folder = vscode.workspace.getWorkspaceFolder(uri);
+        let folder = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
         let folderPath = folder ? folder.uri.fsPath : "";
         return this._jar[folderPath] || (() => {
             let jar = this.read<string>('jar', uri, (folderUri: vscode.Uri, value) => {
@@ -67,7 +67,7 @@ class Config extends ConfigReader {
     }
 
     diagramsRoot(uri: vscode.Uri): vscode.Uri {
-        let folder = vscode.workspace.getWorkspaceFolder(uri);
+        let folder = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
         if (!folder) return undefined;
         let fsPath = path.join(
             folder.uri.fsPath,
@@ -81,7 +81,7 @@ class Config extends ConfigReader {
     }
 
     exportOutDir(uri: vscode.Uri): vscode.Uri {
-        let folder = vscode.workspace.getWorkspaceFolder(uri);
+        let folder = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
         if (!folder) return undefined;
         let fsPath = path.join(
             folder.uri.fsPath,
