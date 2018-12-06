@@ -15,6 +15,9 @@ interface LanguageWord {
     name: string,
 }
 
+// pre-cache before user needs
+LanguageCompletionItems();
+
 function getLanguageWords(): Promise<LanguageWord[]> {
     // clear dict
     dicLanguageWords = new Set<string>([]);
