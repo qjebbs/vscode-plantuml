@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { macrosOf } from './macros';
 import { Diagram } from '../diagram/diagram';
 import { diagramAt } from '../diagram/tools';
+import { dicLanguageWords } from './languageCompletion';
 
 const REG_VAR = /[0-9a-z_]+/ig;
 const REG_EXCLUDE_LINE = /^\s*(!|@)/i;
@@ -45,7 +46,7 @@ function collectVariables(target: vscode.TextDocument | Diagram, position: vscod
         let matches: RegExpExecArray;
         REG_VAR.lastIndex = 0;
         while (matches = REG_VAR.exec(line)) {
-            variables.add(matches[0]);
+           if (!dicLanguageWords.has(matches[0])) variables.add(matches[0]);
         }
     }
     return Array.from(variables);
