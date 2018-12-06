@@ -7,8 +7,10 @@ const preDefinedWords = ";type\n;29\nabstract\nactor\nagent\narchimate\nartifact
 
 export var dicLanguageWords = new Set<string>([]);
 let cachedItems: vscode.CompletionItem[] = undefined;
+const REG_CLEAN_LABEL = /[^0-9a-z_]/ig;
 
 interface LanguageWord {
+    label: string,
     kind: vscode.CompletionItemKind,
     name: string,
 }
@@ -67,7 +69,7 @@ function processWords(value: string): LanguageWord[] {
             }
             if (!curKind) return;
             dicLanguageWords.add(word);
-            results.push(<LanguageWord>{ name: word, kind: curKind });
+            results.push(<LanguageWord>{ label: word.replace(REG_CLEAN_LABEL, ""), name: word, kind: curKind });
         }
     )
     return results;
@@ -79,7 +81,7 @@ export async function LanguageCompletionItems(): Promise<vscode.CompletionItem[]
     let words = await getLanguageWords();
     cachedItems = words.map(word => {
 
-        const item = new vscode.CompletionItem(word.name, word.kind);
+        const item = new vscode.CompletionItem(word.label, word.kind);
         item.insertText = new vscode.SnippetString(word.name);
         return item;
     });
