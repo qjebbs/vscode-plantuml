@@ -20,7 +20,7 @@ export function diagramAt(document: vscode.TextDocument, para: number | vscode.P
             start = line.range.start;
             break;
         } else if (i != lineNumber && diagramEndReg.test(line.text)) {
-            return this;
+            return undefined;
         }
     }
     for (let i = lineNumber; i < document.lineCount; i++) {
@@ -29,7 +29,7 @@ export function diagramAt(document: vscode.TextDocument, para: number | vscode.P
             end = line.range.end
             break;
         } else if (i != lineNumber && diagramStartReg.test(line.text)) {
-            return this;
+            return undefined;
         }
     }
     // if no diagram block found, add entire document

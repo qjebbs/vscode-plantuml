@@ -3,6 +3,7 @@ import { macrosOf } from './macros';
 import { Diagram } from '../diagram/diagram';
 
 export async function MacroCompletionItems(target: vscode.TextDocument | Diagram, position: vscode.Position, token: vscode.CancellationToken): Promise<vscode.CompletionItem[]> {
+    if (!target) return [];
     return new Promise<vscode.CompletionItem[]>((resolve, reject) => {
         const results: vscode.CompletionItem[] = [];
         const macros = macrosOf(target, position);

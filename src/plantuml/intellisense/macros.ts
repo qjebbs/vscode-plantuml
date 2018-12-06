@@ -8,7 +8,8 @@ const macroCallRegex = /(!(?:define|definelong) )?(\w+)\(([\w, "]*)\)?/gi
 
 export function macrosOf(target: vscode.TextDocument | Diagram, position: vscode.Position): linq.List<MacroDefinition> {
     let rawDefinitions = new linq.List<MacroDefinition>();
-
+    
+    if (!target) return rawDefinitions;
     let diagram = target instanceof Diagram ? target : diagramAt(target, position);
 
     for (let line of diagram.lines) {

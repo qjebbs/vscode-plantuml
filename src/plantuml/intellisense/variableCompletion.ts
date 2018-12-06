@@ -11,6 +11,7 @@ const REG_ENTER_NOTE = /^\s*([rh]?note)(?:\s+(right|left|top|bottom))?(\s+(?:of|
 const REG_LEAVE_NOTE = /^\s*(end\s*[rh]?note)/i
 
 export async function VariableCompletionItems(target: vscode.TextDocument | Diagram, position: vscode.Position, token: vscode.CancellationToken): Promise<vscode.CompletionItem[]> {
+    if (!target) return [];
     return new Promise<vscode.CompletionItem[]>((resolve, reject) => {
         let results = collectVariables(target, position, token)
             .map(variable => {
