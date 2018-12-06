@@ -18,7 +18,10 @@ export class Formatter extends vscode.Disposable implements vscode.DocumentForma
         );
         this._disposables.push(
             vscode.languages.registerDocumentFormattingEditProvider(
-                <vscode.DocumentFilter>{ language: "diagram" },
+                [
+                    { scheme: 'file', language: "diagram" },
+                    { scheme: 'untitled', language: "diagram" },
+                ],
                 this
             )
         );

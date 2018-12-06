@@ -7,7 +7,8 @@ export class Signature extends vscode.Disposable implements vscode.SignatureHelp
     constructor() {
         super(() => this.dispose());
         let sel: vscode.DocumentSelector = [
-            "diagram"
+            { scheme: 'file', language: 'diagram' },
+            { scheme: 'untitled', language: 'diagram' },
         ];
         this._disposables.push(
             vscode.languages.registerSignatureHelpProvider(sel, this, "(", ",")

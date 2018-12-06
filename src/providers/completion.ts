@@ -10,7 +10,8 @@ export class Completion extends vscode.Disposable implements vscode.CompletionIt
     constructor() {
         super(() => this.dispose());
         let sel: vscode.DocumentSelector = [
-            "diagram"
+            { scheme: 'file', language: 'diagram' },
+            { scheme: 'untitled', language: 'diagram' },
         ];
         this._disposables.push(
             vscode.languages.registerCompletionItemProvider(sel, this)
