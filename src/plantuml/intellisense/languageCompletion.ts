@@ -49,16 +49,18 @@ function processWords(value: string): LanguageWord[] {
     words.forEach(
         word => {
             if (!word) return;
+            let label = word.replace(REG_CLEAN_LABEL, "");
+            if (!label) return;
             if (word.substr(0, 1) == ';') {
                 switch (word) {
                     case ";type":
-                        curKind = vscode.CompletionItemKind.Interface
+                        curKind = vscode.CompletionItemKind.Struct
                         return;
                     case ";keyword":
                         curKind = vscode.CompletionItemKind.Keyword
                         return;
                     case ";preprocessor":
-                        curKind = vscode.CompletionItemKind.Class
+                        curKind = vscode.CompletionItemKind.Function
                         return;
                     case ";skinparameter":
                         curKind = vscode.CompletionItemKind.Field
@@ -72,7 +74,7 @@ function processWords(value: string): LanguageWord[] {
             }
             if (!curKind) return;
             dicLanguageWords.add(word);
-            results.push(<LanguageWord>{ label: word.replace(REG_CLEAN_LABEL, ""), name: word, kind: curKind });
+            results.push(<LanguageWord>{ label: label, name: word, kind: curKind });
         }
     )
     return results;
