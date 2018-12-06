@@ -25,7 +25,7 @@ function getLanguageWords(): Promise<LanguageWord[]> {
         let params = [
             '-Djava.awt.headless=true',
             '-jar',
-            config.jar(undefined),
+            config.jar(null),
             "-language",
         ];
 
