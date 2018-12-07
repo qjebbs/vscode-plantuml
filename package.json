@@ -278,7 +278,7 @@
         },
         "plantuml.server": {
           "type": "string",
-          "default": "https://www.plantuml.com/plantuml",
+          "default": "http://www.plantuml.com/plantuml",
           "description": "%plantuml.configuration.server%"
         },
         "plantuml.serverIndexParameter": {
