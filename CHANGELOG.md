@@ -1,13 +1,20 @@
 # VSCode PlantUML Changelog
 
+## 2.10.1
+
+- Improvement: Many fixes & optimization to auto completion.
+- Improvement: Bypass server render issue of [request/request#2505](https://github.com/request/request/issues/2505) in some environment.
+- Fix: Cannot find module 'languageCompletion'
+- Code optimize
+
 ## 2.10.0
 
-- New Feature: `PlantUML` language keywords auto completion support.
+- New Feature: Language keywords auto completion support.
 - New Feature: A stupid version, kind of variable auto completion.
 - Improvement: Auto completion now focuses in current diagram, not whole document.
 - Improvement: Snippets optimization. Now the snippets should not bother while typing.
 
-> Plus macro completion & signature contributed by [Ricardo Niepel](https://github.com/RicardoNiepel), works on intellisense will stop here, since `PlantUML` syntax is too flexible and I'm not able to write a parser.
+> Plus macro completion & signature contributed by [Ricardo Niepel](https://github.com/RicardoNiepel), works on intellisense will stop here, since the `PlantUML` syntax is too flexible and I'm not able to write a parser.
 
 ## 2.9.10
 

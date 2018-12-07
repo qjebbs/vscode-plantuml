@@ -51,7 +51,7 @@ Project Folder/
     - Multi-Page Diagram support.
     - Instant preview, if diagram's been exported.
     - From local or server.
-    - Snap to Border **NEW!!**
+    - Snap to Border
 - Export Diagrams
     - At cursor, in current file, in whole workspace, in workspace selected.
     - Concurrent export.
@@ -63,8 +63,9 @@ Project Folder/
     - Format PlantUML code.
     - All type syntax highlight.
     - All type snippets.
-    - Auto Include.
+    - Basic auto completion & macro signature support **NEW!!**
     - Symbol List support.
+    - Auto Include.
 - Others
     - Multi-root Workspace Support.
     - MarkDown integrating support. [View Demo](#markdown-integrating)
