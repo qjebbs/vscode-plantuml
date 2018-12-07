@@ -87,6 +87,7 @@ class PlantumlServer implements IRender {
                     , encoding: null // for byte encoding. Otherwise string.
                     , gzip: true
                     , proxy: httpConfig.proxy()
+                    , strictSSL: false
                 }
                 , (error, response, body) => {
                     let stdout = "";
