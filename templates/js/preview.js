@@ -10,14 +10,39 @@ let previewStatus = {
     pageStatus: {}
 }
 
-function saveStatus() {
-    if (vscode && switcher.current) {
-        previewStatus.page = switcher.current;
-        previewStatus.pageStatus[switcher.current] = zoomer.status
-        // console.log("save status: " + previewStatus);
-        vscode.postMessage(previewStatus);
+function throttle(fn, delay, atleast) {
+    var timeout = null,
+        startTime = new Date();
+    return function (...args) {
+        var curTime = new Date();
+        clearTimeout(timeout);
+        if (curTime - startTime >= atleast) {
+            fn(...args);
+            startTime = curTime;
+        } else {
+            timeout = setTimeout(fn, delay, ...args);
+        }
     }
 }
+
+
+var saveStatus = throttle(() => {
+    if (vscode && switcher.current) {
+        previewStatus.page = switcher.current;
+
+        let img = document.getElementById("image");
+        let winWidth = window.innerWidth;
+        let minWidth = winWidth < img.naturalWidth ? winWidth : img.naturalWidth;
+        let minZoom = minWidth / img.naturalWidth * 100;
+        if (zoomer.status.zoom < minZoom + 0.1)
+            previewStatus.pageStatus[switcher.current] = undefined;
+        else
+            previewStatus.pageStatus[switcher.current] = zoomer.status;
+        // console.log("save status: ", previewStatus);
+        vscode.postMessage(previewStatus);
+    }
+}, 500, 1000);
+
 window.addEventListener("load", () => {
     switcher = new Switcher();
     let status = undefined;

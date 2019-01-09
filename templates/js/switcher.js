@@ -39,10 +39,13 @@ class Switcher {
 
         // restore page status
         let status = previewStatus.pageStatus[page];
-        if (status) {
-            zoomer.applyStatus(status);
-        } else {
+        if (
+            !status ||
+            (status.snapLeft && status.snapRight && status.snapTop && status.snapBottom)
+        ) {
             zoomer.reset();
+        } else {
+            zoomer.applyStatus(status);
         }
     }
 }
