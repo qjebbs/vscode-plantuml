@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.10.2
+
+- Improvement: Keep fit to window status between preview updates
+- Improvement: filter out JAVA_TOOL_OPTIONS errors, solve [#19](https://github.com/qjebbs/vscode-plantuml/issues/19).
+- Code optimize for preview inside webview.
+
 ## 2.10.1
 
 - Improvement: Many fixes & optimization to auto completion.
