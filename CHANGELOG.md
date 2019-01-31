@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.10.3
+
+- Fix: Preview page number may out of range, solve [#184](https://github.com/qjebbs/vscode-plantuml/issues/184).
+- Fix: Cannot use `\` or `\\` in `jar` setting, solve [#170](https://github.com/qjebbs/vscode-plantuml/issues/170).
+
 ## 2.10.2
 
 - Improvement: Keep fit to window status between preview updates
