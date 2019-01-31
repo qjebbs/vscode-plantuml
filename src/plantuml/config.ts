@@ -33,13 +33,11 @@ class Config extends ConfigReader {
         let folder = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
         let folderPath = folder ? folder.uri.fsPath : "";
         return this._jar[folderPath] || (() => {
-            let jar = this.read<string>('jar', uri, (folderUri: vscode.Uri, value) => {
+            let jar = this.read<string>('jar', uri, (folderUri, value) => {
                 if (!value) return "";
-                const workspaceFolder = folderUri.fsPath;
-                let result = eval('`' + value + '`');
-                if (!path.isAbsolute(result))
-                    result = path.join(workspaceFolder, result);
-                return result;
+                if (!path.isAbsolute(value))
+                    value = path.join(folderUri.fsPath, value);
+                return value;
             });
             let intJar = path.join(extensionPath, "plantuml.jar");
             if (!jar) {
@@ -144,6 +142,7 @@ class Config extends ConfigReader {
         return this.read<string[]>('jarArgs', uri) || [];
     }
     get java(): string {
+        return "java";
         return this._java || (() => {
             let java = this.read<string>('java') || "java";
             if (testJava(java)) {
