@@ -142,7 +142,6 @@ class Config extends ConfigReader {
         return this.read<string[]>('jarArgs', uri) || [];
     }
     get java(): string {
-        return "java";
         return this._java || (() => {
             let java = this.read<string>('java') || "java";
             if (testJava(java)) {
