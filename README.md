@@ -86,11 +86,13 @@ Launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter
 
 ## Requirements
 
-Depend on which render you choose, plugin has diffrerent requirements.
+Depend on which render you choose, plugin has different requirements.
 
 ### Requirements for PlantUMLServer render
 
 A plantuml server.  See [Use PlantUML Server as render](#use-plantuml-server-as-render).
+
+In case you want to use only the PlantUMLServer and do not have a Java runtime installed you can set `plantuml.java = no_java` to prevent the _To use the “java” command-line tool you need to install a JDK_ popup.
 
 ### Requirements for Local render
 
