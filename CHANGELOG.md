@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.10.4
+
+- Improvement: Add French translation & Update some English translation.
+- Improvement: Don't filter out note texts for auto completion, solve [#194](https://github.com/qjebbs/vscode-plantuml/issues/194).
+- Improvement: Language keywords auto completion don't use java if user don't use `Local` render.
+
 ## 2.10.3
 
 - Fix: Preview page number may out of range, solve [#184](https://github.com/qjebbs/vscode-plantuml/issues/184).
