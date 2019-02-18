@@ -1,4 +1,4 @@
-import { config } from "../config";
+import { config, RenderType } from "../config";
 import * as child_process from 'child_process';
 import { processWrapper } from "../tools";
 import * as vscode from 'vscode';
@@ -22,7 +22,7 @@ function getLanguageWords(): Promise<LanguageWord[]> {
     // clear dict
     dicLanguageWords = new Set<string>([]);
     let task: Promise<string>;
-    if (!config.java) {
+    if (config.render !== RenderType.Local || !config.java) {
         task = Promise.resolve(preDefinedWords);
     } else {
         let params = [
