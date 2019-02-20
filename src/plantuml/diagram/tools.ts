@@ -7,7 +7,10 @@ export function currentDiagram(): Diagram {
     if (editor) return diagramAt(editor.document, editor.selection.anchor.line);
 }
 
-export function diagramAt(document: vscode.TextDocument, lineNumber: number): Diagram {
+export function diagramAt(document: vscode.TextDocument, lineNumber: number): Diagram
+export function diagramAt(document: vscode.TextDocument, position: vscode.Position): Diagram
+export function diagramAt(document: vscode.TextDocument, para: number | vscode.Position): Diagram {
+    let lineNumber = para instanceof vscode.Position ? para.line : para;
     let start: vscode.Position;
     let end: vscode.Position;
     let content: string = "";
@@ -17,7 +20,7 @@ export function diagramAt(document: vscode.TextDocument, lineNumber: number): Di
             start = line.range.start;
             break;
         } else if (i != lineNumber && diagramEndReg.test(line.text)) {
-            return this;
+            return undefined;
         }
     }
     for (let i = lineNumber; i < document.lineCount; i++) {
@@ -26,7 +29,7 @@ export function diagramAt(document: vscode.TextDocument, lineNumber: number): Di
             end = line.range.end
             break;
         } else if (i != lineNumber && diagramStartReg.test(line.text)) {
-            return this;
+            return undefined;
         }
     }
     // if no diagram block found, add entire document

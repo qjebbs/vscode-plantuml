@@ -41,6 +41,25 @@ Project Folder/
         architecture_overview.png
 ```
 
+## Notice 3
+
+Preview page provides various zoom/pan actions and snap feature:
+
+- Zoom operations (since version 2.7.0): 
+    - Zoom to select area
+    - Pinch to zoom (TouchPad)
+    - Click to zoom in, alt + click to zoom out
+    - Ctrl + mouse scroll to zoom in/out
+    - Middle mouse button click to toggle zoom
+    - Zoom in / zoom out / toggle buttons of the controls bar.
+- Pan operations (since version 2.7.0):
+    - Right mouse button drag
+    - Two-finger move to pan (TouchPad)
+    - Mouse scroll
+- Snap to border (since v2.8.0):
+    - Scroll to most bottom/right/top/left, preview will snap to that border. 
+    > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
+
 ## Features
 
 > Get **15X times faster export** by utilizing PlantUML Server as render. [How to?](#about-render)
@@ -51,7 +70,7 @@ Project Folder/
     - Multi-Page Diagram support.
     - Instant preview, if diagram's been exported.
     - From local or server.
-    - Snap to Border **NEW!!**
+    - Snap to Border
 - Export Diagrams
     - At cursor, in current file, in whole workspace, in workspace selected.
     - Concurrent export.
@@ -63,8 +82,9 @@ Project Folder/
     - Format PlantUML code.
     - All type syntax highlight.
     - All type snippets.
-    - Auto Include.
+    - Basic auto completion & macro signature support **NEW!!**
     - Symbol List support.
+    - Auto Include.
 - Others
     - Multi-root Workspace Support.
     - MarkDown integrating support. [View Demo](#markdown-integrating)
@@ -115,23 +135,6 @@ choco install plantuml
 
 ## Preview Demos
 
-Newly designed preview provides various zoom/pan actions and snap feature:
-
-- Zoom operations (since version 2.7.0): 
-    - Zoom to select area
-    - Pinch to zoom (TouchPad)
-    - Click to zoom in, alt + click to zoom out
-    - Ctrl + mouse scroll to zoom in/out
-    - Middle mouse button click to toggle zoom
-    - Zoom in / zoom out / toggle buttons of the controls bar.
-- Pan operations (since version 2.7.0):
-    - Right mouse button drag
-    - Two-finger move to pan (TouchPad)
-    - Mouse scroll
-- Snap to border (since v2.8.0):
-    - Scroll to most bottom/right/top/left, preview will snap to that border. 
-    > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
-
 Auto update:
 
 ![audo update demo](images/auto_update_demo.gif)
@@ -171,17 +174,17 @@ Because the formatter is not reliable enough according to user feedbacks.
 
 This plugin integrates all type diagram snippets. They are splitted into 9 sections:
 
-- `;diagram`: snippets for general diagrams elements.
-- `;activity`: snippets for activity diagrams.
-- `;class`: snippets for class diagrams.
-- `;component`: snippets for component diagrams.
-- `;state`: snippets for state diagrams.
-- `;usecase`: snippets for usecase diagrams.
-- `;sequence`: snippets for sequence diagrams.
-- `;ui`: snippets for salt diagrams.
-- `;egg`: snippets for some funny diagrams, like sudoku, earth.
+- `diagram`: snippets for general diagrams elements.
+- `activity`: snippets for activity diagrams.
+- `class`: snippets for class diagrams.
+- `component`: snippets for component diagrams.
+- `state`: snippets for state diagrams.
+- `usecase`: snippets for usecase diagrams.
+- `sequence`: snippets for sequence diagrams.
+- `ui`: snippets for salt diagrams.
+- `egg`: snippets for some funny diagrams, like sudoku, earth.
 
-For exsample, type `;activity if else condition` or `;acif` (short version) to trigge following snippet:
+For exsample, type `acife` (short version) to trigge following snippet (`activity➤if・else`):
 
 ```plantumlcode
 if (cond1?) then (val1)
@@ -366,12 +369,13 @@ Please post and view issues on [GitHub][issues]
 - Japanese: [Kohei Arao](https://github.com/koara-local)
 - Tranditional Chinese: [Alan Tsai](https://github.com/alantsai)
 - German: [Fabian F.](https://github.com/fur6y)
+- French: [Zepmanbc](https://github.com/Zepmanbc)
 
 ## Donators
 
 Thanks for your encouragements!
 
-    Claus Appel, 三島木​一磨, 富吉​佑季, 黒田悦成, Jared Birdsall
+    Claus Appel, 三島木​一磨, 富吉​佑季, 黒田悦成, Jared Birdsall, Suleyman Cabir Ciplak, Malcolm Learner
 
 -----------------------------------------------------------------------------------------------------------
 

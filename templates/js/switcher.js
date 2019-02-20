@@ -28,6 +28,7 @@ class Switcher {
     moveTo(page) {
         if (page < 1 || page > this.images.length) {
             console.log(`invalid page: target ${page}, range 1 - ${this.images.length}`);
+            if (page < 1) this.moveTo(1); else this.moveTo(this.images.length);
             return;
         }
         if (this.current == page) return;
@@ -39,10 +40,13 @@ class Switcher {
 
         // restore page status
         let status = previewStatus.pageStatus[page];
-        if (status) {
-            zoomer.applyStatus(status);
-        } else {
+        if (
+            !status ||
+            (status.snapLeft && status.snapRight && status.snapTop && status.snapBottom)
+        ) {
             zoomer.reset();
+        } else {
+            zoomer.applyStatus(status);
         }
     }
 }

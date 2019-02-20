@@ -148,6 +148,8 @@ export function processWrapper(process: child_process.ChildProcess, pipeFilePath
                 stdout = new Buffer(pipeFilePath);
             }
             let stderr = Buffer.concat(buffErr, buffErrLen);
+            if (stderr.toString().indexOf('JAVA_TOOL_OPTIONS') >= 0)
+                stderr = new Buffer("");
             resolve([stdout, stderr]);
         });
     });

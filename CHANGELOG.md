@@ -1,5 +1,38 @@
 # VSCode PlantUML Changelog
 
+## 2.10.4
+
+- Improvement: Add French translation & Update some English translation.
+- Improvement: Don't filter out note texts for auto completion, solve [#194](https://github.com/qjebbs/vscode-plantuml/issues/194).
+- Improvement: Language keywords auto completion don't use java if user don't use `Local` render.
+
+## 2.10.3
+
+- Fix: Preview page number may out of range, solve [#184](https://github.com/qjebbs/vscode-plantuml/issues/184).
+- Fix: Cannot use `\` or `\\` in `jar` setting, solve [#170](https://github.com/qjebbs/vscode-plantuml/issues/170).
+
+## 2.10.2
+
+- Improvement: Keep fit to window status between preview updates
+- Improvement: filter out JAVA_TOOL_OPTIONS errors, solve [#19](https://github.com/qjebbs/vscode-plantuml/issues/19).
+- Code optimize for preview inside webview.
+
+## 2.10.1
+
+- Improvement: Many fixes & optimization to auto completion.
+- Improvement: Bypass server render issue of [request/request#2505](https://github.com/request/request/issues/2505) in some environment.
+- Fix: Cannot find module 'languageCompletion'
+- Code optimize
+
+## 2.10.0
+
+- New Feature: Language keywords auto completion support.
+- New Feature: A stupid version, kind of variable auto completion.
+- Improvement: Auto completion now focuses in current diagram, not whole document.
+- Improvement: Snippets optimization. Now the snippets should not bother while typing.
+
+> Plus macro completion & signature contributed by [Ricardo Niepel](https://github.com/RicardoNiepel), works on intellisense will stop here, since the `PlantUML` syntax is too flexible and I'm not able to write a parser.
+
 ## 2.9.10
 
 - Improvement: Preview updates when switch between file histories, fix [#173](https://github.com/qjebbs/vscode-plantuml/issues/173)

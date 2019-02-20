@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { macrosOf, macroCallOf, MacroCallInfo, MacroDefinition } from '../plantuml/macros/macros'
+import { macrosOf, macroCallOf, MacroCallInfo, MacroDefinition } from '../plantuml/intellisense/macros'
 
 export class Signature extends vscode.Disposable implements vscode.SignatureHelpProvider {
     private _disposables: vscode.Disposable[] = [];
@@ -7,7 +7,8 @@ export class Signature extends vscode.Disposable implements vscode.SignatureHelp
     constructor() {
         super(() => this.dispose());
         let sel: vscode.DocumentSelector = [
-            "diagram"
+            { scheme: 'file', language: 'diagram' },
+            { scheme: 'untitled', language: 'diagram' },
         ];
         this._disposables.push(
             vscode.languages.registerSignatureHelpProvider(sel, this, "(", ",")
@@ -27,7 +28,7 @@ export class Signature extends vscode.Disposable implements vscode.SignatureHelp
             return null;
         }
 
-        const macros = macrosOf(document);
+        const macros = macrosOf(document, position);
         var macro = macros.firstOrDefault(m => m.name == macroCallInfo.macroName);
         if (!macro) {
             return null;

@@ -30,16 +30,14 @@ class Config extends ConfigReader {
     }
 
     jar(uri: vscode.Uri): string {
-        let folder = vscode.workspace.getWorkspaceFolder(uri);
+        let folder = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
         let folderPath = folder ? folder.uri.fsPath : "";
         return this._jar[folderPath] || (() => {
-            let jar = this.read<string>('jar', uri, (folderUri: vscode.Uri, value) => {
+            let jar = this.read<string>('jar', uri, (folderUri, value) => {
                 if (!value) return "";
-                const workspaceFolder = folderUri.fsPath;
-                let result = eval('`' + value + '`');
-                if (!path.isAbsolute(result))
-                    result = path.join(workspaceFolder, result);
-                return result;
+                if (!path.isAbsolute(value))
+                    value = path.join(folderUri.fsPath, value);
+                return value;
             });
             let intJar = path.join(extensionPath, "plantuml.jar");
             if (!jar) {
@@ -67,7 +65,7 @@ class Config extends ConfigReader {
     }
 
     diagramsRoot(uri: vscode.Uri): vscode.Uri {
-        let folder = vscode.workspace.getWorkspaceFolder(uri);
+        let folder = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
         if (!folder) return undefined;
         let fsPath = path.join(
             folder.uri.fsPath,
@@ -81,7 +79,7 @@ class Config extends ConfigReader {
     }
 
     exportOutDir(uri: vscode.Uri): vscode.Uri {
-        let folder = vscode.workspace.getWorkspaceFolder(uri);
+        let folder = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
         if (!folder) return undefined;
         let fsPath = path.join(
             folder.uri.fsPath,
@@ -115,7 +113,7 @@ class Config extends ConfigReader {
     }
 
     get server(): string {
-        return this.read<string>('server') || "http://www.plantuml.com/plantuml";
+        return this.read<string>('server') || "https://www.plantuml.com/plantuml";
     }
 
     get serverIndexParameter(): string {
