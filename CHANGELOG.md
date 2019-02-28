@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.10.5
+
+- Improvement: Update French translation.
+- Improvement: Add previewer instruction, solve [#195](https://github.com/qjebbs/vscode-plantuml/issues/195).
+- Fix: A zoom issue in latest version of VSCode.
+
 ## 2.10.4
 
 - Improvement: Add French translation & Update some English translation.

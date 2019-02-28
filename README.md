@@ -41,25 +41,6 @@ Project Folder/
         architecture_overview.png
 ```
 
-## Notice 3
-
-Preview page provides various zoom/pan actions and snap feature:
-
-- Zoom operations (since version 2.7.0): 
-    - Zoom to select area
-    - Pinch to zoom (TouchPad)
-    - Click to zoom in, alt + click to zoom out
-    - Ctrl + mouse scroll to zoom in/out
-    - Middle mouse button click to toggle zoom
-    - Zoom in / zoom out / toggle buttons of the controls bar.
-- Pan operations (since version 2.7.0):
-    - Right mouse button drag
-    - Two-finger move to pan (TouchPad)
-    - Mouse scroll
-- Snap to border (since v2.8.0):
-    - Scroll to most bottom/right/top/left, preview will snap to that border. 
-    > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
-
 ## Features
 
 > Get **15X times faster export** by utilizing PlantUML Server as render. [How to?](#about-render)
@@ -134,6 +115,25 @@ choco install plantuml
 ```
 
 ## Preview Demos
+
+
+Preview page provides various zoom/pan actions and snap feature:
+
+- Zoom operations (since version 2.7.0): 
+    - Zoom to select area
+    - Pinch to zoom (TouchPad)
+    - Click to zoom in, alt + click to zoom out
+    - Ctrl + mouse scroll to zoom in/out
+    - Middle mouse button click to toggle zoom
+    - Zoom in / zoom out / toggle buttons of the controls bar.
+- Pan operations (since version 2.7.0):
+    - Right mouse button drag
+    - Two-finger move to pan (TouchPad)
+    - Mouse scroll
+- Snap to border (since v2.8.0):
+    - Scroll to most bottom/right/top/left, preview will snap to that border. 
+    > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
+
 
 Auto update:
 
@@ -369,7 +369,7 @@ Please post and view issues on [GitHub][issues]
 - Japanese: [Kohei Arao](https://github.com/koara-local)
 - Tranditional Chinese: [Alan Tsai](https://github.com/alantsai)
 - German: [Fabian F.](https://github.com/fur6y)
-- French: [Zepmanbc](https://github.com/Zepmanbc)
+- French: [Zepmanbc](https://github.com/Zepmanbc), [FlorianKempenich](https://github.com/FlorianKempenich)
 
 ## Donators
 
