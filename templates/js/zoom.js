@@ -248,8 +248,8 @@ class Zoom {
         return {
             x: x,
             y: y,
-            imageX: (x + window.scrollX - this.img.x) / this.img.clientWidth,
-            imageY: (y + window.scrollY - this.img.y) / this.img.clientHeight,
+            imageX: (x + window.scrollX - (this.img.x < 0 ? 0 : this.img.x)) / this.img.clientWidth,
+            imageY: (y + window.scrollY - (this.img.y < 0 ? 0 : this.img.y)) / this.img.clientHeight,
         }
     }
     getWindowCenterMousePointer() {
