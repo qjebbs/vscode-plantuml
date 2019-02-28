@@ -81,6 +81,7 @@ window.addEventListener("load", () => {
         document.getElementById("ctrl-container").remove();
         document.getElementById("image-container").remove();
     }
+    initializeHelpModal()
 });
 window.addEventListener(
     "resize",

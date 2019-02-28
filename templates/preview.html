@@ -9,16 +9,21 @@
     <script src="js/cursor.js"></script>
     <script src="js/selectionZoom.js"></script>
     <script src="js/clickEvent.js"></script>
+    <script src="js/modal.js"></script>
     <script src="js/tip.js"></script>
 </head>
 
 <body>
     <div id="snap-indicator-container">
         <p>
-            <i class="material-icons snap-indicator snap-indicator-top" title="${snapTopTitle}" style="transform:rotate(180deg);">vertical_align_bottom</i>
-            <i class="material-icons snap-indicator snap-indicator-left" title="${snapLeftTitle}" style="transform:rotate(90deg);">vertical_align_bottom</i>
-            <i class="material-icons snap-indicator snap-indicator-bottom" title="${snapBottomTitle}">vertical_align_bottom</i>
-            <i class="material-icons snap-indicator snap-indicator-right" title="${snapRightTitle}" style="transform:rotate(-90deg);">vertical_align_bottom</i>
+            <i class="material-icons snap-indicator snap-indicator-top" title="${snapTopTitle}"
+                style="transform:rotate(180deg);">vertical_align_bottom</i>
+            <i class="material-icons snap-indicator snap-indicator-left" title="${snapLeftTitle}"
+                style="transform:rotate(90deg);">vertical_align_bottom</i>
+            <i class="material-icons snap-indicator snap-indicator-bottom"
+                title="${snapBottomTitle}">vertical_align_bottom</i>
+            <i class="material-icons snap-indicator snap-indicator-right" title="${snapRightTitle}"
+                style="transform:rotate(-90deg);">vertical_align_bottom</i>
         </p>
     </div>
     <div id="tip-container" class="fixed-center">
@@ -51,6 +56,9 @@
             <button class="btn" id="btnZoomIn">
                 <i class="material-icons">zoom_in</i>
             </button>
+            <button class="btn" id="btnHelp">
+                <i class="material-icons">help</i>
+            </button>
             <div id="page-ctrls">
                 <button class="btn" id="btnPrev">
                     <i class="material-icons">skip_previous</i>
@@ -67,6 +75,34 @@
         <div id="errmsg">
             <p id="errtxt">${error}</p>
             <img id="image-error" src="${imageError}" style="max-width: 100%;">
+        </div>
+    </div>
+    <div id="modal-help" class="modal">
+        <div class="modal-content">
+            <span class="close material-icons">close</span>
+            <h2>Previewer Operations</h2>
+            <p>Zoom:
+                <ul>
+                    <li>Zoom to select area</li>
+                    <li>Pinch to zoom (TouchPad)</li>
+                    <li>Click to zoom in, alt + click to zoom out</li>
+                    <li>Ctrl + mouse scroll to zoom in/out</li>
+                    <li>Middle mouse button click to toggle zoom</li>
+                    <li>Zoom in / zoom out / toggle buttons of the controls bar.</li>
+                </ul>
+            </p>
+            <p>Pan:
+                <ul>
+                    <li>Right mouse button drag</li>
+                    <li>Two-finger move to pan (TouchPad)</li>
+                    <li>Mouse scroll</li>
+                </ul>
+            </p>
+            <p>Snap to border:
+                <ul>
+                    <li>Scroll to most bottom/right/top/left, preview will snap to that border.</li>
+                </ul>
+            </p>
         </div>
     </div>
     <div style="display:none;">
