@@ -1,25 +1,26 @@
 function addCursorManager() {
-    document.getElementById('image-container').addEventListener("mousedown", e => {
+    let imgContainer= document.getElementById('image-container')
+    imgContainer.addEventListener("mousedown", e => {
         // console.log(e);
         if (e.button == 2) document.body.style.cursor = "move";
     });
-    document.body.addEventListener("mousemove", e => {
+    imgContainer.addEventListener("mousemove", e => {
         // console.log(e);
         if (e.button == 2) return;
         if (e.buttons == 0) {
             if (e.altKey)
-                document.body.style.cursor = "zoom-out";
+                imgContainer.style.cursor = "zoom-out";
             else
-                document.body.style.cursor = "zoom-in";
+                imgContainer.style.cursor = "zoom-in";
         }
     });
-    document.body.addEventListener("mouseup", e => {
+    imgContainer.addEventListener("mouseup", e => {
         // console.log(e);
         if (e.button == 2) {
             if (e.altKey)
-                document.body.style.cursor = "zoom-out";
+                imgContainer.style.cursor = "zoom-out";
             else
-                document.body.style.cursor = "zoom-in";
+                imgContainer.style.cursor = "zoom-in";
         }
     });
 };
