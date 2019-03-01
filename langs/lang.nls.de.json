@@ -37,5 +37,19 @@
 	"Snapped to Bottom:\n\nScroll to most bottom after preview updates",
 	"Snapped to Right:\n\nScroll to most right after preview updates",
 	"Snapped to Top:\n\nScroll to most top after preview updates",
-	"Snapped to Left:\n\nScroll to most left after preview updates"
+	"Snapped to Left:\n\nScroll to most left after preview updates",
+	"Previewer Operations",
+	"Zoom",
+	"Zoom to select area",
+	"Pinch to zoom (TouchPad)",
+	"Click to zoom in, Alt + click to zoom out",
+	"Ctrl + mouse scroll to zoom in/out",
+	"Middle mouse button click to toggle zoom",
+	"Zoom in / zoom out / toggle buttons of the controls bar",
+	"Pan",
+	"Right mouse button drag",
+	"Two-finger move to pan (TouchPad)",
+	"Mouse scroll",
+	"Snap to border",
+	"Scroll to most bottom/right/top/left, preview will snap to that border"
 ]

@@ -37,5 +37,19 @@
 	"Épinglé en Bas:\n\nAprès mise à jour de l'image de prévisualisation, la partie basse du diagramme restera toujours visible",
 	"Épinglé à Droite:\n\nAprès mise à jour de l'image de prévisualisation, la partie droite du diagramme restera toujours visible",
 	"Épinglé en Haut:\n\nAprès mise a jour de l'image de prévisualisation, la partie haute du diagramme restera toujours visible",
-	"Épinglé à Gauche:\n\nAprès mise à jour de l'image de prévisualisation, la partie gauche du diagramme restera toujours visible"
+	"Épinglé à Gauche:\n\nAprès mise à jour de l'image de prévisualisation, la partie gauche du diagramme restera toujours visible",
+	"Previewer Operations",
+	"Zoom",
+	"Zoom to select area",
+	"Pinch to zoom (TouchPad)",
+	"Click to zoom in, Alt + click to zoom out",
+	"Ctrl + mouse scroll to zoom in/out",
+	"Middle mouse button click to toggle zoom",
+	"Zoom in / zoom out / toggle buttons of the controls bar",
+	"Pan",
+	"Right mouse button drag",
+	"Two-finger move to pan (TouchPad)",
+	"Mouse scroll",
+	"Snap to border",
+	"Scroll to most bottom/right/top/left, preview will snap to that border"
 ]

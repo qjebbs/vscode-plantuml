@@ -134,7 +134,7 @@ export class UI extends vscode.Disposable {
         return this.evalHtml(fs.readFileSync(file).toString(), env);
     }
     private evalHtml(html: string, env: any): string {
-        let envReg = /\$\{(\w+)\}/ig;
+        let envReg = /\$\{(.+?)\}/ig;
         html = html.replace(envReg, '${env.$1}');
         let result: string = eval('`' + html + '`');
         // convert relative "src", "href" paths to absolute

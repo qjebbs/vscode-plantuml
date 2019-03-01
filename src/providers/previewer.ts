@@ -52,6 +52,7 @@ class Previewer extends vscode.Disposable {
 
     updateWebView(): string {
         let env = {
+            localize: localize,
             images: this.images.reduce((p, c) => {
                 return `${p}<img src="${c}">`
             }, ""),
@@ -59,13 +60,7 @@ class Previewer extends vscode.Disposable {
             error: "",
             status: this.previewPageStatus,
             // nonce: Math.random().toString(36).substr(2),
-            pageInfo: localize(20, null),
             icon: "file:///" + path.join(extensionPath, "images", "icon.png"),
-            processingTip: localize(9, null),
-            snapBottomTitle: localize(35, null),
-            snapRightTitle: localize(36, null),
-            snapTopTitle: localize(37, null),
-            snapLeftTitle: localize(38, null),
             settings: JSON.stringify({
                 zoomUpperLimit: this.zoomUpperLimit,
                 showSpinner: this.status === previewStatus.processing,
