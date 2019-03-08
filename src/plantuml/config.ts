@@ -116,10 +116,6 @@ class Config extends ConfigReader {
         return this.read<string>('server') || "https://www.plantuml.com/plantuml";
     }
 
-    get serverIndexParameter(): string {
-        return this.read<string>('serverIndexParameter');
-    }
-
     get urlFormat(): string {
         return this.read<string>('urlFormat');
     }

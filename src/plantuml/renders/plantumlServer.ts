@@ -45,10 +45,7 @@ class PlantumlServer implements IRender {
     render(diagram: Diagram, format: string, savePath: string): RenderTask {
         let allPms = [...Array(diagram.pageCount).keys()].map(
             (index) => {
-                let requestUrl = this.makeURL(diagram, format);
-                if (config.serverIndexParameter) {
-                    requestUrl += "?" + config.serverIndexParameter + "=" + index;
-                }
+                let requestUrl = this.makeURL(diagram, format, index);
                 let savePath2 = savePath ? addFileIndex(savePath, index, diagram.pageCount) : "";
                 return this.httpWrapper(requestUrl, savePath2).then(
                     result => new Promise<Buffer>(
@@ -131,8 +128,8 @@ class PlantumlServer implements IRender {
      * @param format url format
      * @return string of URL
      */
-    makeURL(diagram: Diagram, format: string): string {
-        return [config.server.replace(/^\/|\/$/g, ""), format, this.urlTextFrom(diagram.content)].join("/");
+    makeURL(diagram: Diagram, format: string, index: number): string {
+        return [config.server.replace(/^\/|\/$/g, ""), format, index, this.urlTextFrom(diagram.content)].join("/");
     }
     private urlTextFrom(s: string): string {
         let opt: zlib.ZlibOptions = { level: 9 };

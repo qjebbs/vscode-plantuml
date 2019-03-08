@@ -12,10 +12,7 @@ export function renderHtml(tokens: markdowIt.Token[], idx: number) {
     // Ditaa only supports png
     let format = diagram.type == DiagramType.Ditaa ? "png" : "svg";
     return [...Array(diagram.pageCount).keys()].reduce((p, index) => {
-        let requestUrl = plantumlServer.makeURL(diagram, format);
-        if (config.serverIndexParameter) {
-            requestUrl += "?" + config.serverIndexParameter + "=" + index;
-        }
+        let requestUrl = plantumlServer.makeURL(diagram, format, index);
         p += `\n<img id="image" src="${requestUrl}">`;
         return p;
     }, "");

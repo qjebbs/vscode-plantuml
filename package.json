@@ -281,11 +281,6 @@
           "default": "https://www.plantuml.com/plantuml",
           "description": "%plantuml.configuration.server%"
         },
-        "plantuml.serverIndexParameter": {
-          "type": "string",
-          "default": "",
-          "description": "Optional index parameter name for multipage diagrams. (e.g. uri?idx=${n})"
-        },
         "plantuml.urlFormat": {
           "type": "string",
           "default": "",
