@@ -215,7 +215,7 @@ Local: 6 documents, 9 digrams, 14 files exported in 24.149 seconds
 PlantUMLServer: 6 documents, 9 digrams, 14 files exported in 1.564 seconds
 ```
 
-## Advantages and disadvantages of PlantUMLServer render
+## Advantages and Disadvantages of PlantUMLServer Render
 
 Advantages:
 
@@ -230,7 +230,7 @@ Disadvantages:
 - Less format support: png, svg, txt.
 - Some settings are not applicable: `plantuml.jar`, `plantuml.commandArgs`, `plantuml.jarArgs`.
 
-## Use PlantUML Server as render
+## Use PlantUML Server as Render
 
 - You may already have a PlantUML server in your team, find the server address, like: `http://192.168.1.100:8080/plantuml`.
 

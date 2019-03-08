@@ -1,5 +1,14 @@
 # VSCode PlantUML Changelog
 
+## 2.10.6
+
+- Improvement: Generate urls now output all urls of a multi-page diagram.
+- Improvement: Server render supports multi-page diagrams. Thanks to [Ulf Seltmann](https://github.com/plantuml/plantuml-server/issues/7#issuecomment-470509662).
+- Improvement: Previewer cursor optimize.
+- Improvement: Previewer instruction localizable.
+
+> `plantuml.urlServerIndexParameter` has been removed.
+
 ## 2.10.5
 
 - Improvement: Update French translation.
