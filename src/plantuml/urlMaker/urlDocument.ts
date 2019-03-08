@@ -7,9 +7,9 @@ import { config } from '../config';
 import { outputPanel, localize, bar } from '../common';
 import { plantumlServer } from '../renders/plantumlServer';
 
-interface pURL {
+interface DiagramURL {
     name: string;
-    url: string;
+    urls: string[];
 }
 
 export async function makeDocumentURL(all: boolean) {
@@ -40,32 +40,37 @@ export async function makeDocumentURL(all: boolean) {
         diagrams.push(dg);
         editor.selections = [new vscode.Selection(dg.start, dg.end)];
     }
-    let urls = makeURLs(diagrams, config.server, format, bar)
+    let results = makeURLs(diagrams, format, bar)
     bar.hide();
 
     outputPanel.clear();
-    urls.map(url => {
-        outputPanel.appendLine(url.name);
+    results.map(result => {
+        outputPanel.appendLine(result.name);
         if (config.urlResult == "MarkDown") {
-            outputPanel.appendLine(`\n![${url.name}](${url.url} "${url.name}")`);
+            result.urls.forEach(url => {
+                outputPanel.appendLine(`\n![${result.name}](${url} "${result.name}")`);
+            });
         } else {
-            outputPanel.appendLine(url.url);
+            result.urls.forEach(url => {
+                outputPanel.appendLine(url);
+            });
         }
         outputPanel.appendLine("");
     });
     outputPanel.show();
-
-    return urls;
 }
-function makeURLs(diagrams: Diagram[], server: string, format: string, bar: vscode.StatusBarItem): pURL[] {
-    return diagrams.map<pURL>((diagram: Diagram) => {
-        return makeURL(diagram, server, format, bar);
+function makeURLs(diagrams: Diagram[], format: string, bar: vscode.StatusBarItem): DiagramURL[] {
+    return diagrams.map<DiagramURL>((diagram: Diagram) => {
+        return makeURL(diagram, format, bar);
     })
 }
-function makeURL(diagram: Diagram, server: string, format: string, bar: vscode.StatusBarItem): pURL {
+function makeURL(diagram: Diagram, format: string, bar: vscode.StatusBarItem): DiagramURL {
     if (bar) {
         bar.show();
         bar.text = localize(16, null, diagram.title);
     }
-    return <pURL>{ name: diagram.title, url: plantumlServer.makeURL(diagram, format) };
+    return <DiagramURL>{
+        name: diagram.title,
+        urls: [...Array(diagram.pageCount).keys()].map(index => plantumlServer.makeURL(diagram, format, index))
+    }
 }
