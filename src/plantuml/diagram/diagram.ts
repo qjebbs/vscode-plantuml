@@ -28,6 +28,8 @@ export class Diagram {
         this.content = content;
         this.lines = content.replace(/\r/g, "").split('\n');
         this.type = getType(this);
+        this.getPageCount();
+        this.getTitle();
         if (para && para.length == 3) {
             this.document = para[0];
             this.start = para[1];
@@ -39,9 +41,7 @@ export class Diagram {
             if (i >= 0) this.fileName = this.fileName.substr(0, i);
             this.dir = path.dirname(this.path);
             if (!path.isAbsolute(this.dir)) this.dir = "";
-            this.getPageCount();
             this.getIndex();
-            this.getTitle();
         }
     }
     isEqual(d: Diagram): boolean {
@@ -83,7 +83,7 @@ export class Diagram {
             else
                 this.title = this.fileName;
         } else {
-            this.title = "Untitled";
+            this.title = "";
         }
     }
     private getIndex() {

@@ -1,16 +1,11 @@
 import * as vscode from 'vscode';
-import * as nls from "vscode-nls";
 
 import { Diagram } from '../diagram/diagram';
 import { diagramsOf, currentDiagram } from '../diagram/tools';
 import { config } from '../config';
 import { outputPanel, localize, bar } from '../common';
 import { plantumlServer } from '../renders/plantumlServer';
-
-interface DiagramURL {
-    name: string;
-    urls: string[];
-}
+import { MakeDiagramsURL } from './urlMaker';
 
 export async function makeDocumentURL(all: boolean) {
     let editor = vscode.window.activeTextEditor;
@@ -40,7 +35,7 @@ export async function makeDocumentURL(all: boolean) {
         diagrams.push(dg);
         editor.selections = [new vscode.Selection(dg.start, dg.end)];
     }
-    let results = makeURLs(diagrams, format, bar)
+    let results = MakeDiagramsURL(diagrams, format, bar)
     bar.hide();
 
     outputPanel.clear();
@@ -58,19 +53,4 @@ export async function makeDocumentURL(all: boolean) {
         outputPanel.appendLine("");
     });
     outputPanel.show();
-}
-function makeURLs(diagrams: Diagram[], format: string, bar: vscode.StatusBarItem): DiagramURL[] {
-    return diagrams.map<DiagramURL>((diagram: Diagram) => {
-        return makeURL(diagram, format, bar);
-    })
-}
-function makeURL(diagram: Diagram, format: string, bar: vscode.StatusBarItem): DiagramURL {
-    if (bar) {
-        bar.show();
-        bar.text = localize(16, null, diagram.title);
-    }
-    return <DiagramURL>{
-        name: diagram.title,
-        urls: [...Array(diagram.pageCount).keys()].map(index => plantumlServer.makeURL(diagram, format, index))
-    }
 }
