@@ -28,6 +28,7 @@ function getLanguageWords(): Promise<LanguageWord[]> {
         let params = [
             '-Djava.awt.headless=true',
             '-jar',
+            // FIXME: this would cause false alarm of invalid jar, if user has jar setting in workspace.
             config.jar(null),
             "-language",
         ];
@@ -83,7 +84,7 @@ function processWords(value: string): LanguageWord[] {
 export async function LanguageCompletionItems(): Promise<vscode.CompletionItem[]> {
     if (cachedItems !== undefined)
         return Promise.resolve(cachedItems);
-    let words = await getLanguageWords();
+    let words = processWords(preDefinedWords);
     cachedItems = words.map(word => {
 
         const item = new vscode.CompletionItem(word.label, word.kind);
