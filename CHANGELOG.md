@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.10.7
+
+- Fix: False alert of invalid jar when user configure relative jar path in workspace settings.
+- Improvement: Auto completion now doesn't get language keywords from plantuml.jar. 
+
 ## 2.10.6
 
 - Improvement: Generate urls now output all urls of a multi-page diagram.
