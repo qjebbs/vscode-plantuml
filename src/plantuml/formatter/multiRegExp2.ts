@@ -1,3 +1,5 @@
+import { UnmatchedText } from "./matchPositions";
+
 /**
  * Created by velten on 11.02.17.
  * Fix parsing issues by jebbs
@@ -21,9 +23,23 @@ export class MultiRegExp2 {
     public get regExp(): RegExp {
         return this.regexp;
     }
-    exec(string: string): MultiRegExp2Match[] {
-        let matches = RegExp.prototype.exec.call(this.regexp, string);
-        if (!matches) return matches;
+    exec(text: UnmatchedText): MultiRegExp2Match[]
+    exec(text: string): MultiRegExp2Match[]
+    exec(para): MultiRegExp2Match[] {
+        let text = "", offset = 0, original = ""
+        if (para.offset !== undefined && para.text !== undefined) {
+            text = para.text
+            offset = para.offset
+            original = para.original
+        } else {
+            text = para
+            original = text
+        }
+        // for those substr matching, if the REG claims "^", it must both match the substr and the fullstr
+        if (offset > 0 && this.regExp.source.startsWith("^") && !this.regExp.test(original))
+            return undefined;
+        let matches = RegExp.prototype.exec.call(this.regexp, text);
+        if (!matches) return undefined;
         let firstIndex = matches.index;
         let indexMapper = Object.assign({ 0: 0 }, this.groupIndexMapper);
         let previousGroups = Object.assign({ 0: [] }, this.previousGroupsForGroup);

@@ -153,14 +153,14 @@ export class Analyst {
                 let hasEnd = false;
                 if (stopRule) {
                     stopRule.end.regExp.lastIndex = 0;
-                    if (matches = stopRule.end.exec(u.text)) {
+                    if (matches = stopRule.end.exec(u)) {
                         // console.log("stop:", rule.comment, "by:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
                         shouldEndAt = matches[0].start;
                         hasEnd = true;
                     }
                 }
                 rule.match.regExp.lastIndex = 0;
-                while (matches = rule.match.exec(u.text)) {
+                while (matches = rule.match.exec(u)) {
                     //in-block match should not reach the end sign, or it's a invalid match
                     if (matches[0].end < shouldEndAt) {
                         // console.log("TEST", u.text, "MATCH", matches[0].match, "WITH", rule.match.regExp.source);
@@ -191,7 +191,7 @@ export class Analyst {
                 let endMatch = "";
                 if (stopRule) {
                     stopRule.end.regExp.lastIndex = 0;
-                    if (matches = stopRule.end.exec(u.text)) {
+                    if (matches = stopRule.end.exec(u)) {
                         // console.log("stop:", rule.comment, "by:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
                         shouldEndAt = matches[0].start;
                         hasEnd = true;
@@ -200,7 +200,7 @@ export class Analyst {
                 }
 
                 //find begin
-                if (matches = rule.begin.exec(u.text)) {
+                if (matches = rule.begin.exec(u)) {
                     //in-block match should not reach the end sign, or it's a invalid match
                     if (matches[0].end < shouldEndAt) {
                         hasFindBegin = true;
@@ -224,7 +224,7 @@ export class Analyst {
 
                 //find again
                 if (rule.comment === this._blockLevel[this._blockLevel.length - 1] && !beginAt && rule.again) {
-                    if (matches = rule.again.exec(u.text)) {
+                    if (matches = rule.again.exec(u)) {
                         this.markElement(line, matches, rule.beginCaptures, u.offset);
                         this.markBlockElement(line, rule, BlockElementType.blockAgain, this._blockLevel, blockIndex, matches, u.offset);
                         // console.log("FIND AGAIN", "OF LEVEL", this._blockLevel, "INDEX", blockIndex, "BY", matches[0].capture, "AT", i, matches[0].start + u.offset)
@@ -244,7 +244,7 @@ export class Analyst {
                 if (start && start.line == i && start.position > u.offset + u.text.length - 1) continue;
                 // console.log("test rule", u.text, "with", rule.comment);
                 let matches: MultiRegExp2Match[] = [];
-                if (matches = rule.end.exec(u.text)) {
+                if (matches = rule.end.exec(u)) {
                     this.markElement(line, matches, rule.endCaptures, u.offset);
                     this.markBlockElement(line, rule, BlockElementType.blockEnd, this._blockLevel, blockIndex, matches, u.offset);
                     // console.log("Find end:", matches[0].match, "at", i, ":", matches[0].start + u.offset - 1);
