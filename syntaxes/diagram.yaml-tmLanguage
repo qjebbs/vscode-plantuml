@@ -8,11 +8,11 @@ uuid: ca03e751-04ef-4330-9a6b-2199aae1c418
 patterns:
 - comment: diagram block
   name: diagram.source.wsd
-  begin: (?i)^\s*(@start(uml|salt))((\s+)(.+?))?\s*$
+  begin: (?i)^\s*(@start[a-z]+)((\s+)(.+?))?\s*$
   beginCaptures:
     '1': {name: keyword.control.diagram.source.wsd}
     '5': {name: entity.name.function.diagram.source.wsd}
-  end: (?i)^\s*(@end(uml|salt))\s*$
+  end: (?i)^\s*(@end[a-z]+)\s*$
   endCaptures:
     '1': {name: keyword.control.diagram.source.wsd}
   patterns:
