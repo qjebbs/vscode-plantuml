@@ -34,7 +34,7 @@ var saveStatus = throttle(() => {
         let winWidth = window.innerWidth;
         let minWidth = winWidth < img.naturalWidth ? winWidth : img.naturalWidth;
         let minZoom = minWidth / img.naturalWidth * 100;
-        if (zoomer.status.zoom < minZoom + 0.1)
+        if (zoomer.status.zoom < minZoom + 0.1 && !zoomer.status.x && !zoomer.status.y)
             previewStatus.pageStatus[switcher.current] = undefined;
         else
             previewStatus.pageStatus[switcher.current] = zoomer.status;
