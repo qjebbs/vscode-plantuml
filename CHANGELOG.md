@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.10.8
+
+- Update integrated jar to `v1.2019.3`, to support [Mindmap Diagram](http://plantuml.com/mindmap-diagram)
+- Fix: Preview postion reset when minimal zoom, solve [#207](https://github.com/qjebbs/vscode-plantuml/issues/207).
+- Fix: `elseif` format, solve [#204](https://github.com/qjebbs/vscode-plantuml/issues/204).
+
 ## 2.10.7
 
 - Fix: False alert of invalid jar when user configure relative jar path in workspace settings.
