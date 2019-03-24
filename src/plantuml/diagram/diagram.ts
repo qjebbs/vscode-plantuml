@@ -28,8 +28,6 @@ export class Diagram {
         this.content = content;
         this.lines = content.replace(/\r/g, "").split('\n');
         this.type = getType(this);
-        this.getPageCount();
-        this.getTitle();
         if (para && para.length == 3) {
             this.document = para[0];
             this.start = para[1];
@@ -43,6 +41,8 @@ export class Diagram {
             if (!path.isAbsolute(this.dir)) this.dir = "";
             this.getIndex();
         }
+        this.getPageCount();
+        this.getTitle();
     }
     isEqual(d: Diagram): boolean {
         if (this.parentUri.scheme !== d.parentUri.scheme) return false;
