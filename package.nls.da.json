@@ -24,6 +24,6 @@
 	"plantuml.configuration.commandArgs": "Tillader argumenter til java-kommando, som for eksempel \"-DPLANTUML_LIMIT_SIZE=8192\".",
 	"plantuml.configuration.jarArgs": "Tillader argumenter til plantuml.jar, for eksempel \"-config plantuml.config\".",
 	"plantuml.configuration.exportMapFile": "Bestemmer eksportering af billede-map (.cmapx) fil.",
-	"plantuml.configuration.java": "Sti til eksekvérbar Java-program.",
+	"plantuml.configuration.java": "Sti til eksekverbar Java-program.",
 	"plantuml.configuration.includeSearch": "Specificerer rodmappen til at søge i for inkluderede filer.\nDiagramsRoot: brug 'diagramsRoot', inkluderende sti er konsistent for all filer i Workspace.\nSourceFileDir: Mappen med kildefil, inkluderende sti kan skifte mellem filer."
 }
