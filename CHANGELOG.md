@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.10.9
+
+- Fix: include searching for chain include, solve [#209](https://github.com/qjebbs/vscode-plantuml/issues/209).
+
 ## 2.10.8
 
 - Update integrated jar to `v1.2019.3`, to support [Mindmap Diagram](http://plantuml.com/mindmap-diagram)
