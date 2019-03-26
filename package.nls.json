@@ -19,7 +19,7 @@
 	"plantuml.configuration.server": "Plantuml server to generate UML diagrams on-the-fly.",
 	"plantuml.configuration.urlFormat": "URL format. Leave it blank to pick format everytime you make a URL.",
 	"plantuml.configuration.urlResult": "URL result type. Simple URL or ready for MarkDown use.",
-	"plantuml.configuration.render": "Select diagram render for both export and preview.\nLocal: Render digrams locally in traditional way. You need to set up JAVA and GraphViz first.\nPlantUMLServer: Render diagrams by server which is specified with \"plantuml.server\". It's much faster, but requires a server.\nLocal is the default configuration.",
+	"plantuml.configuration.render": "Select diagram render for both export and preview.\nLocal: Render diagrams locally in traditional way. You need to set up JAVA and GraphViz first.\nPlantUMLServer: Render diagrams by server which is specified with \"plantuml.server\". It's much faster, but requires a server.\nLocal is the default configuration.",
 	"plantuml.configuration.includes": "Files or folders to include before preview/export diagrams. You don't have to write \"!include path/to/include.wsd\" for every single diagram any more.",
 	"plantuml.configuration.commandArgs": "commandArgs allows you add arguments to java command, such as \"-DPLANTUML_LIMIT_SIZE=8192\".",
 	"plantuml.configuration.jarArgs": "jarArgs allows you add arguments to plantuml.jar, such as \"-config plantuml.config\".",
