@@ -84,7 +84,11 @@ class LocalRender implements IRender {
                 if (config.includeSearch(diagram.parentUri) === IncludeSearchType.DiagramsRoot) {
                     let diagramsRoot = config.diagramsRoot(diagram.parentUri);
                     // if the file was in a workspace, cwd is diagramsRoot
-                    if (diagramsRoot) cwd = diagramsRoot.fsPath;
+                    if (diagramsRoot) {
+                        cwd = diagramsRoot.fsPath;
+                        // fix include search for chain include, solve #209
+                        params.unshift('-Dplantuml.include.path=' + cwd);
+                    }
                 }
                 // Java args
                 // needed by !include search
