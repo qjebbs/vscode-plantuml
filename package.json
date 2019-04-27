@@ -17,6 +17,15 @@
     "type": "git",
     "url": "https://github.com/GuillaumeIsabelleX/gix-plantuml"
   },
+  "scripts": {
+    "pre-release-patch": "npm version patch ; git commit package.json -m \"version published\" ; git push",
+    "publish": "npm run pre-release-patch && vsce publish",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "build": "node ./build.js"
+  },
   "categories": [
     "Programming Languages",
     "Formatters",
@@ -344,15 +353,6 @@
         ","
       ]
     }
-  },
-  "scripts": {
-    "pre-release-patch": "npm version patch ; git commit package.json -m \"version published\" ; git push",
-    "publish": "npm run pre-release-patch && vsce publish",
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "build": "node ./build.js"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.32",
