@@ -1,0 +1,39 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:10
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+
+    steps:
+      #- checkout
+#https://github.com/GuillaumeIsabelleX/
+      - run: git clone https://${GITHUB_TOKEN}@github.com/GuillaumeIsabelleX/gix-plantuml.git .
+      #GITHUB_TOKEN
+
+     # Install VSCE 
+      - run: yarn add vsce  
+
+        # GIT User setup so we can publish the Doc
+      - run: git config --global user.email "jgi@jgwill.com" && git config --global user.name "Guillaume Isabelle"
+
+
+      - run: yarn install
+
+     
+      # run tests!
+      #@issue It restart Building in loop so versionning will have to be done before pushing new release code
+#      - run: yarn pre-release-patch && yarn vscode:prepublish && ./node_modules/.bin/vsce publish -p "${VS_TOKEN}"
+      - run: yarn vscode:prepublish && ./node_modules/.bin/vsce publish -p "${VS_TOKEN}"
+
