@@ -1,7 +1,16 @@
-# PlantUML README
+# GIX PlantUML README
 
-Rich PlantUML support for Visual Studio Code.
+GIX Rich PlantUML support for Visual Studio Code.
 
+# Intentions
+* Provide PlantUML GIX Support for VSCode.  For now, just have a set up of that extension forked and published.  Later will see :)
+
+
+  
+
+
+---
+## Forks Thanks to Author:  qjebbs
 [Donate by Paypal](https://paypal.me/qjebbs "If you like this plugin, you can buy me a coffee. Feel free if you don't want to, since it's free!")
 |
 [Donate by AliPay](https://github.com/qjebbs/vscode-plantuml/blob/master/images/alipay.png?raw=true)
