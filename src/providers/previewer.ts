@@ -138,7 +138,7 @@ class Previewer extends vscode.Disposable {
         let diagram = currentDiagram();
         if (!diagram) {
             this.status = previewStatus.error;
-            this.error = localize(3, null);
+            this.error = localize('3', null);
             this.images = [];
             this.updateWebView();
             return;
@@ -208,7 +208,7 @@ class Previewer extends vscode.Disposable {
 
         this._uiPreview = new UI(
             "plantuml.preview",
-            localize(17, null),
+            localize('17', null),
             path.join(extensionPath, "templates"),
         );
         this._disposables.push(this._uiPreview);

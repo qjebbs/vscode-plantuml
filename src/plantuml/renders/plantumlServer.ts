@@ -56,7 +56,7 @@ class PlantumlServer implements IRender {
                                 let err = stderr.plantumlError ?
                                     this.parsePlantumlError(stderr.plantumlError, diagram) :
                                     stderr.message
-                                err = localize(10, null, diagram.title, err);
+                                err = localize('10', null, diagram.title, err);
                                 reject(err);
                             } else {
                                 resolve(stdout)

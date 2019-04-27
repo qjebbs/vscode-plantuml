@@ -44,7 +44,7 @@ class Config extends ConfigReader {
                 jar = intJar;
             } else {
                 if (!fs.existsSync(jar)) {
-                    vscode.window.showWarningMessage(localize(19, null));
+                    vscode.window.showWarningMessage(localize('19', null));
                     jar = intJar;
                 }
             }
@@ -59,7 +59,7 @@ class Config extends ConfigReader {
         if (exts.indexOf(",") > 0) exts = `{${exts}}`;
         //REG: .* | .wsd | {.wsd,.java}
         if (!exts.match(/^(.\*|\.\w+|\{\.\w+(,\.\w+)*\})$/)) {
-            throw new Error(localize(18, null, extReaded));
+            throw new Error(localize('18', null, extReaded));
         }
         return exts;
     }

@@ -14,11 +14,11 @@ export async function exportDocument(all: boolean) {
     stopWatch.start();
     let editor = vscode.window.activeTextEditor;
     if (!editor) {
-        vscode.window.showInformationMessage(localize(0, null));
+        vscode.window.showInformationMessage(localize('0', null));
         return;
     }
     if (!path.isAbsolute(editor.document.fileName)) {
-        vscode.window.showInformationMessage(localize(1, null));
+        vscode.window.showInformationMessage(localize('1', null));
         return;
     };
     let format = config.exportFormat(editor.document.uri);
@@ -30,13 +30,13 @@ export async function exportDocument(all: boolean) {
     if (all) {
         diagrams = diagramsOf(editor.document);
         if (!diagrams.length) {
-            vscode.window.showInformationMessage(localize(2, null));
+            vscode.window.showInformationMessage(localize('2', null));
             return;
         }
     } else {
         let dg = currentDiagram();
         if (!dg) {
-            vscode.window.showInformationMessage(localize(3, null));
+            vscode.window.showInformationMessage(localize('3', null));
             return;
         }
         diagrams.push(dg);
@@ -47,8 +47,8 @@ export async function exportDocument(all: boolean) {
             stopWatch.stop();
             bar.hide();
             if (!results.length) return;
-            let viewReport = localize(26, null);
-            let btn = await vscode.window.showInformationMessage(localize(4, null), viewReport);
+            let viewReport = localize('26', null);
+            let btn = await vscode.window.showInformationMessage(localize('4', null), viewReport);
             if (btn !== viewReport) return;
             let fileCnt = 0;
             let fileLst = results.reduce((prev, files) => {
@@ -57,7 +57,7 @@ export async function exportDocument(all: boolean) {
                 return prev + "\n" + filtered.join("\n");
             }, "");
             showMessagePanel(
-                localize(27, null, diagrams.length, fileCnt, stopWatch.runTime() / 1000) + fileLst
+                localize('27', null, diagrams.length, fileCnt, stopWatch.runTime() / 1000) + fileLst
             );
         },
         error => {

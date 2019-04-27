@@ -9,12 +9,12 @@ import { processWrapper } from '../tools';
 export async function extractSource() {
 
     if (!config.java) {
-        vscode.window.showErrorMessage(localize(5, null));
+        vscode.window.showErrorMessage(localize('5', null));
         return;
     }
 
     let imgs = await vscode.window.showOpenDialog(<vscode.OpenDialogOptions>{
-        openLabel: localize(32, null),
+        openLabel: localize('32', null),
         canSelectMany: true,
         filters: { 'Images': ['png'] },
     });
@@ -51,7 +51,7 @@ function extract(imgs: vscode.Uri[]) {
                 () => {
                     if (bar) {
                         bar.show();
-                        bar.text = localize(33, null, index + 1, imgs.length, path.basename(img.fsPath));
+                        bar.text = localize('33', null, index + 1, imgs.length, path.basename(img.fsPath));
                     }
                     let process = child_process.spawn(config.java, params);
 

@@ -35,7 +35,7 @@ export function exportDiagrams(diagrams: Diagram[], format: string, bar: vscode.
 function doExportsUnLimited(diagrams: Diagram[], format: string, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
     let errors: RenderError[] = [];
     let promises: Promise<Buffer[]>[] = diagrams.map((diagram: Diagram, index: number) => {
-        if (!path.isAbsolute(diagram.dir)) return Promise.reject(localize(1, null));
+        if (!path.isAbsolute(diagram.dir)) return Promise.reject(localize('1', null));
         let savePath = calculateExportPath(diagram, format.split(":")[0]);
         mkdirsSync(path.dirname(savePath));
         return exportDiagram(diagram, format, savePath, bar).promise.then(
@@ -79,7 +79,7 @@ function doExportsLimited(diagrams: Diagram[], format: string, concurrency: numb
                     // ignore indexes belongs to other task chain
                     return prev;
                 }
-                if (!path.isAbsolute(diagram.dir)) return Promise.reject(localize(1, null));
+                if (!path.isAbsolute(diagram.dir)) return Promise.reject(localize('1', null));
 
                 let savePath = calculateExportPath(diagram, format.split(":")[0]);
                 mkdirsSync(path.dirname(savePath));

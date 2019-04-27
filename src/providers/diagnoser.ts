@@ -37,7 +37,7 @@ export class Diagnoser extends vscode.Disposable {
                 diagnostics.push(
                     new vscode.Diagnostic(
                         range,
-                        localize(30, null),
+                        localize('30', null),
                         vscode.DiagnosticSeverity.Warning
                     )
                 );
@@ -46,7 +46,7 @@ export class Diagnoser extends vscode.Disposable {
                 diagnostics.push(
                     new vscode.Diagnostic(
                         range,
-                        localize(31, null, d.title),
+                        localize('31', null, d.title),
                         vscode.DiagnosticSeverity.Error
                     )
                 );

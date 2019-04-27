@@ -18,10 +18,10 @@ export class Messages {
     }
 
     static async showUpdateMessage(version: string): Promise<string | undefined> {
-        const viewDocs = localize(22, null);
-        const viewReleaseNotes = localize(23, null);
-        const dontShowAgain = localize(24, null);
-        const result = await Messages._showMessage('info', localize(25, null, version), SuppressedKeys.UpdateNotice, dontShowAgain, viewDocs, viewReleaseNotes);
+        const viewDocs = localize('22', null);
+        const viewReleaseNotes = localize('23', null);
+        const dontShowAgain = localize('24', null);
+        const result = await Messages._showMessage('info', localize('25', null, version), SuppressedKeys.UpdateNotice, dontShowAgain, viewDocs, viewReleaseNotes);
         if (result === viewReleaseNotes) {
             commands.executeCommand("vscode.open", Uri.parse('https://marketplace.visualstudio.com/items/jebbs.plantuml/changelog'));
         } else if (result === viewDocs) {
@@ -31,8 +31,8 @@ export class Messages {
     }
 
     static async showWelcomeMessage(): Promise<string | undefined> {
-        const viewDocs = localize(22, null);
-        const result = await window.showInformationMessage(localize(21, null), viewDocs);
+        const viewDocs = localize('22', null);
+        const result = await window.showInformationMessage(localize('21', null), viewDocs);
         if (result === viewDocs) {
             commands.executeCommand("vscode.open", Uri.parse('https://marketplace.visualstudio.com/items/jebbs.plantuml'));
         }

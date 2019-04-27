@@ -54,11 +54,11 @@ class LocalRender implements IRender {
     }
     private createTask(diagram: Diagram, taskType: string, savePath: string, format?: string): RenderTask {
         if (!config.java) {
-            let pms = Promise.reject(localize(5, null));
+            let pms = Promise.reject(localize('5', null));
             return <RenderTask>{ promise: pms };
         }
         if (!fs.existsSync(config.jar(diagram.parentUri))) {
-            let pms = Promise.reject(localize(6, null, extensionPath));
+            let pms = Promise.reject(localize('6', null, extensionPath));
             return <RenderTask>{ promise: pms };
         }
 
@@ -128,7 +128,7 @@ class LocalRender implements IRender {
                                 let stdout = result[0];
                                 let stderr = result[1].toString();
                                 if (stderr.length) {
-                                    stderr = localize(10, null, diagram.title, stderr);
+                                    stderr = localize('10', null, diagram.title, stderr);
                                     reject(<RenderError>{ error: stderr, out: stdout });
                                 } else {
                                     buffers.push(stdout);

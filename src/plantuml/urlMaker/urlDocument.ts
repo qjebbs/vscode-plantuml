@@ -10,7 +10,7 @@ import { MakeDiagramsURL } from './urlMaker';
 export async function makeDocumentURL(all: boolean) {
     let editor = vscode.window.activeTextEditor;
     if (!editor) {
-        vscode.window.showWarningMessage(localize(14, null));
+        vscode.window.showWarningMessage(localize('14', null));
         return;
     }
 
@@ -23,13 +23,13 @@ export async function makeDocumentURL(all: boolean) {
     if (all) {
         diagrams = diagramsOf(editor.document);
         if (!diagrams.length) {
-            vscode.window.showWarningMessage(localize(15, null));
+            vscode.window.showWarningMessage(localize('15', null));
             return;
         }
     } else {
         let dg = currentDiagram();
         if (!dg) {
-            vscode.window.showWarningMessage(localize(3, null));
+            vscode.window.showWarningMessage(localize('3', null));
             return;
         }
         diagrams.push(dg);

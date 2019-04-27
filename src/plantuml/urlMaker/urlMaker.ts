@@ -17,7 +17,7 @@ export function MakeDiagramsURL(diagrams: Diagram[], format: string, bar: vscode
 export function MakeDiagramURL(diagram: Diagram, format: string, bar: vscode.StatusBarItem): DiagramURL {
     if (bar) {
         bar.show();
-        bar.text = localize(16, null, diagram.title);
+        bar.text = localize('16', null, diagram.title);
     }
     return <DiagramURL>{
         name: diagram.title,

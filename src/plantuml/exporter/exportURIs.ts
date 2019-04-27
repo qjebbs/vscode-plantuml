@@ -32,7 +32,7 @@ export async function exportFiles(files: FileAndFormat[], bar?: vscode.StatusBar
 
 async function exportFilesLimited(files: FileAndFormat[], concurrency: number, bar?: vscode.StatusBarItem): Promise<exportFilesResult> {
     if (!files.length) {
-        vscode.window.showInformationMessage(localize(8, null));
+        vscode.window.showInformationMessage(localize('8', null));
         return;
     }
     let errors: RenderError[] = [];
@@ -45,7 +45,7 @@ async function exportFilesLimited(files: FileAndFormat[], concurrency: number, b
                 return exportFile(file, bar);
             },
             errs => {
-                errors.push(...parseError(localize(11, null, errs.length, files[index - 1].uri.fsPath)))
+                errors.push(...parseError(localize('11', null, errs.length, files[index - 1].uri.fsPath)))
                 errors.push(...parseError(errs));
                 // continue next file
                 return exportFile(file, bar);
@@ -60,7 +60,7 @@ async function exportFilesLimited(files: FileAndFormat[], concurrency: number, b
                 resolve(<exportFilesResult>{ results: results, errors: errors });
             },
             errs => {
-                errors.push(...parseError(localize(11, null, errs.length, files[files.length - 1].uri.fsPath)));
+                errors.push(...parseError(localize('11', null, errs.length, files[files.length - 1].uri.fsPath)));
                 errors.push(...parseError(errs));
                 resolve(<exportFilesResult>{ results: results, errors: errors });
             }
@@ -70,7 +70,7 @@ async function exportFilesLimited(files: FileAndFormat[], concurrency: number, b
 
 async function exportFilesUnLimited(files: FileAndFormat[], bar?: vscode.StatusBarItem): Promise<exportFilesResult> {
     if (!files.length) {
-        vscode.window.showInformationMessage(localize(8, null));
+        vscode.window.showInformationMessage(localize('8', null));
         return;
     }
     let errors: RenderError[] = [];
@@ -81,7 +81,7 @@ async function exportFilesUnLimited(files: FileAndFormat[], bar?: vscode.StatusB
                 results.push(result);
         },
         errs => {
-            errors.push(...parseError(localize(11, null, errs.length, files[index].uri.fsPath)));
+            errors.push(...parseError(localize('11', null, errs.length, files[index].uri.fsPath)));
             errors.push(...parseError(errs));
         }
     ));

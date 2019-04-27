@@ -26,7 +26,7 @@ export async function exportWorkSpace(para) {
         let userPickFormat = await vscode.window.showQuickPick(
             appliedRender().formats(),
             <vscode.QuickPickOptions>{
-                placeHolder: localize(34, null)
+                placeHolder: localize('34', null)
             }
         );
         if (!userPickFormat) return;
@@ -80,7 +80,7 @@ async function getFileList(para?): Promise<FileAndFormat[]> {
 }
 function doBuild(files: FileAndFormat[]) {
     if (!files.length) {
-        vscode.window.showInformationMessage(localize(8, null));
+        vscode.window.showInformationMessage(localize('8', null));
         return;
     }
     let stopWatch = new StopWatch();
@@ -95,11 +95,11 @@ function doBuild(files: FileAndFormat[]) {
             bar.hide();
             //uris.length: found documents count 
             //results.length: exported documents count 
-            let viewReport = localize(26, null);
+            let viewReport = localize('26', null);
             let msg = "";
             let btn = "";
             if (!results.length) {
-                msg = localize(29, null);
+                msg = localize('29', null);
                 if (!errors.length) {
                     vscode.window.showInformationMessage(msg);
                 } else {
@@ -108,7 +108,7 @@ function doBuild(files: FileAndFormat[]) {
                 }
                 return;
             }
-            msg = localize(errors.length ? 12 : 13, null, results.length);
+            msg = localize(errors.length ? '12' : '13', null, results.length);
             btn = await vscode.window.showInformationMessage(msg, viewReport);
             if (btn === viewReport) showReport();
             function showReport() {
@@ -124,7 +124,7 @@ function doBuild(files: FileAndFormat[]) {
                         return oneDiagramList + "\n" + filtered.join("\n");
                     }, "");
                 }, "");
-                let report = localize(28, null, results.length, diagramCnt, fileCnt, stopWatch.runTime() / 1000) + fileLst;
+                let report = localize('28', null, results.length, diagramCnt, fileCnt, stopWatch.runTime() / 1000) + fileLst;
                 if (errors.length) {
                     report += "\n" + errors.reduce((p, c) => {
                         return p + (p ? "\n" : "") + c.error;
