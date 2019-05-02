@@ -5,7 +5,7 @@ import * as path from 'path';
 
 import { IRender, RenderTask, RenderError } from './interfaces'
 import { Diagram } from '../diagram/diagram';
-import { config, IncludeSearchType } from '../config';
+import { config } from '../config';
 import { localize, extensionPath } from '../common';
 import { addFileIndex, processWrapper } from '../tools';
 
@@ -78,21 +78,29 @@ class LocalRender implements IRender {
                     'utf-8',
                 ];
 
-                // calculate the cwd
-                // default, cwd is diagram.dir (for saved file), or undefined (for new file)
-                let cwd = diagram.dir && path.isAbsolute(diagram.dir) ? diagram.dir : undefined;
-                if (config.includeSearch(diagram.parentUri) === IncludeSearchType.DiagramsRoot) {
-                    let diagramsRoot = config.diagramsRoot(diagram.parentUri);
-                    // if the file was in a workspace, cwd is diagramsRoot
-                    if (diagramsRoot) {
-                        cwd = diagramsRoot.fsPath;
-                        // fix include search for chain include, solve #209
-                        params.unshift('-Dplantuml.include.path=' + cwd);
-                    }
+                let includePath = ''
+                if(diagram.dir && path.isAbsolute(diagram.dir))
+                {
+                    includePath = diagram.dir;
                 }
-                // Java args
-                // needed by !include search
-                if (cwd) params.unshift('-Duser.dir=' + cwd);
+
+                let ws = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
+                let folderPaths = config.includepaths(diagram.parentUri);
+                for (let folderPath of folderPaths) {
+                    if (!folderPath) continue;
+                    if (!path.isAbsolute(folderPath)) {
+                        folderPath = path.join(ws.uri.fsPath, folderPath);
+                    }
+                    includePath = includePath + path.delimiter + folderPath;
+                }
+
+                let diagramsRoot = config.diagramsRoot(diagram.parentUri);
+                if (diagramsRoot) {
+                    includePath = includePath + path.delimiter + diagramsRoot.fsPath;
+                }
+
+                params.unshift('-Dplantuml.include.path=' + includePath);
+                
                 // Add user java args
                 params.unshift(...config.commandArgs);
                 // Jar args
@@ -101,13 +109,7 @@ class LocalRender implements IRender {
                 if (diagram.path) params.push("-filename", path.basename(diagram.path));
                 // Add user jar args
                 params.push(...config.jarArgs(diagram.parentUri));
-                let process = child_process.spawn(
-                    config.java,
-                    params,
-                    <child_process.SpawnOptions>{
-                        // needed by !include search
-                        cwd: cwd
-                    });
+                let process = child_process.spawn(config.java, params);
                 processes.push(process);
                 return pChain.then(
                     () => {
