@@ -25,5 +25,5 @@
 	"plantuml.configuration.jarArgs": "'jarArgs' vous permet d'ajouter des arguments à 'plantuml.jar', par exemple \"-config plantuml.config\".",
 	"plantuml.configuration.exportMapFile": "Activer l'export d'image map (.cmapx).",
 	"plantuml.configuration.java": "Emplacement de l'exécutable 'java'",
-	"plantuml.configuration.includeSearch": "Sélectionnez la méthode de recherche de fichiers à inclure.\nDiagramsRoot: utiliser la \"racine des diagrammes\", le chemin de recherche est identique pour tous les fichiers de l'espace de travail.\nSourceFileDir: le répertoire du fichier source, le chemin de recherche peut changer entre les fichiers."
+	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'."
 }

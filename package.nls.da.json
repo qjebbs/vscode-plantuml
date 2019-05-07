@@ -25,5 +25,5 @@
 	"plantuml.configuration.jarArgs": "Tillader argumenter til plantuml.jar, for eksempel \"-config plantuml.config\".",
 	"plantuml.configuration.exportMapFile": "Bestemmer eksportering af billede-map (.cmapx) fil.",
 	"plantuml.configuration.java": "Sti til eksekverbar Java-program.",
-	"plantuml.configuration.includeSearch": "Specificerer rodmappen til at søge i for inkluderede filer.\nDiagramsRoot: brug 'diagramsRoot', inkluderende sti er konsistent for all filer i Workspace.\nSourceFileDir: Mappen med kildefil, inkluderende sti kan skifte mellem filer."
+	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'."
 }

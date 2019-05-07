@@ -25,5 +25,5 @@
 	"plantuml.configuration.jarArgs": "指定调用 plantuml.jar 的自定义参数，如 \"-config plantuml.config\"。",
 	"plantuml.configuration.exportMapFile": "决定是否在导出图表的同时导出图片热区 (.cmapx) 文件。",
 	"plantuml.configuration.java": "Java 可执行文件位置。",
-	"plantuml.configuration.includeSearch": "指定搜寻包含文件时的基准目录。\nDiagramsRoot: 使用 'diagramRoot' 为基准目录。工作区中各文件使用的包含路径是一致的。\nSourceFolder: 以源文件所在目录为基准目录，包含路径可能由于文件位置不同而不同。"
+	"plantuml.configuration.includepaths": "指定源目录和 'diagramsRoot' 之外的包含路径。"
 }
