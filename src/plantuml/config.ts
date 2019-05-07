@@ -11,11 +11,6 @@ export const RenderType = {
     PlantUMLServer: 'PlantUMLServer'
 };
 
-export enum IncludeSearchType {
-    DiagramsRoot,
-    SourceFileDir,
-}
-
 class Config extends ConfigReader {
     private _jar: ConfigCache<string> = {};
     private _java: string;
@@ -74,10 +69,6 @@ class Config extends ConfigReader {
         return vscode.Uri.file(fsPath);
     }
 
-    includeSearch(uri: vscode.Uri): IncludeSearchType {
-        return IncludeSearchType[this.read<string>('includeSearch', uri)];
-    }
-
     exportOutDir(uri: vscode.Uri): vscode.Uri {
         let folder = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
         if (!folder) return undefined;
@@ -130,6 +121,9 @@ class Config extends ConfigReader {
 
     includes(uri: vscode.Uri): string[] {
         return this.read<string[]>('includes', uri);
+    }
+    includepaths(uri: vscode.Uri): string[] {
+        return this.read<string[]>('includepaths', uri);
     }
     get commandArgs(): string[] {
         return this.read<string[]>('commandArgs') || [];

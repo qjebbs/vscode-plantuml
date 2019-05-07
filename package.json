@@ -227,16 +227,6 @@
           "default": "",
           "description": "%plantuml.configuration.diagramsRoot%"
         },
-        "plantuml.includeSearch": {
-          "type": "string",
-          "scope": "resource",
-          "enum": [
-            "DiagramsRoot",
-            "SourceFileDir"
-          ],
-          "default": "DiagramsRoot",
-          "description": "%plantuml.configuration.includeSearch%"
-        },
         "plantuml.fileExtensions": {
           "type": "string",
           "scope": "resource",
@@ -315,6 +305,12 @@
           "scope": "resource",
           "default": [],
           "description": "%plantuml.configuration.includes%"
+        },
+        "plantuml.includepaths": {
+          "type": "array",
+          "scope": "resource",
+          "default": [],
+          "description": "%plantuml.configuration.includepaths%"
         },
         "plantuml.commandArgs": {
           "type": "array",
