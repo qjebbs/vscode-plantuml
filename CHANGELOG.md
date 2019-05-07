@@ -1,5 +1,16 @@
 # VSCode PlantUML Changelog
 
+## 2.11.0
+
+- Improvement: Changed the include files search logic once again, which:
+
+    1. Users don't have to choose from `diagramsRoot` or `SourceFlieDir`, because you have them both!
+    1. New `plantuml.includepaths` to have other paths included.
+
+    > Thanks [anotherandi](https://github.com/anotherandi) for the brilliant idea and implementation!
+    
+- Improvement: Add Danish translation
+
 ## 2.10.9
 
 - Fix: include searching for chain include, solve [#209](https://github.com/qjebbs/vscode-plantuml/issues/209).

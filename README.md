@@ -25,6 +25,8 @@ The setting `includeSearch` is not needed anymore, since the folder of the plant
 
 To new projects, it's recommended not to rely on `diagramsRoot` and configure all required `includepaths` explicitly.
 
+> Thanks [anotherandi](https://github.com/anotherandi) for the brilliant idea and implementation!
+
 ## Notice 2
 
 The setting `exportOutDirName` has been changed to `exportOutDir`, it now accepts a relative path rather than only a folder name. Work together with `diagramsRoot`, you can (for example):
@@ -335,6 +337,7 @@ Local Render Settings:
 - `plantuml.commandArgs`: commandArgs allows you add command arguments to java command, such as `-DPLANTUML_LIMIT_SIZE=8192`.
 - `plantuml.jar`: Alternate plantuml.jar location. Leave it blank to use integrated jar.
 - `plantuml.jarArgs`: jarArgs allows you add arguments to plantuml.jar, such as `-config plantuml.config`.
+- `plantuml.includepaths`: Specifies the include paths besides source folder and the `diagramsRoot`.
 - `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write "!include path/to/include.wsd" for every single diagram any more.
 
 Export Settings:
@@ -375,6 +378,7 @@ Please post and view issues on [GitHub][issues]
 - Tranditional Chinese: [Alan Tsai](https://github.com/alantsai)
 - German: [Fabian F.](https://github.com/fur6y)
 - French: [Zepmanbc](https://github.com/Zepmanbc), [FlorianKempenich](https://github.com/FlorianKempenich)
+- Danish: [Mikkel O. Laursen](https://github.com/mikkel-ol)
 
 ## Donators
 
