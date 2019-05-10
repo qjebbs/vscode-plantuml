@@ -239,14 +239,14 @@ Disadvantages:
 
 ## Use PlantUML Server as Render
 
-- You may already have a PlantUML server in your team, find the server address, like: `http://192.168.1.100:8080/plantuml`.
+- You may already have a PlantUML server in your team, find the server address, like: `http://192.168.1.100:8080`.
 
-- If don't have one, you can set up on you own ([follow the instructions](https://github.com/plantuml/plantuml-server)). Find the server address, like: `http://localhost:8080/plantuml`, or `http://192.168.1.100:8080/plantuml` which is ready for sharing to your team.
+- If don't have one, set up [following the instructions](https://github.com/plantuml/plantuml-server), run with Docker is recommended. Find the server address, like: `http://localhost:8080`, or `http://192.168.1.100:8080` which is ready for sharing to your team.
 
 - Open user setting, and configure like:
 
 ```text
-"plantuml.server": "http://192.168.1.100:8080/plantuml",
+"plantuml.server": "http://192.168.1.100:8080",
 "plantuml.render": "PlantUMLServer",
 ```
 
