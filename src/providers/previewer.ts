@@ -26,6 +26,7 @@ class Previewer extends vscode.Disposable {
     private previewPageStatus: string;
     private rendered: Diagram;
     private task: RenderTask;
+    private taskKilling: boolean;
 
     private images: string[];
     private imageError: string;
@@ -96,6 +97,7 @@ class Previewer extends vscode.Disposable {
         this.previewPageStatus = status;
     }
     async update(processingTip: boolean) {
+        if (this.taskKilling) return;
         await this.killTasks();
         // console.log("updating...");
         // do not await doUpdate, so that preview window could open before update task finish.
@@ -107,14 +109,17 @@ class Previewer extends vscode.Disposable {
 
         if (!this.task.processes || !this.task.processes.length)
             return Promise.resolve(true);
-
+        this.taskKilling = true;
         return Promise.all(
             this.task.processes.map(p => this.killTask(p))
-        ).then(() => this.task = null);
+        ).then(() => {
+            this.task = null;
+            this.taskKilling = false;
+        });
     }
     private killTask(process: child_process.ChildProcess) {
         return new Promise((resolve, reject) => {
-            process.kill();
+            process.kill('SIGINT');
             process.on('exit', (code) => {
                 // console.log(`killed ${process.pid} with code ${code}!`);
                 resolve(true);
@@ -146,7 +151,7 @@ class Previewer extends vscode.Disposable {
         let task: RenderTask = exportToBuffer(diagram, "svg");
         this.task = task;
 
-        // console.log(`start pid ${this.process.pid}!`);
+        // console.log(`start pid ${this.task.processes.reduce((p, c) => p + " " + c.pid, "")}!`);
         if (processingTip) this.processing();
         await task.promise.then(
             result => {
