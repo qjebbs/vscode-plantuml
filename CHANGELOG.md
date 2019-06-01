@@ -2,6 +2,11 @@
 
 ## 2.11.0
 
+- Improvement: Preview process killing optimize
+- Update integrated jar to `v1.2019.6`, solve [#227](https://github.com/qjebbs/vscode-plantuml/issues/227), [#230](https://github.com/qjebbs/vscode-plantuml/issues/230).
+
+## 2.11.0
+
 - Improvement: Changed the include files search logic once again, which:
 
     1. Users don't have to choose from `diagramsRoot` or `SourceFlieDir`, because you have them both!
