@@ -54,6 +54,10 @@ skinparam {
                 Size 12
             }
         }
+        Diamond {
+            BackgroundColor AliceBlue
+            BorderColor SteelBlue
+        }
     }
     State {
         StartColor Black
