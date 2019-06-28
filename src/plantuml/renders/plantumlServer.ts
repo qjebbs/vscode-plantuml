@@ -65,7 +65,7 @@ class PlantumlServer implements IRender {
                     )
                 );
             },
-            Promise.resolve(new Buffer(""))
+            Promise.resolve(Buffer.alloc(0))
         );
         return <RenderTask>{
             processes: [],
@@ -118,7 +118,7 @@ class PlantumlServer implements IRender {
                     } else {
                         stderr = error;
                     }
-                    resolve([new Buffer(stdout), stderr]);
+                    resolve([Buffer.alloc(0, stdout), stderr]);
                 })
         });
     }
@@ -133,7 +133,7 @@ class PlantumlServer implements IRender {
     }
     private urlTextFrom(s: string): string {
         let opt: zlib.ZlibOptions = { level: 9 };
-        let d = zlib.deflateRawSync(new Buffer(s), opt) as Buffer;
+        let d = zlib.deflateRawSync(Buffer.alloc(0, s), opt) as Buffer;
         let b = encode64(String.fromCharCode(...d.subarray(0)));
         return b;
         // from synchro.js

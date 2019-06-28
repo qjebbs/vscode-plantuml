@@ -145,7 +145,7 @@ class LocalRender implements IRender {
                     }
                 )
             },
-            Promise.resolve(new Buffer(""))
+            Promise.resolve(Buffer.alloc(0))
         );
         return <RenderTask>{
             processes: processes,

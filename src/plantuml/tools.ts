@@ -37,7 +37,7 @@ export function isSubPath(from: string, to: string): boolean {
 }
 
 export function parseError(error: any): RenderError[] {
-    let nb = new Buffer("");
+    let nb = Buffer.alloc(0);
     if (typeof (error) === "string") {
         return [<RenderError>{ error: error, out: nb }];
     } else if (error instanceof TypeError || error instanceof Error) {
@@ -145,11 +145,11 @@ export function processWrapper(process: child_process.ChildProcess, pipeFilePath
             let stdout = Buffer.concat(buffOut, buffOutLen);
             if (pipeFilePath && stdout.length) {
                 fs.writeFileSync(pipeFilePath, stdout);
-                stdout = new Buffer(pipeFilePath);
+                stdout = Buffer.alloc(0, pipeFilePath);
             }
             let stderr = Buffer.concat(buffErr, buffErrLen);
             if (stderr.toString().indexOf('JAVA_TOOL_OPTIONS') >= 0)
-                stderr = new Buffer("");
+                stderr = Buffer.alloc(0);
             resolve([stdout, stderr]);
         });
     });
