@@ -350,11 +350,11 @@
   "devDependencies": {
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.40",
-    "js-yaml": "^3.8.3",
+    "js-yaml": "^3.13.1",
     "markdown-it": "^8.3.2",
     "plist": "^2.0.1",
     "typescript": "^3.0.3",
-    "vscode": "^1.1.17"
+    "vscode": "^1.1.35"
   },
   "dependencies": {
     "linq-collections": "*",
