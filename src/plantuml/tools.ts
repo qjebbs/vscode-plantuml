@@ -145,7 +145,7 @@ export function processWrapper(process: child_process.ChildProcess, pipeFilePath
             let stdout = Buffer.concat(buffOut, buffOutLen);
             if (pipeFilePath && stdout.length) {
                 fs.writeFileSync(pipeFilePath, stdout);
-                stdout = Buffer.alloc(0, pipeFilePath);
+                stdout = Buffer.from(pipeFilePath);
             }
             let stderr = Buffer.concat(buffErr, buffErrLen);
             if (stderr.toString().indexOf('JAVA_TOOL_OPTIONS') >= 0)

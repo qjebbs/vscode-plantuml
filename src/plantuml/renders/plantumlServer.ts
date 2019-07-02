@@ -118,7 +118,7 @@ class PlantumlServer implements IRender {
                     } else {
                         stderr = error;
                     }
-                    resolve([Buffer.alloc(0, stdout), stderr]);
+                    resolve([Buffer.from(stdout), stderr]);
                 })
         });
     }
@@ -133,7 +133,7 @@ class PlantumlServer implements IRender {
     }
     private urlTextFrom(s: string): string {
         let opt: zlib.ZlibOptions = { level: 9 };
-        let d = zlib.deflateRawSync(Buffer.alloc(0, s), opt) as Buffer;
+        let d = zlib.deflateRawSync(Buffer.from(s), opt) as Buffer;
         let b = encode64(String.fromCharCode(...d.subarray(0)));
         return b;
         // from synchro.js
