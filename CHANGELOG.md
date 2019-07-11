@@ -1,6 +1,12 @@
 # VSCode PlantUML Changelog
 
-## 2.11.0
+## 2.11.2
+
+- Fix: A zoom issue in latest version of VSCode on Windows. [#244](https://github.com/qjebbs/vscode-plantuml/issues/244).
+- Update blue style - add coherence to activity diagram
+- Code optimize.
+
+## 2.11.1
 
 - Improvement: Preview process killing optimize
 - Update integrated jar to `v1.2019.6`, solve [#227](https://github.com/qjebbs/vscode-plantuml/issues/227), [#230](https://github.com/qjebbs/vscode-plantuml/issues/230).
