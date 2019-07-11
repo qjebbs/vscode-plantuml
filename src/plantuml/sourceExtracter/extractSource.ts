@@ -76,13 +76,7 @@ function extract(imgs: vscode.Uri[]) {
         },
         Promise.resolve(null)
     );
-    return new Promise<string[]>(
-        (resolve, reject) => {
-            pms.then(
-                () => {
-                    resolve(sources);
-                }
-            )
-        }
-    )
+    return pms.then(
+        () => sources
+    );
 }
