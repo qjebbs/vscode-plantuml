@@ -45,7 +45,8 @@ Project Folder/
       src/
         architecture_overview.wsd
       out/
-        architecture_overview.png
+        architecture_overview/
+          architecture_overview.png
 ```
 
 ## Features
@@ -72,7 +73,7 @@ Project Folder/
     - All type snippets.
     - Basic auto completion & macro signature support **NEW!!**
     - Symbol List support.
-    - Auto Include.
+    - Auto Include **(Deprecated)**.
 - Others
     - Multi-root Workspace Support.
     - MarkDown integrating support. [View Demo](#markdown-integrating)
@@ -109,9 +110,14 @@ It's necessary to have following installed:
 [Java]: http://java.com/en/download/ "Download Java"
 [Graphviz]: http://www.graphviz.org/download/ "Download Graphviz"
 
-> Plugin has integrated a copy of "plantuml.jar", you are good to go now. But if you want to use your own jar (maybe a newer version, or with many dependent jars), specify the jar location with setting `plantuml.jar`.
+#### Quick Install for Mac
 
-> If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
+```sh
+brew cask install java
+brew install graphviz
+```
+
+#### Quick Install for Windows
 
 For windows user, [majkinetor](https://github.com/majkinetor) introduced a way to install plantuml and its dependencies easily. Run `cmd.exe` as Administrator, and run two commands as follow
 
@@ -120,6 +126,10 @@ For windows user, [majkinetor](https://github.com/majkinetor) introduced a way t
 
 choco install plantuml
 ```
+
+> Plugin has integrated a copy of "plantuml.jar", you are good to go now. But if you want to use your own jar (maybe a newer version, or with many dependent jars), specify the jar location with setting `plantuml.jar`.
+
+> If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
 
 ## Preview Demos
 
@@ -250,10 +260,11 @@ Disadvantages:
 "plantuml.render": "PlantUMLServer",
 ```
 
-## About Auto Include
+## About Auto Include **(Deprecated)**
 
-> Notice: People who don't use `!include` could ignore this chapter.
+> **Notice:** AutoInclude is deprecated since the include search has been improved, that the include path is consistent between files, and provide better flexibility.
 
+<!-- 
 ![include demo](images/include_demo.gif "demo")
 
 Auto Include liberates you from writing "!include path/to/include.wsd" everywhere. which is bother & hard to manage.
@@ -295,7 +306,7 @@ and open workspace setting and config:
 "plantuml.includes": [
     "includes"
 ]
-```
+``` 
 
 ### About integrated theme
 
@@ -306,10 +317,11 @@ Plugin shipped with a blue diagram theme, to enable it, config like:
     "styles/blue"
 ]
 ```
+-->
 
 ## Multiple languages support
 
-Translations are welcome. [lang.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/develop/langs/lang.nls.json), [package.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/develop/package.nls.json)
+Translations are welcome. [lang.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/master/langs/lang.nls.json), [package.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/master/package.nls.json)
 
 ![languages demo](images/langs_demo.png)
 
