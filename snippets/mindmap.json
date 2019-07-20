@@ -1,0 +1,7 @@
+{
+	"Mindmap Start/End": {
+		"prefix": "mindmap➤start",
+		"body": "@startmindmap ${1:mindmap name}\n$0\n@endmindmap",
+		"description": "Adds the declarative boundaries between which a PlantUML artifact is specified"
+	}
+}

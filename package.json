@@ -183,6 +183,10 @@
       {
         "language": "diagram",
         "path": "./snippets/eggs.json"
+      },
+      {
+        "language": "diagram",
+        "path": "./snippets/mindmap.json"
       }
     ],
     "configuration": {

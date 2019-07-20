@@ -200,6 +200,7 @@ This plugin integrates all type diagram snippets. They are splitted into 9 secti
 - `sequence`: snippets for sequence diagrams.
 - `ui`: snippets for salt diagrams.
 - `egg`: snippets for some funny diagrams, like sudoku, earth.
+- `mindmap`: snippets for mindmap.
 
 For exsample, type `acife` (short version) to trigge following snippet (`activity➤if・else`):
 
