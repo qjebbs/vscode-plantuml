@@ -12,9 +12,10 @@ export function renderHtml(tokens: markdowIt.Token[], idx: number) {
     let diagram = new Diagram(token.content);
     // Ditaa only supports png
     let format = diagram.type == DiagramType.Ditaa ? "png" : "svg";
+    let mimeType = diagram.type == DiagramType.Ditaa ? "image/png" : "image/svg+xml";
     let result = MakeDiagramURL(diagram, format, null);
     return result.urls.reduce((p, url) => {
-        p += `\n<img id="image" src="${url}" title=${diagram.title}>`;
+        p += `\n<object type="${mimeType}" data="${url}" title=${diagram.title}>`;
         return p;
     }, "");
 }
