@@ -15,7 +15,7 @@ export function renderHtml(tokens: markdowIt.Token[], idx: number) {
     let mimeType = diagram.type == DiagramType.Ditaa ? "image/png" : "image/svg+xml";
     let result = MakeDiagramURL(diagram, format, null);
     return result.urls.reduce((p, url) => {
-        p += `\n<object type="${mimeType}" data="${url}" title=${diagram.title}>`;
+        p += `\n<object type="${mimeType}" data="${url}"></object>`;
         return p;
     }, "");
 }
