@@ -8,46 +8,13 @@ Rich PlantUML support for Visual Studio Code.
 |
 [PlantUML Document](http://plantuml.com/sitemap-language-specification)
 
-## Notice 1
+## Notice
 
-Latest version has changed the include files search logic once again.
-It is possible to configure includepaths now in settings.json.
+To avoid unexpected data sharing, the latest version has removed the default value of `plantuml.server`. 
 
-The new search order is as follows:
-1. The folder of the rendered file
-2. The `includepaths` as configured in settings.json
-```json
-"plantuml.includepaths": ["docs/diagrams/style","docs/diagrams/src"],
-```
-3. The `diagramsRoot`
+Before you specify one (either the official or your own), server render and markdown integration won't work but prompts.
 
-The setting `includeSearch` is not needed anymore, since the folder of the plantuml file and the `diagramsRoot` are always both in the include path.
-
-To new projects, it's recommended not to rely on `diagramsRoot` and configure all required `includepaths` explicitly.
-
-> Thanks [anotherandi](https://github.com/anotherandi) for the brilliant idea and implementation!
-
-## Notice 2
-
-The setting `exportOutDirName` has been changed to `exportOutDir`, it now accepts a relative path rather than only a folder name. Work together with `diagramsRoot`, you can (for example):
-
-```json
-"plantuml.diagramsRoot": "docs/diagrams/src",
-"plantuml.exportOutDir": "docs/diagrams/out"
-```
-
-You'll get export results like:
-
-```
-Project Folder/
-  docs/
-    diagrams/
-      src/
-        architecture_overview.wsd
-      out/
-        architecture_overview/
-          architecture_overview.png
-```
+See also: [Use PlantUML Server as render](#use-plantuml-server-as-render)
 
 ## Features
 
@@ -130,6 +97,50 @@ choco install plantuml
 > Plugin has integrated a copy of "plantuml.jar", you are good to go now. But if you want to use your own jar (maybe a newer version, or with many dependent jars), specify the jar location with setting `plantuml.jar`.
 
 > If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
+
+## Typical Files Organization
+
+- Default extension settings works for independent Plantuml projects.
+- If Plantuml files are only part of your project (as documetation), use `plantuml.diagramsRoot` and `plantuml.exportOutDir` to setting up the organization, for example:
+
+```json
+"plantuml.diagramsRoot": "docs/diagrams/src",
+"plantuml.exportOutDir": "docs/diagrams/out"
+```
+
+You'll get export results like:
+
+```
+Project Folder/
+  docs/
+    diagrams/
+      src/
+        architecture_overview.wsd
+      out/
+        architecture_overview/
+          architecture_overview.png
+  ...rest_of_your_project_folders/
+  ...rest_of_your_project_files 
+```
+
+## Include Files Search Logic
+
+Latest version has changed the include files search logic once again.
+It is possible to configure includepaths now in settings.json.
+
+The new search order is as follows:
+1. The folder of the rendered file
+2. The `includepaths` as configured in settings.json
+```json
+"plantuml.includepaths": ["docs/diagrams/style","docs/diagrams/src"],
+```
+3. The `diagramsRoot`
+
+The setting `includeSearch` is not needed anymore, since the folder of the plantuml file and the `diagramsRoot` are always both in the include path.
+
+To new projects, it's recommended not to rely on `diagramsRoot` and configure all required `includepaths` explicitly.
+
+> Thanks [anotherandi](https://github.com/anotherandi) for the brilliant idea and implementation!
 
 ## Preview Demos
 
