@@ -51,5 +51,6 @@
 	"Flyt med to finger for panorering (Touchpad)",
 	"Rul på mus",
 	"Fastgør til kant",
-	"Rul helt til bunden/højre/top/venstre, preview vil fastgøres til den kant"
+	"Rul helt til bunden/højre/top/venstre, preview vil fastgøres til den kant",
+	"No PlantUML server, specify one with \"plantuml.server\"."
 ]

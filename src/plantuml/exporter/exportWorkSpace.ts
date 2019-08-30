@@ -3,8 +3,6 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 import { appliedRender } from './appliedRender'
-import { RenderError } from '../renders/interfaces'
-import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
 import { localize, bar } from '../common';
 import { showMessagePanel, parseError, StopWatch, isSubPath } from '../tools';

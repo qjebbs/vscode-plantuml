@@ -1,9 +1,9 @@
 import * as markdowIt from 'markdown-it';
 import { Diagram } from '../plantuml/diagram/diagram';
-import { config } from '../plantuml/config';
-import { plantumlServer } from '../plantuml/renders/plantumlServer';
 import { DiagramType } from '../plantuml/diagram/type';
 import { MakeDiagramURL } from '../plantuml/urlMaker/urlMaker';
+import { config } from '../plantuml/config';
+import { localize } from '../plantuml/common';
 
 export function renderHtml(tokens: markdowIt.Token[], idx: number) {
     // console.log("request html for:", idx, tokens[idx].content);
@@ -14,8 +14,11 @@ export function renderHtml(tokens: markdowIt.Token[], idx: number) {
     let format = diagram.type == DiagramType.Ditaa ? "png" : "svg";
     let mimeType = diagram.type == DiagramType.Ditaa ? "image/png" : "image/svg+xml";
     let result = MakeDiagramURL(diagram, format, null);
-    return result.urls.reduce((p, url) => {
-        p += `\n<object type="${mimeType}" data="${url}"></object>`;
-        return p;
-    }, "");
+    return config.server ?
+        result.urls.reduce((p, url) => {
+            // p += `\n<img src="${url}">`;
+            p += `\n<object type="${mimeType}" data="${url}"></object>`;
+            return p;
+        }, "") :
+        `\n<pre><code><code>⚠️${localize(53, null)}\n\n${diagram.content}</code></code></pre>`;
 }

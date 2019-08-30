@@ -51,5 +51,6 @@
 	"Two-finger move to pan (TouchPad)",
 	"Mouse scroll",
 	"Snap to border",
-	"Scroll to most bottom/right/top/left, preview will snap to that border"
+	"Scroll to most bottom/right/top/left, preview will snap to that border",
+	"No PlantUML server, specify one with \"plantuml.server\"."
 ]

@@ -104,7 +104,7 @@ class Config extends ConfigReader {
     }
 
     get server(): string {
-        return this.read<string>('server') || "https://www.plantuml.com/plantuml";
+        return this.read<string>('server').trim();
     }
 
     get urlFormat(): string {

@@ -16,7 +16,7 @@
 	"plantuml.configuration.exportOutDir": "Exported workspace diagrams will be organized in this directory  (releative path to workspace folder).",
 	"plantuml.configuration.previewAutoUpdate": "Decides if automatically update the preview window.",
 	"plantuml.configuration.previewSnapIndicators": "Decides if to display the snap indicators in the preview window.",
-	"plantuml.configuration.server": "Plantuml server to generate UML diagrams on-the-fly.",
+	"plantuml.configuration.server": "Plantuml server to generate UML diagrams on-the-fly. You may use official server https://www.plantuml.com/plantuml if you feel OK to share data with it.",
 	"plantuml.configuration.urlFormat": "URL format. Leave it blank to pick format everytime you make a URL.",
 	"plantuml.configuration.urlResult": "URL result type. Simple URL or ready for MarkDown use.",
 	"plantuml.configuration.render": "Select diagram render for both export and preview.\nLocal: Render diagrams locally in traditional way. You need to set up JAVA and GraphViz first.\nPlantUMLServer: Render diagrams by server which is specified with \"plantuml.server\". It's much faster, but requires a server.\nLocal is the default configuration.",

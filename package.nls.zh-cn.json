@@ -16,7 +16,7 @@
 	"plantuml.configuration.exportOutDir": "所有导出图片将被组织到此目录下（相对于工作区目录的路径）。",
 	"plantuml.configuration.previewAutoUpdate": "决定是否在内容变更和选定图表变更时自动刷新预览窗口",
 	"plantuml.configuration.previewSnapIndicators": "决定是否在预览窗口中显示吸附提示。",
-	"plantuml.configuration.server": "生成图表超链接使用的 Plantuml 服务器。",
+	"plantuml.configuration.server": "生成图表超链接使用的 Plantuml 服务器。您可以使用官方的 https://www.plantuml.com/plantuml 如果您可以接受向其发送数据。",
 	"plantuml.configuration.urlFormat": "超链接文件格式。若留空，则在每次生成时选择格式。",
 	"plantuml.configuration.urlResult": "超链接输出类型。仅超链接或 MarkDown 格式。",
 	"plantuml.configuration.render": "选择导出和预览时使用的图表渲染方式。\nLocal: 以传统方式在本地渲染，您需要先配置好 JAVA 和 GraphViz。\nPlantUMLServer: 使用由 \"plantuml.server\" 指定的服务器渲染。这比本地渲染快得多，但需要您设置一个服务器。\nLocal 是默认配置。",

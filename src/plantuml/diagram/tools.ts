@@ -55,7 +55,7 @@ export function diagramsOf(document: vscode.TextDocument): Diagram[] {
         let line = document.lineAt(i);
         if (diagramStartReg.test(line.text)) {
             let d = diagramAt(document, i);
-            diagrams.push(d);
+            if (d) diagrams.push(d);
         }
     }
     // if no diagram block found, try add entire document

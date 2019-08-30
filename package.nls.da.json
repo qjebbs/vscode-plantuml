@@ -16,7 +16,7 @@
 	"plantuml.configuration.exportOutDir": "Eksporterede Workspace-diagrammer vil blive placeret i denne mappe (relativt til Workspace-mappe).",
 	"plantuml.configuration.previewAutoUpdate": "Auto-opdatér preview-vindue.",
 	"plantuml.configuration.previewSnapIndicators": "Vis snap-indikatorer i preview-vindue.",
-	"plantuml.configuration.server": "PlantUML-server til at generere UML-diagrammer på farten.",
+	"plantuml.configuration.server": "PlantUML-server til at generere UML-diagrammer på farten. You may use official server https://www.plantuml.com/plantuml if you feel OK to share data with it.",
 	"plantuml.configuration.urlFormat": "URL format. Lad være blankt for at vælge format hver gang der laves et URL.",
 	"plantuml.configuration.urlResult": "URL resultattype. Et simpelt URL eller klar til Markdown brug.",
 	"plantuml.configuration.render": "Specificér type af diagramrendering til både eksport og preview.\nLokalt: Rendér diagrammer lokalt på tradionel vis. JAVA og GraphViz kræves opsat først.\nPlantUMLServer: Rendér diagrammer med server specificeret med \"plantuml.server\". Det er langt hurtigere, men kræves denne server.\nLokalt er den standard konfiguration.",

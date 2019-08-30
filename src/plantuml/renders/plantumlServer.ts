@@ -43,6 +43,12 @@ class PlantumlServer implements IRender {
      * @returns ExportTask.
      */
     render(diagram: Diagram, format: string, savePath: string): RenderTask {
+        if (!config.server) {
+            return <RenderTask>{
+                processes: [],
+                promise: Promise.reject(localize(53, null)),
+            };
+        }
         let allPms = [...Array(diagram.pageCount).keys()].map(
             (index) => {
                 let requestUrl = this.makeURL(diagram, format, index);
