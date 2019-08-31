@@ -407,7 +407,7 @@ Please post and view issues on [GitHub][issues]
 
 Thanks for your encouragements!
 
-> Claus Appel, 三島木​一磨, 富吉​佑季, 黒田悦成, Jared Birdsall, Suleyman Cabir Ciplak, Malcolm Learner, Сысоев Максим
+> Claus Appel, 三島木​一磨, 富吉​佑季, 黒田悦成, Jared Birdsall, Suleyman Cabir Ciplak, Malcolm Learner, Сысоев Максим, Gokan Kenichi
 
 -----------------------------------------------------------------------------------------------------------
 
