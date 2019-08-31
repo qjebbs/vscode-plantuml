@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.11.3
+
+- Improvement: Remove the default value of `plantuml.server`, to avoid unexpected data sharing.
+- Improvement: Render Markdown iamges as object, solve [#253](https://github.com/qjebbs/vscode-plantuml/issues/253)
+- Update integrated jar to `v1.2019.9`
+
 ## 2.11.2
 
 - Fix: A zoom issue in latest version of VSCode on Windows. [#244](https://github.com/qjebbs/vscode-plantuml/issues/244).
