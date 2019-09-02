@@ -212,12 +212,13 @@
         },
         "plantuml.java": {
           "type": "string",
+          "scope": "machine",
           "default": "java",
           "description": "%plantuml.configuration.java%"
         },
         "plantuml.jar": {
           "type": "string",
-          "scope": "resource",
+          "scope": "machine",
           "default": "",
           "description": "%plantuml.configuration.jar%"
         },
@@ -268,6 +269,7 @@
         },
         "plantuml.server": {
           "type": "string",
+          "scope": "machine",
           "default": "",
           "description": "%plantuml.configuration.server%"
         },
@@ -293,6 +295,7 @@
         },
         "plantuml.render": {
           "type": "string",
+          "scope": "machine",
           "default": "Local",
           "enum": [
             "Local",
