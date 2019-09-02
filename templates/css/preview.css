@@ -138,11 +138,16 @@ body.vscode-light {
 }
 
 #ctrl-container {
+    display: none;
     width: 100%;
     height: 3rem;
     position: fixed;
     top: calc(100% - 4rem);
     text-align: center;
+}
+
+body:hover #ctrl-container {
+    display: inherit;
 }
 
 #controls {
