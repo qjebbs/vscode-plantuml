@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.12.0
+
+- Improvement: Setting scope optimization, ready for [Remote Developpment](https://code.visualstudio.com/docs/remote/remote-overview).
+- Improvement: Hide preview controls when cursor out, solve [#251](https://github.com/qjebbs/vscode-plantuml/issues/251)
+
 ## 2.11.3
 
 - Improvement: Remove the default value of `plantuml.server`, to avoid unexpected data sharing.
