@@ -24,8 +24,8 @@ class Includer {
         let folderPath = folder ? folder.uri.fsPath : "";
         let folderUri = folder ? folder.uri : undefined;
         let cache = this._calculated[folderPath];
-        if (!cache || cache.settings != config.includes(folderUri).sort().toString()) {
-            cache = this._calcIncludes(folderUri);
+        if (!cache || cache.settings != config.includes(diagram.parentUri).sort().toString()) {
+            cache = this._calcIncludes(diagram.parentUri);
             this._calculated[folderPath] = cache;
         }
         if (cache.includes) diagram.content = diagram.content.replace(/\n\s*'\s*autoinclude\s*\n/i, `${cache.includes}\n`);

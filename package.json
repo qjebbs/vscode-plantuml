@@ -242,6 +242,7 @@
         },
         "plantuml.exportConcurrency": {
           "type": "number",
+          "scope": "machine",
           "default": 3,
           "description": "%plantuml.configuration.exportConcurrency%"
         },
@@ -259,11 +260,13 @@
         },
         "plantuml.previewAutoUpdate": {
           "type": "boolean",
+          "scope": "application",
           "default": true,
           "description": "%plantuml.configuration.previewAutoUpdate%"
         },
         "plantuml.previewSnapIndicators": {
           "type": "boolean",
+          "scope": "application",
           "default": false,
           "description": "%plantuml.configuration.previewSnapIndicators%"
         },
@@ -275,6 +278,7 @@
         },
         "plantuml.urlFormat": {
           "type": "string",
+          "scope": "application",
           "default": "",
           "enum": [
             "",
@@ -286,6 +290,7 @@
         },
         "plantuml.urlResult": {
           "type": "string",
+          "scope": "application",
           "default": "MarkDown",
           "enum": [
             "MarkDown",
@@ -317,6 +322,7 @@
         },
         "plantuml.commandArgs": {
           "type": "array",
+          "scope": "resource",
           "default": [],
           "description": "%plantuml.configuration.commandArgs%"
         },

@@ -125,8 +125,8 @@ class Config extends ConfigReader {
     includepaths(uri: vscode.Uri): string[] {
         return this.read<string[]>('includepaths', uri);
     }
-    get commandArgs(): string[] {
-        return this.read<string[]>('commandArgs') || [];
+    commandArgs(uri: vscode.Uri): string[] {
+        return this.read<string[]>('commandArgs', uri) || [];
     }
     jarArgs(uri: vscode.Uri): string[] {
         return this.read<string[]>('jarArgs', uri) || [];

@@ -102,7 +102,7 @@ class LocalRender implements IRender {
                 params.unshift('-Dplantuml.include.path=' + includePath);
                 
                 // Add user java args
-                params.unshift(...config.commandArgs);
+                params.unshift(...config.commandArgs(diagram.parentUri));
                 // Jar args
                 params.push(taskType);
                 if (format) params.push("-t" + format);
