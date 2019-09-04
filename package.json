@@ -213,7 +213,7 @@
         "plantuml.java": {
           "type": "string",
           "scope": "machine",
-          "default": "java",
+          "default": "",
           "description": "%plantuml.configuration.java%"
         },
         "plantuml.jar": {
@@ -301,7 +301,7 @@
         "plantuml.render": {
           "type": "string",
           "scope": "machine",
-          "default": "Local",
+          "default": "",
           "enum": [
             "Local",
             "PlantUMLServer"

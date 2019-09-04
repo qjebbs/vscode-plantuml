@@ -116,7 +116,7 @@ class Config extends ConfigReader {
     }
 
     get render(): string {
-        return this.read<string>('render');
+        return this.read<string>('render') || "Local";
     }
 
     includes(uri: vscode.Uri): string[] {
