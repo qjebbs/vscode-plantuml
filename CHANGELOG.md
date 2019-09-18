@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.12.1
+
+- Fix: Plantuml images not loaded by markdown preview, with strict policy. [#258](https://github.com/qjebbs/vscode-plantuml/issues/258).
+
 ## 2.12.0
 
 - Improvement: Setting scope optimization, ready for [Remote Developpment](https://code.visualstudio.com/docs/remote/remote-overview).
