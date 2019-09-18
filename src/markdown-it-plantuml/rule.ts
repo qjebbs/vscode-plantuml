@@ -6,6 +6,11 @@ export function plantumlWorker(state: any) {
     for (let blockToken of blockTokens) {
         if (blockToken.type == "fence" && blockToken.info == "plantuml") {
             blockToken.type = "plantuml";
+            if (state.env && state.env.htmlExporter) { // work with markdown extended export, solve #253
+                blockToken.tag = "object";
+            } else {
+                blockToken.tag = "img";
+            }
         }
     }
 }

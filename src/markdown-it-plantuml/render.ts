@@ -14,10 +14,12 @@ export function renderHtml(tokens: markdowIt.Token[], idx: number) {
     let format = diagram.type == DiagramType.Ditaa ? "png" : "svg";
     let mimeType = diagram.type == DiagramType.Ditaa ? "image/png" : "image/svg+xml";
     let result = MakeDiagramURL(diagram, format, null);
+    let renderAsObject = token.tag == "object" && format == "svg";
     return config.server ?
         result.urls.reduce((p, url) => {
-            // p += `\n<img src="${url}">`;
-            p += `\n<object type="${mimeType}" data="${url}"></object>`;
+            p += renderAsObject ?
+                `\n<object type="${mimeType}" data="${url}"></object>` : // work with markdown extended export, solve #253
+                `\n<img src="${url}">`;  // work with preview, solve #258
             return p;
         }, "") :
         `\n<pre><code><code>⚠️${localize(53, null)}\n\n${diagram.content}</code></code></pre>`;
