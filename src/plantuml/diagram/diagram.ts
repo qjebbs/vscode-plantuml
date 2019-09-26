@@ -4,8 +4,8 @@ import * as path from 'path';
 import * as title from './title';
 import { DiagramType, getType } from './type';
 
-export const diagramStartReg = /^\s*[^']*\s*@start(\w+)/i;
-export const diagramEndReg = /^\s*[^']*\s*@end(\w+)/i;
+export const diagramStartReg = /@start(\w+)/i;
+export const diagramEndReg = /@end(\w+)/i;
 
 export class Diagram {
     document: vscode.TextDocument;
