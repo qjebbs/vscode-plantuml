@@ -212,13 +212,13 @@
         },
         "plantuml.java": {
           "type": "string",
-          "scope": "machine",
+          "scope": "machine-overridable",
           "default": "",
           "description": "%plantuml.configuration.java%"
         },
         "plantuml.jar": {
           "type": "string",
-          "scope": "machine",
+          "scope": "machine-overridable",
           "default": "",
           "description": "%plantuml.configuration.jar%"
         },
@@ -242,7 +242,7 @@
         },
         "plantuml.exportConcurrency": {
           "type": "number",
-          "scope": "machine",
+          "scope": "machine-overridable",
           "default": 3,
           "description": "%plantuml.configuration.exportConcurrency%"
         },
@@ -272,7 +272,7 @@
         },
         "plantuml.server": {
           "type": "string",
-          "scope": "machine",
+          "scope": "machine-overridable",
           "default": "",
           "description": "%plantuml.configuration.server%"
         },
@@ -300,7 +300,7 @@
         },
         "plantuml.render": {
           "type": "string",
-          "scope": "machine",
+          "scope": "machine-overridable",
           "default": "",
           "enum": [
             "Local",
