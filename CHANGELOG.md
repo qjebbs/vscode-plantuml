@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.12.2
+
+- Improvement: Enforce white background to markdown preview, [#257](https://github.com/qjebbs/vscode-plantuml/issues/257)
+- Improvement: Update Japanese translation, thanks to [kannkyo](https://github.com/kannkyo)
+- Improvement: Change `machine` scope setting to `machine-overridable`.
+
 ## 2.12.1
 
 - Fix: Plantuml images not loaded by markdown preview, with strict policy. [#258](https://github.com/qjebbs/vscode-plantuml/issues/258).

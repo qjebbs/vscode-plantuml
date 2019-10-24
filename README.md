@@ -397,7 +397,7 @@ Please post and view issues on [GitHub][issues]
 
 ## Translators
 
-- Japanese: [Kohei Arao](https://github.com/koara-local)
+- Japanese: [Kohei Arao](https://github.com/koara-local), [kannkyo](https://github.com/kannkyo)
 - Tranditional Chinese: [Alan Tsai](https://github.com/alantsai)
 - German: [Fabian F.](https://github.com/fur6y)
 - French: [Zepmanbc](https://github.com/Zepmanbc), [FlorianKempenich](https://github.com/FlorianKempenich)
