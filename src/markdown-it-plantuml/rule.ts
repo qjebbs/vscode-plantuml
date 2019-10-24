@@ -4,7 +4,7 @@ export function plantumlWorker(state: any) {
     // debugInfo(state.tokens);
     let blockTokens: markdowIt.Token[] = state.tokens;
     for (let blockToken of blockTokens) {
-        if (blockToken.type == "fence" && blockToken.info == "plantuml") {
+        if (blockToken.type == "fence" && blockToken.info.startsWith("plantuml")) {
             blockToken.type = "plantuml";
             if (state.env && state.env.htmlExporter) { // work with markdown extended export, solve #253
                 blockToken.tag = "object";
