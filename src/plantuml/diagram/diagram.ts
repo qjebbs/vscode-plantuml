@@ -14,35 +14,71 @@ export class Diagram {
     fileName: string;
     dir: string;
     content: string;
-    titleRaw: string;
-    title: string;
     start: vscode.Position;
     end: vscode.Position;
-    pageCount: number = 1;
-    lines: string[];
-    index: number = 0;
-    type: DiagramType = DiagramType.UML;
+    private _lines: string[] = undefined;
+    private _type: DiagramType = undefined;
+    private _titleRaw: string = undefined;
+    private _title: string = undefined;
+    private _index: number = undefined;
+    private _pageCount: number = undefined;
+
     constructor(content: string);
     constructor(content: string, document: vscode.TextDocument, start: vscode.Position, end: vscode.Position);
     constructor(content: string, ...para: any[]) {
         this.content = content;
-        this.lines = content.replace(/\r/g, "").split('\n');
-        this.type = getType(this);
-        if (para && para.length == 3) {
-            this.document = para[0];
-            this.start = para[1];
-            this.end = para[2];
-            this.parentUri = this.document.uri;
-            this.path = this.document.uri.fsPath;
-            this.fileName = path.basename(this.path);
-            let i = this.fileName.lastIndexOf(".");
-            if (i >= 0) this.fileName = this.fileName.substr(0, i);
-            this.dir = path.dirname(this.path);
-            if (!path.isAbsolute(this.dir)) this.dir = "";
-            this.getIndex();
+        if (!para || para.length < 3)
+            return;
+        this.document = para[0];
+        this.start = para[1];
+        this.end = para[2];
+        this.parentUri = this.document.uri;
+        this.path = this.document.uri.fsPath;
+        this.fileName = path.basename(this.path);
+        let i = this.fileName.lastIndexOf(".");
+        if (i >= 0) this.fileName = this.fileName.substr(0, i);
+        this.dir = path.dirname(this.path);
+        if (!path.isAbsolute(this.dir)) this.dir = "";
+    }
+    public get index(): number {
+        if (this._index !== undefined) {
+            return this._index;
         }
-        this.getPageCount();
-        this.getTitle();
+        if (this.document && this.start) {
+            for (let i = 0; i < this.start.line; i++) {
+                if (diagramStartReg.test(this.document.lineAt(i).text)) this._index++;
+            }
+        } else {
+            this._index = 0;
+        }
+        return this._index;
+    }
+    public get pageCount(): number {
+        if (this._pageCount !== undefined) {
+            return this._pageCount;
+        }
+        this._pageCount = 1;
+        if (this.lines) {
+            let regNewPage = /^\s*newpage\b/i;
+            for (let text of this.lines) {
+                if (regNewPage.test(text)) this._pageCount++;
+            }
+        }
+        return this._pageCount;
+    }
+    public get type(): DiagramType {
+        return this._type || (this._type = getType(this));
+    }
+    public get title(): string {
+        if (this._title == undefined) this.getTitle()
+        return this._title
+    }
+    public get titleRaw(): string {
+        if (this._title == undefined) this.getTitle()
+        return this._titleRaw
+    }
+    public get lines(): string[] {
+        return this._lines || (this._lines = this.content.replace(/\r/g, "").split('\n'));
     }
     isEqual(d: Diagram): boolean {
         if (this.parentUri.scheme !== d.parentUri.scheme) return false;
@@ -52,18 +88,12 @@ export class Diagram {
         if (!this.start.isEqual(d.start)) return false;
         return true;
     }
-    private getPageCount() {
-        let regNewPage = /^\s*newpage\b/i;
-        for (let text of this.lines) {
-            if (regNewPage.test(text)) this.pageCount++;
-        }
-    }
     private getTitle() {
         let RegFName = /@start(\w+)\s+(.+?)\s*$/i;
         let matches: RegExpMatchArray;;
         if (matches = this.lines[0].match(RegFName)) {
-            this.titleRaw = matches[2];
-            this.title = title.Deal(this.titleRaw);
+            this._titleRaw = matches[2];
+            this._title = title.Deal(this._titleRaw);
             return;
         }
         let inlineTitle = /^\s*title\s+(.+?)\s*$/i;
@@ -71,24 +101,19 @@ export class Diagram {
         for (let text of this.lines) {
             if (inlineTitle.test(text)) {
                 let matches = text.match(inlineTitle);
-                this.titleRaw = matches[1];
+                this._titleRaw = matches[1];
             }
         }
-        if (this.titleRaw) {
-            this.title = title.Deal(this.titleRaw);
+        if (this._titleRaw) {
+            this._title = title.Deal(this._titleRaw);
         } else if (this.start && this.end) {
             // this.title = `${this.fileName}@${this.start.line + 1}-${this.end.line + 1}`;
             if (this.index)
-                this.title = `${this.fileName}-${this.index}`;
+                this._title = `${this.fileName}-${this.index}`;
             else
-                this.title = this.fileName;
+                this._title = this.fileName;
         } else {
-            this.title = "";
-        }
-    }
-    private getIndex() {
-        for (let i = 0; i < this.start.line; i++) {
-            if (diagramStartReg.test(this.document.lineAt(i).text)) this.index++;
+            this._title = "";
         }
     }
 }
