@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import * as title from './title';
 import { DiagramType, getType } from './type';
+import { getContentWithInclude } from './include';
 
 export const diagramStartReg = /@start(\w+)/i;
 export const diagramEndReg = /@end(\w+)/i;
@@ -22,6 +23,7 @@ export class Diagram {
     private _title: string = undefined;
     private _index: number = undefined;
     private _pageCount: number = undefined;
+    private _contentWithInclude: string = undefined;
 
     constructor(content: string);
     constructor(content: string, document: vscode.TextDocument, start: vscode.Position, end: vscode.Position);
@@ -79,6 +81,9 @@ export class Diagram {
     }
     public get lines(): string[] {
         return this._lines || (this._lines = this.content.replace(/\r/g, "").split('\n'));
+    }
+    public get contentWithInclude(): string {
+        return this._contentWithInclude || (this._contentWithInclude = getContentWithInclude(this));
     }
     isEqual(d: Diagram): boolean {
         if (this.parentUri.scheme !== d.parentUri.scheme) return false;

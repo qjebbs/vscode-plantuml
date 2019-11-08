@@ -105,7 +105,7 @@ class PlantumlServer implements IRender {
                     gzip: true,
                     proxy: httpConfig.proxy(),
                     strictSSL: false,
-                    body: (method == "POST") ? Buffer.from(diagram.content) : null,
+                    body: (method == "POST") ? Buffer.from(diagram.contentWithInclude) : null,
                 }
                 , (error, response, body) => {
                     let stdout = "";
