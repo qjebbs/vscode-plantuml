@@ -10,7 +10,7 @@ import { Diagram } from './diagram/diagram';
 * @return string of URL
 */
 export function makePlantumlURL(server: string, diagram: Diagram, format: string, index: number): string {
-    return [server.replace(/^\/|\/$/g, ""), format, index, getDiagramURIComponent(diagram.content)].join("/");
+    return [server.replace(/^\/|\/$/g, ""), format, index, getDiagramURIComponent(diagram.contentWithInclude)].join("/");
 }
 
 export function getDiagramURIComponent(s: string): string {

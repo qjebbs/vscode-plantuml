@@ -8,7 +8,20 @@ Rich PlantUML support for Visual Studio Code.
 |
 [PlantUML Document](http://plantuml.com/sitemap-language-specification)
 
-## Notice
+## Notice 1
+
+The server render is now very recommended by this project. Since it's much faster and much easier to setup, while the major weakness has been improved:
+
+- Enables `POST` method, you can now render very-large diagrams
+- The extension comes with a new `include processor`, you won't encounter include problems again.
+
+To make sure you can benifit from this update, make sure your plantuml server enables `POST` support.
+
+If not, like the official <https://www.plantuml.com/plantuml>, the extension falls back to use `GET`, and you may still encounter `414 URI Too Long` errors. Setup your own server is recommended.
+
+[See also: About Render](#about-render)
+
+## Notice 2
 
 AutoInclude feature is removed, since:
 
@@ -18,8 +31,6 @@ AutoInclude feature is removed, since:
 If you need this feature, please stay with `v2.12.2`
 
 ## Features
-
-> Get **15X times faster export** by utilizing PlantUML Server as render. [How to?](#about-render)
 
 - Preview Diagram, Press `Alt-D` to start PlantUML preview.
     - Auto update.
@@ -253,12 +264,19 @@ Advantages:
 
 Disadvantages:
 
-- Cannot render very-large diagrams (HTTP 413 error).
-- Cannot render diagrams with `!include` in it.
+- ~~Cannot render very-large diagrams (414 URI Too Long).~~
+- ~~Cannot render diagrams with `!include` in it.~~
 - Less format support: png, svg, txt.
 - Some settings are not applicable: `plantuml.jar`, `plantuml.commandArgs`, `plantuml.jarArgs`.
 
 ## Use PlantUML Server as Render
+
+
+> To render very-large diagrams with include support, please make sure your plantuml server enables `POST` support.
+>
+> If not, like the official <https://www.plantuml.com/plantuml>, the extension falls back to use `GET`, and you may still encounter `414 URI Too Long` errors.
+>
+> Setup your own server is recommended.
 
 - You may already have a PlantUML server in your team, find the server address, like: `http://192.168.1.100:8080`.
 

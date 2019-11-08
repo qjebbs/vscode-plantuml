@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.13.0
+
+- Improvement: Enables `POST` method for server render, you can now render very-large diagrams
+- Improvement: The extension comes with a new `include processor`, you won't encounter include problems again.
+- Removed: AutoInclude feature is removed, if you need this feature, please stay with `v2.12.2`
+
 ## 2.12.2
 
 - Improvement: Enforce white background to markdown preview, [#257](https://github.com/qjebbs/vscode-plantuml/issues/257)
