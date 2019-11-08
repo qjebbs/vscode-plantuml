@@ -46,12 +46,11 @@ export class Diagram {
         if (this._index !== undefined) {
             return this._index;
         }
+        this._index = 0;
         if (this.document && this.start) {
             for (let i = 0; i < this.start.line; i++) {
                 if (diagramStartReg.test(this.document.lineAt(i).text)) this._index++;
             }
-        } else {
-            this._index = 0;
         }
         return this._index;
     }
