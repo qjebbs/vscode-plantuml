@@ -1,6 +1,6 @@
 # VSCode PlantUML Changelog
 
-## 2.13.0
+## 2.13.1
 
 - Improvement: Enables `POST` method for server render, you can now render very-large diagrams
 - Improvement: The extension comes with a new `include processor`, you won't encounter include problems again.
