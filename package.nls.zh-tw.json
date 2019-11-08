@@ -20,7 +20,6 @@
 	"plantuml.configuration.urlFormat": "超鏈接檔案格式。 若留空，則在每次產生的時候選擇格式。",
 	"plantuml.configuration.urlResult": "超鏈接輸出格式。 一般超鏈接還是MarkDown格式。",
 	"plantuml.configuration.render": "選擇匯出及預覽時使用的圖表渲染方式。\nLocal: 本地用傳統方式渲染。 您需要先設定好 JAVA 和 GraphViz 。\nPlantUMLServer: 使用由 \"plantuml.server\" 指定的伺服器渲染。 這比本地渲染速度快，但是需要您設定好伺服器。\nLocal 是預設設定。",
-	"plantuml.configuration.includes": "預覽/匯出時自動參考到圖表中的檔案或資料夾 。 讓您不需要到處寫 \"!include path/to/include.wsd\"。",
 	"plantuml.configuration.commandArgs": "執行 JAVA 加入的參數， 例如 \"-DPLANTUML_LIMIT_SIZE=8192\"。",
 	"plantuml.configuration.jarArgs": "執行 plantuml.jar 加入的參數， 例如 \"-config plantuml.config\"。",
 	"plantuml.configuration.exportMapFile": "決定是否在匯出圖表的同時會出圖像地圖 (.cmapx)。",

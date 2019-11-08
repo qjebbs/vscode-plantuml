@@ -308,12 +308,6 @@
           ],
           "description": "%plantuml.configuration.render%"
         },
-        "plantuml.includes": {
-          "type": "array",
-          "scope": "resource",
-          "default": [],
-          "description": "%plantuml.configuration.includes%"
-        },
         "plantuml.includepaths": {
           "type": "array",
           "scope": "resource",

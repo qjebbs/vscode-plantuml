@@ -20,7 +20,6 @@
 	"plantuml.configuration.urlFormat": "Format d'exportation utilisé lors de la génération de l'URL. Laissez vide pour avoir le choix à chaque exportation",
 	"plantuml.configuration.urlResult": "Type d'URL généré. URL simple ou formaté pour le Markdown.",
 	"plantuml.configuration.render": "Sélectionnez le générateur de diagramme pour l'export et l'aperçu.\nLocal: Générateur local de diagrammes. Vous devez installer Java et GraphViz pour l'utiliser.\nPlantUMLServer: Générateur de diagramme par serveur spécifié dans \"plantuml.server\". Plus rapide, mais nécessite un serveur.\nLocal est la configuration par défaut.",
-	"plantuml.configuration.includes": "Fichiers ou dossiers à inclure avant l'aperçu/l'export de diagrammes. Vous n'avez plus besoin d'écrire \"!include chemin/a/inclure.wsd\" pour chaque diagramme dorénavant.",
 	"plantuml.configuration.commandArgs": "'commandArgs' vous permet d'ajouter des arguments à la commande 'java', par exemple \"-DPLANTUML_LIMIT_SIZE=8192\".",
 	"plantuml.configuration.jarArgs": "'jarArgs' vous permet d'ajouter des arguments à 'plantuml.jar', par exemple \"-config plantuml.config\".",
 	"plantuml.configuration.exportMapFile": "Activer l'export d'image map (.cmapx).",

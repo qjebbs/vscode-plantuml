@@ -20,7 +20,6 @@
 	"plantuml.configuration.urlFormat": "超链接文件格式。若留空，则在每次生成时选择格式。",
 	"plantuml.configuration.urlResult": "超链接输出类型。仅超链接或 MarkDown 格式。",
 	"plantuml.configuration.render": "选择导出和预览时使用的图表渲染方式。\nLocal: 以传统方式在本地渲染，您需要先配置好 JAVA 和 GraphViz。\nPlantUMLServer: 使用由 \"plantuml.server\" 指定的服务器渲染。这比本地渲染快得多，但需要您设置一个服务器。\nLocal 是默认配置。",
-	"plantuml.configuration.includes": "需要引入到图表中的文件或目录。使您无需再到处写 \"!include path/to/include.wsd\"。",
 	"plantuml.configuration.commandArgs": "指定执行 JAVA 的自定义参数，如 \"-DPLANTUML_LIMIT_SIZE=8192\"。",
 	"plantuml.configuration.jarArgs": "指定调用 plantuml.jar 的自定义参数，如 \"-config plantuml.config\"。",
 	"plantuml.configuration.exportMapFile": "决定是否在导出图表的同时导出图片热区 (.cmapx) 文件。",

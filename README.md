@@ -10,11 +10,12 @@ Rich PlantUML support for Visual Studio Code.
 
 ## Notice
 
-To avoid unexpected data sharing, the latest version has removed the default value of `plantuml.server`. 
+AutoInclude feature is removed, since:
 
-Before you specify one (either the official or your own), server render and markdown integration won't work but prompts.
+1. The include search has been improved, which provide better flexibility.
+2. It doesn't compatible with the new `include processor` for server render.
 
-See also: [Use PlantUML Server as render](#use-plantuml-server-as-render)
+If you need this feature, please stay with `v2.12.2`
 
 ## Features
 
@@ -40,7 +41,6 @@ See also: [Use PlantUML Server as render](#use-plantuml-server-as-render)
     - All type snippets.
     - Basic auto completion & macro signature support **NEW!!**
     - Symbol List support.
-    - Auto Include **(Deprecated)**.
 - Others
     - Multi-root Workspace Support.
     - MarkDown integrating support. [View Demo](#markdown-integrating)
@@ -270,65 +270,6 @@ Disadvantages:
 "plantuml.server": "http://192.168.1.100:8080",
 "plantuml.render": "PlantUMLServer",
 ```
-
-## About Auto Include **(Deprecated)**
-
-> **Notice:** AutoInclude is deprecated since the include search has been improved, that the include path is consistent between files, and provide better flexibility.
-
-<!-- 
-![include demo](images/include_demo.gif "demo")
-
-Auto Include liberates you from writing "!include path/to/include.wsd" everywhere. which is bother & hard to manage.
-
-Suppose we have 2 files to include: `defines.wsd` and `myStyles.wsd`, and they are organized as follow:
-
-```text
-├── includes
-│   ├── defines.wsd
-│   └── myStyles.wsd
-├── sources
-│   ├── sourceA.wsd
-│   └── sourceB.wsd
-├── out
-```
-
-In the past, we have to include them manually in every single diagram:
-
-```plantumlcode
-@startuml
-!include ../includes/defines.wsd
-!include ../includes/myStyles.wsd
-'contents goes here...
-@enduml
-```
-
-Now, you can just replace them with a placehold `'autoinclude`,
-
-```plantumlcode
-@startuml
-'AutoInclude
-'contents goes here...
-@enduml
-```
-
-and open workspace setting and config:
-
-```text
-"plantuml.includes": [
-    "includes"
-]
-``` 
-
-### About integrated theme
-
-Plugin shipped with a blue diagram theme, to enable it, config like:
-
-```text
-"plantuml.includes": [
-    "styles/blue"
-]
-```
--->
 
 ## Multiple languages support
 

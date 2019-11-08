@@ -20,7 +20,6 @@
 	"plantuml.configuration.urlFormat": "URL format. Lad være blankt for at vælge format hver gang der laves et URL.",
 	"plantuml.configuration.urlResult": "URL resultattype. Et simpelt URL eller klar til Markdown brug.",
 	"plantuml.configuration.render": "Specificér type af diagramrendering til både eksport og preview.\nLokalt: Rendér diagrammer lokalt på tradionel vis. JAVA og GraphViz kræves opsat først.\nPlantUMLServer: Rendér diagrammer med server specificeret med \"plantuml.server\". Det er langt hurtigere, men kræves denne server.\nLokalt er den standard konfiguration.",
-	"plantuml.configuration.includes": "Filer eller mapper til inkludering før preview/eksport af diagrammer. Der behøves ikke skrives \"!include path/to/include.wsd\" for hvert enkelt diagram længere.",
 	"plantuml.configuration.commandArgs": "Tillader argumenter til java-kommando, som for eksempel \"-DPLANTUML_LIMIT_SIZE=8192\".",
 	"plantuml.configuration.jarArgs": "Tillader argumenter til plantuml.jar, for eksempel \"-config plantuml.config\".",
 	"plantuml.configuration.exportMapFile": "Bestemmer eksportering af billede-map (.cmapx) fil.",

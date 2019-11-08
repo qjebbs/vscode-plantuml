@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { includer } from './includer';
 import { Diagram, diagramStartReg, diagramEndReg } from './diagram';
 
 export function currentDiagram(): Diagram {
@@ -46,7 +45,7 @@ export function diagramAt(document: vscode.TextDocument, para: number | vscode.P
         content = document.getText(new vscode.Range(start, end));
         diagram = new Diagram(content, document, start, end);
     }
-    return diagram ? includer.addIncludes(diagram) : undefined;
+    return diagram;
 }
 
 export function diagramsOf(document: vscode.TextDocument): Diagram[] {
