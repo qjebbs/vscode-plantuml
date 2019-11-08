@@ -3,6 +3,8 @@ import * as vscode from 'vscode';
 import { Diagram } from '../diagram/diagram';
 import { localize } from '../common';
 import { plantumlServer } from '../renders/plantumlServer';
+import { config } from '../config';
+import { makePlantumlURL } from '../plantumlURL';
 
 export interface DiagramURL {
     name: string;
@@ -19,8 +21,9 @@ export function MakeDiagramURL(diagram: Diagram, format: string, bar: vscode.Sta
         bar.show();
         bar.text = localize(16, null, diagram.title);
     }
+    let server = config.server;
     return <DiagramURL>{
         name: diagram.title,
-        urls: [...Array(diagram.pageCount).keys()].map(index => plantumlServer.makeURL(diagram, format, index))
+        urls: [...Array(diagram.pageCount).keys()].map(index => makePlantumlURL(server, diagram, format, index))
     }
 }

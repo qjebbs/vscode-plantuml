@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import * as zlib from 'zlib';
+import * as request from 'request';
 
 import { IRender, RenderTask, RenderError } from './interfaces'
 import { Diagram, diagramStartReg } from '../diagram/diagram';
@@ -8,13 +8,14 @@ import { config } from '../config';
 import { localize } from '../common';
 import { addFileIndex } from '../tools';
 import { httpConfig } from './httpConfig';
-const request = require('request');
+import { makePlantumlURL } from '../plantumlURL';
 
-interface PlantumlServerError {
-    error: string
-    line: number
-    description: string
+const ERROR_405 = new Error("HTTP method POST is not supported by this URL");
+
+interface Dictionary<T> {
+    [key: string]: T;
 }
+let noPOSTServers: Dictionary<boolean> = {};
 
 class PlantumlServer implements IRender {
     /**
@@ -43,7 +44,8 @@ class PlantumlServer implements IRender {
      * @returns ExportTask.
      */
     render(diagram: Diagram, format: string, savePath: string): RenderTask {
-        if (!config.server) {
+        let server = config.server;
+        if (!server) {
             return <RenderTask>{
                 processes: [],
                 promise: Promise.reject(localize(53, null)),
@@ -51,25 +53,24 @@ class PlantumlServer implements IRender {
         }
         let allPms = [...Array(diagram.pageCount).keys()].map(
             (index) => {
-                let requestUrl = this.makeURL(diagram, format, index);
                 let savePath2 = savePath ? addFileIndex(savePath, index, diagram.pageCount) : "";
-                return this.httpWrapper(requestUrl, savePath2).then(
-                    result => new Promise<Buffer>(
-                        (resolve, reject) => {
-                            let stdout = result[0];
-                            let stderr = result[1];
-                            if (stderr) {
-                                let err = stderr.plantumlError ?
-                                    this.parsePlantumlError(stderr.plantumlError, diagram) :
-                                    stderr.message
-                                err = localize(10, null, diagram.title, err);
-                                reject(err);
-                            } else {
-                                resolve(stdout)
-                            };
-                        }
-                    )
-                );
+                if (noPOSTServers[server]) {
+                    // Servers like the official one doesn't support POST
+                    return this.httpWrapper("GET", server, diagram, format, index, savePath2);
+                } else {
+                    return this.httpWrapper("POST", server, diagram, format, index, savePath2)
+                        .catch(
+                            err => {
+                                if (err === ERROR_405) {
+                                    // do not retry POST again with this server
+                                    noPOSTServers[server] = true
+                                    // fallback to GET
+                                    return this.httpWrapper("GET", server, diagram, format, index, savePath2)
+                                }
+                                return Promise.reject(err)
+                            }
+                        )
+                }
             },
             Promise.resolve(Buffer.alloc(0))
         );
@@ -81,16 +82,30 @@ class PlantumlServer implements IRender {
     getMapData(diagram: Diagram, savePath: string): RenderTask {
         return this.render(diagram, "map", savePath);
     }
-    private httpWrapper(requestUrl: string, savePath?: string): Promise<[Buffer, any]> {
-        return new Promise<[Buffer, any]>((resolve, reject) => {
+    private httpWrapper(method: string, server: string, diagram: Diagram, format: string, index: number, savePath?: string): Promise<Buffer> {
+        let requestPath: string, requestUrl: string;
+        requestPath = [server, format, index, "..."].join("/");
+        switch (method) {
+            case "GET":
+                requestUrl = makePlantumlURL(server, diagram, format, index);
+                break;
+            case "POST":
+                // "om80" is used to bypass the pagination bug of the POST method.
+                // https://github.com/plantuml/plantuml-server/pull/74#issuecomment-551061156
+                requestUrl = [server, format, index, "om80"].join("/");
+                break;
+            default:
+                return Promise.reject("Unsupported request method: " + method);
+        }
+        return new Promise<Buffer>((resolve, reject) => {
             request(
                 {
-                    method: 'GET'
-                    , uri: requestUrl
-                    , encoding: null // for byte encoding. Otherwise string.
-                    , gzip: true
-                    , proxy: httpConfig.proxy()
-                    , strictSSL: false
+                    method: method,
+                    uri: requestUrl,
+                    gzip: true,
+                    proxy: httpConfig.proxy(),
+                    strictSSL: false,
+                    body: (method == "POST") ? Buffer.from(diagram.content) : null,
                 }
                 , (error, response, body) => {
                     let stdout = "";
@@ -105,100 +120,41 @@ class PlantumlServer implements IRender {
                                     stdout = "";
                                 }
                             } else {
-                                stdout = body
+                                stdout = body;
                             }
                         } else if (response.headers['x-plantuml-diagram-error']) {
-                            stderr = {
-                                plantumlError: <PlantumlServerError>{
-                                    error: response.headers['x-plantuml-diagram-error'],
-                                    line: parseInt(response.headers['x-plantuml-diagram-error-line']),
-                                    description: response.headers['x-plantuml-diagram-description']
-                                }
-                            }
-                            stdout = body
+                            stderr = this.parsePlantumlError(
+                                response.headers['x-plantuml-diagram-error'],
+                                parseInt(response.headers['x-plantuml-diagram-error-line']),
+                                response.headers['x-plantuml-diagram-description'],
+                                diagram
+                            );
+                            stdout = body;
+                        } else if (response.statusCode === 405) {
+                            reject(ERROR_405);
+                            return;
                         } else {
-                            stderr = "Unexpected Error: "
-                                + response.statusCode + "\n"
-                                + "for GET " + requestUrl;
+                            stderr = response.statusCode + " " + response.statusMessage + "\n\n" +
+                                method + " " + requestPath;
                         }
                     } else {
-                        stderr = error;
+                        stderr = error.code + " " + error.message + "\n" +
+                            error.stack + "\n\n" +
+                            method + " " + requestPath;
                     }
-                    resolve([Buffer.from(stdout), stderr]);
+                    if (stderr) {
+                        stderr = localize(10, null, diagram.title, stderr);
+                        reject(<RenderError>{ error: stderr, out: Buffer.from(stdout) });
+                    } else {
+                        resolve(Buffer.from(stdout));
+                    }
                 })
         });
     }
-    /**
-     * make url for a diagram
-     * @param diagram diagram to make the URL
-     * @param format url format
-     * @return string of URL
-     */
-    makeURL(diagram: Diagram, format: string, index: number): string {
-        return [config.server.replace(/^\/|\/$/g, ""), format, index, this.urlTextFrom(diagram.content)].join("/");
-    }
-    private urlTextFrom(s: string): string {
-        let opt: zlib.ZlibOptions = { level: 9 };
-        let d = zlib.deflateRawSync(Buffer.from(s), opt) as Buffer;
-        let b = encode64(String.fromCharCode(...d.subarray(0)));
-        return b;
-        // from synchro.js
-        /* Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
-         * Version: 1.0.1
-         * LastModified: Dec 25 1999
-         */
-        function encode64(data) {
-            let r = "";
-            for (let i = 0; i < data.length; i += 3) {
-                if (i + 2 == data.length) {
-                    r += append3bytes(data.charCodeAt(i), data.charCodeAt(i + 1), 0);
-                } else if (i + 1 == data.length) {
-                    r += append3bytes(data.charCodeAt(i), 0, 0);
-                } else {
-                    r += append3bytes(data.charCodeAt(i), data.charCodeAt(i + 1), data.charCodeAt(i + 2));
-                }
-            }
-            return r;
-        }
 
-        function append3bytes(b1, b2, b3) {
-            let c1 = b1 >> 2;
-            let c2 = ((b1 & 0x3) << 4) | (b2 >> 4);
-            let c3 = ((b2 & 0xF) << 2) | (b3 >> 6);
-            let c4 = b3 & 0x3F;
-            let r = "";
-            r += encode6bit(c1 & 0x3F);
-            r += encode6bit(c2 & 0x3F);
-            r += encode6bit(c3 & 0x3F);
-            r += encode6bit(c4 & 0x3F);
-            return r;
-        }
-        function encode6bit(b) {
-            if (b < 10) {
-                return String.fromCharCode(48 + b);
-            }
-            b -= 10;
-            if (b < 26) {
-                return String.fromCharCode(65 + b);
-            }
-            b -= 26;
-            if (b < 26) {
-                return String.fromCharCode(97 + b);
-            }
-            b -= 26;
-            if (b == 0) {
-                return '-';
-            }
-            if (b == 1) {
-                return '_';
-            }
-            return '?';
-        }
-    }
-
-    private parsePlantumlError(error: PlantumlServerError, diagram: Diagram): any {
-        let fileLine = error.line;
-        if (diagramStartReg.test(diagram.lines[0])) fileLine += 1;
+    private parsePlantumlError(error: string, line: number, description: string, diagram: Diagram): any {
+        if (diagramStartReg.test(diagram.lines[0])) line += 1;
+        let fileLine = line;
         let blankLineCount = 0;
         for (let i = 1; i < diagram.lines.length; i++) {
             if (diagram.lines[i].trim()) break;
@@ -207,7 +163,7 @@ class PlantumlServer implements IRender {
         fileLine += blankLineCount;
         let lineContent = diagram.lines[fileLine - 1];
         fileLine += diagram.start.line;
-        return `${error.error} (@ Diagram Line ${error.line}, File Line ${fileLine})\n"${lineContent}"\n${error.description}\n`;
+        return `${error} (@ Diagram Line ${line}, File Line ${fileLine})\n"${lineContent}"\n${description}\n`;
     }
 }
 export const plantumlServer = new PlantumlServer();

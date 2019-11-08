@@ -104,7 +104,7 @@ class Config extends ConfigReader {
     }
 
     get server(): string {
-        return this.read<string>('server').trim();
+        return this.read<string>('server').trim().replace(/\/+$/g, "");
     }
 
     get urlFormat(): string {
