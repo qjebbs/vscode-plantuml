@@ -13,12 +13,17 @@ interface FileSubBlocks {
     [key: string]: string[];
 }
 
+interface DictIncluded {
+    [key: string]: boolean;
+}
+
 export function getContentWithInclude(diagram: Diagram): string {
     let searchPaths = getSearchPaths(diagram.parentUri);
     return resolveInclude(diagram.lines, searchPaths);
 }
 
-function resolveInclude(content: string | string[], searchPaths: string[]): string {
+function resolveInclude(content: string | string[], searchPaths: string[], included?: DictIncluded): string {
+    if (!included) included = {};
     let lines = content instanceof Array ? content : content.split('\n');
     let processedLines = lines.map(line => line.replace(
         INCLUDE_REG,
@@ -27,14 +32,13 @@ function resolveInclude(content: string | string[], searchPaths: string[]): stri
             let target = args[1].trim();
             let sub = args[2];
             let file = path.isAbsolute(target) ? target : findFile(target, searchPaths);
-            if (!file) return match;
+            let result: string;
             if (Action == "include") {
-                return getIncludeContent(file) || match;
+                result = getIncludeContent(file, included);
+            } else {
+                result = getIncludesubContent(file, sub, included);
             }
-            if (sub) {
-                return getIncludesubContent(file, sub) || match;
-            }
-            return match;
+            return result === undefined ? match : result;
         }
     ));
     return processedLines.join('\n');
@@ -60,17 +64,31 @@ function findFile(file: string, searchPaths: string[]): string {
     return undefined;
 }
 
-function getIncludeContent(file: string): string {
+function getIncludeContent(file: string, included: DictIncluded): string {
     if (!file) return undefined
+    if (included[file]) {
+        // console.log("ignore file already included:", file);
+        return "";
+    }
     let content = fs.readFileSync(file).toString();
-    return resolveInclude(content, getSearchPaths(vscode.Uri.file(file)));
+    included[file] = true;
+    return resolveInclude(content, getSearchPaths(vscode.Uri.file(file)), included);
 }
 
-function getIncludesubContent(file: string, sub: string): string {
-    if (!file) return undefined
+function getIncludesubContent(file: string, sub: string, included: DictIncluded): string {
+    if (!file || !sub) return undefined
+    // // FIXME: Disable sub block duplication check, to keep same behavior with PlantUML project
+    // // Diabled: Cannot prevent potentially '!includesub' loop.
+    // // Enabled: Cannot repeatedly including with `!includesub`, even it's not a loop.
+    // let identifier = `${file}!${sub}`;
+    // if (included[file]) {
+    //     // console.log("ignore block already included:", file);
+    //     return "";
+    // }
     let blocks = getSubBlocks(file);
     if (!blocks) return undefined;
-    return resolveInclude(blocks[sub], getSearchPaths(vscode.Uri.file(file)));
+    // included[identifier] = true;
+    return resolveInclude(blocks[sub], getSearchPaths(vscode.Uri.file(file)), included);
 }
 
 function getSubBlocks(file: string): FileSubBlocks {
