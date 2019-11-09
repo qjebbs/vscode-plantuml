@@ -10,7 +10,7 @@ Rich PlantUML support for Visual Studio Code.
 
 ## Notice 1
 
-The server render is now very recommended by this project. Since it's much faster and much easier to setup, while the major weakness has been improved:
+The server render is now very recommended by this project, since it's much faster and much easier to setup, while the major weakness has been improved:
 
 - Enables `POST` method, you can now render very-large diagrams
 - The extension comes with a new `include processor`, you won't encounter include problems again.
@@ -366,7 +366,7 @@ Please post and view issues on [GitHub][issues]
 
 Thanks for your encouragements!
 
-> Claus Appel, 三島木​一磨, 富吉​佑季, 黒田悦成, Jared Birdsall, Suleyman Cabir Ciplak, Malcolm Learner, Сысоев Максим, Gokan Kenichi
+> Claus Appel, 三島木​一磨, 富吉​佑季, 黒田悦成, Jared Birdsall, Suleyman Cabir Ciplak, Malcolm Learner, Сысоев Максим, Gokan Kenichi, anb0s
 
 -----------------------------------------------------------------------------------------------------------
 
