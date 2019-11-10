@@ -200,7 +200,7 @@ repository:
         '3': {name: comment.line.header_legend_footer.source.wsd}
     - comment: Preprocessings
       name: support.class.preprocessings.source.wsd
-      match: (?i)(!include|!enddefinelong|!definelong|!define|!ifdef|!else|!endif|!ifndef)
+      match: (?i)(!includesub|!include|!enddefinelong|!definelong|!define|!startsub|!endsub|!ifdef|!else|!endif|!ifndef)
     - comment: links
       begin: (?i)((?:(?:(?:\s+[ox]|[+*])?(?:<<|<\|?|\\\\|\\|//|\}|\^|#|0|0\))?)(?=[-.~=]))[-.~=]+(\[(?:\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\w+)(?:[-\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\w+))?\b)\])?(?:(left|right|up|down)(?:[-.~=]))?[-.]*(?:(?:>>|\|?>|\\\\|\\|//|\{|\^|#|0|\(0)?(?:[ox]\s+|[+*])?))
       beginCaptures:
