@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.13.2
+
+- Improvement: Cannot include one file multiple times, avoiding include loop.
+- Fix: Fix Markdown rendering, [#271](https://github.com/qjebbs/vscode-plantuml/issues/271).
+
 ## 2.13.1
 
 - Improvement: Enables `POST` method for server render, you can now render very-large diagrams
