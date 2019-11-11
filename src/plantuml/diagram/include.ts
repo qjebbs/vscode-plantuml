@@ -46,6 +46,7 @@ function resolveInclude(content: string | string[], searchPaths: string[], inclu
 
 // TODO: remove duplicated paths.
 function getSearchPaths(uri: vscode.Uri): string[] {
+    if (!uri) return [];
     let searchPaths = [path.dirname(uri.fsPath)];
     searchPaths.push(...config.includepaths(uri));
     let diagramsRoot = config.diagramsRoot(uri);
