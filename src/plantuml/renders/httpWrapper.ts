@@ -25,7 +25,7 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
     }
 
     let u = url.parse(requestUrl);
-    let protocol = u.protocol == "http:" ? http : https;
+    let protocol: any = u.protocol == "http:" ? http : https;
     return new Promise<Buffer>((resolve, reject) => {
         let buffBody: Buffer[] = [];
         let buffBodyLen = 0;
