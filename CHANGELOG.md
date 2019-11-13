@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.13.3
+
+- Fix: Remove dependency `request` to fix invalid png export, [#272](https://github.com/qjebbs/vscode-plantuml/issues/272).
+
 ## 2.13.2
 
 - Improvement: Cannot include one file multiple times, avoiding include loop.
