@@ -361,7 +361,6 @@
   },
   "dependencies": {
     "linq-collections": "*",
-    "request": "^2.88.0",
     "vscode-nls": "^2.0.2"
   }
 }
