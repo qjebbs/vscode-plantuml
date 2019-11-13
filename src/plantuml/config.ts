@@ -140,6 +140,9 @@ class Config extends ConfigReader {
             return this._java;
         })();
     }
+    get previewWithHiddenControls(): boolean {
+        return this.read<boolean>('previewWithHiddenControls');
+    }
 }
 
 export const config = new Config();

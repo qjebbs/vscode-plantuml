@@ -47,9 +47,15 @@ export class UI extends vscode.Disposable {
         } else {
             let file = args[0] as string;
             let env = args[1];
+            let settings = (env.settings)? JSON.parse(env.settings): null;
+            let postMessagePayload = (settings.previewWithHiddenControls)? { previewWithHiddenControls: settings.previewWithHiddenControls }: null;
             viewColumn = args[2] || (this._panel ? this._panel.viewColumn : DEFAULT_VIEWCOLUMN);
             this.createIfNoPanel(viewColumn);
             this.update(file, env);
+            // Only postMessage if previewWithHiddenControls has been set to true
+            if (postMessagePayload) {
+                this.postMessage(postMessagePayload);
+            }
         }
         if (!this._panel.visible || viewColumn !== this._panel.viewColumn)
             this._panel.reveal(viewColumn ? viewColumn : this._panel.viewColumn);

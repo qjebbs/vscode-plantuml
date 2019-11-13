@@ -325,6 +325,11 @@
           "scope": "resource",
           "default": [],
           "description": "%plantuml.configuration.jarArgs%"
+        },
+        "plantuml.previewWithHiddenControls": {
+          "type": "boolean",
+          "default": false,
+          "description": "%plantuml.configuration.previewWithHiddenControls%"
         }
       }
     },

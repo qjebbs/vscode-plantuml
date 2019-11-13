@@ -24,5 +24,6 @@
 	"plantuml.configuration.jarArgs": "jarArgs allows you add arguments to plantuml.jar, such as \"-config plantuml.config\".",
 	"plantuml.configuration.exportMapFile": "Determine whether export image map (.cmapx) file when export.",
 	"plantuml.configuration.java": "Java executable location.",
-	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'."
+	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'.",
+	"plantuml.configuration.previewWithHiddenControls": "Specifies if controls should be hidden during preview"
 }
