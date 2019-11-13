@@ -24,14 +24,13 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
             return Promise.reject("Unsupported request method: " + method);
     }
 
-    let u = url.parse(requestUrl);
-    let protocol: any = u.protocol == "http:" ? http : https;
     return new Promise<Buffer>((resolve, reject) => {
         let buffBody: Buffer[] = [];
         let buffBodyLen = 0;
         let response: http.IncomingMessage;
         let httpError: any;
 
+        let u = url.parse(requestUrl);
         let options = <https.RequestOptions>{
             protocol: u.protocol,
             auth: u.auth,
@@ -42,7 +41,7 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
             method: method,
         };
 
-        let req = protocol.request(options, function (res) {
+        let responseCallback = (res: http.IncomingMessage) => {
             // console.log('STATUS: ' + res.statusCode);
             // console.log('HEADERS: ' + JSON.stringify(res.headers));
             response = res
@@ -51,13 +50,9 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
                 buffBody.push(chunk);
                 buffBodyLen += chunk.length;
             });
-        });
+        }
 
-        req.on('error', function (err: Error) {
-            httpError = err;
-        });
-
-        req.on('close', () => {
+        let closeCallback = () => {
             if (httpError) {
                 reject(httpError);
                 return;
@@ -92,7 +87,17 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
                 return;
             }
             resolve(body);
+        };
+
+        let req = u.protocol == "http:" ?
+            http.request(options, responseCallback) :
+            https.request(options, responseCallback)
+
+        req.on('error', (err: Error) => {
+            httpError = err;
         });
+
+        req.on('close', closeCallback);
 
         if (method == "POST") {
             req.write(diagram.contentWithInclude);
