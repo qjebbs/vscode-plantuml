@@ -334,7 +334,8 @@ Export Settings:
 
 Preview Settings:
 
-- `plantuml.previewAutoUpdate`: Dedecides if automatically update the preview window.
+- `plantuml.previewAutoUpdate`: Decides if automatically update the preview window.
+- `plantuml.previewWithHiddenControls`: Specifies if controls should be hidden during preview.
 
 URL Generating Settings:
 
