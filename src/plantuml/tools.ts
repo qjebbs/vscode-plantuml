@@ -121,39 +121,6 @@ export function addFileIndex(fileName: string, index: number, count: number): st
         bsName.substr(0, bsName.length - ext.length) + "-page" + (index + 1) + ext,
     );
 }
-export function processWrapper(process: child_process.ChildProcess, pipeFilePath?: string): Promise<[Buffer, Buffer]> {
-    return new Promise<[Buffer, Buffer]>((resolve, reject) => {
-        let buffOut: Buffer[] = [];
-        let buffOutLen = 0;
-        let buffErr: Buffer[] = [];
-        let buffErrLen = 0;
-
-        // let pipeFile = pipeFilePath ? fs.createWriteStream(pipeFilePath) : null;
-        // if (pipeFile) process.stdout.pipe(pipeFile);
-
-        process.stdout.on('data', function (x: Buffer) {
-            buffOut.push(x);
-            buffOutLen += x.length;
-        });
-
-        process.stderr.on('data', function (x: Buffer) {
-            buffErr.push(x);
-            buffErrLen += x.length;
-        });
-
-        process.stdout.on('close', () => {
-            let stdout = Buffer.concat(buffOut, buffOutLen);
-            if (pipeFilePath && stdout.length) {
-                fs.writeFileSync(pipeFilePath, stdout);
-                stdout = Buffer.from(pipeFilePath);
-            }
-            let stderr = Buffer.concat(buffErr, buffErrLen);
-            if (stderr.toString().indexOf('JAVA_TOOL_OPTIONS') >= 0)
-                stderr = Buffer.alloc(0);
-            resolve([stdout, stderr]);
-        });
-    });
-}
 
 export function testJava(java: string): boolean {
     let _javaInstalled = false;

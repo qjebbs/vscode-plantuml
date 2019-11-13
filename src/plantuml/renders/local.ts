@@ -7,7 +7,8 @@ import { IRender, RenderTask, RenderError } from './interfaces'
 import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
 import { localize, extensionPath } from '../common';
-import { addFileIndex, processWrapper } from '../tools';
+import { addFileIndex } from '../tools';
+import { processWrapper } from './processWrapper';
 
 class LocalRender implements IRender {
 
@@ -79,8 +80,7 @@ class LocalRender implements IRender {
                 ];
 
                 let includePath = ''
-                if(diagram.dir && path.isAbsolute(diagram.dir))
-                {
+                if (diagram.dir && path.isAbsolute(diagram.dir)) {
                     includePath = diagram.dir;
                 }
 
@@ -100,7 +100,7 @@ class LocalRender implements IRender {
                 }
 
                 params.unshift('-Dplantuml.include.path=' + includePath);
-                
+
                 // Add user java args
                 params.unshift(...config.commandArgs(diagram.parentUri));
                 // Jar args
@@ -126,17 +126,8 @@ class LocalRender implements IRender {
                         let savePath2 = savePath ? addFileIndex(savePath, index, diagram.pageCount) : "";
 
                         let pms = processWrapper(process, savePath2).then(
-                            result => new Promise<Buffer>((resolve, reject) => {
-                                let stdout = result[0];
-                                let stderr = result[1].toString();
-                                if (stderr.length) {
-                                    stderr = localize(10, null, diagram.title, stderr);
-                                    reject(<RenderError>{ error: stderr, out: stdout });
-                                } else {
-                                    buffers.push(stdout);
-                                    resolve(null)
-                                };
-                            })
+                            stdout => buffers.push(stdout),
+                            err => Promise.reject(<RenderError>{ error: localize(10, null, diagram.title, err.error), out: err.out })
                         );
                         return pms;
                     },

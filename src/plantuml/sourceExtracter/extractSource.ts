@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { localize, languageid, bar } from '../common';
 import { config } from '../config';
-import { processWrapper } from '../tools';
+import { processWrapper } from '../renders/processWrapper';
 
 export async function extractSource() {
 
@@ -56,16 +56,8 @@ function extract(imgs: vscode.Uri[]) {
                     let process = child_process.spawn(config.java, params);
 
                     let pms = processWrapper(process).then(
-                        result => new Promise<Buffer>((resolve, reject) => {
-                            let stdout = result[0].toString();
-                            let stderr = result[1].toString();
-                            if (stderr.length) {
-                                sources.push(stderr);
-                            } else {
-                                sources.push(stdout);
-                            };
-                            resolve(null)
-                        })
+                        stdout => sources.push(stdout.toString()),
+                        err => sources.push(err),
                     );
                     return pms;
                 },
