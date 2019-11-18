@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.13.4
+
+- Fix: `POST` with `Content-Type` header, fix encoding issue, [#274](https://github.com/qjebbs/vscode-plantuml/issues/274). Thanks to [@fengyie007](https://github.com/qjebbs/vscode-plantuml/issues/274#issuecomment-554228925).
+
+
 ## 2.13.3
 
 - Fix: Remove dependency `request` to fix invalid png export, [#272](https://github.com/qjebbs/vscode-plantuml/issues/272).
