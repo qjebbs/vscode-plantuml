@@ -39,6 +39,9 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
             port: parseInt(u.port),
             path: u.path,
             method: method,
+            headers: {
+                "Content-Type": 'text/plain; charset=utf-8',
+            },
         };
 
         let responseCallback = (res: http.IncomingMessage) => {
@@ -100,7 +103,7 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
         req.on('close', closeCallback);
 
         if (method == "POST") {
-            req.write(diagram.contentWithInclude);
+            req.write(diagram.contentWithInclude, "utf8");
         }
         req.end();
     });
