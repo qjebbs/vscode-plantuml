@@ -44,7 +44,6 @@ function resolveInclude(content: string | string[], searchPaths: string[], inclu
     return processedLines.join('\n');
 }
 
-// TODO: remove duplicated paths.
 function getSearchPaths(uri: vscode.Uri): string[] {
     if (!uri) return [];
     let searchPaths = [path.dirname(uri.fsPath)];
@@ -52,7 +51,7 @@ function getSearchPaths(uri: vscode.Uri): string[] {
     let diagramsRoot = config.diagramsRoot(uri);
     if (diagramsRoot)
         searchPaths.push(diagramsRoot.fsPath);
-    return searchPaths;
+    return Array.from(new Set(searchPaths));
 }
 
 function findFile(file: string, searchPaths: string[]): string {
