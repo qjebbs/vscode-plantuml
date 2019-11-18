@@ -1,17 +1,18 @@
 // A launch configuration that compiles the extension and then opens it inside a new window
+// Use IntelliSense to learn about possible attributes.
+// Hover to view descriptions of existing attributes.
+// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Extension",
+            "name": "Run Extension",
             "type": "extensionHost",
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
-            "stopOnEntry": false,
-            "sourceMaps": true,
-            "outDir": "${workspaceRoot}/out/src",
-            "preLaunchTask": "npm"
+            "outFiles": ["${workspaceFolder}/out/src/**/*.js"],
+            "preLaunchTask": "npm: compile"
         },
         {
             "name": "Launch Tests",
@@ -19,10 +20,8 @@
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": ["--extensionDevelopmentPath=${workspaceRoot}", "--extensionTestsPath=${workspaceRoot}/out/test" ],
-            "stopOnEntry": false,
-            "sourceMaps": true,
-            "outDir": "${workspaceRoot}/out/test",
-            "preLaunchTask": "npm"
+            "outFiles": ["${workspaceFolder}/out/test/**/*.js"],
+            "preLaunchTask": "npm: compile"
         }
     ]
 }
