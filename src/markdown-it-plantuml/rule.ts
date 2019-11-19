@@ -6,11 +6,14 @@ export function plantumlWorker(state: any) {
     for (let blockToken of blockTokens) {
         if (blockToken.type == "fence" && blockToken.info.startsWith("plantuml")) {
             blockToken.type = "plantuml";
-            if (state.env && state.env.htmlExporter) { // work with markdown extended export, solve #253
-                blockToken.tag = "object";
-            } else {
-                blockToken.tag = "img";
-            }
+            // always render as <img> for maximum compatibility:
+            // https://github.com/qjebbs/vscode-markdown-extended/issues/67#issuecomment-554996262
+            blockToken.tag = "img";
+            // if (state.env && state.env.htmlExporter) { // work with markdown extended export, solve #253
+            //     blockToken.tag = "object";
+            // } else {
+            //     blockToken.tag = "img";
+            // }
         }
     }
 }
