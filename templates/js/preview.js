@@ -106,6 +106,6 @@ window.addEventListener("message", event => {
     const message = event.data; // The JSON data our extension sent
     let ctrlContainer = document.getElementById("ctrl-container");
     if(message.previewWithHiddenControls && ctrlContainer) {
-        ctrlContainer.remove();
+        ctrlContainer.style.display = "none";
     }
 });
