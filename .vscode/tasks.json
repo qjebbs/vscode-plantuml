@@ -6,7 +6,17 @@
 		{
 			"type": "npm",
 			"script": "watch",
-			"problemMatcher": "$tsc-watch",
+			"problemMatcher":  {
+				"base": "$tsc-watch",
+				"background": {
+					"beginsPattern": {
+						"regexp": "Starting compilation in watch mode|File change detected\\.\\s*Starting incremental compilation"
+					},
+					"endsPattern": {
+						"regexp": "(?:Compilation complete\\.|Found \\d+ errors?\\.)\\s*Watching for file changes\\."
+					}
+				}
+			},
 			"isBackground": true,
 			"presentation": {},
 			"group": {
