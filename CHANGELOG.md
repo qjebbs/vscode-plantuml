@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.13.5
+
+- Improvement: Do not render diagram as object in markdown, due to [vscode-markdown-extended#67](https://github.com/qjebbs/vscode-markdown-extended/issues/67)
+- Improvement: Include files search optimize
+
 ## 2.13.4
 
 - Fix: `POST` with `Content-Type` header, fix encoding issue, [#274](https://github.com/qjebbs/vscode-plantuml/issues/274). Thanks to [@fengyie007](https://github.com/qjebbs/vscode-plantuml/issues/274#issuecomment-554228925).
