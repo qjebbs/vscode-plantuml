@@ -328,14 +328,14 @@ repository:
           '3': {name: string.quoted.double.class.group.separator.source.wsd}
           '4': {name: comment.line.class.group.separator.source.wsd}
       - comment: function
-        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?((\w+(\[\])?)\s+)?([0-9a-zA-Z_]+)(\(\))\s*$
+        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?((\w+(\[\])?)\s+)?([0-9A-Za-zÀàÂâÄäÆæÇçÈèÉéÊêËëÎîÏïÔôÙùÛûÜüñ_]+)(\(\))\s*$
         captures:
           '1': {name: storage.modifier.class.fileds.source.wsd}
           '3': {name: keyword.other.class.fileds.source.wsd}
           '5': {name: support.type.class.function.source.wsd}
           '7': {name: support.variable.class.function.source.wsd}
       - comment: fields
-        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?((\w+(\[\])?)\s+([0-9a-zA-Z_]+)|([0-9a-zA-Z_]+)\s*:\s*(\w+))\s*$
+        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?((\w+(\[\])?)\s+([0-9A-Za-zÀàÂâÄäÆæÇçÈèÉéÊêËëÎîÏïÔôÙùÛûÜüñ_]+)|([0-9A-Za-zÀàÂâÄäÆæÇçÈèÉéÊêËëÎîÏïÔôÙùÛûÜüñ_]+)\s*:\s*(\w+))\s*$
         captures:
           '1': {name: storage.modifier.class.fileds.source.wsd}
           '3': {name: keyword.other.class.fileds.source.wsd}
