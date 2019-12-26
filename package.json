@@ -344,6 +344,7 @@
       ]
     }
   },
+  "extensionKind": ["ui", "workspace"],
   "scripts": {
     "vscode:prepublish": "npm run buildsyntax && tsc -p ./",
     "compile": "tsc -p ./",
