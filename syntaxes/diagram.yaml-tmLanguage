@@ -5,10 +5,6 @@ name: Diagram
 scopeName: source.wsd
 uuid: ca03e751-04ef-4330-9a6b-2199aae1c418
 
-variables:
-# https://stackoverflow.com/a/10894689/1168342
-  identifier: '\p{L}[\p{L}0-9_]'
-
 patterns:
 - comment: diagram block
   name: diagram.source.wsd
@@ -331,27 +327,29 @@ repository:
           '1': {name: comment.line.class.group.separator.source.wsd}
           '3': {name: string.quoted.double.class.group.separator.source.wsd}
           '4': {name: comment.line.class.group.separator.source.wsd}
-      - comment: function
-        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?((\w+(\[\])?)\s+)?({{identifier}})(\(\))\s*$
+      - comment: function # https://rubular.com/r/9p7JpPGAJtcGFJ
+        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?(([\p{L}0-9_]+(\[\])?\s+)?([\p{L}0-9_]+)(\(\))|([\p{L}0-9_]+)(\(\))\s*:\s*([\p{L}0-9_]+)?)\s*$
         captures:
-          '1': {name: storage.modifier.class.fileds.source.wsd}
-          '3': {name: keyword.other.class.fileds.source.wsd}
+          '1': {name: storage.modifier.class.function.source.wsd}
+          '3': {name: keyword.other.class.function.source.wsd}
           '5': {name: support.type.class.function.source.wsd}
           '7': {name: support.variable.class.function.source.wsd}
-      - comment: fields
-        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?((\w+(\[\])?)\s+({{identifier}})|({{identifier}})\s*:\s*(\w+))\s*$
+          '9': {name: support.variable.class.function.source.wsd}
+          '11': {name: support.type.class.function.source.wsd}
+      - comment: fields # https://rubular.com/r/cJ15lkb8dcSGvK
+        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?(([\p{L}0-9_]+(\[\])?\s+)?([\p{L}0-9_]+)|([\p{L}0-9_]+)\s*:\s*(\w+)?)\s*$
         captures:
-          '1': {name: storage.modifier.class.fileds.source.wsd}
-          '3': {name: keyword.other.class.fileds.source.wsd}
-          '5': {name: support.type.class.fileds.source.wsd}
-          '7': {name: support.variable.class.fileds.source.wsd}
-          '8': {name: support.variable.class.fileds.source.wsd}
-          '9': {name: support.type.class.fileds.source.wsd}
-      - comment: other fileds/function
+          '1': {name: storage.modifier.class.fields.source.wsd}
+          '3': {name: keyword.other.class.fields.source.wsd}
+          '5': {name: support.type.class.fields.source.wsd}
+          '7': {name: support.variable.class.fields.source.wsd}
+          '8': {name: support.variable.class.fields.source.wsd}
+          '9': {name: support.type.class.fields.source.wsd}
+      - comment: other fields/function
         match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?(.+?)\s*$
         captures:
-          '1': {name: storage.modifier.class.fileds.source.wsd}
-          '3': {name: keyword.other.class.fileds.source.wsd}
+          '1': {name: storage.modifier.class.fields.source.wsd}
+          '3': {name: keyword.other.class.fields.source.wsd}
           '4': {name: string.quoted.double.class.other.source.wsd}
     - comment: hide & show
       match: (?i)^\s*(hide|show)\s+(([\w\d_\.]+|"[^"]+")|<<.+?>>|Stereotypes|class|interface|enum)(\s+(empty fields|empty methods|fields|attributes|methods|members|circle))?\s*$
