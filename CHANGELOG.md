@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.13.6
+
+- Improvement: Add `extensionKind`,  better remote dev support, [#282](https://github.com/qjebbs/vscode-plantuml/pull/282)
+- Improvement: Support syntax highlighting of class diagram functions and fields which contains more than `ascii` character, [#279](https://github.com/qjebbs/vscode-plantuml/pull/279)
+
 ## 2.13.5
 
 - Improvement: Do not render diagram as object in markdown, due to [vscode-markdown-extended#67](https://github.com/qjebbs/vscode-markdown-extended/issues/67)
