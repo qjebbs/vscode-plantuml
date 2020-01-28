@@ -192,5 +192,10 @@
 		"prefix": "sequence➤deactivate・lifeline",
 		"body": "deactivate ${1:objAlias}\n$0",
 		"description": "Shows the timed deactive execution context for all subsequent message calls to the nominated object"
+	},
+	"Sequence Diagram Lifeline Return": {
+		"prefix": "sequence➤return・lifeline",
+		"body": "return ${1:label}\n$0",
+		"description": "Indicates to return to the latest lifeline activation"
 	}
 }
