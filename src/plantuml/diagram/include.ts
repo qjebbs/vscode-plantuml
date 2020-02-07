@@ -17,13 +17,18 @@ interface DictIncluded {
     [key: string]: boolean;
 }
 
+let _included: DictIncluded = {};
+let _route: string[] = []
+
 export function getContentWithInclude(diagram: Diagram): string {
+    _included = {};
+    _route = [diagram.parentUri.fsPath];
+    // console.log('Start from:', _route[0]);
     let searchPaths = getSearchPaths(diagram.parentUri);
     return resolveInclude(diagram.lines, searchPaths);
 }
 
-function resolveInclude(content: string | string[], searchPaths: string[], included?: DictIncluded): string {
-    if (!included) included = {};
+function resolveInclude(content: string | string[], searchPaths: string[]): string {
     let lines = content instanceof Array ? content : content.split('\n');
     let processedLines = lines.map(line => line.replace(
         INCLUDE_REG,
@@ -34,9 +39,9 @@ function resolveInclude(content: string | string[], searchPaths: string[], inclu
             let file = path.isAbsolute(target) ? target : findFile(target, searchPaths);
             let result: string;
             if (Action == "include") {
-                result = getIncludeContent(file, included);
+                result = getIncludeContent(file);
             } else {
-                result = getIncludesubContent(file, sub, included);
+                result = getIncludesubContent(file, sub);
             }
             return result === undefined ? match : result;
         }
@@ -64,36 +69,52 @@ function findFile(file: string, searchPaths: string[]): string {
     return undefined;
 }
 
-function getIncludeContent(file: string, included: DictIncluded): string {
+function getIncludeContent(file: string): string {
     if (!file) return undefined
-    if (included[file]) {
-        // console.log("ignore file already included:", file);
+    // console.log('Entering:', file);
+    if (_included[file]) {
+        // console.log("Ignore file already included:", file);
         return "";
     }
+    _route.push(file);
+    // TODO: read from editor for unsave changes
     let content = fs.readFileSync(file).toString();
-    included[file] = true;
-    return resolveInclude(content, getSearchPaths(vscode.Uri.file(file)), included);
+    _included[file] = true;
+    let result = resolveInclude(content, getSearchPaths(vscode.Uri.file(file)));
+    _route.pop();
+    // console.log('Leaving:', file);
+    return result;
 }
 
-function getIncludesubContent(file: string, sub: string, included: DictIncluded): string {
+function getIncludesubContent(file: string, sub: string): string {
     if (!file || !sub) return undefined
-    // // FIXME: Disable sub block duplication check, to keep same behavior with PlantUML project
-    // // Diabled: Cannot prevent potentially '!includesub' loop.
-    // // Enabled: Cannot repeatedly including with `!includesub`, even it's not a loop.
-    // let identifier = `${file}!${sub}`;
+    let identifier = `${file}!${sub}`;
+    // // Disable sub block duplication check, to keep same behavior with PlantUML project
     // if (included[file]) {
     //     // console.log("ignore block already included:", file);
     //     return "";
     // }
+    // console.log('Entering:', identifier);
+    let find = findInArray(_route, identifier);
+    if (find >= 0) {
+        throw 'Include loop detected!' + '\n\n' + makeLoopInfo(find);
+    }
+    _route.push(identifier);
+    let result: string = undefined;
     let blocks = getSubBlocks(file);
-    if (!blocks) return undefined;
-    // included[identifier] = true;
-    return resolveInclude(blocks[sub], getSearchPaths(vscode.Uri.file(file)), included);
+    if (blocks) {
+        // included[identifier] = true;
+        result = resolveInclude(blocks[sub], getSearchPaths(vscode.Uri.file(file)));
+    }
+    _route.pop();
+    // console.log('Leaving:', identifier);
+    return result;
 }
 
 function getSubBlocks(file: string): FileSubBlocks {
     if (!file) return {};
     let blocks: FileSubBlocks = {};
+    // TODO: read from editor for unsave changes
     let lines = fs.readFileSync(file).toString().split('\n');
     let subName = "";
     let match: RegExpMatchArray;
@@ -113,4 +134,24 @@ function getSubBlocks(file: string): FileSubBlocks {
         }
     }
     return blocks;
+}
+
+function findInArray<T>(arr: T[], find: T): number {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] == find) return i;
+    }
+    return -1;
+}
+
+function makeLoopInfo(loopID: number): string {
+    let lines: string[] = [];
+    for (let i = 0; i < loopID; i++) {
+        lines.push(_route[i]);
+    }
+    lines.push('|-> ' + _route[loopID]);
+    for (let i = loopID + 1; i < _route.length - 1; i++) {
+        lines.push('|   ' + _route[loopID]);
+    }
+    lines.push('|<- ' + _route[_route.length - 1]);
+    return lines.join('\n');
 }
