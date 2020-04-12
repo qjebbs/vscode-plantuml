@@ -47,10 +47,10 @@ If you need this feature, please stay with `v2.12.2`
     - From local or server.
     - Image map (cmapx) support.
 - Editing Supports
-    - Format PlantUML code.
+    - Format PlantUML code. (**Deprecated**)
     - All type syntax highlight.
     - All type snippets.
-    - Basic auto completion & macro signature support **NEW!!**
+    - Basic auto completion & macro signature support
     - Symbol List support.
 - Others
     - Multi-root Workspace Support.
@@ -59,6 +59,7 @@ If you need this feature, please stay with `v2.12.2`
 
 > Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Multi-Page Diagram support`. (Later than `V1.2017.15`)
 
+>  Format PlantUML code is **Deprecated**. Don't depend on it, use it only when it works right. I had force disable it in auto-format cases (format on save).
 
 ## Supported Formats
 
