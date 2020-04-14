@@ -65,7 +65,7 @@
           "text.html.markdown"
         ],
         "embeddedLanguages": {
-          "meta.embedded.block.plantuml": "javascript"
+          "meta.embedded.block.plantuml": "diagram"
         }
       }
     ],
@@ -344,7 +344,10 @@
       ]
     }
   },
-  "extensionKind": ["workspace", "ui"],
+  "extensionKind": [
+    "workspace",
+    "ui"
+  ],
   "scripts": {
     "vscode:prepublish": "npm run buildsyntax && tsc -p ./",
     "compile": "tsc -p ./",
