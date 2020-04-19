@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.13.7
+
+- Ensure comment toggles work in markdown
+- Detect include loop
+- Deprecated formatter
+
 ## 2.13.6
 
 - Improvement: Add `extensionKind`,  better remote dev support, [#282](https://github.com/qjebbs/vscode-plantuml/pull/282)
