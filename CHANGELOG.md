@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.13.8
+
+- Fix: Error when parse includes in some cases.
+
 ## 2.13.7
 
 - Ensure comment toggles work in markdown
