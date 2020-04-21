@@ -22,7 +22,11 @@ let _route: string[] = []
 
 export function getContentWithInclude(diagram: Diagram): string {
     _included = {};
-    _route = [diagram.parentUri.fsPath];
+    if (diagram.parentUri) {
+        _route = [diagram.parentUri.fsPath];
+    } else {
+        _route = [];
+    }
     // console.log('Start from:', _route[0]);
     let searchPaths = getSearchPaths(diagram.parentUri);
     return resolveInclude(diagram.lines, searchPaths);
