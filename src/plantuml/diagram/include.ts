@@ -10,7 +10,7 @@ const STARTSUB_TEST_REG = /^\s*!startsub\s+(\w+)/i;
 const ENDSUB_TEST_REG = /^\s*!endsub\b/i;
 
 const START_DIAGRAM_REG = /(^|\r?\n)\s*@start.*\r?\n/i;
-const END_DIAGRAM_REG = /\r?\n\s*@end.*(\r?\n|$)/i;
+const END_DIAGRAM_REG = /\r?\n\s*@end.*(\r?\n|$)(?!.*\r?\n\s*@end.*(\r?\n|$))/i;
 
 interface FileSubBlocks {
     [key: string]: string[];
