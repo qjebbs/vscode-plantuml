@@ -9,8 +9,8 @@ const INCLUDE_REG = /^\s*!(include(?:sub)?)\s+(.+?)(?:!(\w+))?$/i;
 const STARTSUB_TEST_REG = /^\s*!startsub\s+(\w+)/i;
 const ENDSUB_TEST_REG = /^\s*!endsub\b/i;
 
-const START_DIAGRAM_REG = /(^|\n)\s*@start.*\n/i;
-const END_DIAGRAM_REG = /\n\s*@end.*(\n|$)/i;
+const START_DIAGRAM_REG = /(^|\r?\n)\s*@start.*\r?\n/i;
+const END_DIAGRAM_REG = /\r?\n\s*@end.*(\r?\n|$)/i;
 
 interface FileSubBlocks {
     [key: string]: string[];
