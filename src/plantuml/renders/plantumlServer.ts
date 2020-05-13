@@ -3,7 +3,8 @@ import { Diagram } from '../diagram/diagram';
 import { config } from '../config';
 import { localize } from '../common';
 import { addFileIndex } from '../tools';
-import { httpWrapper, ERROR_405 } from './httpWrapper';
+import { httpWrapper } from './httpWrapper';
+import { HTTPError } from './httpErrors';
 
 interface Dictionary<T> {
     [key: string]: T;
@@ -54,8 +55,8 @@ class PlantumlServer implements IRender {
                     return httpWrapper("POST", server, diagram, format, index, savePath2)
                         .catch(
                             err => {
-                                if (err === ERROR_405) {
-                                    // do not retry POST again with this server
+                                if (err instanceof HTTPError && err.isResponeError) {
+                                    // do not retry POST again, if the server gave unexpected respone
                                     noPOSTServers[server] = true
                                     // fallback to GET
                                     return httpWrapper("GET", server, diagram, format, index, savePath2)

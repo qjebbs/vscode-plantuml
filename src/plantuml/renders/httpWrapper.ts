@@ -5,8 +5,7 @@ import * as fs from 'fs';
 import { makePlantumlURL } from '../plantumlURL';
 import { Diagram, diagramStartReg } from '../diagram/diagram';
 import { RenderError } from './interfaces';
-
-export const ERROR_405 = new Error("HTTP method POST is not supported by this URL");
+import { HTTPErrorType, HTTPError } from './httpErrors';
 
 export function httpWrapper(method: string, server: string, diagram: Diagram, format: string, index: number, savePath?: string): Promise<Buffer> {
     let requestPath: string, requestUrl: string;
@@ -28,7 +27,7 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
         let buffBody: Buffer[] = [];
         let buffBodyLen = 0;
         let response: http.IncomingMessage;
-        let httpError: any;
+        let httpError: HTTPError;
 
         let u = url.parse(requestUrl);
         let options = <https.RequestOptions>{
@@ -71,25 +70,24 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
                         body = Buffer.from("");
                     }
                 }
+                // console.log('get response of', method, 'method');
+                resolve(body);
             } else if (response.headers['x-plantuml-diagram-error']) {
-                httpError = parsePlantumlError(
+                let msg = parsePlantumlError(
                     response.headers['x-plantuml-diagram-error'],
                     parseInt(response.headers['x-plantuml-diagram-error-line']),
                     response.headers['x-plantuml-diagram-description'],
                     diagram
                 );
-            } else if (response.statusCode === 405) {
-                reject(ERROR_405);
-                return;
+                reject(<RenderError>{ error: msg, out: body });
             } else {
-                httpError = response.statusCode + " " + response.statusMessage + "\n\n" +
-                    method + " " + requestPath;
+                let err = new Error(
+                    response.statusCode + " " + response.statusMessage + "\n\n" +
+                    method + " " + requestPath
+                );
+                httpError = new HTTPError(err, HTTPErrorType.ResponeError, response.statusCode);
+                reject(httpError);
             }
-            if (httpError) {
-                reject(<RenderError>{ error: httpError, out: body });
-                return;
-            }
-            resolve(body);
         };
 
         let req = u.protocol == "http:" ?
@@ -97,7 +95,7 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
             https.request(options, responseCallback)
 
         req.on('error', (err: Error) => {
-            httpError = err;
+            httpError = new HTTPError(err, HTTPErrorType.NetworkError);
         });
 
         req.on('close', closeCallback);
@@ -109,7 +107,7 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
     });
 }
 
-function parsePlantumlError(error: string, line: number, description: string, diagram: Diagram): any {
+function parsePlantumlError(error: string, line: number, description: string, diagram: Diagram): string {
     if (diagramStartReg.test(diagram.lines[0])) line += 1;
     let fileLine = line;
     let blankLineCount = 0;

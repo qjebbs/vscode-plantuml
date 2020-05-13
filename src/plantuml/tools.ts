@@ -7,6 +7,7 @@ import { RenderError } from './renders/interfaces';
 import { Diagram } from './diagram/diagram';
 import { config } from './config';
 import { outputPanel } from './common';
+import { HTTPError } from './renders/httpErrors';
 
 export function mkdirs(dirname, callback) {
     fs.exists(dirname, function (exists) {
@@ -42,6 +43,9 @@ export function parseError(error: any): RenderError[] {
         return [<RenderError>{ error: error, out: nb }];
     } else if (error instanceof TypeError || error instanceof Error) {
         let err = error as TypeError;
+        return [<RenderError>{ error: err.stack, out: nb }];
+    } else if (error instanceof HTTPError) {
+        let err = error.originalError as TypeError;
         return [<RenderError>{ error: err.stack, out: nb }];
     } else if (error instanceof Array) {
         let arr = error as any[];
