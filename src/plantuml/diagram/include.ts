@@ -9,6 +9,9 @@ const INCLUDE_REG = /^\s*!(include(?:sub)?)\s+(.+?)(?:!(\w+))?$/i;
 const STARTSUB_TEST_REG = /^\s*!startsub\s+(\w+)/i;
 const ENDSUB_TEST_REG = /^\s*!endsub\b/i;
 
+const START_DIAGRAM_REG = /(^|\r?\n)\s*@start.*\r?\n/i;
+const END_DIAGRAM_REG = /\r?\n\s*@end.*(\r?\n|$)(?!.*\r?\n\s*@end.*(\r?\n|$))/i;
+
 interface FileSubBlocks {
     [key: string]: string[];
 }
@@ -87,6 +90,10 @@ function getIncludeContent(file: string): string {
     let result = resolveInclude(content, getSearchPaths(vscode.Uri.file(file)));
     _route.pop();
     // console.log('Leaving:', file);
+
+    result = result.replace(START_DIAGRAM_REG, "$1");
+    result = result.replace(END_DIAGRAM_REG, "$1");
+
     return result;
 }
 
