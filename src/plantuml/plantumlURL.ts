@@ -10,7 +10,14 @@ import { Diagram } from './diagram/diagram';
 * @return string of URL
 */
 export function makePlantumlURL(server: string, diagram: Diagram, format: string, index: number): string {
-    return [server.replace(/^\/|\/$/g, ""), format, index, getDiagramURIComponent(diagram.contentWithInclude)].join("/");
+    let components = [server.replace(/^\/|\/$/g, ""), format];
+    // Omit index in URL if possible
+    // Partially compatible with kroki server (#302)
+    if (index !== 0) {
+        components.push(index.toString());
+    }
+    components.push(getDiagramURIComponent(diagram.contentWithInclude));
+    return components.join("/");
 }
 
 export function getDiagramURIComponent(s: string): string {
