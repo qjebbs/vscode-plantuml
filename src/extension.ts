@@ -51,7 +51,7 @@ export function activate(context: vscode.ExtensionContext) {
         );
         return {
             extendMarkdownIt(md: any) {
-                return md.use(plantumlPlugin(md));
+                return md.use(plantumlPlugin);
             }
         }
     } catch (error) {
