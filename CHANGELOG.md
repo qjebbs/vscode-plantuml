@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.13.10
+
+- Bug fixes
+
 ## 2.13.9
 
 - Fix: the include preprocessor creating nested diagrams, #314
