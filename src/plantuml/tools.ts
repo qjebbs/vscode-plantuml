@@ -130,7 +130,7 @@ export function testJava(java: string): boolean {
     let _javaInstalled = false;
     if (!_javaInstalled) {
         try {
-            child_process.execSync(java + " -version");
+            child_process.spawnSync(java, [" -version"]);
             _javaInstalled = true
         } catch (error) {
             _javaInstalled = false
