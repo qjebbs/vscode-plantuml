@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.13.11
+
+- Update embedded jar to 1.2020.10
+
 ## 2.13.10
 
 - Bug fixes
