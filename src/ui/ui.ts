@@ -141,10 +141,10 @@ export class UI extends vscode.Disposable {
         let linkReg = /(src|href)\s*=\s*([`"'])(.+?)\2/ig;
         let base: string = this._resourceRoot;
         result = result.replace(linkReg, (match, ...subs) => {
-            let uri = subs[2] as string;
-            if (!path.isAbsolute(uri)) uri = path.join(base, uri);
-            if (!fs.existsSync(uri)) return match;
-            uri = vscode.Uri.file(uri).with({ scheme: 'vscode-resource' }).toString();
+            let file = subs[2] as string;
+            if (!path.isAbsolute(file)) file = path.join(base, file);
+            if (!fs.existsSync(file)) return match;
+            let uri = this._panel.webview.asWebviewUri(vscode.Uri.file(file));
             return `${subs[0]}=${subs[1]}${uri}${subs[1]}`;
         });
         return result;
