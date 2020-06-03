@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.13.12
+
+- Improvement: Adopt 'asWebviewUri' API, #319
+- Improvement: Update extensionKind, #304
+
 ## 2.13.11
 
 - Update embedded jar to 1.2020.10
