@@ -1,9 +1,15 @@
 # VSCode PlantUML Changelog
 
+## 2.13.13
+
+- Improvement: Imporve syntax highlighting in dark theme for messages of note, header, legend, footer.[#285](https://github.com/qjebbs/vscode-plantuml/pull/285)
+- Improvement: Change language id to plantuml.[#306](https://github.com/qjebbs/vscode-plantuml/pull/306)
+- Fix: Preview should not be scrollable when load
+
 ## 2.13.12
 
-- Improvement: Adopt 'asWebviewUri' API, #319
-- Improvement: Update extensionKind, #304
+- Improvement: Adopt 'asWebviewUri' API,[#319](https://github.com/qjebbs/vscode-plantuml/pull/319)
+- Improvement: Update extensionKind,[#304](https://github.com/qjebbs/vscode-plantuml/pull/304)
 
 ## 2.13.11
 
@@ -15,8 +21,8 @@
 
 ## 2.13.9
 
-- Fix: the include preprocessor creating nested diagrams, #314
-- Improvement: Fall back to GET optimize, #300
+- Fix: the include preprocessor creating nested diagrams,[#314](https://github.com/qjebbs/vscode-plantuml/pull/314)
+- Improvement: Fall back to GET optimize,[#300](https://github.com/qjebbs/vscode-plantuml/pull/300)
 
 ## 2.13.8
 
