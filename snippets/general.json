@@ -1,19 +1,19 @@
 {
-    "General Diagram Start/End": {
-        "prefix": "diagram➤start",
+    "General PlantUML Start/End": {
+        "prefix": "plantuml➤start",
         "body": "@startuml ${1:diagram name}\n$0\n@enduml",
         "description": "Adds the declarative boundaries between which a PlantUML artifact is specified"
     },
-    "General Diagram Scale": {
-        "prefix": "diagram➤scale",
+    "General PlantUML Scale": {
+        "prefix": "plantuml➤scale",
         "body": [
             "scale ${1:1.5}",
             "${2:'scale 1.5 | scale 200 width | scale 100 height | scale [max] 200x100}"
         ],
         "description": "Changes the zooming extent of the diagram with either a fraction/decimal factor (eg1. scale 2.5) (eg2 scale 2/3) or with a width/height size or with nominated dimensions"
     },
-    "General Diagram Title": {
-        "prefix": "diagram➤title",
+    "General PlantUML Title": {
+        "prefix": "plantuml➤title",
         "body": [
             "title",
             "${1:multi-line text}$0",
@@ -21,13 +21,13 @@
         ],
         "description": "Adds a title to the top of the diagram with the multi-line text"
     },
-    "General Diagram Caption": {
-        "prefix": "diagram➤caption・text",
+    "General PlantUML Caption": {
+        "prefix": "plantuml➤caption・text",
         "body": "caption ${1:Figure x.x description...}\n$0",
         "description": "Adds a caption under the diagram where figure descriptions can be documented"
     },
-    "General Diagram Legend": {
-        "prefix": "diagram➤legend・text",
+    "General PlantUML Legend": {
+        "prefix": "plantuml➤legend・text",
         "body": [
             "legend",
             "\t$0",
@@ -35,25 +35,25 @@
         ],
         "description": "Adds a legend to the bottom of the diagram with the text left|right|center justified. Use this feature to document the symbols for an overrall context"
     },
-    "General Diagram Note Independent": {
-        "prefix": "diagram➤note・independent",
+    "General PlantUML Note Independent": {
+        "prefix": "plantuml➤note・independent",
         "body": "note \"${1:single-line note}\" as ${2:noteAlias}\n$0",
         "description": "Declares a note in the diagram which is subsequently attached to an object using the independent link"
     },
-    "General Diagram Note Independent Link": {
-        "prefix": "diagram➤note・independent・link",
+    "General PlantUML Note Independent Link": {
+        "prefix": "plantuml➤note・independent・link",
         "body": "${1:objAlias} ${2:.}. ${3:noteAlias}\n$0",
         "description": "Adds a reference link between an object and an independent note in the diagram. Be aware that the length of the line can be forced to change size by adding/removing extra dots"
     },
-    "General Diagram Note For Object": {
-        "prefix": "diagram➤note・for・object",
+    "General PlantUML Note For Object": {
+        "prefix": "plantuml➤note・for・object",
         "body": [
             "note ${1|left,right,top,bottom|} of ${2:objAlias}: ${3:single-line note}"
         ],
         "description": "Appends a text note directly left|right|top|bottom of the referenced object in the diagram"
     },
-    "General Diagram Multi-Line Note For Object": {
-        "prefix": "diagram➤note・for・object・multi・line",
+    "General PlantUML Multi-Line Note For Object": {
+        "prefix": "plantuml➤note・for・object・multi・line",
         "body": [
             "note ${1|left,right,top,bottom|} of ${2:objAlias}",
             "\t$0",
@@ -61,13 +61,13 @@
         ],
         "description": "Appends a text note directly left|right|top|bottom of the referenced object in the diagram"
     },
-    "General Diagram Header": {
-        "prefix": "diagram➤header・region・text",
+    "General PlantUML Header": {
+        "prefix": "plantuml➤header・region・text",
         "body": "header ${1:last-updated xx/xx/xxxx}\n$0",
         "description": "Appends a text header to the header region of the diagram. This may be used to provide a date/time stamp of when the diagram was authored/reviewed"
     },
-    "General Diagram Multi-Line Header": {
-        "prefix": "diagram➤header・region・text・multi・line",
+    "General PlantUML Multi-Line Header": {
+        "prefix": "plantuml➤header・region・text・multi・line",
         "body": [
             "header",
             "${1:last-updated xx/xx/xxxx}$0",
@@ -75,13 +75,13 @@
         ],
         "description": "Appends a text header to the header region of the diagram. This may be used to provide a date/time stamp of when the diagram was authored/reviewed"
     },
-    "General Diagram Footer": {
-        "prefix": "diagram➤footer・region・text",
+    "General PlantUML Footer": {
+        "prefix": "plantuml➤footer・region・text",
         "body": "footer ${1:authored by xxx}\n$0",
         "description": "Appends a text footer to the footer region of the diagram. This may be used to provide a reference to the author for further clarification"
     },
-    "General Diagram Multi-Line Footer": {
-        "prefix": "diagram➤footer・region・text・multi・line",
+    "General PlantUML Multi-Line Footer": {
+        "prefix": "plantuml➤footer・region・text・multi・line",
         "body": [
             "footer",
             "${1:authored by xxx}$0",
@@ -89,8 +89,8 @@
         ],
         "description": "Appends a text footer to the footer region of the diagram. This may be used to provide a reference to the author for further clarification"
     },
-    "General Diagram Newpage": {
-        "prefix": "diagram➤newpage・separator",
+    "General PlantUML Newpage": {
+        "prefix": "plantuml➤newpage・separator",
         "body": "newpage ${1:title text}\n$0",
         "description": "Adds a new page separator with an optional title to split the diagram into sections for embedding into word processing documents"
     }
