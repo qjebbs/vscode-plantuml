@@ -24,7 +24,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onLanguage:diagram",
+    "onLanguage:plantuml",
     "onCommand:plantuml.exportCurrent",
     "onCommand:plantuml.exportDocument",
     "onCommand:plantuml.exportWorkspace",
@@ -37,7 +37,7 @@
   "contributes": {
     "languages": [
       {
-        "id": "diagram",
+        "id": "plantuml",
         "extensions": [
           ".wsd",
           ".pu",
@@ -46,7 +46,6 @@
           ".iuml"
         ],
         "aliases": [
-          "Diagram",
           "PlantUML"
         ],
         "configuration": "./language-configuration.json"
@@ -54,9 +53,9 @@
     ],
     "grammars": [
       {
-        "language": "diagram",
+        "language": "plantuml",
         "scopeName": "source.wsd",
-        "path": "./syntaxes/diagram.tmLanguage"
+        "path": "./syntaxes/plantuml.tmLanguage"
       },
       {
         "scopeName": "markdown.plantuml.codeblock",
@@ -65,7 +64,7 @@
           "text.html.markdown"
         ],
         "embeddedLanguages": {
-          "meta.embedded.block.plantuml": "diagram"
+          "meta.embedded.block.plantuml": "plantuml"
         }
       }
     ],
@@ -109,27 +108,27 @@
     "menus": {
       "editor/context": [
         {
-          "when": "editorLangId == diagram",
+          "when": "editorLangId == plantuml",
           "command": "plantuml.preview",
           "group": "PlantUML"
         },
         {
-          "when": "editorLangId == diagram",
+          "when": "editorLangId == plantuml",
           "command": "plantuml.exportCurrent",
           "group": "PlantUML"
         },
         {
-          "when": "editorLangId == diagram",
+          "when": "editorLangId == plantuml",
           "command": "plantuml.exportDocument",
           "group": "PlantUML"
         },
         {
-          "when": "editorLangId == diagram",
+          "when": "editorLangId == plantuml",
           "command": "plantuml.URLCurrent",
           "group": "PlantUML"
         },
         {
-          "when": "editorLangId == diagram",
+          "when": "editorLangId == plantuml",
           "command": "plantuml.URLDocument",
           "group": "PlantUML"
         }
@@ -149,39 +148,39 @@
     ],
     "snippets": [
       {
-        "language": "diagram",
+        "language": "plantuml",
         "path": "./snippets/general.json"
       },
       {
-        "language": "diagram",
+        "language": "plantuml",
         "path": "./snippets/activity.json"
       },
       {
-        "language": "diagram",
+        "language": "plantuml",
         "path": "./snippets/usecase.json"
       },
       {
-        "language": "diagram",
+        "language": "plantuml",
         "path": "./snippets/sequence.json"
       },
       {
-        "language": "diagram",
+        "language": "plantuml",
         "path": "./snippets/class.json"
       },
       {
-        "language": "diagram",
+        "language": "plantuml",
         "path": "./snippets/state.json"
       },
       {
-        "language": "diagram",
+        "language": "plantuml",
         "path": "./snippets/component.json"
       },
       {
-        "language": "diagram",
+        "language": "plantuml",
         "path": "./snippets/salt.json"
       },
       {
-        "language": "diagram",
+        "language": "plantuml",
         "path": "./snippets/eggs.json"
       }
     ],

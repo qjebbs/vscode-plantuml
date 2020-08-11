@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { macrosOf, macroCallOf, MacroCallInfo, MacroDefinition } from '../plantuml/intellisense/macros'
+import { languageid } from '../plantuml/common';
 
 export class Signature extends vscode.Disposable implements vscode.SignatureHelpProvider {
     private _disposables: vscode.Disposable[] = [];
@@ -7,8 +8,8 @@ export class Signature extends vscode.Disposable implements vscode.SignatureHelp
     constructor() {
         super(() => this.dispose());
         let sel: vscode.DocumentSelector = [
-            { scheme: 'file', language: 'diagram' },
-            { scheme: 'untitled', language: 'diagram' },
+            { scheme: 'file', language: languageid },
+            { scheme: 'untitled', language: languageid },
         ];
         this._disposables.push(
             vscode.languages.registerSignatureHelpProvider(sel, this, "(", ",")

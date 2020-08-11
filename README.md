@@ -12,7 +12,15 @@ Rich PlantUML support for Visual Studio Code.
 
 ## Notice 1
 
-The server render is now very recommended by this project, since it's much faster and much easier to setup, while the major weakness has been improved:
+> Don't know what `language id` is? You can safely ignore this notice
+
+The language id of this extension contributed, has been change to `plantuml`, due to [#306](https://github.com/qjebbs/vscode-plantuml/issues/306).
+
+If you've made some setting depending on the id (though it's rare), please update them.
+
+## Notice 2
+
+The server render is now very recommended by this extension, since it's much faster and much easier to setup, while the major weakness has been improved:
 
 - Enables `POST` method, you can now render very-large diagrams
 - The extension comes with a new `include processor`, you won't encounter include problems again.
@@ -23,14 +31,6 @@ If not, like the official <https://www.plantuml.com/plantuml>, the extension fal
 
 [See also: About Render](#about-render)
 
-## Notice 2
-
-AutoInclude feature is removed, since:
-
-1. The include search has been improved, which provide better flexibility.
-2. It doesn't compatible with the new `include processor` for server render.
-
-If you need this feature, please stay with `v2.12.2`
 
 ## Features
 

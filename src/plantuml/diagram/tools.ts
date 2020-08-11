@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { Diagram, diagramStartReg, diagramEndReg } from './diagram';
+import { languageid } from '../common';
 
 export function currentDiagram(): Diagram {
     let editor = vscode.window.activeTextEditor;
@@ -35,7 +36,7 @@ export function diagramAt(document: vscode.TextDocument, para: number | vscode.P
     if (
         !(start && end) &&
         document.getText().trim() &&
-        document.languageId == "diagram"
+        document.languageId == languageid
     ) {
         start = document.lineAt(0).range.start;
         end = document.lineAt(document.lineCount - 1).range.end;

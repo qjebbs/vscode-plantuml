@@ -3,6 +3,7 @@ import { LanguageCompletionItems } from '../plantuml/intellisense/languageComple
 import { MacroCompletionItems } from '../plantuml/intellisense/macroCompletion';
 import { diagramAt } from '../plantuml/diagram/tools';
 import { VariableCompletionItems } from '../plantuml/intellisense/variableCompletion';
+import { languageid } from '../plantuml/common';
 
 export class Completion extends vscode.Disposable implements vscode.CompletionItemProvider {
     private _disposables: vscode.Disposable[] = [];
@@ -10,8 +11,8 @@ export class Completion extends vscode.Disposable implements vscode.CompletionIt
     constructor() {
         super(() => this.dispose());
         let sel: vscode.DocumentSelector = [
-            { scheme: 'file', language: 'diagram' },
-            { scheme: 'untitled', language: 'diagram' },
+            { scheme: 'file', language: languageid },
+            { scheme: 'untitled', language: languageid },
         ];
         this._disposables.push(
             vscode.languages.registerCompletionItemProvider(sel, this)

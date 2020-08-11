@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { diagramsOf } from '../plantuml/diagram/tools'
+import { languageid } from '../plantuml/common';
 
 export class Symbol extends vscode.Disposable implements vscode.DocumentSymbolProvider {
     private _disposables: vscode.Disposable[] = [];
@@ -7,7 +8,7 @@ export class Symbol extends vscode.Disposable implements vscode.DocumentSymbolPr
     constructor() {
         super(() => this.dispose());
         let sel: vscode.DocumentSelector = [
-            { scheme: 'file', language: 'diagram' },
+            { scheme: 'file', language: languageid },
             { scheme: 'file', language: 'markdown' },
             { scheme: 'file', language: 'c' },
             { scheme: 'file', language: 'csharp' },
@@ -34,7 +35,7 @@ export class Symbol extends vscode.Disposable implements vscode.DocumentSymbolPr
             { scheme: 'file', language: 'typescriptreact' },
             { scheme: 'file', language: 'vb' },
             { scheme: 'file', language: 'plaintext' },
-            { scheme: 'untitled', language: 'diagram' },
+            { scheme: 'untitled', language: languageid },
             { scheme: 'untitled', language: 'markdown' },
             { scheme: 'untitled', language: 'c' },
             { scheme: 'untitled', language: 'csharp' },

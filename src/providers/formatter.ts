@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { showMessagePanel, parseError } from '../plantuml/tools';
 import { formatRules } from '../plantuml/formatRules';
 import * as fmt from '../plantuml/formatter/formatter';
+import { languageid } from '../plantuml/common';
 
 export class Formatter extends vscode.Disposable implements vscode.DocumentFormattingEditProvider {
     private _formatter: fmt.Formatter;
@@ -19,8 +20,8 @@ export class Formatter extends vscode.Disposable implements vscode.DocumentForma
         this._disposables.push(
             vscode.languages.registerDocumentFormattingEditProvider(
                 [
-                    { scheme: 'file', language: "diagram" },
-                    { scheme: 'untitled', language: "diagram" },
+                    { scheme: 'file', language: languageid },
+                    { scheme: 'untitled', language: languageid },
                 ],
                 this
             )

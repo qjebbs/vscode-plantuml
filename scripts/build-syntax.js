@@ -2,8 +2,8 @@ const fs = require('fs');
 const yaml = require('js-yaml'); 
 const plist  = require('plist');
 
-const inputYamlTMLanguageFile = "./syntaxes/diagram.yaml-tmLanguage";
-const outputTMLanguageFile =  "./syntaxes/diagram.tmLanguage";
+const inputYamlTMLanguageFile = "./syntaxes/plantuml.yaml-tmLanguage";
+const outputTMLanguageFile =  "./syntaxes/plantuml.tmLanguage";
 
 const yamlTMLanguageText = fs.readFileSync(inputYamlTMLanguageFile, "utf8");
 const data = yaml.safeLoad(yamlTMLanguageText);
