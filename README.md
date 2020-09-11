@@ -369,7 +369,7 @@ Please post and view issues on [GitHub][issues]
 
 Thanks for your encouragements!
 
-> Claus Appel, 三島木​一磨, 富吉​佑季, 黒田悦成, Jared Birdsall, Suleyman Cabir Ciplak, Malcolm Learner, Сысоев Максим, Gokan Kenichi, anb0s, Lawrence Yarian, Ahmad Ragab
+> Claus Appel, 三島木​一磨, 富吉​佑季, 黒田悦成, Jared Birdsall, Suleyman Cabir Ciplak, Malcolm Learner, Сысоев Максим, Gokan Kenichi, anb0s, Lawrence Yarian, Ahmad Ragab, 山田​暁通
 
 -----------------------------------------------------------------------------------------------------------
 
