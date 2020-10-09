@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.13.14
+
+Update embedded jar
+
 ## 2.13.13
 
 - Improvement: Imporve syntax highlighting in dark theme for messages of note, header, legend, footer.[#285](https://github.com/qjebbs/vscode-plantuml/pull/285)
