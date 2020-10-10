@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { localize, extensionPath } from './common';
 import { ConfigReader, ConfigCache } from './configReader';
-import { testJava } from './tools';
+import { javaCommandExists } from './tools';
 
 export const RenderType = {
     Local: 'Local',
@@ -134,7 +134,8 @@ class Config extends ConfigReader {
     get java(): string {
         return this._java || (() => {
             let java = this.read<string>('java') || "java";
-            if (testJava(java)) {
+            // only check for "java" command, not java executable path
+            if (java == "java" && javaCommandExists()) {
                 this._java = java;
             }
             return this._java;

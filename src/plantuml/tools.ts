@@ -126,17 +126,44 @@ export function addFileIndex(fileName: string, index: number, count: number): st
     );
 }
 
-export function testJava(java: string): boolean {
-    let _javaInstalled = false;
-    if (!_javaInstalled) {
+// let _javaInstalled = false;
+// export function testJava(java: string): boolean {
+//     if (!_javaInstalled) {
+//         try {
+//             let rt = child_process.spawnSync(java, ["-version"]);
+//             _javaInstalled = rt.status == 0
+//         } catch (error) {
+//             _javaInstalled = false
+//         }
+//     }
+//     return _javaInstalled;
+// }
+
+let _javaExists: boolean = undefined;
+export function javaCommandExists(): boolean {
+    if (_javaExists) return _javaExists;
+    if (process.platform == 'darwin') {
+        _javaExists = isMacJavaInstalled();
+    } else {
+        let cmd = "which";
+        if (process.platform == 'win32') cmd = "where";
         try {
-            child_process.spawnSync(java, ["-version"]);
-            _javaInstalled = true
+            let rt = child_process.spawnSync(cmd, ["java"]);
+            _javaExists = rt.stdout.toString().trim() !== "";
         } catch (error) {
-            _javaInstalled = false
+            _javaExists = false
         }
     }
-    return _javaInstalled;
+    return _javaExists;
+}
+
+function isMacJavaInstalled(): boolean {
+    try {
+        let rt = child_process.spawnSync("/usr/libexec/java_home");
+        return rt.status == 0
+    } catch (error) {
+        return false
+    }
 }
 
 export function fileToBase64(file: string): string {
