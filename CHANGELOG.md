@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.13.15
+
+- Improvement: new java check logic
+- Improvement: keywords completion optimize, #335
+
 ## 2.13.14
 
 Update embedded jar
