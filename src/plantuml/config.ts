@@ -135,7 +135,7 @@ class Config extends ConfigReader {
         return this._java || (() => {
             let java = this.read<string>('java') || "java";
             // only check for "java" command, not java executable path
-            if (java == "java" && javaCommandExists()) {
+            if (java != "java" || javaCommandExists()) {
                 this._java = java;
             }
             return this._java;
