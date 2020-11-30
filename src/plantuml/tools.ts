@@ -126,18 +126,14 @@ export function addFileIndex(fileName: string, index: number, count: number): st
     );
 }
 
-// let _javaInstalled = false;
-// export function testJava(java: string): boolean {
-//     if (!_javaInstalled) {
-//         try {
-//             let rt = child_process.spawnSync(java, ["-version"]);
-//             _javaInstalled = rt.status == 0
-//         } catch (error) {
-//             _javaInstalled = false
-//         }
-//     }
-//     return _javaInstalled;
-// }
+export function testJava(java: string): boolean {
+    try {
+        let rt = child_process.spawnSync(java, ["-version"]);
+        return rt.status == 0
+    } catch (error) {
+        return false
+    }
+}
 
 let _javaExists: boolean = undefined;
 export function javaCommandExists(): boolean {

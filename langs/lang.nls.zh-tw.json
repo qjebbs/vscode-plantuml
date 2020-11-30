@@ -52,5 +52,7 @@
 	"Mouse scroll",
 	"Snap to border",
 	"Scroll to most bottom/right/top/left, preview will snap to that border",
-	"No PlantUML server, specify one with \"plantuml.server\"."
+	"No PlantUML server, specify one with \"plantuml.server\".",
+	"Bad \"plantuml.java\" config: {0}"
+	
 ]
