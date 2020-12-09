@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.14.0
+
+- Fix: Cannot include if CRLF line end, #357
+- Improvement: Export multi-files from files tree, #358
+- Improvement: Update embedded jar, #361
+
 ## 2.13.15
 
 - Improvement: new java check logic
