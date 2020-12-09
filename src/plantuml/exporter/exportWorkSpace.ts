@@ -10,12 +10,17 @@ import { exportFiles, exportFilesResult } from './exportURIs';
 import { FileAndFormat } from './exportURI';
 
 export function exportWorkSpace(uri: vscode.Uri);
-export function exportWorkSpace(uris: vscode.Uri[]);
-export async function exportWorkSpace(para) {
+export function exportWorkSpace(target: vscode.Uri, all: vscode.Uri[]);
+export async function exportWorkSpace(...para: any[]) {
 
     if (!vscode.workspace.workspaceFolders) { return; }
 
-    let files = await getFileList(para);
+    let files: FileAndFormat[]
+    if (para.length == 1) {
+        files = await getFileList(para[0] as vscode.Uri);
+    } else {
+        files = await getFileList(para[1] as vscode.Uri[]);
+    }
     let hasEmptyFormat: boolean = files.reduce((hasEmpty, file) => {
         if (hasEmpty) return true;
         return !file.format;

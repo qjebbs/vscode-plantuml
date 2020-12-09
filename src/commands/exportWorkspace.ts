@@ -1,9 +1,10 @@
+import * as vscode from 'vscode';
 import { Command } from './common';
 import { exportWorkSpace } from '../plantuml/exporter/exportWorkSpace';
 
 export class CommandExportWorkspace extends Command {
-    async execute(uri) {
-        await exportWorkSpace(uri);
+    async execute(target:vscode.Uri, all:vscode.Uri[]) {
+        await exportWorkSpace(target,all);
     }
     constructor() {
         super("plantuml.exportWorkspace");
