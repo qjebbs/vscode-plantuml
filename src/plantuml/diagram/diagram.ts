@@ -79,7 +79,7 @@ export class Diagram {
         return this._titleRaw
     }
     public get lines(): string[] {
-        return this._lines || (this._lines = this.content.replace(/\r/g, "").split('\n'));
+        return this._lines || (this._lines = this.content.replace(/\r\n|\r/g, "\n").split('\n'));
     }
     public get contentWithInclude(): string {
         return this._contentWithInclude || (this._contentWithInclude = getContentWithInclude(this));

@@ -36,7 +36,7 @@ export function getContentWithInclude(diagram: Diagram): string {
 }
 
 function resolveInclude(content: string | string[], searchPaths: string[]): string {
-    let lines = content instanceof Array ? content : content.split('\n');
+    let lines = content instanceof Array ? content : content.replace(/\r\n|\r/g, "\n").split('\n');
     let processedLines = lines.map(line => line.replace(
         INCLUDE_REG,
         (match: string, ...args: string[]) => {
