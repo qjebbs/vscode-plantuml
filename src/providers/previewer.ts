@@ -162,10 +162,11 @@ class Previewer extends vscode.Disposable {
                 this.error = "";
                 this.imageError = "";
                 this.images = result.reduce((p, buf) => {
-                    let isSvg = buf.slice(0, 5).toString() == "<?xml";
+                    let sigPNG = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+                    let isPNG = buf.slice(0, sigPNG.length).equals(sigPNG);
                     let b64 = buf.toString('base64');
                     if (!b64) return p;
-                    p.push(`data:image/${isSvg ? "svg+xml" : 'png'};base64,${b64}`);
+                    p.push(`data:image/${isPNG ? 'png' : "svg+xml"};base64,${b64}`);
                     return p;
                 }, <string[]>[]);
                 this.updateWebView();
