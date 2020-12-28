@@ -1,9 +1,10 @@
 # VSCode PlantUML Changelog
 
-## 2.14.0
+## 2.14.1
 
 - Fix: Cannot include if CRLF line end, #357
 - Improvement: Export multi-files from files tree, #358
+- Improvement: Preview image format detect, #363
 - Improvement: Update embedded jar, #361
 
 ## 2.13.15
