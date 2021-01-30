@@ -94,7 +94,7 @@ It's necessary to have following installed:
 #### Quick Install for Mac
 
 ```sh
-brew install --cask java
+brew install --cask adoptopenjdk
 brew install graphviz
 ```
 
