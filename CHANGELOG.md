@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.14.2
+
+- Add:translation of "ko", #371
+- Update embedded jar
+
 ## 2.14.1
 
 - Fix: Cannot include if CRLF line end, #357
