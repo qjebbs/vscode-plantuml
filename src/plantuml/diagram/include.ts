@@ -57,8 +57,10 @@ function resolveInclude(content: string | string[], searchPaths: string[]): stri
 }
 
 function getSearchPaths(uri: vscode.Uri): string[] {
-    if (!uri) return [];
-    let searchPaths = [path.dirname(uri.fsPath)];
+    let searchPaths:string[] = []
+    if (uri) {
+        searchPaths.push(path.dirname(uri.fsPath));
+    }
     searchPaths.push(...config.includepaths(uri));
     let diagramsRoot = config.diagramsRoot(uri);
     if (diagramsRoot)
