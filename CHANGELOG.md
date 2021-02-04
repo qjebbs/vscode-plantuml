@@ -1,8 +1,12 @@
 # VSCode PlantUML Changelog
 
+## 2.14.3
+
+- Improvement: Global `includepaths` setting will apply to digrams in markdown/unsaved files. #375
+
 ## 2.14.2
 
-- Add:translation of "ko", #371
+- Add: translation of "ko", #371
 - Update embedded jar
 
 ## 2.14.1
