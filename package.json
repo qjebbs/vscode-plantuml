@@ -350,17 +350,16 @@
     "vscode:prepublish": "npm run buildsyntax && tsc -p ./",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
     "buildsyntax": "node ./scripts/build-syntax.js"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.40",
+    "@types/vscode": "^1.39.0",
     "js-yaml": "^3.13.1",
     "markdown-it": "^8.3.2",
     "plist": "^2.0.1",
-    "typescript": "^3.7.2",
-    "vscode": "^1.1.35"
+    "typescript": "^3.7.2"
   },
   "dependencies": {
     "linq-collections": "*",
