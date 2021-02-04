@@ -323,7 +323,6 @@ Local Render Settings:
 - `plantuml.jar`: Alternate plantuml.jar location. Leave it blank to use integrated jar.
 - `plantuml.jarArgs`: jarArgs allows you add arguments to plantuml.jar, such as `-config plantuml.config`.
 - `plantuml.includepaths`: Specifies the include paths besides source folder and the `diagramsRoot`.
-- `plantuml.includes`: Files or folders to include before preview/export diagrams. You don't have to write "!include path/to/include.wsd" for every single diagram any more.
 
 Export Settings:
 
