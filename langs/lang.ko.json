@@ -53,5 +53,8 @@
 	"경계에 자동 붙임",
 	"아래/오른쪽/위/왼쪽으로 이동, 미리보기가 해당 경계에 붙게됩니다.",
 	"PlantUML 서버가 없습니다. \"plantuml.server\"에 지정하십시오.",
-	"잘못된 \"plantuml.java\" 설정: {0}"
+	"잘못된 \"plantuml.java\" 설정: {0}",
+	"Some workspace/folder-level settings ({0}) from the untrusted workspace are disabled by default. If this workspace is trusted, explicitly enable the workspace/folder-level settings by running the \"PlantUML: Toggle Workspace Trust Flag\" command.",
+	"OK",
+	"Trust This Workspace"
 ]

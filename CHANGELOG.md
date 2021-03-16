@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.14.4
+
+Some sensitive config, like `java`, `jar`, are potentially utilized by attackers. The lastest release has disable by default the workspace/work folder level settings of them. To enable, you have to explicitly execute the command `PlantUML: Toggle Workspace Trust Flag` to trust the workspace.
+
+> Thanks RyotaK for the report
+
 ## 2.14.3
 
 - Improvement: Global `includepaths` setting will apply to digrams in markdown/unsaved files. #375

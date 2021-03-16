@@ -6,6 +6,7 @@
 	"plantuml.URLCurrent.title": "為當前圖表產生URL鏈接",
 	"plantuml.URLDocument.title": "為當前檔案圖表產生URL鏈接",
 	"plantuml.extractSource.title": "從圖片中擷取 PlantUML 原始碼",
+	"plantuml.toggleWorkspaceTrusted.title": "Toggle Workspace Trust Flag",
 	"plantuml.configuration.configTitle": "PlantUML 設定",
 	"plantuml.configuration.exportFormat": "匯出格式。 若爲空，則在每次匯出的時候選擇格式。",
 	"plantuml.configuration.jar": "自定 plantuml.jar 的位置。留空則使用套件的版本。",

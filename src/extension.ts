@@ -20,6 +20,7 @@ import { CommandExportWorkspace } from './commands/exportWorkspace';
 import { CommandURLCurrent } from './commands/urlCurrent';
 import { CommandURLDocument } from './commands/urlDocument';
 import { CommandExtractSource } from './commands/extractSource';
+import { CommandToggleWorkspaceTrust } from './commands/toggleWorkspaceTrust';
 import { plantumlPlugin } from './markdown-it-plantuml/index';
 import { Diagnoser } from './providers/diagnoser';
 
@@ -39,6 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
             new CommandURLCurrent(),
             new CommandURLDocument(),
             new CommandExtractSource(),
+            new CommandToggleWorkspaceTrust(),
             new Formatter(),
             new Symbol(),
             new Completion(),

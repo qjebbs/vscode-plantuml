@@ -53,5 +53,8 @@
 	"境界線にスナップ",
 	"一番下/右/上/左にスクロールすると,プレビューがその境界線にスナップします",
 	"PlantUMLサーバがありません。\"plantuml.server\"でサーバを指定してください。",
-	"Bad \"plantuml.java\" config: {0}"
+	"Bad \"plantuml.java\" config: {0}",
+	"Some workspace/folder-level settings ({0}) from the untrusted workspace are disabled by default. If this workspace is trusted, explicitly enable the workspace/folder-level settings by running the \"PlantUML: Toggle Workspace Trust Flag\" command.",
+	"OK",
+	"Trust This Workspace"
 ]

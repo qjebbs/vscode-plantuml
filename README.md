@@ -12,11 +12,9 @@ Rich PlantUML support for Visual Studio Code.
 
 ## Notice 1
 
-> Don't know what `language id` is? You can safely ignore this notice
+Some sensitive config, like `java`, `jar`, are potentially utilized by attackers. The lastest release has disabled the workspace/work folder level settings of them by default. To enable, you have to explicitly execute the command `PlantUML: Toggle Workspace Trust Flag` to trust the workspace.
 
-The language id of this extension contributed, has been change to `plantuml`, due to [#306](https://github.com/qjebbs/vscode-plantuml/issues/306).
-
-If you've made some setting depending on the id (though it's rare), please update them.
+> Thanks RyotaK for the report
 
 ## Notice 2
 
