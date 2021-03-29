@@ -56,7 +56,7 @@ function extract(imgs: vscode.Uri[]) {
                     let process = child_process.spawn(config.java, params);
 
                     let pms = processWrapper(process).then(
-                        stdout => sources.push(stdout.toString()),
+                        stdout => sources.push(String.fromCharCode.apply(null, new Uint8Array(stdout))),
                         err => sources.push(err),
                     );
                     return pms;
