@@ -224,13 +224,13 @@ class Previewer extends vscode.Disposable {
         this._uiPreview.addEventListener("close", () => { this.stopWatch(); this.killTasks(); });
     }
     startWatch() {
-        if (!config.previewAutoUpdate) return;
         let disposable: vscode.Disposable;
         let disposables: vscode.Disposable[] = [];
 
         //register watcher
         let lastTimestamp = new Date().getTime();
         disposable = vscode.workspace.onDidChangeTextDocument(e => {
+            if (!config.previewAutoUpdate) return;
             if (!e || !e.document || !e.document.uri) return;
             if (e.document.uri.scheme == "plantuml") return;
             lastTimestamp = new Date().getTime();
@@ -243,6 +243,7 @@ class Previewer extends vscode.Disposable {
         });
         disposables.push(disposable);
         disposable = vscode.window.onDidChangeTextEditorSelection(e => {
+            if (!config.previewAutoUpdate) return;
             lastTimestamp = new Date().getTime();
             setTimeout(() => {
                 if (new Date().getTime() - lastTimestamp >= 400) {
