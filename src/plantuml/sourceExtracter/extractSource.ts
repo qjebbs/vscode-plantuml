@@ -39,14 +39,16 @@ function extract(imgs: vscode.Uri[]) {
             }
 
             let params = [
+                ...config.commandArgs(null),
                 '-Djava.awt.headless=true',
                 '-jar',
                 config.jar(null),
+                ...config.jarArgs(null),
                 "-metadata",
                 img.fsPath,
             ];
 
-            // processes.push(process);
+            // processes.push(process); 
             return pChain.then(
                 () => {
                     if (bar) {
