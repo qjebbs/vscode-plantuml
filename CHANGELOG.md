@@ -1,8 +1,13 @@
 # VSCode PlantUML Changelog
 
+## 2.14.5
+
+- Fix: `previewAutoUpdate` setting instantly applied, fix #381
+- Improvement: Apply `commandArgs` and `jarArgs` while extracting source code, #388. Thanks to @evilru.
+
 ## 2.14.4
 
-Some sensitive config, like `java`, `jar`, are potentially utilized by attackers. The lastest release has disable by default the workspace/work folder level settings of them. To enable, you have to explicitly execute the command `PlantUML: Toggle Workspace Trust Flag` to trust the workspace.
+Some sensitive config, like `java`, `jar`, are potentially utilized by attackers. The lastest release has disabled by default the workspace/work folder level settings of them. To enable, you have to explicitly execute the command `PlantUML: Toggle Workspace Trust Flag` to trust the workspace.
 
 > Thanks RyotaK for the report
 
