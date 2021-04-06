@@ -98,15 +98,22 @@ brew install graphviz
 
 #### Quick Install for Windows
 
-For windows user, [majkinetor](https://github.com/majkinetor) introduced a way to install plantuml and its dependencies easily. Run `cmd.exe` as Administrator, and run two commands as follow
+The plugin has an integrated copy of plantuml.jar and GraphViz, so you are normally good to go. 
+But if you want to use your own jar or a different version of GraphViz (maybe a newer version, or with many dependent jars):
+
+- download the latest `plantuml.jar` or install it using chocolatey (see below). 
+- specify the jar location with the extension setting `plantuml.jar`.
+- specify the GraphViz installation by defining the Windows environment variable `GRAPHVIZ_DOT`, e.g., `c:\program files\graphviz\bin\dot.exe` if you installed plantuml with chocolatey, which automatically installs the latest GraphViz as a dependency.
+
+##### Choco install
+For windows users, [majkinetor](https://github.com/majkinetor) introduced a way to install plantuml and its dependencies easily. 
+Run `cmd.exe` as Administrator, and run two commands as follows (the first command is not needed and will fail if you already have chocolatey installed).
 
 ```cmd
 @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 
 choco install plantuml
 ```
-
-> Plugin has integrated a copy of "plantuml.jar", you are good to go now. But if you want to use your own jar (maybe a newer version, or with many dependent jars), specify the jar location with setting `plantuml.jar`.
 
 > If you've installed java, but still prompts "java not installed", please add java bin path to `PATH` environment variable.
 
