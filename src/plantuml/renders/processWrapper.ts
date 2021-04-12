@@ -31,7 +31,11 @@ export function processWrapper(process: child_process.ChildProcess, pipeFilePath
                 stdout = Buffer.from(pipeFilePath);
             }
             let stderr = Buffer.concat(buffErr, buffErrLen).toString();
-            if (stderr.indexOf('JAVA_TOOL_OPTIONS') >= 0) stderr = "";
+
+            // If environment variables such as JAVA_TOOL_OPTIONS or _JAVA_OPTIONS are set,
+            // some java implementations will echo them on stderr.
+            stderr = stderr.replace(/^Picked up .*$/mg, "").trim();
+
             if (stderr) {
                 reject(<RenderError>{ error: stderr, out: stdout });
                 return;
