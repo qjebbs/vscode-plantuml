@@ -1,5 +1,12 @@
 # VSCode PlantUML Changelog
 
+## 2.15.0
+
+- Improvement: Adopt to VSCode Workspace Trust
+- Improvement: Ignore "Picked up" java stderr messages (#391)
+- Improvement: Add ```puml rendering support in the md file (#397)
+- Fix: Some machine-overridable scope settings not applied from workspace
+
 ## 2.14.5
 
 - Fix: `previewAutoUpdate` setting instantly applied, fix #381
