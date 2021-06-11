@@ -5,8 +5,8 @@ import { getPredefinedLanguageWords } from './predefined';
 export var dicLanguageWords = new Set<string>([]);
 let cachedItems: vscode.CompletionItem[] = undefined;
 
-// // pre-cache before user needs
-// LanguageCompletionItems();
+// pre-cache before user needs
+LanguageCompletionItems();
 
 export async function LanguageCompletionItems(): Promise<vscode.CompletionItem[]> {
     if (cachedItems !== undefined) {

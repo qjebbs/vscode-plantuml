@@ -6,7 +6,6 @@
 	"plantuml.URLCurrent.title": "カーソル位置のダイアグラムをURLに変換",
 	"plantuml.URLDocument.title": "ファイル内のダイアグラムをURLに変換",
 	"plantuml.extractSource.title": "画像からPlantUMLダイアグラムのソースを抽出",
-	"plantuml.toggleWorkspaceTrusted.title": "Toggle Workspace Trust Flag",
 	"plantuml.configuration.configTitle": "PlantUML設定",
 	"plantuml.configuration.exportFormat": "エクスポートのフォーマット指定。空白の場合はエクスポート実行ごとにフォーマットを選択します",
 	"plantuml.configuration.jar": "代替の plantuml.jar の位置を指定。 空白の場合は組み込みのjarファイルを使用します",

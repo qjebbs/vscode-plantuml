@@ -10,13 +10,7 @@ Rich PlantUML support for Visual Studio Code.
 |
 [PlantUML Document](http://plantuml.com/sitemap-language-specification)
 
-## Notice 1
-
-Some sensitive config, like `java`, `jar`, are potentially utilized by attackers. The lastest release has disabled the workspace/work folder level settings of them by default. To enable, you have to explicitly execute the command `PlantUML: Toggle Workspace Trust Flag` to trust the workspace.
-
-> Thanks RyotaK for the report
-
-## Notice 2
+## Notice
 
 The server render is now very recommended by this extension, since it's much faster and much easier to setup, while the major weakness has been improved:
 

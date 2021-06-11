@@ -103,11 +103,6 @@
         "command": "plantuml.extractSource",
         "title": "%plantuml.extractSource.title%",
         "category": "PlantUML"
-      },
-      {
-        "command": "plantuml.toggleWorkspaceTrusted",
-        "title": "%plantuml.toggleWorkspaceTrusted.title%",
-        "category": "PlantUML"
       }
     ],
     "menus": {

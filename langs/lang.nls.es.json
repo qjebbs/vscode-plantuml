@@ -53,8 +53,5 @@
   "Fijar al borde",
   "Desplazar todo lo posible hacia abajo/derecha/arriba/izquierda, la vista previa se fijará a ese borde",
   "Sin servidor de PlantUML, especifica uno con \"plantuml.server\".",
-  "Configuración incorrecta de \"plantuml.java\": {0}",
-	"Some workspace/folder-level settings ({0}) from the untrusted workspace are disabled by default. If this workspace is trusted, explicitly enable the workspace/folder-level settings by running the \"PlantUML: Toggle Workspace Trust Flag\" command.",
-	"OK",
-	"Trust This Workspace"
+  "Configuración incorrecta de \"plantuml.java\": {0}"
 ]

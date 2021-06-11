@@ -6,7 +6,6 @@
 	"plantuml.URLCurrent.title": "현재 다이어그램에 대한 URL 생성하기",
 	"plantuml.URLDocument.title": "현재 다이어그램 파일에 대한 URL 생성하기",
 	"plantuml.extractSource.title": "그림에서 PlantUML 다이어그램 소스 추출하기",
-	"plantuml.toggleWorkspaceTrusted.title": "Toggle Workspace Trust Flag",
 	"plantuml.configuration.configTitle": "PlantUML 환경설정",
 	"plantuml.configuration.exportFormat": "내보내기 형식. 매번 내보낼 때마다 선택하려면 비워두십시오.",
 	"plantuml.configuration.jar": "plantuml.jar의 다른 위치. 통합 jar를 쓰려면 비워두십시오.",

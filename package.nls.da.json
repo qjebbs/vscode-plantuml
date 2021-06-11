@@ -6,7 +6,6 @@
 	"plantuml.URLCurrent.title": "Generér URL for aktuelt diagram",
 	"plantuml.URLDocument.title": "Generér URL'er til diagrammer i aktuel fil",
 	"plantuml.extractSource.title": "Udtræk PlantUML diagramkilde fra billede",
-	"plantuml.toggleWorkspaceTrusted.title": "Toggle Workspace Trust Flag",
 	"plantuml.configuration.configTitle": "PlantUML konfiguration",
 	"plantuml.configuration.exportFormat": "Eksporteringsformat. Lad være blankt for at vælge format hver gang.",
 	"plantuml.configuration.jar": "Alternativ sti til plantuml.jar. Lad være blankt for at bruge integreret jar.",

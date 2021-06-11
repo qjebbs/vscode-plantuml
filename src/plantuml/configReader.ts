@@ -56,19 +56,5 @@ export abstract class ConfigReader extends vscode.Disposable {
         // console.log(key, "=", value, ":", resource ? resource.fsPath : "undefined");
         return value;
     }
-    /**
-     * read the value of a window scope setting.
-     * @param key the key name of a setting
-     */
-    readGlobal<T>(key: string): T{
-        let conf = vscode.workspace.getConfiguration(this._section);
-        let results = conf.inspect<T>(key);
-        let value: T = undefined;
-        if (results.globalValue !== undefined)
-            value = results.globalValue;
-        else
-            value = results.defaultValue;
-        return value;
-    }
     abstract onChange(...args: any[]): any;
 }

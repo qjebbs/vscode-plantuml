@@ -6,7 +6,6 @@
 	"plantuml.URLCurrent.title": "URL für das aktuelle Diagramm generieren",
 	"plantuml.URLDocument.title": "URLs für die Diagramme der aktuellen Datei generieren",
 	"plantuml.extractSource.title": "Extract PlantUML Diagram Source from Image",
-	"plantuml.toggleWorkspaceTrusted.title": "Toggle Workspace Trust Flag",
 	"plantuml.configuration.configTitle": "PlantUML configuration",
 	"plantuml.configuration.exportFormat": "Exportformat. Lassen Sie es leer, dann können Sie das Format bei jedem Export auswählen.",
 	"plantuml.configuration.jar": "Alternativer plantuml.jar Speicherort. Lassen Sie es leer, um die integrierte jar zu verwenden.",
