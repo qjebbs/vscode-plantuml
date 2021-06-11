@@ -24,5 +24,6 @@
   "plantuml.configuration.jarArgs": "jarArgs permite añadir argumentos a plantuml.jar, como por ejemplo \"-config plantuml.config\".",
   "plantuml.configuration.exportMapFile": "Permite ajustar si debe exportarse un archivo de mapa de imagen (.cmapx) al llevar a cabo una exportación.",
   "plantuml.configuration.java": "Localización del ejecutable de Java.",
-  "plantuml.configuration.includepaths": "Especifica las rutas de búsqueda de archivos al margen del directorio del archivo renderizado y de la ruta 'diagramsRoot'."
+  "plantuml.configuration.includepaths": "Especifica las rutas de búsqueda de archivos al margen del directorio del archivo renderizado y de la ruta 'diagramsRoot'.",
+	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }

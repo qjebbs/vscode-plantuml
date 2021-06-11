@@ -24,5 +24,6 @@
 	"plantuml.configuration.jarArgs": "jarArgs는 \"-config plantuml.config\" 같은 추가 옵셥을 plantuml.jar에 전달할 수 있습니다.",
 	"plantuml.configuration.exportMapFile": "내보내기 할 때 이미지 맵 (.cmapx) 파일도 내보낼지를 결정합니다.",
 	"plantuml.configuration.java": "Java 실행파일 위치.",
-	"plantuml.configuration.includepaths": "소스 폴더와 'diagramsRoot'외에 포함할 경로를 지정합니다."
+	"plantuml.configuration.includepaths": "소스 폴더와 'diagramsRoot'외에 포함할 경로를 지정합니다.",
+	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }

@@ -7,19 +7,18 @@ export type ConfigCache<T> = {
 export abstract class ConfigReader extends vscode.Disposable {
 
     private _section: string;
-    private _disposable: vscode.Disposable;
+    private _disposables: vscode.Disposable[] = [];
 
     constructor(section: string) {
         super(() => this.dispose());
         this._section = section;
-        this._disposable = vscode.workspace.onDidChangeConfiguration(
-            e => {
-                this.onChange(e);
-            }
+        this._disposables.push(
+            vscode.workspace.onDidChangeConfiguration(e => this.onChange(e)),
+            vscode.workspace.onDidGrantWorkspaceTrust(e => this.onChange(e))
         );
     }
     dispose() {
-        this._disposable && this._disposable.dispose();
+        this._disposables.length && this._disposables.forEach(d => d.dispose());
     }
     /**
      * read the value of a window scope setting.

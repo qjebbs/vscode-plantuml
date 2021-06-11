@@ -24,5 +24,6 @@
 	"plantuml.configuration.jarArgs": "Tillader argumenter til plantuml.jar, for eksempel \"-config plantuml.config\".",
 	"plantuml.configuration.exportMapFile": "Bestemmer eksportering af billede-map (.cmapx) fil.",
 	"plantuml.configuration.java": "Sti til eksekverbar Java-program.",
-	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'."
+	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'.",
+	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }

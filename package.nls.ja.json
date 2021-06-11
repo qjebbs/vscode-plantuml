@@ -24,5 +24,6 @@
 	"plantuml.configuration.jarArgs": "jarArgsでは、\"-config plantuml.config\"などの引数をplantuml.jarに追加できます。",
 	"plantuml.configuration.exportMapFile": "エクスポート時にイメージマップ（.cmapx） ファイルをエクスポートするかどうかを決定します",
 	"plantuml.configuration.java": "Java実行可能パス",
-	"plantuml.configuration.includepaths": "ソースディレクトリと'diagramsRoot'以外のインクルードパスを指定します"
+	"plantuml.configuration.includepaths": "ソースディレクトリと'diagramsRoot'以外のインクルードパスを指定します",
+	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }
