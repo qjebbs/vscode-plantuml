@@ -24,5 +24,5 @@ export function exportToBuffer(diagram: Diagram, format: string, bar?: vscode.St
  * @returns ExportTask.
  */
 export function getMapData(diagram: Diagram): RenderTask {
-    return appliedRender().getMapData(diagram, "");
+    return appliedRender(diagram.parentUri).getMapData(diagram, "");
 }

@@ -55,7 +55,7 @@ function extract(imgs: vscode.Uri[]) {
                         bar.show();
                         bar.text = localize(33, null, index + 1, imgs.length, path.basename(img.fsPath));
                     }
-                    let process = child_process.spawn(config.java, params);
+                    let process = child_process.spawn(config.java(img), params);
 
                     let pms = processWrapper(process).then(
                         stdout => sources.push(stdout.toString()),

@@ -109,7 +109,7 @@ class LocalRender implements IRender {
                 if (diagram.path) params.push("-filename", path.basename(diagram.path));
                 // Add user jar args
                 params.push(...config.jarArgs(diagram.parentUri));
-                let process : any = child_process.spawn(config.java, params);
+                let process : any = child_process.spawn(config.java(diagram.parentUri), params);
                 processes.push(process);
                 return pChain.then(
                     () => {

@@ -21,7 +21,7 @@ export function MakeDiagramURL(diagram: Diagram, format: string, bar: vscode.Sta
         bar.show();
         bar.text = localize(16, null, diagram.title);
     }
-    let server = config.server;
+    let server = config.server(diagram.parentUri);
     return <DiagramURL>{
         name: diagram.title,
         urls: [...Array(diagram.pageCount).keys()].map(index => makePlantumlURL(server, diagram, format, index))

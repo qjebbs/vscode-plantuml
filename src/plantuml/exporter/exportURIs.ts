@@ -22,8 +22,12 @@ export interface exportFilesResult {
  * @returns Promise<Buffer[][]>. A promise of exportURIsResult
  */
 export async function exportFiles(files: FileAndFormat[], bar?: vscode.StatusBarItem): Promise<exportFilesResult> {
-    if (appliedRender().limitConcurrency()) {
-        let concurrency = config.exportConcurrency;
+    if (!files || !files.length) return Promise.resolve(<exportFilesResult>{
+        results:[],
+        errors:[]
+    })
+    if (appliedRender(files[0].uri).limitConcurrency()) {
+        let concurrency = config.exportConcurrency(files[0].uri);
         return exportFilesLimited(files, concurrency, bar);
     } else {
         return exportFilesUnLimited(files, bar);

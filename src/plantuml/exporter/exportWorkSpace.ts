@@ -27,7 +27,7 @@ export async function exportWorkSpace(...para: any[]) {
     }, false);
     if (hasEmptyFormat) {
         let userPickFormat = await vscode.window.showQuickPick(
-            appliedRender().formats(),
+            appliedRender(files[0].uri).formats(),
             <vscode.QuickPickOptions>{
                 placeHolder: localize(34, null)
             }

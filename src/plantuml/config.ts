@@ -13,15 +13,15 @@ export const RenderType = {
 
 class Config extends ConfigReader {
     private _jar: ConfigCache<string> = {};
-    private _java: string;
+    private _java: ConfigCache<string> = {};
 
     constructor() {
         super('plantuml');
     }
 
-    onChange() {
+    onChange(e) {
         this._jar = {};
-        this._java = "";
+        this._java = {};
     }
 
     jar(uri: vscode.Uri): string {
@@ -87,7 +87,7 @@ class Config extends ConfigReader {
         return this.read<boolean>('exportSubFolder', uri);
     }
 
-    get exportConcurrency(): number {
+     exportConcurrency(uri: vscode.Uri): number {
         return this.read<number>('exportConcurrency') || 3;
     }
 
@@ -103,7 +103,7 @@ class Config extends ConfigReader {
         return this.read<boolean>('previewSnapIndicators');
     }
 
-    get server(): string {
+    server(uri: vscode.Uri): string {
         return this.read<string>('server').trim().replace(/\/+$/g, "");
     }
 
@@ -115,7 +115,7 @@ class Config extends ConfigReader {
         return this.read<string>('urlResult') || "MarkDown";
     }
 
-    get render(): string {
+    render(uri: vscode.Uri): string {
         return this.read<string>('render') || "Local";
     }
 
@@ -128,19 +128,21 @@ class Config extends ConfigReader {
     jarArgs(uri: vscode.Uri): string[] {
         return this.read<string[]>('jarArgs', uri) || [];
     }
-    get java(): string {
-        return this._java || (() => {
+    java(uri: vscode.Uri): string {
+        let folder = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
+        let folderPath = folder ? folder.uri.fsPath : "";
+        return this._java[folderPath] || (() => {
             let java = this.read<string>('java') || "java";
             if (java == "java") {
-                if (javaCommandExists()) this._java = java;
+                if (javaCommandExists()) this._java[folderPath] = java;
             } else {
                 if (testJava(java)) {
-                    this._java = java;
+                    this._java[folderPath] = java;
                 } else {
                     vscode.window.showWarningMessage(localize(54, null, java));
                 }
             }
-            return this._java;
+            return java;
         })();
     }
 }
