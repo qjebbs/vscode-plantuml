@@ -76,12 +76,12 @@ window.addEventListener("load", () => {
         switcher.moveTo(previewStatus.page);
         addCursorManager();
         addSelectionBox();
-        addDrageScroll()
+        addDrageScroll();
+        initializeHelpModal();
     } else {
         document.getElementById("ctrl-container").remove();
         document.getElementById("image-container").remove();
     }
-    initializeHelpModal()
 });
 window.addEventListener(
     "resize",
