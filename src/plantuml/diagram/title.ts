@@ -1,3 +1,5 @@
+import * as builtinfunctions from './builtinfunctions';
+
 interface regReplace {
     find: RegExp;
     replace: string;
@@ -36,5 +38,6 @@ export function Deal(value: string): string {
     for (let rp of regs){
         title=title.replace(rp.find,rp.replace).trim();
     }
+    title = builtinfunctions.Deal(title);
     return title;
 }
