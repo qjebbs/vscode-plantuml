@@ -57,7 +57,7 @@ function resolveInclude(content: string | string[], searchPaths: string[]): stri
 }
 
 function getSearchPaths(uri: vscode.Uri): string[] {
-    let searchPaths:string[] = []
+    let searchPaths: string[] = []
     if (uri) {
         searchPaths.push(path.dirname(uri.fsPath));
     }
@@ -79,7 +79,7 @@ function findFile(file: string, searchPaths: string[]): string {
 }
 
 function getIncludeContent(file: string): string {
-    if (!file || !fs.existsSync(file) || !new fs.Dirent(file).isFile()) return undefined
+    if (!file || !fs.existsSync(file) || !fs.statSync(file).isFile()) return undefined
     // console.log('Entering:', file);
     if (_included[file]) {
         // console.log("Ignore file already included:", file);
