@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.15.1
+
+- Fix: Error in console while typing include (#412)
+- Update embedded jar to 1.2021.7
+
 ## 2.15.0
 
 - Improvement: Adopt to VSCode Workspace Trust
