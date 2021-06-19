@@ -1,6 +1,8 @@
 // PlantUML Builtin functions
 // https://plantuml.com/de/preprocessing#291cabbe982ff775
 
+import * as vscode from 'vscode';
+
 // 001: How to enable extension to use 'ts-expression-evaluator'
 // import evaluate, { registerFunction } from 'ts-expression-evaluator'
 
@@ -166,7 +168,8 @@ export class BuiltinFunctionsPreprocessor {
     }
 
     private processDate(): string {
-        let today = new Date().toLocaleDateString();
+        let tmplocale = vscode.env.language;
+        let today = new Date().toLocaleDateString(tmplocale);
         return today;
     }
 
