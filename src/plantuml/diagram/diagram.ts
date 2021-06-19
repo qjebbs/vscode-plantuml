@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import * as title from './title';
 import { DiagramType, getType } from './type';
+import { BuiltinFunctionsPreprocessor } from './builtinfunctions';
 import { getContentWithInclude } from './include';
 
 export const diagramStartReg = /@start(\w+)/i;
@@ -24,6 +25,7 @@ export class Diagram {
     private _index: number = undefined;
     private _pageCount: number = undefined;
     private _contentWithInclude: string = undefined;
+    private _builtinFunctions: BuiltinFunctionsPreprocessor = undefined;
 
     constructor(content: string);
     constructor(content: string, document: vscode.TextDocument, start: vscode.Position, end: vscode.Position);
@@ -41,6 +43,7 @@ export class Diagram {
         if (i >= 0) this.fileName = this.fileName.substr(0, i);
         this.dir = path.dirname(this.path);
         if (!path.isAbsolute(this.dir)) this.dir = "";
+        this._builtinFunctions = new BuiltinFunctionsPreprocessor(this.path);
     }
     public get index(): number {
         if (this._index !== undefined) {
@@ -97,7 +100,8 @@ export class Diagram {
         let matches: RegExpMatchArray;;
         if (matches = this.lines[0].match(RegFName)) {
             this._titleRaw = matches[2];
-            this._title = title.Deal(this._titleRaw);
+            let tempTitle = this._builtinFunctions.ProcessBuiltinFunctions(this._titleRaw);
+            this._title = title.Deal(tempTitle);
             return;
         }
         let inlineTitle = /^\s*title\s+(.+?)\s*$/i;
@@ -109,7 +113,8 @@ export class Diagram {
             }
         }
         if (this._titleRaw) {
-            this._title = title.Deal(this._titleRaw);
+            let tempTitle = this._builtinFunctions.ProcessBuiltinFunctions(this._titleRaw);
+            this._title = title.Deal(tempTitle);
         } else if (this.start && this.end) {
             // this.title = `${this.fileName}@${this.start.line + 1}-${this.end.line + 1}`;
             if (this.index)
