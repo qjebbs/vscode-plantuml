@@ -19,7 +19,7 @@ export class BuiltinFunctionsPreprocessor {
     constructor(fullQualifiedFilename: string) {
         let i = fullQualifiedFilename.lastIndexOf("\\");
         this._filename = fullQualifiedFilename.substr(i + 1);
-        this._pathname = fullQualifiedFilename.substr(0, i);
+        this._pathname = fullQualifiedFilename.substr(0, i + 1);
     }
 
     public ProcessBuiltinFunctions(titleRaw: string): string {
@@ -190,7 +190,12 @@ export class BuiltinFunctionsPreprocessor {
     }
 
     private processFilename(): string {
-        return this._filename;
+        let result = this._filename;
+        let parts = result.split(".");
+        if (parts.length > 0) {
+            result = parts[0];
+        }
+        return result;
     }
 
     private processFunctionExists(): string {
