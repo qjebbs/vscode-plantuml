@@ -2,9 +2,7 @@
 // https://plantuml.com/de/preprocessing#291cabbe982ff775
 
 import * as vscode from 'vscode';
-
-// 001: How to enable extension to use 'ts-expression-evaluator'
-// import evaluate, { registerFunction } from 'ts-expression-evaluator'
+import evaluate, { registerFunction } from 'ts-expression-evaluator'
 
 export class BuiltinFunctionsPreprocessor {
     private _builtinFunctionRegularExpression = /%([a-z_]+)\(([^\)]+)?\)/ig;
@@ -30,7 +28,12 @@ export class BuiltinFunctionsPreprocessor {
             this._buildinfunction = args[0];
             this._functionname = args[1];
             this._functionarguments = this.stripQuotes(args[2]);
-            console.log(`pathname: ${this._pathname}, filename: ${this._filename}, titlestring: ${titleRaw}, buildinfunction: ${this._buildinfunction}, functionname: ${this._functionname}, functionarguments: ${this._functionarguments}`)
+            console.log(`pathname: ${this._pathname}`);
+            console.log(`filename: ${this._filename}`);
+            console.log(`titlestring: ${titleRaw}`);
+            console.log(`buildinfunction: ${this._buildinfunction}`);
+            console.log(`functionname: ${this._functionname}`);
+            console.log(`functionarguments: ${this._functionarguments}`);
             switch (this._functionname) {
                 // Process %darken("red", 20)
                 case "darken":
@@ -190,12 +193,7 @@ export class BuiltinFunctionsPreprocessor {
     }
 
     private processFilename(): string {
-        let result = this._filename;
-        let parts = result.split(".");
-        if (parts.length > 0) {
-            result = parts[0];
-        }
-        return result;
+        return this._filename;
     }
 
     private processFunctionExists(): string {
@@ -243,9 +241,7 @@ export class BuiltinFunctionsPreprocessor {
 
     private processNot(): string {
         let result = "false";
-        // 001: How to enable extension to use 'ts-expression-evaluator'
-        // let check = evaluate(this._functionarguments);
-        let check = eval(this._functionarguments);
+        let check = evaluate(this._functionarguments);
         if (check === true) {
             result == "true";
         }
@@ -265,9 +261,7 @@ export class BuiltinFunctionsPreprocessor {
     }
 
     private processString(): string {
-        // 001: How to enable extension to use 'ts-expression-evaluator'
-        // let result = evaluate(this._functionarguments);
-        let result = eval(this._functionarguments);
+        let result = evaluate(this._functionarguments);
         return String(result);
     }
 
