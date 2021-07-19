@@ -58,8 +58,8 @@ repository:
       end: (?i)\n
     - comment: comment block
       name: comment.block.source.wsd
-      begin: (?i)^\s*(/')
-      end: (?i)('/)\s*$
+      begin: (?i)\s*(/')
+      end: (?i)('/)\s*
   Style:
     patterns:
     - comment: inline style
