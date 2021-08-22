@@ -310,7 +310,7 @@ repository:
   Class:
     patterns:
     - comment: class group & enum 
-      begin: (?i)^\s*(enum|abstract|class|abstract\s+class)\s+([\w\d_\.]+|"[^"]+")(\s*(<<.+?>>))?(\s+(as)\s+([\w\d_\.]+|"[^"]+")(\s*(<<.+?>>))?)?(\s+#(([\w\|\\\/\-]+)))?\s*\{\s*$
+      begin: (?i)^\s*(enum|abstract\s+class|abstract|class)\s+([\w\d_\.]+|"[^"]+")(\s*(<<.+?>>))?(\s+(as)\s+([\w\d_\.]+|"[^"]+")(\s*(<<.+?>>))?)?(\s+#(([\w\|\\\/\-]+)))?\s*\{\s*$
       beginCaptures:
         '1': {name: keyword.other.class.group.source.wsd}
         '2': {name: support.variable.class.group.source.wsd}
