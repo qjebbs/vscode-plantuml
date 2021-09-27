@@ -26,7 +26,7 @@ If not, like the official <https://www.plantuml.com/plantuml>, the extension fal
 
 ## Features
 
-- Preview Diagram, Press `Alt-D` to start PlantUML preview.
+- Preview Diagram, Press <kbd>Alt</kbd> + <kbd>D</kbd> to start PlantUML preview (<kbd>option</kbd> + <kbd>D</kbd> on MacOS).
     - Auto update.
     - Zoom & scroll support.
     - Multi-Page Diagram support.
