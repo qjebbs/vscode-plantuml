@@ -4,7 +4,7 @@ export function plantumlWorker(state: any) {
     // debugInfo(state.tokens);
     let blockTokens: markdowIt.Token[] = state.tokens;
     for (let blockToken of blockTokens) {
-        if (blockToken.type == "fence" &&( blockToken.info.startsWith("plantuml")|| blockToken.info.startsWith("puml"))) {
+        if (blockToken.type == "fence" &&( blockToken.info.startsWith("plantuml")|| blockToken.info.startsWith("puml")|| blockToken.info.startsWith("{uml}"))) {
             blockToken.type = "plantuml";
             // always render as <img> for maximum compatibility:
             // https://github.com/qjebbs/vscode-markdown-extended/issues/67#issuecomment-554996262
