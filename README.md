@@ -86,7 +86,7 @@ It's necessary to have following installed:
 #### Quick Install for Mac
 
 ```sh
-brew install --cask adoptopenjdk
+brew install --cask temurin
 brew install graphviz
 ```
 
