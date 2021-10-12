@@ -19,7 +19,7 @@ import { config } from '../config';
 export function exportDiagram(diagram: Diagram, format: string, savePath: string, bar: vscode.StatusBarItem): RenderTask {
     if (bar) {
         bar.show();
-        bar.text = localize(7, null, diagram.title + "." + format.split(":")[0]);
+        bar.text = localize(7, null, diagram.name + "." + format.split(":")[0]);
     }
     let renderTask = appliedRender(diagram.parentUri).render(diagram, format, savePath);
     if (!config.exportMapFile(diagram.parentUri) || !savePath) return renderTask;

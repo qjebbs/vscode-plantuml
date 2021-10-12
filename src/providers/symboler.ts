@@ -79,7 +79,7 @@ export class Symbol extends vscode.Disposable implements vscode.DocumentSymbolPr
             const location = new vscode.Location(document.uri, new vscode.Range(d.start, d.end));
             results.push(
                 new vscode.SymbolInformation(
-                    d.title,
+                    d.name,
                     vscode.SymbolKind.Object,
                     "",
                     location

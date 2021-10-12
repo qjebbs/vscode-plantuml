@@ -33,7 +33,7 @@ export class Diagnoser extends vscode.Disposable {
         let names = {};
         diagrams.map(d => {
             let range = document.lineAt(d.start.line).range;
-            if (!d.titleRaw) {
+            if (!d.nameRaw) {
                 diagnostics.push(
                     new vscode.Diagnostic(
                         range,
@@ -42,16 +42,16 @@ export class Diagnoser extends vscode.Disposable {
                     )
                 );
             }
-            if (names[d.title]) {
+            if (names[d.name]) {
                 diagnostics.push(
                     new vscode.Diagnostic(
                         range,
-                        localize(31, null, d.title),
+                        localize(31, null, d.name),
                         vscode.DiagnosticSeverity.Error
                     )
                 );
             } else {
-                names[d.title] = true;
+                names[d.name] = true;
             }
         });
         this.removeDiagnose(document);
