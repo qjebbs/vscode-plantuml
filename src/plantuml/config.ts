@@ -5,12 +5,6 @@ import * as path from 'path';
 import { localize, extensionPath } from './common';
 import { ConfigReader, ConfigCache } from './configReader';
 import { javaCommandExists, testJava } from './tools';
-import { contextManager } from './context';
-
-const WORKSPACE_IS_TRUSTED_KEY = 'WORKSPACE_IS_TRUSTED_KEY';
-const SECURITY_SENSITIVE_CONFIG: string[] = [
-    'java', 'jar'
-];
 
 export const RenderType = {
     Local: 'Local',
@@ -19,36 +13,27 @@ export const RenderType = {
 
 class Config extends ConfigReader {
     private _jar: ConfigCache<string> = {};
-    private _java: string;
-    private _workspaceState: vscode.Memento;
-    private _workspaceIsTrusted: boolean;
+    private _java: ConfigCache<string> = {};
 
-    constructor(workspaceState: vscode.Memento) {
+    constructor() {
         super('plantuml');
-        this._workspaceState = workspaceState;
-        this._workspaceIsTrusted = this._workspaceState.get<boolean>(WORKSPACE_IS_TRUSTED_KEY);
     }
 
-    onChange() {
+    onChange(e) {
         this._jar = {};
-        this._java = "";
+        this._java = {};
     }
 
     jar(uri: vscode.Uri): string {
         let folder = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
         let folderPath = folder ? folder.uri.fsPath : "";
         return this._jar[folderPath] || (() => {
-            let jar: string;
-            if (this._workspaceIsTrusted) {
-                jar = this.read<string>('jar', uri, (folderUri, value) => {
-                    if (!value) return "";
-                    if (!path.isAbsolute(value))
-                        value = path.join(folderUri.fsPath, value);
-                    return value;
-                });
-            } else {
-                jar = this.readGlobal<string>('jar');
-            }
+            let jar = this.read<string>('jar', uri, (folderUri, value) => {
+                if (!value) return "";
+                if (!path.isAbsolute(value))
+                    value = path.join(folderUri.fsPath, value);
+                return value;
+            });
             let intJar = path.join(extensionPath, "plantuml.jar");
             if (!jar) {
                 jar = intJar;
@@ -102,7 +87,7 @@ class Config extends ConfigReader {
         return this.read<boolean>('exportSubFolder', uri);
     }
 
-    get exportConcurrency(): number {
+     exportConcurrency(uri: vscode.Uri): number {
         return this.read<number>('exportConcurrency') || 3;
     }
 
@@ -118,7 +103,7 @@ class Config extends ConfigReader {
         return this.read<boolean>('previewSnapIndicators');
     }
 
-    get server(): string {
+    server(uri: vscode.Uri): string {
         return this.read<string>('server').trim().replace(/\/+$/g, "");
     }
 
@@ -130,7 +115,7 @@ class Config extends ConfigReader {
         return this.read<string>('urlResult') || "MarkDown";
     }
 
-    get render(): string {
+    render(uri: vscode.Uri): string {
         return this.read<string>('render') || "Local";
     }
 
@@ -143,62 +128,23 @@ class Config extends ConfigReader {
     jarArgs(uri: vscode.Uri): string[] {
         return this.read<string[]>('jarArgs', uri) || [];
     }
-    get java(): string {
-        return this._java || (() => {
-            let java: string;
-            if (this._workspaceIsTrusted) {
-                java = this.read<string>('java');
-            } else {
-                java = this.readGlobal<string>('java');
-            }
+    java(uri: vscode.Uri): string {
+        let folder = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
+        let folderPath = folder ? folder.uri.fsPath : "";
+        return this._java[folderPath] || (() => {
+            let java = this.read<string>('java') || "java";
             if (java == "java") {
-                if (javaCommandExists()) this._java = java;
+                if (javaCommandExists()) this._java[folderPath] = java;
             } else {
                 if (testJava(java)) {
-                    this._java = java;
+                    this._java[folderPath] = java;
                 } else {
                     vscode.window.showWarningMessage(localize(54, null, java));
                 }
             }
-            return this._java;
+            return java;
         })();
-    }
-    ignoredWorkspaceSettings(keys: string[]): string[] {
-        if (this._workspaceIsTrusted){
-            return [];
-        }
-        let conf = vscode.workspace.getConfiguration('plantuml');
-        return keys.filter((key) => {
-            const inspect = conf.inspect(key);
-            return inspect.workspaceValue !== undefined || inspect.workspaceFolderValue !== undefined;
-        });
-    }
-    async toggleWorkspaceIsTrusted() {
-        this._workspaceIsTrusted = !this._workspaceIsTrusted;
-        this.onChange();
-        await this._workspaceState.update(WORKSPACE_IS_TRUSTED_KEY, this._workspaceIsTrusted);
     }
 }
 
-
-export var config: Config
-
-contextManager.addInitiatedListener(async ctx => {
-    config = new Config(ctx.workspaceState);
-    let ignoredSettings = config.ignoredWorkspaceSettings(SECURITY_SENSITIVE_CONFIG);
-    if (ignoredSettings.length == 0) {
-        return;
-    }
-    const trustButton=localize(57, null);
-    const val = await vscode.window.showWarningMessage(
-        localize(55, null, ignoredSettings),
-        localize(56, null),
-        trustButton);
-    switch (val) {
-        case trustButton:
-            await config.toggleWorkspaceIsTrusted();
-            break;
-        default:
-            break;
-    }
-});
+export const config = new Config();

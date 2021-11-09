@@ -6,7 +6,6 @@
 	"plantuml.URLCurrent.title": "为光标位置图表创建链接",
 	"plantuml.URLDocument.title": "为当前文件图表创建链接",
 	"plantuml.extractSource.title": "从图片中提取 PlantUML 图表源码",
-	"plantuml.toggleWorkspaceTrusted.title": "切换工作区是否可信",
 	"plantuml.configuration.configTitle": "PlantUML 配置",
 	"plantuml.configuration.exportFormat": "导出格式。若留空，则在每次导出时选择格式。",
 	"plantuml.configuration.jar": "自定义 plantuml.jar 的位置。留空则使用内置的版本。",
@@ -25,5 +24,6 @@
 	"plantuml.configuration.jarArgs": "指定调用 plantuml.jar 的自定义参数，如 \"-config plantuml.config\"。",
 	"plantuml.configuration.exportMapFile": "决定是否在导出图表的同时导出图片热区 (.cmapx) 文件。",
 	"plantuml.configuration.java": "Java 可执行文件位置。",
-	"plantuml.configuration.includepaths": "指定源目录和 'diagramsRoot' 之外的包含路径。"
+	"plantuml.configuration.includepaths": "指定源目录和 'diagramsRoot' 之外的包含路径。",
+	"plantuml.untrusted.description": "受信任工作区才能启用可能被滥用的工作区设置"
 }

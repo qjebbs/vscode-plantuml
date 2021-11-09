@@ -38,7 +38,7 @@ class PlantumlServer implements IRender {
      * @returns ExportTask.
      */
     render(diagram: Diagram, format: string, savePath: string): RenderTask {
-        let server = config.server;
+        let server = config.server(diagram.parentUri);
         if (!server) {
             return <RenderTask>{
                 processes: [],

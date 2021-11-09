@@ -6,7 +6,6 @@
 	"plantuml.URLCurrent.title": "Generate URL for Current Diagram",
 	"plantuml.URLDocument.title": "Generate URLs for Current File Diagrams",
 	"plantuml.extractSource.title": "Extract PlantUML Diagram Source from Image",
-	"plantuml.toggleWorkspaceTrusted.title": "Toggle Workspace Trust Flag",
 	"plantuml.configuration.configTitle": "PlantUML configuration",
 	"plantuml.configuration.exportFormat": "Export format. Leave it blank to pick format everytime you export.",
 	"plantuml.configuration.jar": "Alternate plantuml.jar location. Leave it blank to use integrated jar.",
@@ -25,5 +24,6 @@
 	"plantuml.configuration.jarArgs": "jarArgs allows you add arguments to plantuml.jar, such as \"-config plantuml.config\".",
 	"plantuml.configuration.exportMapFile": "Determine whether export image map (.cmapx) file when export.",
 	"plantuml.configuration.java": "Java executable location.",
-	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'."
+	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'.",
+	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }

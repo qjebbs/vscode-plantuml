@@ -17,8 +17,11 @@ import { exportDiagram } from './exportDiagram';
  * @returns Promise<Buffer[][]>. A promise of Buffer[digrams][pages] array
  */
 export function exportDiagrams(diagrams: Diagram[], format: string, bar: vscode.StatusBarItem): Promise<Buffer[][]> {
-    if (appliedRender().limitConcurrency()) {
-        let concurrency = config.exportConcurrency;
+    if (!diagrams || !diagrams.length) {
+        return Promise.resolve([]);
+    }
+    if (appliedRender(diagrams[0].parentUri).limitConcurrency()) {
+        let concurrency = config.exportConcurrency(diagrams[0].parentUri);
         return doExportsLimited(diagrams, format, concurrency, bar);
     } else {
         return doExportsUnLimited(diagrams, format, bar);

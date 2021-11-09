@@ -5,8 +5,8 @@ import { processWrapper } from "../../renders/processWrapper";
 import { LanguageWord, REG_CLEAN_LABEL } from "./shared";
 
 export function getLanguageWords(): Promise<LanguageWord[]> {
-    let java = config.java;
-    if (config.render !== RenderType.Local || !java) {
+    let java = config.java(undefined);
+    if (config.render(undefined) !== RenderType.Local || !java) {
         return Promise.resolve([]);
     }
     let params = [

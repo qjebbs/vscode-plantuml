@@ -6,7 +6,6 @@
 	"plantuml.URLCurrent.title": "為當前圖表產生URL鏈接",
 	"plantuml.URLDocument.title": "為當前檔案圖表產生URL鏈接",
 	"plantuml.extractSource.title": "從圖片中擷取 PlantUML 原始碼",
-	"plantuml.toggleWorkspaceTrusted.title": "Toggle Workspace Trust Flag",
 	"plantuml.configuration.configTitle": "PlantUML 設定",
 	"plantuml.configuration.exportFormat": "匯出格式。 若爲空，則在每次匯出的時候選擇格式。",
 	"plantuml.configuration.jar": "自定 plantuml.jar 的位置。留空則使用套件的版本。",
@@ -25,5 +24,6 @@
 	"plantuml.configuration.jarArgs": "執行 plantuml.jar 加入的參數， 例如 \"-config plantuml.config\"。",
 	"plantuml.configuration.exportMapFile": "決定是否在匯出圖表的同時會出圖像地圖 (.cmapx)。",
 	"plantuml.configuration.java": "Java executable location.",
-	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'."
+	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'.",
+	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }

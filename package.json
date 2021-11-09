@@ -3,10 +3,10 @@
   "displayName": "PlantUML",
   "description": "Rich PlantUML support for Visual Studio Code.",
   "icon": "images/icon.png",
-  "version": "2.14.5",
+  "version": "2.16.0",
   "publisher": "jebbs",
   "engines": {
-    "vscode": "^1.39.0"
+    "vscode": "^1.57.0"
   },
   "license": "SEE LICENSE IN LICENSE.txt",
   "bugs": {
@@ -102,11 +102,6 @@
       {
         "command": "plantuml.extractSource",
         "title": "%plantuml.extractSource.title%",
-        "category": "PlantUML"
-      },
-      {
-        "command": "plantuml.toggleWorkspaceTrusted",
-        "title": "%plantuml.toggleWorkspaceTrusted.title%",
         "category": "PlantUML"
       }
     ],
@@ -346,6 +341,18 @@
         "(",
         ","
       ]
+    },
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "%plantuml.untrusted.description%",
+      "restrictedConfigurations": [
+        "plantuml.java",
+        "plantuml.jar",
+        "plantuml.includepaths",
+        "plantuml.server",
+        "plantuml.commandArgs",
+        "plantuml.jarArgs"
+      ]
     }
   },
   "extensionKind": [
@@ -360,7 +367,7 @@
   "devDependencies": {
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.40",
-    "@types/vscode": "^1.39.0",
+    "@types/vscode": "^1.57.0",
     "js-yaml": "^3.13.1",
     "markdown-it": "^8.3.2",
     "plist": "^3.0.2",

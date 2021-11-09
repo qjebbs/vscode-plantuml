@@ -114,7 +114,7 @@ export function calculateExportPath(diagram: Diagram, format: string): string {
     if (config.exportSubFolder(diagram.parentUri)) {
         exportDir = path.join(exportDir, diagram.fileName);
     }
-    return path.join(exportDir, diagram.title + "." + format);
+    return path.join(exportDir, diagram.name + "." + format);
 }
 export function addFileIndex(fileName: string, index: number, count: number): string {
     if (count == 1) return fileName;

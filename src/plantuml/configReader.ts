@@ -7,19 +7,18 @@ export type ConfigCache<T> = {
 export abstract class ConfigReader extends vscode.Disposable {
 
     private _section: string;
-    private _disposable: vscode.Disposable;
+    private _disposables: vscode.Disposable[] = [];
 
     constructor(section: string) {
         super(() => this.dispose());
         this._section = section;
-        this._disposable = vscode.workspace.onDidChangeConfiguration(
-            e => {
-                this.onChange(e);
-            }
+        this._disposables.push(
+            vscode.workspace.onDidChangeConfiguration(e => this.onChange(e)),
+            vscode.workspace.onDidGrantWorkspaceTrust(e => this.onChange(e))
         );
     }
     dispose() {
-        this._disposable && this._disposable.dispose();
+        this._disposables.length && this._disposables.forEach(d => d.dispose());
     }
     /**
      * read the value of a window scope setting.
@@ -54,20 +53,6 @@ export abstract class ConfigReader extends vscode.Disposable {
             value = func(folder.uri, value);
         }
         // console.log(key, "=", value, ":", resource ? resource.fsPath : "undefined");
-        return value;
-    }
-    /**
-     * read the value of a window scope setting.
-     * @param key the key name of a setting
-     */
-    readGlobal<T>(key: string): T{
-        let conf = vscode.workspace.getConfiguration(this._section);
-        let results = conf.inspect<T>(key);
-        let value: T = undefined;
-        if (results.globalValue !== undefined)
-            value = results.globalValue;
-        else
-            value = results.defaultValue;
         return value;
     }
     abstract onChange(...args: any[]): any;

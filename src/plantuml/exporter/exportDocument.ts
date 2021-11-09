@@ -23,7 +23,7 @@ export async function exportDocument(all: boolean) {
     };
     let format = config.exportFormat(editor.document.uri);
     if (!format) {
-        format = await vscode.window.showQuickPick(appliedRender().formats());
+        format = await vscode.window.showQuickPick(appliedRender(editor.document.uri).formats());
         if (!format) return;
     }
     let diagrams: Diagram[] = [];

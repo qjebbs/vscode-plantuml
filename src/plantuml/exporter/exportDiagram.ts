@@ -19,9 +19,9 @@ import { config } from '../config';
 export function exportDiagram(diagram: Diagram, format: string, savePath: string, bar: vscode.StatusBarItem): RenderTask {
     if (bar) {
         bar.show();
-        bar.text = localize(7, null, diagram.title + "." + format.split(":")[0]);
+        bar.text = localize(7, null, diagram.name + "." + format.split(":")[0]);
     }
-    let renderTask = appliedRender().render(diagram, format, savePath);
+    let renderTask = appliedRender(diagram.parentUri).render(diagram, format, savePath);
     if (!config.exportMapFile(diagram.parentUri) || !savePath) return renderTask;
 
     let bsName = path.basename(savePath);
@@ -30,7 +30,7 @@ export function exportDiagram(diagram: Diagram, format: string, savePath: string
         path.dirname(savePath),
         bsName.substr(0, bsName.length - ext.length) + ".cmapx",
     );
-    let mapTask = appliedRender().getMapData(diagram, cmapx);
+    let mapTask = appliedRender(diagram.parentUri).getMapData(diagram, cmapx);
     return combine(renderTask, mapTask);
 }
 

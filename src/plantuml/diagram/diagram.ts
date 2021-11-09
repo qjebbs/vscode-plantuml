@@ -20,8 +20,8 @@ export class Diagram {
     end: vscode.Position;
     private _lines: string[] = undefined;
     private _type: DiagramType = undefined;
-    private _titleRaw: string = undefined;
-    private _title: string = undefined;
+    private _nameRaw: string = undefined;
+    private _name: string = undefined;
     private _index: number = undefined;
     private _pageCount: number = undefined;
     private _contentWithInclude: string = undefined;
@@ -73,13 +73,13 @@ export class Diagram {
     public get type(): DiagramType {
         return this._type || (this._type = getType(this));
     }
-    public get title(): string {
-        if (this._title == undefined) this.getTitle()
-        return this._title
+    public get name(): string {
+        if (this._name == undefined) this.getTitle()
+        return this._name
     }
-    public get titleRaw(): string {
-        if (this._title == undefined) this.getTitle()
-        return this._titleRaw
+    public get nameRaw(): string {
+        if (this._name == undefined) this.getTitle()
+        return this._nameRaw
     }
     public get lines(): string[] {
         return this._lines || (this._lines = this.content.replace(/\r\n|\r/g, "\n").split('\n'));
@@ -99,30 +99,32 @@ export class Diagram {
         let RegFName = /@start(\w+)\s+(.+?)\s*$/i;
         let matches: RegExpMatchArray;;
         if (matches = this.lines[0].match(RegFName)) {
-            this._titleRaw = matches[2];
-            let tempTitle = this._builtinFunctions.ProcessBuiltinFunctions(this._titleRaw);
-            this._title = title.Deal(tempTitle);
+            this._nameRaw = matches[2];
+            let tempTitle = this._builtinFunctions.ProcessBuiltinFunctions(this._nameRaw);
+            this._name = title.Deal(tempTitle);
             return;
         }
-        let inlineTitle = /^\s*title\s+(.+?)\s*$/i;
-        let multLineTitle = /^\s*title\s*$/i;
-        for (let text of this.lines) {
-            if (inlineTitle.test(text)) {
-                let matches = text.match(inlineTitle);
-                this._titleRaw = matches[1];
-            }
-        }
-        if (this._titleRaw) {
-            let tempTitle = this._builtinFunctions.ProcessBuiltinFunctions(this._titleRaw);
-            this._title = title.Deal(tempTitle);
-        } else if (this.start && this.end) {
+        // // don't use title as diagram name, #438, #400, #409
+        // let inlineTitle = /^\s*title\s+(.+?)\s*$/i;
+        // let multLineTitle = /^\s*title\s*$/i;
+        // for (let text of this.lines) {
+        //     if (inlineTitle.test(text)) {
+        //         let matches = text.match(inlineTitle);
+        //         this._titleRaw = matches[1];
+        //     }
+        // }
+        // if (this._titleRaw) {
+        //     this._title = title.Deal(this._titleRaw);
+        //     return
+        // }
+        if (this.start && this.end) {
             // this.title = `${this.fileName}@${this.start.line + 1}-${this.end.line + 1}`;
             if (this.index)
-                this._title = `${this.fileName}-${this.index}`;
+                this._name = `${this.fileName}-${this.index}`;
             else
-                this._title = this.fileName;
+                this._name = this.fileName;
         } else {
-            this._title = "";
+            this._name = "";
         }
     }
 }

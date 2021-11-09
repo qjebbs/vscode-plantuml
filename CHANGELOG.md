@@ -1,9 +1,28 @@
 # VSCode PlantUML Changelog
 
+## 2.16.0
+
+- Not use title as diagram name ([#438](https://github.com/qjebbs/vscode-plantuml/issues/438), [#400](https://github.com/qjebbs/vscode-plantuml/issues/400), [#409](https://github.com/qjebbs/vscode-plantuml/pull/409)), please switch to `@startxxx name` instead.
+- Add {uml} token to allow compatibility with Sphinx/MyST ([#444](https://github.com/qjebbs/vscode-plantuml/pull/444))
+- Update syntax highlighting ([#419](https://github.com/qjebbs/vscode-plantuml/pull/419), [#425](https://github.com/qjebbs/vscode-plantuml/pull/425))
+- Toggle Block Comment configuration ([#420](https://github.com/qjebbs/vscode-plantuml/pull/420))
+- Update readme ([#446](https://github.com/qjebbs/vscode-plantuml/pull/446))
+## 2.15.1
+
+- Fix: Error in console while typing include ([#412](https://github.com/qjebbs/vscode-plantuml/issues/412))
+- Update embedded jar to 1.2021.7
+
+## 2.15.0
+
+- Improvement: Adopt to VSCode Workspace Trust
+- Improvement: Ignore "Picked up" java stderr messages ([#391](https://github.com/qjebbs/vscode-plantuml/issues/391))
+- Improvement: Add ```puml rendering support in the md file ([#397](https://github.com/qjebbs/vscode-plantuml/issues/397))
+- Fix: Some machine-overridable scope settings not applied from workspace
+
 ## 2.14.5
 
-- Fix: `previewAutoUpdate` setting instantly applied, fix #381
-- Improvement: Apply `commandArgs` and `jarArgs` while extracting source code, #388. Thanks to @evilru.
+- Fix: `previewAutoUpdate` setting instantly applied, fix [#381](https://github.com/qjebbs/vscode-plantuml/issues/381)
+- Improvement: Apply `commandArgs` and `jarArgs` while extracting source code, [#388](https://github.com/qjebbs/vscode-plantuml/issues/388). Thanks to @evilru.
 
 ## 2.14.4
 
@@ -13,24 +32,24 @@ Some sensitive config, like `java`, `jar`, are potentially utilized by attackers
 
 ## 2.14.3
 
-- Improvement: Global `includepaths` setting will apply to digrams in markdown/unsaved files. #375
+- Improvement: Global `includepaths` setting will apply to digrams in markdown/unsaved files. [#375](https://github.com/qjebbs/vscode-plantuml/issues/375)
 
 ## 2.14.2
 
-- Add: translation of "ko", #371
+- Add: translation of "ko", [#371](https://github.com/qjebbs/vscode-plantuml/issues/371)
 - Update embedded jar
 
 ## 2.14.1
 
-- Fix: Cannot include if CRLF line end, #357
-- Improvement: Export multi-files from files tree, #358
-- Improvement: Preview image format detect, #363
-- Improvement: Update embedded jar, #361
+- Fix: Cannot include if CRLF line end, [#357](https://github.com/qjebbs/vscode-plantuml/issues/357)
+- Improvement: Export multi-files from files tree, [#358](https://github.com/qjebbs/vscode-plantuml/issues/358)
+- Improvement: Preview image format detect, [#363](https://github.com/qjebbs/vscode-plantuml/issues/363)
+- Improvement: Update embedded jar, [#361](https://github.com/qjebbs/vscode-plantuml/issues/361)
 
 ## 2.13.15
 
 - Improvement: new java check logic
-- Improvement: keywords completion optimize, #335
+- Improvement: keywords completion optimize, [#335](https://github.com/qjebbs/vscode-plantuml/issues/335)
 
 ## 2.13.14
 
