@@ -90,10 +90,10 @@ repository:
     patterns:
     - comment: line begin keywords
       name: keyword.other.linebegin.source.wsd
-      match: (?i)^\s*(usecase|actor|object|participant|boundary|control|entity|database|create|component|interface|package|node|folder|frame|cloud|annotation|enum|abstract\s+class|abstract|class|state|autonumber(\s+stop|resume)?|activate|deactivate|return|destroy|newpage|alt|else|opt|loop|par|break|critical|group|box|rectangle|namespace|partition|agent|artifact|card|circle|collections|file|hexagon|label|person|queue|stack|storage|mainframe|map|repeat|backward|diamond)\b
+      match: (?i)^\s*(usecase|actor|object|participant|boundary|control|entity|database|create|component|interface|package|node|folder|frame|cloud|annotation|enum|abstract\s+class|abstract|class|state|autonumber(\s+stop|\s+resume|\s+inc)?|activate|deactivate|return|destroy|newpage|alt|else|opt|loop|par|break|critical|group|box|rectangle|namespace|partition|agent|artifact|card|circle|collections|file|hexagon|label|person|queue|stack|storage|mainframe|map|repeat|backward|diamond)\b
     - comment: whole line keywords
       name: keyword.other.wholeline.source.wsd
-      match: (?i)^\s*(split( again)?|endif|repeat|start|stop|end|end\s+fork|end\s+split|fork( again)?|detach|end\s+box|top\s+to\s+bottom\s+direction|left\s+to\s+right\s+direction|kill|end\s+merge)\s*$
+      match: (?i)^\s*(split( again)?|endif|repeat|start|stop|end|end\s+fork|end\s+split|fork( again)?|detach|end\s+box|top\s+to\s+bottom\s+direction|left\s+to\s+right\s+direction|kill|end\s+merge|allow(_)?mixing)\s*$
     - comment: other keywords
       name: keyword.other.other.source.wsd
       match: (?i)\b(as|{(static|abstract)\})\b
@@ -200,7 +200,7 @@ repository:
         '3': {name: meta.comment.header_legend_footer.source.wsd}
     - comment: Preprocessings
       name: entity.name.function.preprocessings.source.wsd
-      match: (?i)(!includesub|!include|!enddefinelong|!definelong|!define|!startsub|!endsub|!ifdef|!else|!endif|!ifndef|!if|!elseif|!endif|!while|!endwhile|!(unquoted\s|final\s)*procedure|!(unquoted\s|final\s)*function|!end\s*(function|procedure)|!return|!import|!includedef|!includeurl|!include_many|!include_once|!log|!dump_memory|!theme|!pragma)
+      match: (?i)(!includesub|!include|!enddefinelong|!definelong|!define|!startsub|!endsub|!ifdef|!else|!endif|!ifndef|!if|!elseif|!endif|!while|!endwhile|!(unquoted\s|final\s)*procedure|!(unquoted\s|final\s)*function|!end\s*(function|procedure)|!return|!import|!includedef|!includeurl|!include_many|!include_once|!log|!dump_memory|!theme|!pragma|!assume\s+transparent\s+(dark|light))
     - comment: links
       begin: (?i)((?:(?:(?:\s+[ox]|[+*])?(?:<<|<\|?|\\\\|\\|//|\}|\^|#|0|0\))?)(?=[-.~=]))[-.~=]+(\[(?:\#(?:[0-9a-f]{6}|[0-9a-f]{3}|\w+)(?:[-\\/](?:[0-9a-f]{6}|[0-9a-f]{3}|\w+))?\b)\])?(?:(left|right|up|down)(?:[-.~=]))?[-.]*(?:(?:>>|\|?>|\\\\|\\|//|\{|\^|#|0|\(0)?(?:[ox]\s+|[+*])?))
       beginCaptures:
