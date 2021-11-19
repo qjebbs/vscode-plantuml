@@ -25,5 +25,6 @@
 	"plantuml.configuration.exportMapFile": "내보내기 할 때 이미지 맵 (.cmapx) 파일도 내보낼지를 결정합니다.",
 	"plantuml.configuration.java": "Java 실행파일 위치.",
 	"plantuml.configuration.includepaths": "소스 폴더와 'diagramsRoot'외에 포함할 경로를 지정합니다.",
+	"plantuml.configuration.lintDiagramNoName": "lint when diagram is unamed.",
 	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }

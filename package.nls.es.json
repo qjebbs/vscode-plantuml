@@ -25,5 +25,6 @@
   "plantuml.configuration.exportMapFile": "Permite ajustar si debe exportarse un archivo de mapa de imagen (.cmapx) al llevar a cabo una exportación.",
   "plantuml.configuration.java": "Localización del ejecutable de Java.",
   "plantuml.configuration.includepaths": "Especifica las rutas de búsqueda de archivos al margen del directorio del archivo renderizado y de la ruta 'diagramsRoot'.",
-	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
+  "plantuml.configuration.lintDiagramNoName": "lint when diagram is unamed.",
+  "plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }

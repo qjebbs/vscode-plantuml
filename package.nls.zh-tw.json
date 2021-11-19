@@ -25,5 +25,6 @@
 	"plantuml.configuration.exportMapFile": "決定是否在匯出圖表的同時會出圖像地圖 (.cmapx)。",
 	"plantuml.configuration.java": "Java executable location.",
 	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'.",
+	"plantuml.configuration.lintDiagramNoName": "lint when diagram is unamed.",
 	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }

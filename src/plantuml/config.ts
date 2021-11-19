@@ -122,6 +122,9 @@ class Config extends ConfigReader {
     includepaths(uri: vscode.Uri): string[] {
         return this.read<string[]>('includepaths', uri);
     }
+    lintDiagramNoName(uri: vscode.Uri): boolean {
+        return this.read<boolean>('lintDiagramNoName', uri);
+    }
     commandArgs(uri: vscode.Uri): string[] {
         return this.read<string[]>('commandArgs', uri) || [];
     }

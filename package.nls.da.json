@@ -25,5 +25,6 @@
 	"plantuml.configuration.exportMapFile": "Bestemmer eksportering af billede-map (.cmapx) fil.",
 	"plantuml.configuration.java": "Sti til eksekverbar Java-program.",
 	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'.",
+	"plantuml.configuration.lintDiagramNoName": "lint when diagram is unamed.",
 	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }

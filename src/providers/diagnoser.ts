@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { diagramsOf } from '../plantuml/diagram/tools';
 import { Uri } from 'vscode';
 import { localize } from '../plantuml/common';
+import { config } from '../plantuml/config';
 
 export class Diagnoser extends vscode.Disposable {
     private _disposables: vscode.Disposable[] = [];
@@ -33,7 +34,7 @@ export class Diagnoser extends vscode.Disposable {
         let names = {};
         diagrams.map(d => {
             let range = document.lineAt(d.start.line).range;
-            if (!d.nameRaw) {
+            if (config.lintDiagramNoName(d.parentUri) && !d.nameRaw) {
                 diagnostics.push(
                     new vscode.Diagnostic(
                         range,

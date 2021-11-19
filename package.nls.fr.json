@@ -25,5 +25,6 @@
 	"plantuml.configuration.exportMapFile": "Activer l'export d'image map (.cmapx).",
 	"plantuml.configuration.java": "Emplacement de l'exécutable 'java'",
 	"plantuml.configuration.includepaths": "Specifies the include paths besides source folder and the 'diagramsRoot'.",
+	"plantuml.configuration.lintDiagramNoName": "lint when diagram is unamed.",
 	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }

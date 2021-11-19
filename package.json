@@ -313,6 +313,12 @@
           "default": [],
           "description": "%plantuml.configuration.includepaths%"
         },
+        "plantuml.lintDiagramNoName": {
+          "type": "boolean",
+          "scope": "resource",
+          "default": true,
+          "description": "%plantuml.configuration.lintDiagramNoName%"
+        },
         "plantuml.commandArgs": {
           "type": "array",
           "scope": "resource",

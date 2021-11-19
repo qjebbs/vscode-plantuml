@@ -25,5 +25,6 @@
 	"plantuml.configuration.exportMapFile": "エクスポート時にイメージマップ（.cmapx） ファイルをエクスポートするかどうかを決定します",
 	"plantuml.configuration.java": "Java実行可能パス",
 	"plantuml.configuration.includepaths": "ソースディレクトリと'diagramsRoot'以外のインクルードパスを指定します",
+	"plantuml.configuration.lintDiagramNoName": "lint when diagram is unamed.",
 	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
 }
