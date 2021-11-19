@@ -337,10 +337,11 @@ Preview Settings:
 
 - `plantuml.previewAutoUpdate`: Dedecides if automatically update the preview window.
 
-URL Generating Settings:
+Other Settings:
 
 - `plantuml.urlFormat`: URL format. Leave it blank to pick format everytime you generate a URL.
 - `plantuml.urlResult`: URL result type. Simple URL or ready for MarkDown use.
+- `plantuml.lintDiagramNoName`: Decides if it should lint when diagram is unmaned.
 
 ## Known Issues
 

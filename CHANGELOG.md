@@ -1,4 +1,10 @@
 # VSCode PlantUML Changelog
+## 2.16.1
+
+- Adde setting `plantuml.lintDiagramNoName`
+- Fix plantuml fence detect ([#455](https://github.com/qjebbs/vscode-plantuml/issues/455)
+- Update syntax highlighting
+- Update embedded jar to 1.2021.14
 
 ## 2.16.0
 
