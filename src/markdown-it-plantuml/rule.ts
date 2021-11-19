@@ -4,7 +4,7 @@ export function plantumlWorker(state: any) {
     // debugInfo(state.tokens);
     let blockTokens: markdowIt.Token[] = state.tokens;
     for (let blockToken of blockTokens) {
-        if (blockToken.type == "fence" &&( blockToken.info.startsWith("plantuml")|| blockToken.info.startsWith("puml")|| blockToken.info.startsWith("{uml}"))) {
+        if (isPlanUMLImage(blockToken)){
             blockToken.type = "plantuml";
             // always render as <img> for maximum compatibility:
             // https://github.com/qjebbs/vscode-markdown-extended/issues/67#issuecomment-554996262
@@ -16,6 +16,13 @@ export function plantumlWorker(state: any) {
             // }
         }
     }
+}
+
+function isPlanUMLImage(token: markdowIt.Token): boolean {
+    if (token.type !== "fence") return false;
+    let info = token.info.split(" ")[0]; // #198: support fence with parameters. like `plantuml width="800px"`
+    return info == "plantuml" || info == "puml" || info == "uml" ||
+        info == "{plantuml}" || info == "{puml}" || info == "{uml}" // #424
 }
 
 function debugInfo(blockTokens: markdowIt.Token[]) {
