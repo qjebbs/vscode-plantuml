@@ -35,6 +35,9 @@ class Zoom {
         document.getElementById("btnZoomOut").addEventListener("click", () => {
             this.smoothZomm(this.status.zoom / 1.2, this.getWindowCenterMousePointer());
         });
+        document.getElementById("btnCopy").addEventListener("click", () => {
+            this.copyImage(this.img);
+        });
         document.getElementById("btnZoomToggle").addEventListener("click", () => {
             if (this.isImageExpanded()) {
                 resetZoom();
@@ -266,5 +269,27 @@ class Zoom {
     }
     isImageExpanded() {
         return this.iconToggle.innerText == "fullscreen_exit";
+    }
+    copyImage(img){
+        var reg = /width:(\d+)px;height:(\d+)px;/
+        let [_, width, height] = atob(img.src.substr(26)).match(reg);
+        var canvas = document.createElement( "canvas" );
+        document.body.appendChild(canvas);
+        canvas.width = width
+        canvas.height = height
+        var ctx = canvas.getContext( "2d" );
+        ctx.drawImage(img, 0, 0);
+        showTip("Copying...", 500);
+        canvas.toBlob(function (blob) {
+            showTip("Copying...", 500);
+            let data = [new ClipboardItem({ [blob.type]: blob })];
+            navigator.clipboard.write(data).then(function () {
+                console.log('success')
+                showTip("Copy to clipboard.", 2000);
+            }, function (err) {
+                showTip("Copy to clipboard error.", 3000);
+                console.log('Copy to clipboard error.', err)
+            })
+        }, 1);
     }
 }
