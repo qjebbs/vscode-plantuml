@@ -284,6 +284,8 @@ Disadvantages:
 
 - If don't have one, set up [following the instructions](https://github.com/plantuml/plantuml-server), run with Docker is recommended. Find the server address, like: `http://localhost:8080`, or `http://192.168.1.100:8080` which is ready for sharing to your team.
 
+- Another option for running a PlantUML server on your local machine is to use the built in picowebserver, which can be as simple as running `java -jar plantuml.jar -picoweb`,  read more here: <https://plantuml.com/picoweb>
+
 - Open user setting, and configure like:
 
 ```text
