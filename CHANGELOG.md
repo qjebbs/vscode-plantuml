@@ -1,7 +1,14 @@
 # VSCode PlantUML Changelog
+
+## 2.17.0
+
+- Add ability to copy image in preview, [#462](https://github.com/qjebbs/vscode-plantuml/pull/462)
+- Update syntax highlighting
+- Update embedded jar to 1.2021.16
+
 ## 2.16.1
 
-- Adde setting `plantuml.lintDiagramNoName`
+- Add setting `plantuml.lintDiagramNoName`
 - Fix plantuml fence detect ([#455](https://github.com/qjebbs/vscode-plantuml/issues/455)
 - Update syntax highlighting
 - Update embedded jar to 1.2021.14
