@@ -53,6 +53,8 @@
 	"Snap to border",
 	"Scroll to most bottom/right/top/left, preview will snap to that border",
 	"No PlantUML server, specify one with \"plantuml.server\".",
-	"Bad \"plantuml.java\" config: {0}"
-	
+	"Bad \"plantuml.java\" config: {0}",
+	"正在復制...",
+	"複製到剪貼板",
+	"複製失敗"
 ]

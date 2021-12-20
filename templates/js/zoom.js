@@ -35,8 +35,13 @@ class Zoom {
         document.getElementById("btnZoomOut").addEventListener("click", () => {
             this.smoothZomm(this.status.zoom / 1.2, this.getWindowCenterMousePointer());
         });
-        document.getElementById("btnCopy").addEventListener("click", () => {
-            this.copyImage(this.img);
+        let btnCopy = document.getElementById("btnCopy");
+        btnCopy.addEventListener("click", () => {
+            this.copyImage(this.img, {
+                copying: btnCopy.dataset.labelCopying,
+                ok: btnCopy.dataset.labelOk,
+                fail: btnCopy.dataset.labelFail,
+            });
         });
         document.getElementById("btnZoomToggle").addEventListener("click", () => {
             if (this.isImageExpanded()) {
@@ -270,8 +275,8 @@ class Zoom {
     isImageExpanded() {
         return this.iconToggle.innerText == "fullscreen_exit";
     }
-    copyImage(img) {
-        showTip("Copying...", -1);
+    copyImage(img, labels) {
+        showTip(labels.copying, -1);
         const maxSize = 8192;
         let scale = Math.min(maxSize / img.clientWidth, maxSize / img.clientHeight, 1)
         let width = img.clientWidth * scale;
@@ -285,16 +290,16 @@ class Zoom {
         ctx.drawImage(img, 0, 0, image.naturalWidth, image.naturalHeight, 0, 0, width, height);
         canvas.toBlob(function (blob) {
             if (!blob) {
-                showTip('Copy failed.', 2000);
+                showTip(labels.fail, 2000);
                 return;
             }
             let data = [new ClipboardItem({
                 [blob.type]: blob
             })];
             navigator.clipboard.write(data).then(function () {
-                showTip("Copied to clipboard.", 2000);
+                showTip(labels.ok, 2000);
             }, function (err) {
-                showTip(err, 2000);
+                showTip(labels.fail + ": " + err, 2000);
             }).then(function () {
                 document.body.removeChild(canvas);
             })

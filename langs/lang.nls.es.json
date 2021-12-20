@@ -53,5 +53,8 @@
   "Fijar al borde",
   "Desplazar todo lo posible hacia abajo/derecha/arriba/izquierda, la vista previa se fijará a ese borde",
   "Sin servidor de PlantUML, especifica uno con \"plantuml.server\".",
-  "Configuración incorrecta de \"plantuml.java\": {0}"
+  "Configuración incorrecta de \"plantuml.java\": {0}",
+	"Proceso de copiar...",
+	"Copiado al portapapeles",
+	"Copiar falló"
 ]

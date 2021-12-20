@@ -53,5 +53,8 @@
 	"Fastgør til kant",
 	"Rul helt til bunden/højre/top/venstre, preview vil fastgøres til den kant",
 	"No PlantUML server, specify one with \"plantuml.server\".",
-	"Bad \"plantuml.java\" config: {0}"
+	"Bad \"plantuml.java\" config: {0}",
+	"Kopierer...",
+	"Kopieret til udklipsholder",
+	"Kopiering mislykkedes"
 ]
