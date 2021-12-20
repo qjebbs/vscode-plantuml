@@ -270,25 +270,33 @@ class Zoom {
     isImageExpanded() {
         return this.iconToggle.innerText == "fullscreen_exit";
     }
-    copyImage(img){
-        var reg = /width:(\d+)px;height:(\d+)px;/
-        let [_, width, height] = atob(img.src.substr(26)).match(reg);
-        var canvas = document.createElement( "canvas" );
+    copyImage(img) {
+        showTip("Copying...", -1);
+        const maxSize = 8192;
+        let scale = Math.min(maxSize / img.clientWidth, maxSize / img.clientHeight, 1)
+        let width = img.clientWidth * scale;
+        let height = img.clientHeight * scale;
+        // console.log(img.clientWidth, "*", img.clientHeight, " => ", width, "*", height)
+        let canvas = document.createElement("canvas");
         document.body.appendChild(canvas);
-        canvas.width = width
-        canvas.height = height
-        var ctx = canvas.getContext( "2d" );
-        ctx.drawImage(img, 0, 0);
-        showTip("Copying...", 500);
+        canvas.width = width;
+        canvas.height = height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, image.naturalWidth, image.naturalHeight, 0, 0, width, height);
         canvas.toBlob(function (blob) {
-            showTip("Copying...", 500);
-            let data = [new ClipboardItem({ [blob.type]: blob })];
+            if (!blob) {
+                showTip('Copy failed.', 2000);
+                return;
+            }
+            let data = [new ClipboardItem({
+                [blob.type]: blob
+            })];
             navigator.clipboard.write(data).then(function () {
-                console.log('success')
-                showTip("Copy to clipboard.", 2000);
+                showTip("Copied to clipboard.", 2000);
             }, function (err) {
-                showTip("Copy to clipboard error.", 3000);
-                console.log('Copy to clipboard error.', err)
+                showTip(err, 2000);
+            }).then(function () {
+                document.body.removeChild(canvas);
             })
         }, 1);
     }
