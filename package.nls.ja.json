@@ -16,7 +16,7 @@
 	"plantuml.configuration.exportOutDir": "エクスポートされたワークスペースのダイアグラムは、このディレクトリに整理されます(ワークスペース内のディレクトリへの相対パス)。",
 	"plantuml.configuration.previewAutoUpdate": "プレビューウィンドウを自動的に更新するかを指定します",
 	"plantuml.configuration.previewSnapIndicators": "プレビューウィンドウにスナップインジケーターを表示するかどうかを決定します。",
-	"plantuml.configuration.server": "その場でUMLダイアグラムを生成するPlantUMLサーバーを指定します You may use official server https://www.plantuml.com/plantuml if you feel OK to share data with it.",
+	"plantuml.configuration.server": "その場でUMLダイアグラムを生成するPlantUMLサーバーを指定します。データを共有しても問題ないと思われる方は、公式サーバ https://www.plantuml.com/plantuml をご利用ください。",
 	"plantuml.configuration.urlFormat": "URL形式を指定。空白の場合はURLを生成するたびにフォーマットを選択します",
 	"plantuml.configuration.urlResult": "URL出力結果形式を指定。 Simple URL または、MarkDown を使用できます",
 	"plantuml.configuration.render": "ダイアグラムのエクスポートとプレビューの描画方法を選択します。\nLocal: 伝統的なローカルで描画する方法です。あなたはまずはじめに JAVA と GraphViz を設定する必要があります。\nPlantUMLServer: \"plantuml.server\" の設定で指定されたサーバーでダイアグラムを描画します。こちらのほうが高速ですが、別途サーバーが必要です。\nデフォルトでは Local が設定されます",
@@ -25,6 +25,6 @@
 	"plantuml.configuration.exportMapFile": "エクスポート時にイメージマップ（.cmapx） ファイルをエクスポートするかどうかを決定します",
 	"plantuml.configuration.java": "Java実行可能パス",
 	"plantuml.configuration.includepaths": "ソースディレクトリと'diagramsRoot'以外のインクルードパスを指定します",
-	"plantuml.configuration.lintDiagramNoName": "lint when diagram is unamed.",
-	"plantuml.untrusted.description": "Required for loading vulnerable workspace settings"
+	"plantuml.configuration.lintDiagramNoName": "名なしのダイアグラムをlintします",
+	"plantuml.untrusted.description": "脆弱性のあるワークスペースの設定の読み込みに必要"
 }
