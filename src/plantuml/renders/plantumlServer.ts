@@ -52,18 +52,7 @@ class PlantumlServer implements IRender {
                     // Servers like the official one doesn't support POST
                     return httpWrapper("GET", server, diagram, format, index, savePath2);
                 } else {
-                    return httpWrapper("POST", server, diagram, format, index, savePath2)
-                        .catch(
-                            err => {
-                                if (err instanceof HTTPError && err.isResponeError) {
-                                    // do not retry POST again, if the server gave unexpected respone
-                                    noPOSTServers[server] = true
-                                    // fallback to GET
-                                    return httpWrapper("GET", server, diagram, format, index, savePath2)
-                                }
-                                return Promise.reject(err)
-                            }
-                        )
+                    return httpWrapper("POST", server, diagram, format, index, savePath2);
                 }
             },
             Promise.resolve(Buffer.alloc(0))
