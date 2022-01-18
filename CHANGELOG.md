@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.17.1
+
+- Not fallback to get if post was at least once successful, **@z77ma**, [#470](https://github.com/qjebbs/vscode-plantuml/pull/470)
+- Update translations
+- Update embedded jar to 1.2022.0
+
 ## 2.17.0
 
 - Add ability to copy image in preview, [#462](https://github.com/qjebbs/vscode-plantuml/pull/462)
