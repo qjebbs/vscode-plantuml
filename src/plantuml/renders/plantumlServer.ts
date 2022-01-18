@@ -10,6 +10,7 @@ interface Dictionary<T> {
     [key: string]: T;
 }
 let noPOSTServers: Dictionary<boolean> = {};
+let POSTSupportiveServers: Dictionary<boolean> = {};
 
 class PlantumlServer implements IRender {
     /**
@@ -53,9 +54,10 @@ class PlantumlServer implements IRender {
                     return httpWrapper("GET", server, diagram, format, index, savePath2);
                 } else {
                     return httpWrapper("POST", server, diagram, format, index, savePath2)
+                        .then(() => POSTSupportiveServers[server] = true)
                         .catch(
                             err => {
-                                if (err instanceof HTTPError && err.isResponeError) {
+                                if (err instanceof HTTPError && err.isResponeError && !POSTSupportiveServers[server]) {
                                     // do not retry POST again, if the server gave unexpected respone
                                     noPOSTServers[server] = true
                                     // fallback to GET
