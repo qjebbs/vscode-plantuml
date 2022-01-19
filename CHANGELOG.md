@@ -1,6 +1,6 @@
 # VSCode PlantUML Changelog
 
-## 2.17.1
+## 2.17.2
 
 - Not fallback to get if post was at least once successful, **@z77ma**, [#470](https://github.com/qjebbs/vscode-plantuml/pull/470)
 - Update translations
