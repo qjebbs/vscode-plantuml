@@ -1,5 +1,13 @@
 # VSCode PlantUML Changelog
 
+- Local Server
+
+## 2.18.0
+
+- Export on save
+- Changed name of the configuration section from "PlantUML Configuration" to "PlantUML" to be consistent with other extensions
+- Option to export diagrams in the same folder as the PlantUML source code
+
 ## 2.17.2
 
 - Not fallback to get if post was at least once successful, **@z77ma**, [#470](https://github.com/qjebbs/vscode-plantuml/pull/470)
