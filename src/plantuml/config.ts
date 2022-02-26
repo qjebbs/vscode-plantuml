@@ -79,6 +79,10 @@ class Config extends ConfigReader {
         return vscode.Uri.file(fsPath);
     }
 
+    exportOnSave(uri: vscode.Uri): boolean {
+        return this.read<boolean>('exportOnSave', uri);
+    }
+
     exportFormat(uri: vscode.Uri): string {
         return this.read<string>('exportFormat', uri);
     }

@@ -67,3 +67,49 @@ export async function exportDocument(all: boolean) {
     );
     return;
 }
+
+export async function exportTextDocument(document: vscode.TextDocument) {
+    let stopWatch = new StopWatch();
+    stopWatch.start();
+    if (!path.isAbsolute(document.fileName)) {
+        vscode.window.showInformationMessage(localize(1, null));
+        return;
+    };
+    let format = config.exportFormat(document.uri);
+    if (!format) {
+        format = await vscode.window.showQuickPick(appliedRender(document.uri).formats());
+        if (!format) return;
+    }
+    let diagrams: Diagram[] = [];
+
+    diagrams = diagramsOf(document);
+        if (!diagrams.length) {
+            vscode.window.showInformationMessage(localize(2, null));
+            return;
+        }
+
+    exportDiagrams(diagrams, format, bar).then(
+        async results => {
+            stopWatch.stop();
+            bar.hide();
+            if (!results.length) return;
+            let viewReport = localize(26, null);
+            let btn = await vscode.window.showInformationMessage(localize(4, null), viewReport);
+            if (btn !== viewReport) return;
+            let fileCnt = 0;
+            let fileLst = results.reduce((prev, files) => {
+                let filtered = files.filter(v => !!v.length);
+                fileCnt += filtered.length;
+                return prev + "\n" + filtered.join("\n");
+            }, "");
+            showMessagePanel(
+                localize(27, null, diagrams.length, fileCnt, stopWatch.runTime() / 1000) + fileLst
+            );
+        },
+        error => {
+            bar.hide();
+            showMessagePanel(error);
+        }
+    );
+    return;
+}

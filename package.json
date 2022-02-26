@@ -233,6 +233,12 @@
           "default": ".wsd,.pu,.puml,.plantuml,.iuml",
           "description": "%plantuml.configuration.fileExtensions%"
         },
+        "plantuml.exportOnSave": {
+          "type": "boolean",
+          "scope": "resource",
+          "default": false,
+          "description": "%plantuml.configuration.exportOnSave%"
+        },
         "plantuml.exportSubFolder": {
           "type": "boolean",
           "scope": "resource",

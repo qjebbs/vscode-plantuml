@@ -22,6 +22,7 @@ import { CommandURLDocument } from './commands/urlDocument';
 import { CommandExtractSource } from './commands/extractSource';
 import { plantumlPlugin } from './markdown-it-plantuml/index';
 import { Diagnoser } from './providers/diagnoser';
+import { exportTextDocument } from './plantuml/exporter/exportDocument';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -49,6 +50,13 @@ export function activate(context: vscode.ExtensionContext) {
             outputPanel,
             bar,
         );
+
+        vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
+            if (config.exportOnSave(document.uri)) {
+                exportTextDocument(document);
+            }
+        });
+
         return {
             extendMarkdownIt(md: any) {
                 return md.use(plantumlPlugin);
