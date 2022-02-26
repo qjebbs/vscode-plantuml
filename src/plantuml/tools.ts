@@ -95,7 +95,6 @@ export function calculateExportPath(diagram: Diagram, format: string): string {
 
     let exportDir = "";
     let folder = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
-    folder = null; // always export beside the document
     if (config.exportBesideDocument(diagram.parentUri) || !folder) {
         // export beside the document.
         exportDir = diagram.dir;
