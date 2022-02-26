@@ -6,7 +6,7 @@
 
 - Export on save
 - Changed name of the configuration section from "PlantUML Configuration" to "PlantUML" to be consistent with other extensions
-- Option to export diagrams in the same folder as the PlantUML source code
+- Option `exportBesideDocument` to export diagrams in the same folder as the PlantUML source code
 
 ## 2.17.2
 
