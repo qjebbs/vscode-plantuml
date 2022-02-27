@@ -7,6 +7,7 @@
 - Export on save
 - Changed name of the configuration section from "PlantUML Configuration" to "PlantUML" to be consistent with other extensions
 - Option `exportBesideDocument` to export diagrams in the same folder as the PlantUML source code
+- Use the [local PlantUML PicoWeb Server](https://plantuml.com/de/picoweb) by default.
 
 ## 2.17.2
 

@@ -8,6 +8,7 @@ import { javaCommandExists, testJava } from './tools';
 
 export const RenderType = {
     Local: 'Local',
+    LocalServer: 'LocalServer',
     PlantUMLServer: 'PlantUMLServer'
 };
 
@@ -124,7 +125,7 @@ class Config extends ConfigReader {
     }
 
     render(uri: vscode.Uri): string {
-        return this.read<string>('render') || "Local";
+        return this.read<string>('render') || "LocalServer";
     }
 
     includepaths(uri: vscode.Uri): string[] {
