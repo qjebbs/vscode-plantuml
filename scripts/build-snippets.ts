@@ -16,12 +16,18 @@ const prefixSep = ": "
 
 let chapterNumberRe = new RegExp("\\d+[a-z]?\\s+", 'ig')
 
+function escapeSnippetText(t: string) : string {
+    // https://code.visualstudio.com/docs/editor/userdefinedsnippets#_snippet-syntax
+    // With \ (backslash), you can escape $, }, and \.
+    return t.replace(/\[$}\\]/gi, "\\$1")
+}
+
 let snippets = pumlFiles.map(function(value: string, index: number, array: string[]) : any {
         let name =  value.substring(sourceDir.length+1).replace("/", prefixSep).replace(".puml", "").replace(chapterNumberRe, '')
 
         return {
             "prefix": name,
-            "body": fs.readFileSync(value, "utf8"),
+            "body": escapeSnippetText(fs.readFileSync(value, "utf8")),
             "description": name
         }
     })
