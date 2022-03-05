@@ -382,6 +382,7 @@
     "workspace"
   ],
   "scripts": {
+    "vscode:package": "vsce package",
     "vscode:prepublish": "npm run buildsyntax && tsc -p ./",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
