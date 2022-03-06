@@ -1,9 +1,9 @@
 {
-  "name": "plantuml",
+  "name": "plantuml-sidiandi-fork",
   "displayName": "PlantUML (sidiandi fork)",
   "description": "Rich PlantUML support for Visual Studio Code.",
   "icon": "images/icon.png",
-  "version": "2.18.0",
+  "version": "0.1.0",
   "publisher": "sidiandi",
   "engines": {
     "vscode": "^1.57.0"
