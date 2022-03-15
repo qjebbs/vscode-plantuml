@@ -29,7 +29,7 @@ import { exportTextDocument } from './plantuml/exporter/exportDocument';
 export function activate(context: vscode.ExtensionContext) {
     contextManager.set(context);
     try {
-        const ext = vscode.extensions.getExtension("sidiandi.plantuml");
+        const ext = vscode.extensions.getExtension("sidiandi.plantuml-sidiandi-fork");
         const version = ext.packageJSON.version;
         notifyOnNewVersion(context, version);
 
