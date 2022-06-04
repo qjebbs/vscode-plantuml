@@ -351,8 +351,8 @@ repository:
           '1': {name: storage.modifier.class.fields.source.wsd}
           '3': {name: keyword.other.class.fields.source.wsd}
           '4': {name: string.quoted.double.class.other.source.wsd}
-    - comment: hide & show
-      match: (?i)^\s*(hide|show)\s+(([\w\d_\.]+|"[^"]+")|<<.+?>>|Stereotypes|class|interface|enum)(\s+(empty fields|empty methods|fields|attributes|methods|members|circle))?\s*$
+    - comment: hide & show & remove
+      match: (?i)^\s*(hide|show|remove)\s+(([\w\d_\.\$]+|"[^"]+")|<<.+?>>|Stereotypes|class|interface|enum|@unlinked)(\s+(empty fields|empty attributes|empty methods|empty description|fields|attributes|methods|members|circle))?\s*$
       captures:
         '1': {name: keyword.other.class.hideshow.source.wsd}
         '2': {name: support.variable.class.hideshow.source.wsd}
