@@ -1,4 +1,4 @@
-# VSCode-PlantUML README
+# VSCode PlantUML Extension README
 
 Rich PlantUML support for Visual Studio Code.
 
@@ -26,7 +26,7 @@ If not, like the official <https://www.plantuml.com/plantuml>, the extension fal
 
 ## Features
 
-- Preview Diagram, Press <kbd>Alt</kbd> + <kbd>D</kbd> to start PlantUML preview (<kbd>option</kbd> + <kbd>D</kbd> on MacOS).
+- Preview Diagram, Press <kbd>Alt</kbd> + <kbd>D</kbd> to start PlantUML preview (<kbd>Option</kbd> + <kbd>D</kbd> on MacOS).
     - Auto update.
     - Zoom & scroll support.
     - Multi-Page Diagram support.
@@ -41,14 +41,14 @@ If not, like the official <https://www.plantuml.com/plantuml>, the extension fal
     - From local or server.
     - Image map (cmapx) support.
 - Editing Supports
-    - Format PlantUML code. ([**Deprecated**](#about-format))
+    - Format PlantUML code ([**Deprecated**](#about-format)).
     - All type syntax highlight.
     - All type snippets.
     - Basic auto completion & macro signature support
     - Symbol List support.
 - Others
     - Multi-root Workspace Support.
-    - MarkDown integrating support. [View Demo](#markdown-integrating)
+    - MarkDown integrating support ([View Demo](#markdown-integrating)).
     - Extracting source from images support.
 
 > Notice: If you use customize `plantuml.jar`, please update to the latest version to enable `Multi-Page Diagram support`. (Later than `V1.2017.15`)
@@ -160,18 +160,18 @@ To new projects, it's recommended not to rely on `diagramsRoot` and configure al
 
 Preview page provides various zoom/pan actions and snap feature:
 
-- Zoom operations (since version 2.7.0): 
+- Zoom operations _(since version 2.7.0)_: 
     - Zoom to select area
     - Pinch to zoom (TouchPad)
-    - Click to zoom in, <kbd>alt</kbd> + <kbd>click</kbd> to zoom out
+    - Click to zoom in, <kbd>Alt</kbd> + <kbd>click</kbd> to zoom out
     - <kbd>Ctrl</kbd> + <kbd>mouse scroll</kbd> to zoom in/out
     - Middle mouse button click to toggle zoom
     - Zoom in / zoom out / toggle buttons of the controls bar.
-- Pan operations (since version 2.7.0):
+- Pan operations _(since version 2.7.0)_:
     - Right mouse button drag
     - Two-finger move to pan (TouchPad)
     - Mouse scroll
-- Snap to border (since v2.8.0):
+- Snap to border _(since v2.8.0)_:
     - Scroll to most bottom/right/top/left, preview will snap to that border. 
     > e.g. Snap to Bottom is useful while writing long activity diagrams, which helps you keep focus in the latest part in the bottom.  
 
@@ -206,7 +206,7 @@ Export diagram:
 
 ![format demo](images/format_demo.gif "demo")
 
-> PlantUML formatter is disabled (since v2.8.3) if `editor.formatOnSave` is on. 
+> PlantUML formatter is disabled _(since v2.8.3)_ if `editor.formatOnSave` is on. 
 Because the formatter is not reliable enough according to user feedbacks.
 
 ## About Snippets
@@ -215,15 +215,15 @@ Because the formatter is not reliable enough according to user feedbacks.
 
 This plugin integrates all type diagram snippets. They are splitted into 9 sections:
 
-- `diagram`: snippets for general diagrams elements.
-- `activity`: snippets for activity diagrams.
-- `class`: snippets for class diagrams.
-- `component`: snippets for component diagrams.
-- `state`: snippets for state diagrams.
-- `usecase`: snippets for usecase diagrams.
-- `sequence`: snippets for sequence diagrams.
-- `ui`: snippets for salt diagrams.
-- `egg`: snippets for some funny diagrams, like sudoku, earth.
+1. `diagram`: snippets for general diagrams elements.
+1. `activity`: snippets for activity diagrams.
+1. `class`: snippets for class diagrams.
+1. `component`: snippets for component diagrams.
+1. `state`: snippets for state diagrams.
+1. `usecase`: snippets for usecase diagrams.
+1. `sequence`: snippets for sequence diagrams.
+1. `ui`: snippets for salt diagrams.
+1. `egg`: snippets for some funny diagrams, like sudoku, earth.
 
 For example, type `acife` (short version) to trigger following snippet (`activity➤if・else`):
 
@@ -306,6 +306,13 @@ Translations are welcome. [lang.nls.json](https://github.com/qjebbs/vscode-plant
 ![markdown demo](images/markdown_demo.png)
 
 `@startuml` / `@enduml` is still recommended, so that PlantUML code in Markdown can be managed by other function of this plugin.
+
+## Keyboard Shortcut
+
+| Shortcut<br />(Windows / Linux) | Shortcut<br />(macOS) | Description |
+| :--: | :--: | -- |
+| <kbd>Alt</kbd> + <kbd>D</kbd> | <kbd>Option</kbd> + <kbd>D</kbd> | Start PlantUML preview |
+| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> | <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> | List all diagrams in the file |
 
 ## Extension Settings
 
