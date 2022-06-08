@@ -1,23 +1,23 @@
-# VSCode PlantUML Changelog
+# VSCode PlantUML Extension Changelog
 
 ## 2.17.2
 
 - Not fallback to get if post was at least once successful, **@z77ma**, [#470](https://github.com/qjebbs/vscode-plantuml/pull/470)
 - Update translations, [#467](https://github.com/qjebbs/vscode-plantuml/pull/467)
-- Update embedded jar to 1.2022.0
+- Update embedded jar to `1.2022.0`
 
 ## 2.17.0
 
 - Add ability to copy image in preview, [#462](https://github.com/qjebbs/vscode-plantuml/pull/462)
 - Update syntax highlighting, [#457](https://github.com/qjebbs/vscode-plantuml/pull/457)
-- Update embedded jar to 1.2021.16
+- Update embedded jar to `1.2021.16`
 
 ## 2.16.1
 
 - Add setting `plantuml.lintDiagramNoName`
 - Fix plantuml fence detect ([#455](https://github.com/qjebbs/vscode-plantuml/issues/455))
 - Update syntax highlighting ([#454](https://github.com/qjebbs/vscode-plantuml/pull/454))
-- Update embedded jar to 1.2021.14
+- Update embedded jar to `1.2021.14`
 
 ## 2.16.0
 
@@ -30,7 +30,7 @@
 ## 2.15.1
 
 - Fix: Error in console while typing include ([#412](https://github.com/qjebbs/vscode-plantuml/issues/412))
-- Update embedded jar to 1.2021.7
+- Update embedded jar to `1.2021.7`
 
 ## 2.15.0
 
@@ -77,18 +77,18 @@ Update embedded jar
 
 ## 2.13.13
 
-- Improvement: Imporve syntax highlighting in dark theme for messages of note, header, legend, footer.[#285](https://github.com/qjebbs/vscode-plantuml/pull/285)
-- Improvement: Change language id to plantuml.[#306](https://github.com/qjebbs/vscode-plantuml/pull/306)
+- Improvement: Imporve syntax highlighting in dark theme for messages of note, header, legend, footer. [#285](https://github.com/qjebbs/vscode-plantuml/pull/285)
+- Improvement: Change language id to plantuml. [#306](https://github.com/qjebbs/vscode-plantuml/pull/306)
 - Fix: Preview should not be scrollable when load
 
 ## 2.13.12
 
-- Improvement: Adopt 'asWebviewUri' API,[#319](https://github.com/qjebbs/vscode-plantuml/pull/319)
-- Improvement: Update extensionKind,[#304](https://github.com/qjebbs/vscode-plantuml/pull/304)
+- Improvement: Adopt 'asWebviewUri' API, [#319](https://github.com/qjebbs/vscode-plantuml/pull/319)
+- Improvement: Update extensionKind, [#304](https://github.com/qjebbs/vscode-plantuml/pull/304)
 
 ## 2.13.11
 
-- Update embedded jar to 1.2020.10
+- Update embedded jar to `1.2020.10`
 
 ## 2.13.10
 
@@ -96,8 +96,8 @@ Update embedded jar
 
 ## 2.13.9
 
-- Fix: the include preprocessor creating nested diagrams,[#314](https://github.com/qjebbs/vscode-plantuml/pull/314)
-- Improvement: Fall back to GET optimize,[#300](https://github.com/qjebbs/vscode-plantuml/pull/300)
+- Fix: the include preprocessor creating nested diagrams, [#314](https://github.com/qjebbs/vscode-plantuml/pull/314)
+- Improvement: Fall back to GET optimize, [#300](https://github.com/qjebbs/vscode-plantuml/pull/300)
 
 ## 2.13.8
 
@@ -112,7 +112,7 @@ Update embedded jar
 ## 2.13.6
 
 - Improvement: Add `extensionKind`,  better remote dev support, [#282](https://github.com/qjebbs/vscode-plantuml/pull/282)
-- Improvement: Support syntax highlighting of class diagram functions and fields which contains more than `ascii` character, [#279](https://github.com/qjebbs/vscode-plantuml/pull/279)
+- Improvement: Support syntax highlighting of class diagram functions and fields which contains more than `ASCII` character, [#279](https://github.com/qjebbs/vscode-plantuml/pull/279)
 
 ## 2.13.5
 
