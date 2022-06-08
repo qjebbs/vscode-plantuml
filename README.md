@@ -77,8 +77,8 @@ A plantuml server.  See [Use PlantUML Server as render](#use-plantuml-server-as-
 
 It's necessary to have following installed:
 
-- [Java][Java] : Platform for PlantUML running.
-- [Graphviz][Graphviz] : PlantUML requires it to calculate positions in diagram.
+- [Java][Java]: Platform for PlantUML running.
+- [Graphviz][Graphviz]: PlantUML requires it to calculate positions in diagram.
 
 [Java]: http://java.com/en/download/ "Download Java"
 [Graphviz]: http://www.graphviz.org/download/ "Download Graphviz"
