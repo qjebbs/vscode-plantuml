@@ -1,4 +1,4 @@
-# PlantUML README
+# VSCode-PlantUML README
 
 Rich PlantUML support for Visual Studio Code.
 
@@ -41,7 +41,7 @@ If not, like the official <https://www.plantuml.com/plantuml>, the extension fal
     - From local or server.
     - Image map (cmapx) support.
 - Editing Supports
-    - Format PlantUML code. (**Deprecated**)
+    - Format PlantUML code. ([**Deprecated**](#about-format))
     - All type syntax highlight.
     - All type snippets.
     - Basic auto completion & macro signature support
@@ -61,7 +61,7 @@ If not, like the official <https://www.plantuml.com/plantuml>, the extension fal
 
 ## How to install
 
-Launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter.
+Launch VS Code Quick Open (<kbd>Ctrl</kbd>+<kbd>P</kbd>), paste the following command, and press enter.
 
 `ext install plantuml`
 
@@ -92,7 +92,7 @@ brew install graphviz
 
 #### Quick Install for Windows
 
-The plugin has an integrated copy of plantuml.jar and GraphViz, so you are normally good to go. 
+The plugin has an integrated copy of `plantuml.jar` and GraphViz, so you are normally good to go. 
 But if you want to use your own jar or a different version of GraphViz (maybe a newer version, or with many dependent jars):
 
 - download the latest `plantuml.jar` or install it using chocolatey (see below). 
@@ -114,7 +114,7 @@ choco install plantuml
 ## Typical Files Organization
 
 - Default extension settings works for independent Plantuml projects.
-- If Plantuml files are only part of your project (as documetation), use `plantuml.diagramsRoot` and `plantuml.exportOutDir` to setting up the organization, for example:
+- If Plantuml files are only part of your project (as documentation), use `plantuml.diagramsRoot` and `plantuml.exportOutDir` to setting up the organization, for example:
 
 ```json
 "plantuml.diagramsRoot": "docs/diagrams/src",
@@ -163,8 +163,8 @@ Preview page provides various zoom/pan actions and snap feature:
 - Zoom operations (since version 2.7.0): 
     - Zoom to select area
     - Pinch to zoom (TouchPad)
-    - Click to zoom in, alt + click to zoom out
-    - Ctrl + mouse scroll to zoom in/out
+    - Click to zoom in, <kbd>alt</kbd> + <kbd>click</kbd> to zoom out
+    - <kbd>Ctrl</kbd> + <kbd>mouse scroll</kbd> to zoom in/out
     - Middle mouse button click to toggle zoom
     - Zoom in / zoom out / toggle buttons of the controls bar.
 - Pan operations (since version 2.7.0):
@@ -180,7 +180,7 @@ Auto update:
 
 ![audo update demo](images/auto_update_demo.gif)
 
-zoom & scroll:
+Zoom & scroll:
 
 ![zoom demo](images/zoom_demo.gif)
 
@@ -225,9 +225,9 @@ This plugin integrates all type diagram snippets. They are splitted into 9 secti
 - `ui`: snippets for salt diagrams.
 - `egg`: snippets for some funny diagrams, like sudoku, earth.
 
-For exsample, type `acife` (short version) to trigge following snippet (`activity➤if・else`):
+For example, type `acife` (short version) to trigger following snippet (`activity➤if・else`):
 
-```plantumlcode
+```plantuml
 if (cond1?) then (val1)
 
 else (val2)
@@ -239,11 +239,13 @@ endif
 
 ![list_symbol_demo.png](images/list_symbol_demo.png)
 
-Press `Ctrl+Shift+O` to list all diagrams in the file. You can name the diagram when diagram starts.
+Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> to list all diagrams in the file. You can name the diagram when diagram starts.
 
-> @startuml diagram name
-> sudoku
-> @enduml
+```plantuml
+@startuml diagram name
+sudoku
+@enduml
+```
 
 ## About Render
 
@@ -252,8 +254,8 @@ Plugin supports two renders: `Local` and `PlantUMLServer`.
 Local is the default and traditional way. If you care more about export speed, you should try PlantUMLServer.
 
 ```text
-Local: 6 documents, 9 digrams, 14 files exported in 24.149 seconds
-PlantUMLServer: 6 documents, 9 digrams, 14 files exported in 1.564 seconds
+Local: 6 documents, 9 diagrams, 14 files exported in 24.149 seconds
+PlantUMLServer: 6 documents, 9 diagrams, 14 files exported in 1.564 seconds
 ```
 
 ## Advantages and Disadvantages of PlantUMLServer Render
@@ -288,7 +290,7 @@ Disadvantages:
 
 - Open user setting, and configure like:
 
-```text
+```json
 "plantuml.server": "http://192.168.1.100:8080",
 "plantuml.render": "PlantUMLServer",
 ```
@@ -303,7 +305,7 @@ Translations are welcome. [lang.nls.json](https://github.com/qjebbs/vscode-plant
 
 ![markdown demo](images/markdown_demo.png)
 
-`@startuml / @enduml` is still recommended, so that PlantUML code in Markdown can be managed by other function of this plugin.
+`@startuml` / `@enduml` is still recommended, so that PlantUML code in Markdown can be managed by other function of this plugin.
 
 ## Extension Settings
 
@@ -347,7 +349,7 @@ Other Settings:
 
 ## Known Issues
 
-Please post and view issues on [GitHub][issues]
+Please post and view issues on [GitHub][issues].
 
 [issues]: https://github.com/qjebbs/vscode-plantuml/issues "Post issues"
 
@@ -363,7 +365,7 @@ Please post and view issues on [GitHub][issues]
 - Japanese: [Kohei Arao](https://github.com/koara-local), [kannkyo](https://github.com/kannkyo)
 - Tranditional Chinese: [Alan Tsai](https://github.com/alantsai)
 - German: [Fabian F.](https://github.com/fur6y)
-- French: [Zepmanbc](https://github.com/Zepmanbc), [FlorianKempenich](https://github.com/FlorianKempenich)
+- French: [Zepmanbc](https://github.com/Zepmanbc), [FlorianKempenich](https://github.com/FlorianKempenich), [The-Lum](https://github.com/The-Lum)
 - Danish: [Mikkel O. Laursen](https://github.com/mikkel-ol)
 
 ## Donators
