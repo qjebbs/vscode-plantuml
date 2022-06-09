@@ -1,4 +1,4 @@
-# VSCode PlantUML Extension Changelog
+# PlantUML VSCode Extension Changelog
 
 ## 2.17.2
 
