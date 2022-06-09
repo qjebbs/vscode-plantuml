@@ -1,4 +1,4 @@
-# VSCode PlantUML Extension README
+# PlantUML VSCode Extension Readme
 
 Rich PlantUML support for Visual Studio Code.
 
