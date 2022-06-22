@@ -8,6 +8,7 @@ import { javaCommandExists, testJava } from './tools';
 
 export const RenderType = {
     Local: 'Local',
+    LocalServer: 'LocalServer',
     PlantUMLServer: 'PlantUMLServer'
 };
 
@@ -79,6 +80,14 @@ class Config extends ConfigReader {
         return vscode.Uri.file(fsPath);
     }
 
+    exportOnSave(uri: vscode.Uri): boolean {
+        return this.read<boolean>('exportOnSave', uri);
+    }
+
+    exportBesideDocument(uri: vscode.Uri): boolean {
+        return this.read<boolean>('exportBesideDocument', uri);
+    }
+
     exportFormat(uri: vscode.Uri): string {
         return this.read<string>('exportFormat', uri);
     }
@@ -116,7 +125,7 @@ class Config extends ConfigReader {
     }
 
     render(uri: vscode.Uri): string {
-        return this.read<string>('render') || "Local";
+        return this.read<string>('render') || "LocalServer";
     }
 
     includepaths(uri: vscode.Uri): string[] {

@@ -1,3 +1,13 @@
+# PlantUML (sidiandi fork) README
+
+This is a fork of the fantastic [PlantUML extension](https://github.com/qjebbs/vscode-plantuml). See below for the original readme.
+
+Extensions:
+* Automatically use a local picoweb server of PlantUML for fast rendering.
+* Auto-export diagrams every time you save.
+* Option to export diagrams next to the .plantuml sources
+* Add the PlantUML Language Reference Guide examples as snippets (from https://github.com/coni2k/PlantUML).
+
 # PlantUML README
 
 Rich PlantUML support for Visual Studio Code.

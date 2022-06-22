@@ -95,7 +95,10 @@ export function calculateExportPath(diagram: Diagram, format: string): string {
 
     let exportDir = "";
     let folder = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
-    if (folder) {
+    if (config.exportBesideDocument(diagram.parentUri) || !folder) {
+        // export beside the document.
+        exportDir = diagram.dir;
+    } else {
         let wkdir = folder ? folder.uri.fsPath : "";
         let diagramsRoot = config.diagramsRoot(diagram.parentUri).fsPath;
         let outDir = config.exportOutDir(diagram.parentUri).fsPath;
@@ -106,9 +109,6 @@ export function calculateExportPath(diagram: Diagram, format: string): string {
             // If current document is in WorkspaceFolder, organize exports in %outDir%/_WorkspaceFolder_.
             exportDir = path.join(outDir, "__WorkspaceFolder__", path.relative(wkdir, diagram.dir));
         }
-    } else {
-        // export beside the document.
-        exportDir = diagram.dir;
     }
 
     if (config.exportSubFolder(diagram.parentUri)) {

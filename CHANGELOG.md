@@ -1,4 +1,21 @@
-# VSCode PlantUML Changelog
+# plantuml-sidiandi-fork Changelog
+
+## To Do
+
+- Bundle with latest plantuml.jar
+- Use X-PlantUML-Diagram-Error: Syntax Error?, X-PlantUML-Diagram-Error-Line: 2 headers from status code 400 response to highlight error
+- Remove snippets format warning
+
+## 0.1.0
+
+- Export on save
+- Changed name of the configuration section from "PlantUML Configuration" to "PlantUML" to be consistent with other extensions
+- Option `exportBesideDocument` to export diagrams in the same folder as the PlantUML source code
+- Use the [local PlantUML PicoWeb Server](https://plantuml.com/de/picoweb) by default.
+- Add the PlantUML Language Reference Guide examples as snippets (from https://github.com/coni2k/PlantUML).
+- Wait until local picoserver was started successfully
+
+# plantuml Changelog
 
 ## 2.17.2
 

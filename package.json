@@ -1,10 +1,10 @@
 {
-  "name": "plantuml",
-  "displayName": "PlantUML",
+  "name": "plantuml-sidiandi-fork",
+  "displayName": "PlantUML (sidiandi fork)",
   "description": "Rich PlantUML support for Visual Studio Code.",
   "icon": "images/icon.png",
-  "version": "2.17.2",
-  "publisher": "jebbs",
+  "version": "0.2.0",
+  "publisher": "sidiandi",
   "engines": {
     "vscode": "^1.57.0"
   },
@@ -182,6 +182,10 @@
       {
         "language": "plantuml",
         "path": "./snippets/eggs.json"
+      },
+      {
+        "language": "plantuml",
+        "path": "./snippets/LanguageReferenceGuide.json"
       }
     ],
     "configuration": {
@@ -233,10 +237,22 @@
           "default": ".wsd,.pu,.puml,.plantuml,.iuml",
           "description": "%plantuml.configuration.fileExtensions%"
         },
-        "plantuml.exportSubFolder": {
+        "plantuml.exportOnSave": {
           "type": "boolean",
           "scope": "resource",
           "default": true,
+          "description": "%plantuml.configuration.exportOnSave%"
+        },
+        "plantuml.exportBesideDocument": {
+          "type": "boolean",
+          "scope": "resource",
+          "default": true,
+          "description": "%plantuml.configuration.exportBesideDocument%"
+        },
+        "plantuml.exportSubFolder": {
+          "type": "boolean",
+          "scope": "resource",
+          "default": false,
           "description": "%plantuml.configuration.exportSubFolder%"
         },
         "plantuml.exportConcurrency": {
@@ -302,6 +318,7 @@
           "scope": "machine-overridable",
           "default": "",
           "enum": [
+            "LocalServer",
             "Local",
             "PlantUMLServer"
           ],
@@ -365,10 +382,12 @@
     "workspace"
   ],
   "scripts": {
+    "vscode:package": "vsce package",
     "vscode:prepublish": "npm run buildsyntax && tsc -p ./",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "buildsyntax": "node ./scripts/build-syntax.js"
+    "buildsyntax": "node ./scripts/build-syntax.js",
+    "buildsnippets": "node ./out/scripts/build-snippets.js"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.32",
@@ -380,6 +399,8 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
+    "@types/glob": "^7.2.0",
+    "glob": "^7.2.0",
     "linq-collections": "*",
     "vscode-nls": "^2.0.2"
   }
