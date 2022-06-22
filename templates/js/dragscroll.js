@@ -19,4 +19,7 @@ function addDrageScroll() {
             window.scrollTo(x, y);
         }
     });
+    window.addEventListener('contextmenu', e => {
+        e.stopImmediatePropagation()
+    }, true);
 }
