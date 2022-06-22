@@ -1,23 +1,29 @@
 # VSCode PlantUML Changelog
 
+## 2.17.3
+
+- Fix: Context menu shouldn't show on Pan operation, [#413](https://github.com/qjebbs/vscode-plantuml/issues/413)
+- Update syntax highlighting, [#491](https://github.com/qjebbs/vscode-plantuml/pull/491)
+- Update embedded jar to `1.2022.5`
+
 ## 2.17.2
 
 - Not fallback to get if post was at least once successful, **@z77ma**, [#470](https://github.com/qjebbs/vscode-plantuml/pull/470)
 - Update translations, [#467](https://github.com/qjebbs/vscode-plantuml/pull/467)
-- Update embedded jar to 1.2022.0
+- Update embedded jar to `1.2022.0`
 
 ## 2.17.0
 
 - Add ability to copy image in preview, [#462](https://github.com/qjebbs/vscode-plantuml/pull/462)
 - Update syntax highlighting, [#457](https://github.com/qjebbs/vscode-plantuml/pull/457)
-- Update embedded jar to 1.2021.16
+- Update embedded jar to `1.2021.16`
 
 ## 2.16.1
 
 - Add setting `plantuml.lintDiagramNoName`
 - Fix plantuml fence detect ([#455](https://github.com/qjebbs/vscode-plantuml/issues/455))
 - Update syntax highlighting ([#454](https://github.com/qjebbs/vscode-plantuml/pull/454))
-- Update embedded jar to 1.2021.14
+- Update embedded jar to `1.2021.14`
 
 ## 2.16.0
 
@@ -30,7 +36,7 @@
 ## 2.15.1
 
 - Fix: Error in console while typing include ([#412](https://github.com/qjebbs/vscode-plantuml/issues/412))
-- Update embedded jar to 1.2021.7
+- Update embedded jar to `1.2021.7`
 
 ## 2.15.0
 
@@ -88,7 +94,7 @@ Update embedded jar
 
 ## 2.13.11
 
-- Update embedded jar to 1.2020.10
+- Update embedded jar to `1.2020.10`
 
 ## 2.13.10
 
