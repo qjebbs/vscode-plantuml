@@ -15,7 +15,7 @@ export function renderHtml(tokens: markdowIt.Token[], idx: number) {
     let mimeType = diagram.type == DiagramType.Ditaa ? "image/png" : "image/svg+xml";
     let result = MakeDiagramURL(diagram, format, null);
     let renderAsObject = token.tag == "object" && format == "svg";
-    return config.server ?
+    return config.server(null) ?
         result.urls.reduce((p, url) => {
             p += renderAsObject ?
                 `\n<object type="${mimeType}" data="${url}"></object>` : // work with markdown extended export, solve #253

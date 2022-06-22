@@ -8,7 +8,7 @@ import { plantumlServer } from '../renders/plantumlServer';
 import { MakeDiagramsURL } from './urlMaker';
 
 export async function makeDocumentURL(all: boolean) {
-    if (!config.server) {
+    if (!config.server(vscode.window.activeTextEditor.document.uri)) {
         vscode.window.showWarningMessage(localize(53, null));
         return;
     }
