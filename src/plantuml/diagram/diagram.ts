@@ -100,23 +100,24 @@ export class Diagram {
         let matches: RegExpMatchArray;;
         if (matches = this.lines[0].match(RegFName)) {
             this._nameRaw = matches[2];
-            let tempTitle = this._builtinFunctions.ProcessBuiltinFunctions(this._nameRaw);
-            this._name = title.Deal(tempTitle);
+            let tempName = this._builtinFunctions.ProcessBuiltinFunctions(this._nameRaw);
+            this._name = title.Deal(tempName);
             return;
         }
-        // // don't use title as diagram name, #438, #400, #409
-        // let inlineTitle = /^\s*title\s+(.+?)\s*$/i;
-        // let multLineTitle = /^\s*title\s*$/i;
-        // for (let text of this.lines) {
-        //     if (inlineTitle.test(text)) {
-        //         let matches = text.match(inlineTitle);
-        //         this._titleRaw = matches[1];
-        //     }
-        // }
-        // if (this._titleRaw) {
-        //     this._title = title.Deal(this._titleRaw);
-        //     return
-        // }
+        // don't use title as diagram name, #438, #400, #409
+        let inlineName = /^\s*title\s+(.+?)\s*$/i;
+        let multLineName = /^\s*title\s*$/i;
+        for (let text of this.lines) {
+            if (inlineName.test(text)) {
+                let matches = text.match(inlineName);
+                this._nameRaw = matches[1];
+            }
+        }
+        if (this._nameRaw) {
+             let tempName = this._builtinFunctions.ProcessBuiltinFunctions(this._nameRaw);
+             this._name = title.Deal(tempName);
+             return
+        }
         if (this.start && this.end) {
             // this.title = `${this.fileName}@${this.start.line + 1}-${this.end.line + 1}`;
             if (this.index)
