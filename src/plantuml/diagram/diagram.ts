@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import * as title from './title';
 import { DiagramType, getType } from './type';
+import { BuiltinFunctionsPreprocessor } from './builtinfunctions';
 import { getContentWithInclude } from './include';
 
 export const diagramStartReg = /@start(\w+)/i;
@@ -24,6 +25,7 @@ export class Diagram {
     private _index: number = undefined;
     private _pageCount: number = undefined;
     private _contentWithInclude: string = undefined;
+    private _builtinFunctions: BuiltinFunctionsPreprocessor = undefined;
 
     constructor(content: string);
     constructor(content: string, document: vscode.TextDocument, start: vscode.Position, end: vscode.Position);
@@ -41,6 +43,7 @@ export class Diagram {
         if (i >= 0) this.fileName = this.fileName.substr(0, i);
         this.dir = path.dirname(this.path);
         if (!path.isAbsolute(this.dir)) this.dir = "";
+        this._builtinFunctions = new BuiltinFunctionsPreprocessor(this.path);
     }
     public get index(): number {
         if (this._index !== undefined) {
@@ -97,22 +100,24 @@ export class Diagram {
         let matches: RegExpMatchArray;;
         if (matches = this.lines[0].match(RegFName)) {
             this._nameRaw = matches[2];
-            this._name = title.Deal(this._nameRaw);
+            let tempName = this._builtinFunctions.ProcessBuiltinFunctions(this._nameRaw);
+            this._name = title.Deal(tempName);
             return;
         }
-        // // don't use title as diagram name, #438, #400, #409
-        // let inlineTitle = /^\s*title\s+(.+?)\s*$/i;
-        // let multLineTitle = /^\s*title\s*$/i;
-        // for (let text of this.lines) {
-        //     if (inlineTitle.test(text)) {
-        //         let matches = text.match(inlineTitle);
-        //         this._titleRaw = matches[1];
-        //     }
-        // }
-        // if (this._titleRaw) {
-        //     this._title = title.Deal(this._titleRaw);
-        //     return
-        // }
+        // don't use title as diagram name, #438, #400, #409
+        let inlineName = /^\s*title\s+(.+?)\s*$/i;
+        let multLineName = /^\s*title\s*$/i;
+        for (let text of this.lines) {
+            if (inlineName.test(text)) {
+                let matches = text.match(inlineName);
+                this._nameRaw = matches[1];
+            }
+        }
+        if (this._nameRaw) {
+             let tempName = this._builtinFunctions.ProcessBuiltinFunctions(this._nameRaw);
+             this._name = title.Deal(tempName);
+             return
+        }
         if (this.start && this.end) {
             // this.title = `${this.fileName}@${this.start.line + 1}-${this.end.line + 1}`;
             if (this.index)
