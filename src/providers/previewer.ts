@@ -3,7 +3,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as child_process from 'child_process';
 
-import { RenderTask } from '../plantuml/renders/interfaces'
+import { platform } from 'os';
+import { RenderTask } from '../plantuml/renders/interfaces';
 import { Diagram } from '../plantuml/diagram/diagram';
 import { diagramsOf, currentDiagram } from '../plantuml/diagram/tools';
 import { config } from '../plantuml/config';
@@ -117,14 +118,40 @@ class Previewer extends vscode.Disposable {
             this.taskKilling = false;
         });
     }
-    private killTask(process: child_process.ChildProcess) {
+
+    /**
+     * Cross-platform process killing function.
+     * 
+     * On Windows, `exit` event is not guaranteed to be triggered when a child process receives a SIGINT.
+     * After a few tests, this is particularly true when multiple processes are spawned (i.e. multipage diagram).
+     * If the `exit` event is not triggered for any process inside array `this.task.processes`, 
+     * function `nixKillTask` will never resolve the returned promise.
+     * Therefore, function `killTasks` would wait forever for the promises to be resolved, thus getting 
+     * execution stuck.
+     * 
+     * To solve, on windows it is required to spawn a new process that calls the embedded command `taskkill` 
+     * passing process' PID as an argument.
+     * `killTask` will be initialized, according to the detected platform, to either 
+     * `nixKillTask` or `winKillTask`
+     * 
+     * @param {child_process.ChildProcess} process - The process to be killed.
+     */
+    private killTask = platform() == 'win32' ? this.winKillTask : this.nixKillTask;
+
+    private nixKillTask(process: child_process.ChildProcess) {
         return new Promise((resolve, reject) => {
             process.kill('SIGINT');
-            process.on('exit', (code) => {
-                // console.log(`killed ${process.pid} with code ${code}!`);
+            process.on('exit', (code, sig) => {
+                // console.log(`killed ${process.pid} with code ${code} and signal ${sig}!`);
                 resolve(true);
             });
         })
+    }
+    private winKillTask(process: child_process.ChildProcess){
+        return new Promise((resolve, reject) => {
+            // console.log(`win killed ${process.pid}`);
+            child_process.exec(`taskkill /T /PID ${process.pid}`, (err, stdout, stderr) => resolve(true));
+        });
     }
     get TargetChanged(): boolean {
         let current = currentDiagram();
