@@ -74,9 +74,9 @@ export function httpWrapper(method: string, server: string, diagram: Diagram, fo
                 resolve(body);
             } else if (response.headers['x-plantuml-diagram-error']) {
                 let msg = parsePlantumlError(
-                    response.headers['x-plantuml-diagram-error'],
-                    parseInt(response.headers['x-plantuml-diagram-error-line']),
-                    response.headers['x-plantuml-diagram-description'],
+                    response.headers['x-plantuml-diagram-error'] as string,
+                    parseInt(response.headers['x-plantuml-diagram-error-line'] as string),
+                    response.headers['x-plantuml-diagram-description'] as string,
                     diagram
                 );
                 reject(<RenderError>{ error: msg, out: body });

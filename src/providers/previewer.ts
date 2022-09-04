@@ -119,11 +119,15 @@ class Previewer extends vscode.Disposable {
     }
     private killTask(process: child_process.ChildProcess) {
         return new Promise((resolve, reject) => {
-            process.kill('SIGINT');
-            process.on('exit', (code) => {
-                // console.log(`killed ${process.pid} with code ${code}!`);
+            process.on('exit', (code, sig) => {
+                console.log(`Killed ${process.pid} with code ${code} and signal ${sig}!`);
                 resolve(true);
             });
+            
+            if(!process.kill('SIGINT') && process.exitCode != null){
+                console.log(`Process ${process.pid} exited with status code ${process.exitCode}`);
+                resolve(true);
+            }
         })
     }
     get TargetChanged(): boolean {

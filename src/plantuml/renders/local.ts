@@ -110,6 +110,7 @@ class LocalRender implements IRender {
                 // Add user jar args
                 params.push(...config.jarArgs(diagram.parentUri));
                 let process : any = child_process.spawn(config.java(diagram.parentUri), params);
+                console.log(`Process ${process.pid} spawned`);
                 processes.push(process);
                 return pChain.then(
                     () => {
