@@ -1,5 +1,10 @@
 # VSCode PlantUML Changelog
 
+## 2.17.4
+
+- Fix: Promises of child processes killing function may not resolved, **@kristopher-pellizzi**, [#510](https://github.com/qjebbs/vscode-plantuml/issues/510)
+- Update embedded jar to `1.2022.7`
+
 ## 2.17.3
 
 - Fix: Context menu shouldn't show on Pan operation, [#413](https://github.com/qjebbs/vscode-plantuml/issues/413)
