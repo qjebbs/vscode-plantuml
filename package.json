@@ -371,13 +371,13 @@
     "buildsyntax": "node ./scripts/build-syntax.js"
   },
   "devDependencies": {
-    "@types/mocha": "*",
-    "@types/node": "*",
-    "@types/vscode": "*",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^16.0.0",
+    "@types/vscode": "^1.57.0",
     "js-yaml": "^3.13.1",
-    "markdown-it": "^8.3.2",
+    "markdown-it": "^13.0.1",
     "plist": "^3.0.2",
-    "typescript": "*"
+    "typescript": "^4.8.2"
   },
   "dependencies": {
     "linq-collections": "*",
