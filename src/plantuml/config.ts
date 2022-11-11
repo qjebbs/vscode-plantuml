@@ -87,6 +87,10 @@ class Config extends ConfigReader {
         return this.read<boolean>('exportSubFolder', uri);
     }
 
+    exportIncludeFolderHeirarchy(uri: vscode.Uri): boolean {
+        return this.read<boolean>('exportIncludeFolderHeirarchy', uri);
+    }
+
      exportConcurrency(uri: vscode.Uri): number {
         return this.read<number>('exportConcurrency') || 3;
     }

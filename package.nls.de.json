@@ -12,6 +12,7 @@
 	"plantuml.configuration.diagramsRoot": "Specifies where all diagram files located (relative to workspace folder).",
 	"plantuml.configuration.fileExtensions": "Dateitypen für den Export. Besonders in den Arbeitsbereichseinstellungen können Sie eigene Erweiterungen hinzufügen, um Diagramme aus Quellcode-Dateien wie \".java\" zu exportieren.",
 	"plantuml.configuration.exportSubFolder": "Exportiert die Diagramme in einen Ordner mit demselben Namen wie die Hostdatei",
+	"plantuml.configuration.exportIncludeFolderHeirarchy": "Include folder heiracrchy between the root and the source diagram in the exported file path.",
 	"plantuml.configuration.exportConcurrency": "Anzahl von gleichzeitigen Exports bei mehreren Diagrammen.",
 	"plantuml.configuration.exportOutDir": "Exported workspace diagrams will be organized in this directory  (relative path to workspace folder).",
 	"plantuml.configuration.previewAutoUpdate": "Automatisch das Vorschaufenster aktualisieren.",
