@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.17.5
+
+- Add configuration option to exclude folder heirarchy from exported file path, **@reub-the-cube**, [#522](https://github.com/qjebbs/vscode-plantuml/pull/522)
+- Add preview button to PlantUML files, **@Cube707**, [#525](https://github.com/qjebbs/vscode-plantuml/pull/525)
+- Update embedded jar to `1.2022.14`
+
 ## 2.17.4
 
 - Fix: Promises of child processes killing function may not resolved, **@kristopher-pellizzi**, [#510](https://github.com/qjebbs/vscode-plantuml/issues/510)

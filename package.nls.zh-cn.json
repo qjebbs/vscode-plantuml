@@ -12,7 +12,7 @@
 	"plantuml.configuration.diagramsRoot": "指定图表源文件的位置（相对于工作区目录的路径）。",
 	"plantuml.configuration.fileExtensions": "导出工作区图表时查找的文件后缀。特别是在软件项目的工作区设置时，您可以自定义要查找的后缀，以便导出位于源文件中的图表，如 \".java\".",
 	"plantuml.configuration.exportSubFolder": "决定是否在导出图表时，建立以图表所在文件为名称的文件夹。",
-	"plantuml.configuration.exportIncludeFolderHeirarchy": "Include folder heiracrchy between the root and the source diagram in the exported file path.",
+	"plantuml.configuration.exportIncludeFolderHeirarchy": "导出文件维持源文件目录结构",
 	"plantuml.configuration.exportConcurrency": "决定导出多个图表时的并发数量。",
 	"plantuml.configuration.exportOutDir": "所有导出图片将被组织到此目录下（相对于工作区目录的路径）。",
 	"plantuml.configuration.previewAutoUpdate": "决定是否在内容变更和选定图表变更时自动刷新预览窗口",
