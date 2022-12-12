@@ -95,7 +95,9 @@ export function calculateExportPath(diagram: Diagram, format: string): string {
 
     let exportDir = "";
     let folder = vscode.workspace.getWorkspaceFolder(diagram.parentUri);
-    if (folder) {
+    if (!config.exportIncludeFolderHeirarchy(diagram.parentUri)) {
+        exportDir = config.exportOutDir(diagram.parentUri).fsPath;
+    } else if (folder) {
         let wkdir = folder ? folder.uri.fsPath : "";
         let diagramsRoot = config.diagramsRoot(diagram.parentUri).fsPath;
         let outDir = config.exportOutDir(diagram.parentUri).fsPath;

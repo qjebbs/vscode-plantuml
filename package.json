@@ -247,6 +247,12 @@
           "default": true,
           "description": "%plantuml.configuration.exportSubFolder%"
         },
+        "plantuml.exportIncludeFolderHeirarchy": {
+          "type": "boolean",
+          "scope": "resource",
+          "default": true,
+          "description": "%plantuml.configuration.exportIncludeFolderHeirarchy%"
+        },
         "plantuml.exportConcurrency": {
           "type": "number",
           "scope": "machine-overridable",

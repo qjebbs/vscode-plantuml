@@ -12,6 +12,7 @@
 	"plantuml.configuration.diagramsRoot": "すべてのダイアグラムファイルの位置を指定。(ワークスペース内のディレクトリへの相対パス)。",
 	"plantuml.configuration.fileExtensions": "エクスポートする拡張子を指定。 特にワークスペースでの出力で、\".java\" のようなソースコードでもダイアグラムをエクスポートしたい場合に独自の拡張子を設定することができます",
 	"plantuml.configuration.exportSubFolder": "ダイアグラムを出力元のファイルと同名のディレクトリにエクスポートします",
+	"plantuml.configuration.exportIncludeFolderHeirarchy": "Include folder heiracrchy between the root and the source diagram in the exported file path.",
 	"plantuml.configuration.exportConcurrency": "複数のダイアグラムをエクスポートする際の並列実行数の設定します",
 	"plantuml.configuration.exportOutDir": "エクスポートされたワークスペースのダイアグラムは、このディレクトリに整理されます(ワークスペース内のディレクトリへの相対パス)。",
 	"plantuml.configuration.previewAutoUpdate": "プレビューウィンドウを自動的に更新するかを指定します",

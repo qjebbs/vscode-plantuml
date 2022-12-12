@@ -12,6 +12,7 @@
 	"plantuml.configuration.diagramsRoot": "Specifies where all diagram files located (relative to workspace folder).",
 	"plantuml.configuration.fileExtensions": "匯出圖表時查找的檔案副檔名。 特別是在工作區設定，您可以定義要查找的原始碼副檔名，例如 \".java\"。",
 	"plantuml.configuration.exportSubFolder": "決定在匯出的時候，是否建立并且放在同檔案名稱一樣的資料夾裏面。",
+	"plantuml.configuration.exportIncludeFolderHeirarchy": "Include folder heiracrchy between the root and the source diagram in the exported file path.",
 	"plantuml.configuration.exportConcurrency": "決定匯出多個圖表的時候同時執行的數量。",
 	"plantuml.configuration.exportOutDir": "Exported workspace diagrams will be organized in this directory  (relative path to workspace folder).",
 	"plantuml.configuration.previewAutoUpdate": "決定是否要在内容變更的時候自動更新預覽的圖片",

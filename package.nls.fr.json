@@ -12,6 +12,7 @@
 	"plantuml.configuration.diagramsRoot": "Spécifier le dossier de stockage des diagrammes (chemin relatif à l'espace de travail).",
 	"plantuml.configuration.fileExtensions": "Extensions des fichiers considérés comme exportables. Vous pouvez ajouter vos propres extensions pour permettre l'extraction de diagrammes contenu dans des fichiers de code source, par exemple \".java\"",
 	"plantuml.configuration.exportSubFolder": "Créer un dossier séparé pour chaque fichier source dans le répertoire de sortie.",
+	"plantuml.configuration.exportIncludeFolderHeirarchy": "Include folder heiracrchy between the root and the source diagram in the exported file path.",
 	"plantuml.configuration.exportConcurrency": "Nombres de 'threads' à utiliser lors de l'exportation de plusieurs diagrammes en parallèle :",
 	"plantuml.configuration.exportOutDir": "Les diagrammes exportés de l'espace de travail seront à cette adresse (relatif au dossier de l'espace de travail).",
 	"plantuml.configuration.previewAutoUpdate": "Activation de l'aperçu automatique.",

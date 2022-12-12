@@ -12,6 +12,7 @@
 	"plantuml.configuration.diagramsRoot": "Specificerer hvor alle diagramfiler skal placeres (relativt til Workspace-mappe).",
 	"plantuml.configuration.fileExtensions": "Understøttede filendelser. Især i Workspace-miljøer kan du tilføje egne endelser for at eksportere diagrammer i kildekode-filer som eksempelvis \".java\".",
 	"plantuml.configuration.exportSubFolder": "Eksportér diagrammer til en mappe som har samme navn som host-filen. ",
+	"plantuml.configuration.exportIncludeFolderHeirarchy": "Include folder heiracrchy between the root and the source diagram in the exported file path.",
 	"plantuml.configuration.exportConcurrency": "Tæller antal eksporteringer når der eksporteres flere diagrammer.",
 	"plantuml.configuration.exportOutDir": "Eksporterede Workspace-diagrammer vil blive placeret i denne mappe (relativt til Workspace-mappe).",
 	"plantuml.configuration.previewAutoUpdate": "Auto-opdatér preview-vindue.",
