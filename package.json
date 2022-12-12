@@ -87,7 +87,8 @@
       {
         "command": "plantuml.preview",
         "title": "%plantuml.preview.title%",
-        "category": "PlantUML"
+        "category": "PlantUML",
+        "icon": "$(open-preview)"
       },
       {
         "command": "plantuml.URLCurrent",
@@ -137,6 +138,13 @@
         {
           "command": "plantuml.exportWorkspace",
           "group": "PlantUML"
+        }
+      ],
+      "editor/title": [
+        {
+          "when": "editorLangId == plantuml",
+          "command": "plantuml.preview",
+          "group": "navigation"
         }
       ]
     },
