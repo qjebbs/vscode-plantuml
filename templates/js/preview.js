@@ -86,13 +86,16 @@ window.addEventListener("load", () => {
 
     // see imageMapResizer.js
     imageMapResize('#image-map');
-    new MutationObserver(() => {
-            imageMapResize('#image-map');
-    })
-    .observe(
-        document.getElementById('image'),
-        {'attributes': true}
-    );
+    let image = document.getElementById('image')
+    if (image) {
+        new MutationObserver(() => {
+                imageMapResize('#image-map');
+        })
+        .observe(
+            image,
+            {'attributes': true}
+        );
+    }
 });
 window.addEventListener(
     "resize",

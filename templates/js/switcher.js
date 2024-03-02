@@ -2,12 +2,16 @@ class Switcher {
     constructor() {
         this.current = 0;
         this.images = [];
+        this.imageMaps = [];
         this.image = document.getElementById("image");
         this.imageMap = document.getElementById("image-map");
         this.pInfo = document.getElementById("pageInfo");
         this.pInfoTpl = this.pInfo.innerText;
         for (let e of document.getElementById("images").getElementsByTagName("img")) {
             this.images.push(e);
+        }
+        for (let e of document.getElementById("images").getElementsByTagName("map")) {
+            this.imageMaps.push(e);
         }
         if (this.images.length <= 1) {
             document.getElementById("page-ctrls").style.display = "none";
@@ -36,10 +40,7 @@ class Switcher {
 
         // switch page
         let image = this.images[page - 1];
-        let imageMap = null;
-        if (image.nextElementSibling != null && image.nextElementSibling.tagName == "MAP") {
-            imageMap = image.nextElementSibling;
-        }
+        let imageMap = this.imageMaps[page - 1];
 
         this.image.src = image.src;
         this.imageMap.innerHTML = imageMap?.innerHTML ?? "";

@@ -55,7 +55,11 @@ class Previewer extends vscode.Disposable {
         let env = {
             localize: localize,
             images: this.images.reduce((p, c) => {
-                return `${p}<img src="${c}">`
+                if (c.startsWith('data:image/')) {
+                    return `${p}<img src="${c}">`
+                } else {
+                    return `${p}${c.replaceAll('<area ', '<area target="_blank"')}`
+                }
             }, ""),
             imageError: "",
             error: "",
@@ -169,9 +173,22 @@ class Previewer extends vscode.Disposable {
                 this.images = result.reduce((p, buf) => {
                     let sigPNG = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
                     let isPNG = buf.slice(0, sigPNG.length).equals(sigPNG);
-                    let b64 = buf.toString('base64');
-                    if (!b64) return p;
-                    p.push(`data:image/${isPNG ? 'png' : "svg+xml"};base64,${b64}`);
+                    let isSVG = (buf.slice(0, 256).indexOf('<svg') >= 0);
+
+                    if (isPNG || isSVG) {
+                        let b64 = buf.toString('base64');
+                        if (!b64) return p;
+
+                        // push image
+                        p.push(`data:image/${isPNG ? 'png' : "svg+xml"};base64,${b64}`);
+                    } else {
+                        // push image map
+                        let imageMap = '<map></map>';
+                        if (buf.toString().trim().length > 0)
+                            imageMap = buf.toString()
+
+                        p.push(imageMap);
+                    }
                     return p;
                 }, <string[]>[]);
                 this.updateWebView();
