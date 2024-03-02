@@ -224,7 +224,13 @@ class Previewer extends vscode.Disposable {
         );
         this._disposables.push(this._uiPreview);
 
-        this._uiPreview.addEventListener("message", e => this.setUIStatus(JSON.stringify(e.message)));
+        this._uiPreview.addEventListener("message", e => {
+            if (e.message.action == "openExternalLink") {
+                vscode.env.openExternal(e.message.href);
+            } else {
+                this.setUIStatus(JSON.stringify(e.message));
+            }
+        });
         this._uiPreview.addEventListener("open", () => this.startWatch());
         this._uiPreview.addEventListener("close", () => { this.stopWatch(); this.killTasks(); });
     }

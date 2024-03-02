@@ -3,10 +3,11 @@ class Switcher {
         this.current = 0;
         this.images = [];
         this.image = document.getElementById("image");
+        this.imageMap = document.getElementById("image-map");
         this.pInfo = document.getElementById("pageInfo");
         this.pInfoTpl = this.pInfo.innerText;
         for (let e of document.getElementById("images").getElementsByTagName("img")) {
-            this.images.push(e.src);
+            this.images.push(e);
         }
         if (this.images.length <= 1) {
             document.getElementById("page-ctrls").style.display = "none";
@@ -34,7 +35,14 @@ class Switcher {
         if (this.current == page) return;
 
         // switch page
-        this.image.src = this.images[page - 1];
+        let image = this.images[page - 1];
+        let imageMap = null;
+        if (image.nextElementSibling != null && image.nextElementSibling.tagName == "MAP") {
+            imageMap = image.nextElementSibling;
+        }
+
+        this.image.src = image.src;
+        this.imageMap.innerHTML = imageMap?.innerHTML ?? "";
         this.pInfo.innerText = String.format(this.pInfoTpl, page, this.images.length);
         this.current = page;
 
