@@ -7,15 +7,18 @@ class Zoom {
         this.ctrlBar = document.getElementById("ctrl-container");
         this.snapIndicator = document.getElementById("snap-indicator-container");
 
+        this.mouseZoomButton = settings.swapMouseButtons ? 2 : 0;
+        this.mouseResetZoomButton = 1;
+
         this.status = undefined;
         let resetZoom = () => {
             this.reset();
         }
         let onclick = e => {
-            if (e.button == 0) {
+            if (e.button == this.mouseZoomButton) {
                 let scale = 1 + (e.altKey ? -0.2 : 0.2);
                 this.smoothZomm(this.status.zoom * scale, this.getMousePointer(e.clientX, e.clientY));
-            } else if (e.button == 1) {
+            } else if (e.button == this.mouseResetZoomButton) {
                 if (this.isImageExpanded())
                     resetZoom();
                 else

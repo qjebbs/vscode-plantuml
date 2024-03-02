@@ -74,9 +74,9 @@ window.addEventListener("load", () => {
         document.getElementById("image-container").style.margin = "0";
         zoomer = new Zoom(settings);
         switcher.moveTo(previewStatus.page);
-        addCursorManager();
-        addSelectionBox();
-        addDrageScroll();
+        addCursorManager(settings);
+        addSelectionBox(settings);
+        addDrageScroll(settings);
         initializeHelpModal();
     } else {
         document.getElementById("ctrl-container").remove();

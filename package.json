@@ -283,6 +283,12 @@
           "default": false,
           "description": "%plantuml.configuration.previewSnapIndicators%"
         },
+        "plantuml.previewSwapMouseButtons": {
+          "type": "boolean",
+          "scope": "application",
+          "default": false,
+          "description": "%plantuml.configuration.previewSwapMouseButtons%"
+        },
         "plantuml.server": {
           "type": "string",
           "scope": "machine-overridable",

@@ -66,6 +66,7 @@ class Previewer extends vscode.Disposable {
                 zoomUpperLimit: this.zoomUpperLimit,
                 showSpinner: this.status === previewStatus.processing,
                 showSnapIndicators: config.previewSnapIndicators,
+                swapMouseButtons: config.previewSwapMouseButtons,
             }),
         };
         try {
