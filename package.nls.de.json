@@ -17,6 +17,7 @@
 	"plantuml.configuration.exportOutDir": "Exported workspace diagrams will be organized in this directory  (relative path to workspace folder).",
 	"plantuml.configuration.previewAutoUpdate": "Automatisch das Vorschaufenster aktualisieren.",
 	"plantuml.configuration.previewSnapIndicators": "Decides if to display the snap indicators in the preview window.",
+	"plantuml.configuration.previewSwapMouseButtons": "Linke und rechte Maustaste für Zoom bzw. Verschieben des Bildinhaltes vertauschen.",
 	"plantuml.configuration.server": "Plantuml-Server zum Generieren von UML-Diagrammen on-the-fly. You may use official server https://www.plantuml.com/plantuml if you feel OK to share data with it.",
 	"plantuml.configuration.urlFormat": "URL-Format. Lassen Sie es leer, dann können Sie das Format bei jeder URL-Erstellung auswählen.",
 	"plantuml.configuration.urlResult": "URL-Format. Einfache URL oder für den MarkDown Einsatz.",

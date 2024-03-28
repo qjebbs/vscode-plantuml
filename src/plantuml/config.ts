@@ -107,6 +107,10 @@ class Config extends ConfigReader {
         return this.read<boolean>('previewSnapIndicators');
     }
 
+    get previewSwapMouseButtons(): boolean {
+        return this.read<boolean>('previewSwapMouseButtons');
+    }
+
     server(uri: vscode.Uri): string {
         return this.read<string>('server').trim().replace(/\/+$/g, "");
     }

@@ -6,7 +6,7 @@ function addClickEvent(element, onclick, ondblclick) {
         mevent = e;
     });
     element.addEventListener("mousemove", e => {
-        if (flag & e.buttons) flag = false;
+        if (flag && e.buttons > 0) flag = false;
     });
     document.body.addEventListener("mouseup", e => {
         if (ondblclick)

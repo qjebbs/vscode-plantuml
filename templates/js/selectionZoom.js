@@ -1,4 +1,6 @@
-  function addSelectionBox() {
+  function addSelectionBox(settings) {
+      let mouseZoomButton = settings.swapMouseButtons ? 2 : 0;
+
       let imgContainer = document.getElementById("image-container");
       if (!imgContainer) {
           // console.log("cannot initial selection box due to no image-container.");
@@ -22,7 +24,7 @@
       };
       let flag = false;
       imgContainer.addEventListener("mousedown", e => {
-          if (e.button == 0) {
+          if (e.button == mouseZoomButton) {
               flag = true;
               start.x = e.clientX;
               start.y = e.clientY;

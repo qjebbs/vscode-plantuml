@@ -1,9 +1,11 @@
-function addDrageScroll() {
+function addDrageScroll(settings) {
+    let mouseMoveButton = settings.swapMouseButtons ? 0 : 2;
+
     let flag = false;
     let lastClientX = 0;
     let lastClientY = 0;
     document.getElementById('image-container').addEventListener("mousedown", e => {
-        if (e.button == 2) flag = true;
+        if (e.button == mouseMoveButton) flag = true;
         lastClientX = e.clientX;
         lastClientY = e.clientY;
     });
