@@ -1,5 +1,11 @@
 # VSCode PlantUML Changelog
 
+## 2.17.6
+
+- Add configuration option to swap left and right mouse buttons, **@moormaster**, [#573](https://github.com/qjebbs/vscode-plantuml/pull/573)
+- syntax related udpates, **@The-Lum**, [#504](https://github.com/qjebbs/vscode-plantuml/pull/504); **@carlosrusso**, [#558](https://github.com/qjebbs/vscode-plantuml/pull/558)
+- Update embedded jar to `1.2024.3-gplv2`
+
 ## 2.17.5
 
 - Add configuration option to exclude folder heirarchy from exported file path, **@reub-the-cube**, [#522](https://github.com/qjebbs/vscode-plantuml/pull/522)
