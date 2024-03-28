@@ -119,6 +119,26 @@ let rules = <RulesWriting>{
                     }
                 },
                 {
+                    comment: "block switch-case",
+                    isBlock: true,
+                    begin: /{{LB}}switch\s*\(.*?\){{LE}}/i,
+                    again: /{{LB}}case\s*\(.*?\){{LE}}/i,
+                    end: /{{LB}}endswitch{{LE}}/i,
+                    beginCaptures: {
+                        0: ElementType.asIs,
+                    },
+                    againCaptures: {
+                        0: ElementType.asIs,
+                    },
+                    endCaptures: {
+                        0: ElementType.word,
+                    },
+                    patterns: {
+                        includes: ["Quoted", "Block"],
+                    }
+                },
+
+                {
                     comment: "block split fork",
                     isBlock: true,
                     begin: /{{LB}}(split|fork){{LE}}/i,
