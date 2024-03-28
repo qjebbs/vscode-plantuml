@@ -75,12 +75,26 @@ window.addEventListener("load", () => {
         zoomer = new Zoom(settings);
         switcher.moveTo(previewStatus.page);
         addCursorManager(settings);
+        addHyperlinkManager(vscode);
         addSelectionBox(settings);
         addDrageScroll(settings);
         initializeHelpModal();
     } else {
         document.getElementById("ctrl-container").remove();
         document.getElementById("image-container").remove();
+    }
+
+    // see imageMapResizer.js
+    imageMapResize('#image-map');
+    let image = document.getElementById('image')
+    if (image) {
+        new MutationObserver(() => {
+                imageMapResize('#image-map');
+        })
+        .observe(
+            image,
+            {'attributes': true}
+        );
     }
 });
 window.addEventListener(

@@ -400,6 +400,7 @@
     "typescript": "^4.8.2"
   },
   "dependencies": {
+    "image-map-resizer": "^1.0.10",
     "linq-collections": "*",
     "vscode-nls": "^2.0.2"
   }

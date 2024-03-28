@@ -1,0 +1,1 @@
+../../node_modules/image-map-resizer/js/imageMapResizer.js

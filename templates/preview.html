@@ -3,8 +3,10 @@
 <head>
     <link rel="stylesheet" href="css/preview.css">
     <script src="js/dragscroll.js"></script>
+    <script src="js/hyperlink.js"></script>
     <script src="js/switcher.js"></script>
     <script src="js/zoom.js"></script>
+    <script src="js/imageMapResizer.js"></script>
     <script src="js/preview.js"></script>
     <script src="js/cursor.js"></script>
     <script src="js/selectionZoom.js"></script>
@@ -42,7 +44,8 @@
         </div>
     </div>
     <div id="image-container" style="margin: 10px;">
-        <img id="image" src="" draggable="false">
+        <img id="image" src="" draggable="false" usemap="#image-map">
+        <map id="image-map" name="image-map" data=""></map>
     </div>
     <div id="ctrl-container">
         <div id="controls">
