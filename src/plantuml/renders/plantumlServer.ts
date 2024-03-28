@@ -28,7 +28,8 @@ class PlantumlServer implements IRender {
         return [
             "png",
             "svg",
-            "txt"
+            "txt",
+            "pdf"
         ];
     }
     /**
