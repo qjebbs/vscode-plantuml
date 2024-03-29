@@ -131,15 +131,15 @@ repository:
         '1': {name: keyword.other.note.source.wsd}
         '2': {name: constant.numeric.caption.source.wsd}
     - comment: inline note
-      match: (?i)^\s*(note\s(left|right))\s*:\s*(.+)\s*$
+      match: (?i)^\s*([rh]?note\s*(left|right|across))\s*:\s*(.+)\s*$
       captures:
         '1': {name: keyword.other.note.source.wsd}
         '3': {name: meta.comment.note.source.wsd}
     - comment: multiple note
-      begin: (?i)^\s*(note\s(left|right))\s*$
+      begin: (?i)^\s*([rh]?note\s*(left|right|across))\s*$
       beginCaptures:
         '1': {name: keyword.other.note.source.wsd}
-      end: (?i)^\s*(end\s*note)
+      end: (?i)^\s*(end\s*[rh]?note)
       endCaptures:
         '1': {name: keyword.other.note.source.wsd}
       patterns:
