@@ -6,7 +6,7 @@ function addCursorManager(settings) {
         // console.log("leftButton", leftButton, "rightButton", rightButton);
         if (!leftButton && !rightButton) {
             if (settings.swapMouseButtons) {
-                imgContainer.style.cursor = "move";
+                imgContainer.style.cursor = "grab";
             } else if (e.altKey) {
                 imgContainer.style.cursor = "zoom-out";
             } else {
@@ -27,7 +27,14 @@ function addCursorManager(settings) {
             return;
         }
         // move
-        imgContainer.style.cursor = "move";
+        if (
+            (leftButton && settings.swapMouseButtons) ||
+            (rightButton && !settings.swapMouseButtons)
+        ) {
+            imgContainer.style.cursor = "grabbing";
+        } else {
+            imgContainer.style.cursor = "grab";
+        }
     }
     imgContainer.addEventListener("mousedown", e => {
         // console.log("mousedown", e.button, e.buttons);
