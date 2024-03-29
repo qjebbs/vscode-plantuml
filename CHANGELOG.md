@@ -1,9 +1,14 @@
 # VSCode PlantUML Changelog
 
+## 2.18.0
+
+- Make links in preview clickable **moormaster**, [#572](https://github.com/qjebbs/vscode-plantuml/pull/572)
+- Add PDF export format for Plantuml Server **moormaster**, [#545](https://github.com/qjebbs/vscode-plantuml/pull/545)
+
 ## 2.17.6
 
 - Add configuration option to swap left and right mouse buttons, **@moormaster**, [#573](https://github.com/qjebbs/vscode-plantuml/pull/573)
-- syntax related udpates, **@The-Lum**, [#504](https://github.com/qjebbs/vscode-plantuml/pull/504); **@carlosrusso**, [#558](https://github.com/qjebbs/vscode-plantuml/pull/558)
+- syntax related udpates, **@The-Lum**, [#504](https://github.com/qjebbs/vscode-plantuml/pull/504); **@pearj**, [#558](https://github.com/qjebbs/vscode-plantuml/pull/558)
 - Update embedded jar to `1.2024.3-gplv2`
 
 ## 2.17.5
