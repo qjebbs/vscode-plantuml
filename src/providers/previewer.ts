@@ -55,7 +55,11 @@ class Previewer extends vscode.Disposable {
         let env = {
             localize: localize,
             images: this.images.reduce((p, c) => {
-                return `${p}<img src="${c}">`
+                if (c.startsWith('data:image/')) {
+                    return `${p}<img src="${c}">`
+                } else {
+                    return `${p}${c.replaceAll('<area ', '<area target="_blank"')}`
+                }
             }, ""),
             imageError: "",
             error: "",
@@ -169,9 +173,22 @@ class Previewer extends vscode.Disposable {
                 this.images = result.reduce((p, buf) => {
                     let sigPNG = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
                     let isPNG = buf.slice(0, sigPNG.length).equals(sigPNG);
-                    let b64 = buf.toString('base64');
-                    if (!b64) return p;
-                    p.push(`data:image/${isPNG ? 'png' : "svg+xml"};base64,${b64}`);
+                    let isSVG = (buf.slice(0, 256).indexOf('<svg') >= 0);
+
+                    if (isPNG || isSVG) {
+                        let b64 = buf.toString('base64');
+                        if (!b64) return p;
+
+                        // push image
+                        p.push(`data:image/${isPNG ? 'png' : "svg+xml"};base64,${b64}`);
+                    } else {
+                        // push image map
+                        let imageMap = '<map></map>';
+                        if (buf.toString().trim().length > 0)
+                            imageMap = buf.toString()
+
+                        p.push(imageMap);
+                    }
                     return p;
                 }, <string[]>[]);
                 this.updateWebView();
@@ -224,7 +241,13 @@ class Previewer extends vscode.Disposable {
         );
         this._disposables.push(this._uiPreview);
 
-        this._uiPreview.addEventListener("message", e => this.setUIStatus(JSON.stringify(e.message)));
+        this._uiPreview.addEventListener("message", e => {
+            if (e.message.action == "openExternalLink") {
+                vscode.env.openExternal(e.message.href);
+            } else {
+                this.setUIStatus(JSON.stringify(e.message));
+            }
+        });
         this._uiPreview.addEventListener("open", () => this.startWatch());
         this._uiPreview.addEventListener("close", () => { this.stopWatch(); this.killTasks(); });
     }
