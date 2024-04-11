@@ -25,6 +25,10 @@ export function exportDiagram(diagram: Diagram, format: string, savePath: string
     if (!savePath) {
         // when exporting to buffer include map to make links clickable
         let mapTask = appliedRender(diagram.parentUri).getMapData(diagram, savePath);
+        // https://github.com/qjebbs/vscode-plantuml/issues/579
+        mapTask.promise = mapTask.promise.catch(e => {
+            return Promise.resolve([]);
+        })
         return combine(renderTask, mapTask);
     }
 
