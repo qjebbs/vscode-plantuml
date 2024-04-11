@@ -1,5 +1,9 @@
 # VSCode PlantUML Changelog
 
+## 2.18.1
+
+- Preview works with PlantUML Servers that don't generate image maps, [#579](https://github.com/qjebbs/vscode-plantuml/issues/579)
+
 ## 2.18.0
 
 - Make links in preview clickable **moormaster**, [#572](https://github.com/qjebbs/vscode-plantuml/pull/572)
