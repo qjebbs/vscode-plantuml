@@ -90,7 +90,7 @@ repository:
     patterns:
     - comment: line begin keywords
       name: keyword.other.linebegin.source.wsd
-      match: (?i)^\s*(switch|case|usecase|actor|object|participant|boundary|control|entity|database|create|component|interface|package|node|folder|frame|cloud|annotation|enum|abstract\s+class|abstract|class|state|autonumber(\s+stop|\s+resume|\s+inc)?|activate|deactivate|return|destroy|newpage|alt|else|opt|loop|par|break|critical|group|box|rectangle|namespace|partition|agent|artifact|card|circle|collections|file|hexagon|label|person|queue|stack|storage|mainframe|map|repeat|backward|diamond|goto|binary|clock|concise|robust|compact\s+concise|compact\s+robust|json|protocol|struct|exception|metaclass|stereotype)\b
+      match: (?i)^\s*(switch|case|usecase|actor|object|participant|boundary|control|entity|database|create|component|interface|package|node|folder|frame|cloud|annotation|enum|abstract\s+class|abstract|class|state|autonumber(\s+stop|\s+resume|\s+inc)?|activate|deactivate|return|destroy|newpage|alt|else|opt|loop|par|break|critical|group|box|rectangle|namespace|partition|agent|artifact|card|circle|collections|file|hexagon|label|person|queue|stack|storage|mainframe|map|repeat|backward|diamond|goto|binary|clock|concise|robust|compact\s+concise|compact\s+robust|json|protocol|struct|exception|metaclass|stereotype|action|process|relationship)\b
     - comment: whole line keywords
       name: keyword.other.wholeline.source.wsd
       match: (?i)^\s*(endswitch|split( again)?|endif|repeat|start|stop|end|end\s+fork|end\s+split|fork( again)?|detach|end\s+box|top\s+to\s+bottom\s+direction|left\s+to\s+right\s+direction|kill|end\s+merge|allow(_)?mixing)\s*$
@@ -131,22 +131,22 @@ repository:
         '1': {name: keyword.other.note.source.wsd}
         '2': {name: constant.numeric.caption.source.wsd}
     - comment: inline note
-      match: (?i)^\s*(note\s(left|right))\s*:\s*(.+)\s*$
+      match: (?i)^\s*([rh]?note\s*(left|right|across))\s*:\s*(.+)\s*$
       captures:
         '1': {name: keyword.other.note.source.wsd}
         '3': {name: meta.comment.note.source.wsd}
     - comment: multiple note
-      begin: (?i)^\s*(note\s(left|right))\s*$
+      begin: (?i)^\s*([rh]?note\s*(left|right|across))\s*$
       beginCaptures:
         '1': {name: keyword.other.note.source.wsd}
-      end: (?i)^\s*(end\s*note)
+      end: (?i)^\s*(end\s*[rh]?note)
       endCaptures:
         '1': {name: keyword.other.note.source.wsd}
       patterns:
       - name: meta.comment.multiple.note.source.wsd
         match: .+?
     - comment: inline note of over
-      match: (?i)^\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(?:(".+?"|\w+)(?:,\s*(".+?"|\w+))*)))|(on\s+link))\s*(#\w+)?\s*:\s*(.+)$
+      match: (?i)^\/?\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(?:(".+?"|\w+)(?:,\s*(".+?"|\w+))*)))|(on\s+link))\s*(#\w+)?\s*:\s*(.+)$
       captures:
         '1': {name: keyword.other.noteof.source.wsd}
         '2': {name: constant.numeric.noteof.source.wsd}
@@ -158,7 +158,7 @@ repository:
         '8': {name: constant.numeric.noteof.source.wsd}
         '9': {name: meta.comment.noteof.source.wsd}
     - comment: multi-line note of over
-      begin: (?i)^\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(?:(".+?"|\w+)(?:,\s*(".+?"|\w+))*)))|(on\s+link))\s*(#\w+)?\s*$
+      begin: (?i)^\/?\s*([rh]?note)(?:\s+(right|left|top|bottom))?\s+(?:(?:(of|over)\s*(?:[^\s\w\d]([\w\s]+)[^\s\w\d]|(?:(".+?"|\w+)(?:,\s*(".+?"|\w+))*)))|(on\s+link))\s*(#\w+)?\s*$
       beginCaptures:
         '1': {name: keyword.other.noteof.source.wsd}
         '2': {name: constant.numeric.noteof.source.wsd}
