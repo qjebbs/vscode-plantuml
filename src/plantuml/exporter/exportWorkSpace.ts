@@ -50,7 +50,10 @@ async function getFileList(para?): Promise<FileAndFormat[]> {
 
     if (!para) {
         for (let folder of vscode.workspace.workspaceFolders) {
-            _files.push(...await getFileList(config.diagramsRoot(folder.uri)));
+            const path = config.diagramsRoot(folder.uri);
+            if (fs.existsSync(path.fsPath)) {
+                _files.push(...await getFileList(path));
+            }
         }
     } else if (para instanceof Array) {
         for (let u of para.filter(p => p instanceof vscode.Uri)) {
