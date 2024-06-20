@@ -50,14 +50,10 @@ async function getFileList(para?): Promise<FileAndFormat[]> {
 
     if (!para) {
         for (let folder of vscode.workspace.workspaceFolders) {
-            const path = config.diagramsRoot(folder.uri));
-            if (fs.existsSync(path)) {
-                _files.push(...await getFileList(path);
+            const path = config.diagramsRoot(folder.uri);
+            if (fs.existsSync(path.fsPath)) {
+                _files.push(...await getFileList(path));
             }
-            else {
-                console.log(`Skipping - Does not exist: {path}`);
-            }
-            
         }
     } else if (para instanceof Array) {
         for (let u of para.filter(p => p instanceof vscode.Uri)) {
