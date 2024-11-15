@@ -90,6 +90,12 @@ brew install --cask temurin
 brew install graphviz
 ```
 
+#### Quick Install for Ubuntu
+
+```sh
+sudo apt install default-jre graphviz
+```
+
 #### Quick Install for Windows
 
 The plugin has an integrated copy of plantuml.jar and GraphViz, so you are normally good to go. 
