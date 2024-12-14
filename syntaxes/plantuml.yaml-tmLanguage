@@ -328,7 +328,7 @@ repository:
           '3': {name: string.quoted.double.class.group.separator.source.wsd}
           '4': {name: meta.comment.class.group.separator.source.wsd}
       - comment: function # https://rubular.com/r/9p7JpPGAJtcGFJ
-        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?(([\p{L}0-9_]+(\[\])?\s+)?([\p{L}0-9_]+)(\(\))|([\p{L}0-9_]+)(\(\))\s*:\s*([\p{L}0-9_]+)?)\s*$
+        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?(([\p{L}0-9_]+(\[\])?\s+)?([\p{L}0-9_]+)(\(\))|([\p{L}0-9_]+)(\(\))\s*:\s*([\p{L}0-9_]+(\[\])?)?)\s*$
         captures:
           '1': {name: storage.modifier.class.function.source.wsd}
           '3': {name: keyword.other.class.function.source.wsd}
@@ -337,7 +337,7 @@ repository:
           '9': {name: support.variable.class.function.source.wsd}
           '11': {name: support.type.class.function.source.wsd}
       - comment: fields # https://rubular.com/r/cJ15lkb8dcSGvK
-        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?(([\p{L}0-9_]+(\[\])?\s+)?([\p{L}0-9_]+)|([\p{L}0-9_]+)\s*:\s*(\w+)?)\s*$
+        match: (?i)^\s*(\s*\{(static|abstract)\}\s*)?(\s*[~#+-]\s*)?(([\p{L}0-9_]+(\[\])?\s+)?([\p{L}0-9_]+)|([\p{L}0-9_]+)\s*:\s*(\w+(\[\])?)?)\s*$
         captures:
           '1': {name: storage.modifier.class.fields.source.wsd}
           '3': {name: keyword.other.class.fields.source.wsd}
