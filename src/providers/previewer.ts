@@ -128,7 +128,7 @@ class Previewer extends vscode.Disposable {
                 // console.log(`Killed ${process.pid} with code ${code} and signal ${sig}!`);
                 resolve(true);
             });
-            
+
             if(!process.kill('SIGINT') && process.exitCode != null){
                 // console.log(`Process ${process.pid} exited with status code ${process.exitCode}`);
                 resolve(true);
@@ -222,7 +222,7 @@ class Previewer extends vscode.Disposable {
                 let diagrams = diagramsOf(editor.document);
                 if (!diagrams.length) return;
 
-                //reset in case that starting commnad in none-diagram area, 
+                //reset in case that starting command in none-diagram area,
                 //or it may show last error image and may cause wrong "TargetChanged" result on cursor move.
                 this.reset();
                 this.TargetChanged;

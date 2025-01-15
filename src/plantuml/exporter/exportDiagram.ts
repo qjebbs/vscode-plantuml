@@ -13,7 +13,7 @@ import { config } from '../config';
  * @param diagram The diagram to export.
  * @param format format of export file.
  * @param savePath if savePath is given, it exports to a file, or, to Buffer.
- * @param bar display prcessing message in bar if it's given.
+ * @param bar display processing message in bar if it's given.
  * @returns ExportTask.
  */
 export function exportDiagram(diagram: Diagram, format: string, savePath: string, bar: vscode.StatusBarItem): RenderTask {

@@ -1,11 +1,11 @@
-import * as markdowIt from 'markdown-it';
+import * as markdownIt from 'markdown-it';
 import { Diagram } from '../plantuml/diagram/diagram';
 import { DiagramType } from '../plantuml/diagram/type';
 import { MakeDiagramURL } from '../plantuml/urlMaker/urlMaker';
 import { config } from '../plantuml/config';
 import { localize } from '../plantuml/common';
 
-export function renderHtml(tokens: markdowIt.Token[], idx: number) {
+export function renderHtml(tokens: markdownIt.Token[], idx: number) {
     // console.log("request html for:", idx, tokens[idx].content);
     let token = tokens[idx];
     if (token.type !== "plantuml") return tokens[idx].content;
