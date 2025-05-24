@@ -26,21 +26,33 @@ export class Diagram {
     private _contentWithInclude: string = undefined;
 
     constructor(content: string);
+    constructor(content: string, uri : vscode.Uri);
     constructor(content: string, document: vscode.TextDocument, start: vscode.Position, end: vscode.Position);
     constructor(content: string, ...para: any[]) {
         this.content = content;
-        if (!para || para.length < 3)
+        if (!para || para.length < 1)
             return;
-        this.document = para[0];
-        this.start = para[1];
-        this.end = para[2];
-        this.parentUri = this.document.uri;
-        this.path = this.document.uri.fsPath;
+        if (  para[0] instanceof vscode.Uri )
+        {
+            this.parentUri = para[0];
+            this.path = this.parentUri.fsPath;
+        }
+        else if ( para.length > 2) {
+            this.document = para[0];
+            this.start = para[1];
+            this.end = para[2];
+            this.parentUri = this.document.uri;
+            this.path = this.document.uri.fsPath;
+        }
         this.fileName = path.basename(this.path);
         let i = this.fileName.lastIndexOf(".");
         if (i >= 0) this.fileName = this.fileName.substr(0, i);
         this.dir = path.dirname(this.path);
         if (!path.isAbsolute(this.dir)) this.dir = "";
+        if ( para.length < 3 )
+            return;
+        this.start = para[1];
+        this.end = para[2];
     }
     public get index(): number {
         if (this._index !== undefined) {
