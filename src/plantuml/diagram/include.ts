@@ -32,6 +32,7 @@ export function getContentWithInclude(diagram: Diagram): string {
     }
     // console.log('Start from:', _route[0]);
     let searchPaths = getSearchPaths(diagram.parentUri);
+    searchPaths.push(diagram.dir);
     return resolveInclude(diagram.lines, searchPaths);
 }
 
