@@ -34,7 +34,7 @@ export function processWrapper(process: child_process.ChildProcess, pipeFilePath
 
             // If environment variables such as JAVA_TOOL_OPTIONS or _JAVA_OPTIONS are set,
             // some java implementations will echo them on stderr.
-            stderr = stderr.replace(/^Picked up .*$/mg, "").trim();
+            stderr = stderr.replace(/^.*Picked up .*$/mg, "").trim();
 
             if (stderr) {
                 reject(<RenderError>{ error: stderr, out: stdout });
