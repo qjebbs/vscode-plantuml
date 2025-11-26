@@ -13,6 +13,7 @@ export class Diagram {
     parentUri: vscode.Uri;
     path: string;
     fileName: string;
+    fileExt: string;
     dir: string;
     content: string;
     start: vscode.Position;
@@ -37,6 +38,7 @@ export class Diagram {
         this.parentUri = this.document.uri;
         this.path = this.document.uri.fsPath;
         this.fileName = path.basename(this.path);
+        this.fileExt = path.extname(this.path);
         let i = this.fileName.lastIndexOf(".");
         if (i >= 0) this.fileName = this.fileName.substr(0, i);
         this.dir = path.dirname(this.path);
