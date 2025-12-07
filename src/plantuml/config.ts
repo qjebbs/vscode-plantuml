@@ -103,6 +103,10 @@ class Config extends ConfigReader {
         return this.read<boolean>('previewAutoUpdate');
     }
 
+    get previewLocationSide(): boolean {
+        return this.read<boolean>('previewLocationSide');
+    }
+
     get previewSnapIndicators(): boolean {
         return this.read<boolean>('previewSnapIndicators');
     }

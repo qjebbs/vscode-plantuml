@@ -3,8 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { showMessagePanel } from '../plantuml/tools';
 import { UIEventMap, MessageEvent, UIListener, UIEvent } from './events';
-
-const DEFAULT_VIEWCOLUMN = vscode.ViewColumn.Two;
+import { config } from '../plantuml/config';
 
 export class UI extends vscode.Disposable {
     _panel: vscode.WebviewPanel;
@@ -47,7 +46,7 @@ export class UI extends vscode.Disposable {
         } else {
             let file = args[0] as string;
             let env = args[1];
-            viewColumn = args[2] || (this._panel ? this._panel.viewColumn : DEFAULT_VIEWCOLUMN);
+            viewColumn = args[2] || (this._panel ? this._panel.viewColumn : this.defaultViewColumn);
             this.createIfNoPanel(viewColumn);
             this.update(file, env);
         }
@@ -76,7 +75,7 @@ export class UI extends vscode.Disposable {
         this._panel = vscode.window.createWebviewPanel(
             this._viewType,
             this._title,
-            viewColumn ? viewColumn : DEFAULT_VIEWCOLUMN,
+            viewColumn ?? this.defaultViewColumn,
             <vscode.WebviewOptions>{
                 enableScripts: true,
                 enableCommandUris: false,
@@ -90,6 +89,10 @@ export class UI extends vscode.Disposable {
             this.dispose();
             this._panel = undefined;
         }, this, this._disposables);
+    }
+
+    private get defaultViewColumn(): vscode.ViewColumn {
+        return config.previewLocationSide ? vscode.ViewColumn.Beside : vscode.ViewColumn.Active;
     }
 
     private addMessageListener() {

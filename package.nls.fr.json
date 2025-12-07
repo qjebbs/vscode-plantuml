@@ -16,6 +16,7 @@
 	"plantuml.configuration.exportConcurrency": "Nombres de 'threads' à utiliser lors de l'exportation de plusieurs diagrammes en parallèle :",
 	"plantuml.configuration.exportOutDir": "Les diagrammes exportés de l'espace de travail seront à cette adresse (relatif au dossier de l'espace de travail).",
 	"plantuml.configuration.previewAutoUpdate": "Activation de l'aperçu automatique.",
+	"plantuml.configuration.previewLocationSide": "Détermine si la fenêtre d'aperçu doit s'afficher sur le côté de l'éditeur.",
 	"plantuml.configuration.previewSnapIndicators": "Activation des indicateurs de limites dans la fenêtre d'aperçu.",
 	"plantuml.configuration.server": "URL du serveur Plantuml lors de l'utilisation du moteur de rendu 'PlantUMLServer'. Vous pouvez utiliser le serveur officiel https://www.plantuml.com/plantuml si vous êtes prêt à partager des données (non confidentielles) avec lui.",
 	"plantuml.configuration.urlFormat": "Format d'exportation utilisé lors de la génération de l'URL. Laissez vide pour avoir le choix à chaque exportation.",

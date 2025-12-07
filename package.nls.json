@@ -16,6 +16,7 @@
 	"plantuml.configuration.exportConcurrency": "Decides concurrency count when export multiple diagrams.",
 	"plantuml.configuration.exportOutDir": "Exported workspace diagrams will be organized in this directory (relative path to workspace folder).",
 	"plantuml.configuration.previewAutoUpdate": "Decides if automatically update the preview window.",
+	"plantuml.configuration.previewLocationSide": "Decides if to show the preview window at the side of the editor.",
 	"plantuml.configuration.previewSnapIndicators": "Decides if to display the snap indicators in the preview window.",
 	"plantuml.configuration.previewSwapMouseButtons": "Swaps left and right mouse buttons used for zooming or panning",
 	"plantuml.configuration.server": "Plantuml server to generate UML diagrams on-the-fly. You may use official server https://www.plantuml.com/plantuml if you feel OK to share data with it.",

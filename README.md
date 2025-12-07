@@ -338,7 +338,8 @@ Export Settings:
 
 Preview Settings:
 
-- `plantuml.previewAutoUpdate`: Dedecides if automatically update the preview window.
+- `plantuml.previewAutoUpdate`: Decides if automatically update the preview window.
+- `plantuml.previewLocationSide`: Decides if to show the preview window at the side of the editor.
 
 Other Settings:
 

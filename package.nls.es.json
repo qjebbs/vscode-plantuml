@@ -16,6 +16,7 @@
   "plantuml.configuration.exportConcurrency": "Permite ajustar el nivel de concurrencia al exportar múltiples diagramas.",
   "plantuml.configuration.exportOutDir": "Los diagramas exportados del espacio de trabajo serán organizados en este directorio (con respecto al directorio del espacio de trabajo).",
   "plantuml.configuration.previewAutoUpdate": "Permite ajustar si la ventana de previsualización debería actualizarse automáticamente.",
+  "plantuml.configuration.previewLocationSide": "Permite ajustar si la ventana de previsualización debe mostrarse al lado del editor.",
   "plantuml.configuration.previewSnapIndicators": "Permite ajustar si el control para mantener el diagrama fijado a un borde (abajo/derecha/arriba/izquierda), también conocido como \"Snap\", debe mostrarse en la ventana de previsualización.",
   "plantuml.configuration.server": "Servidor de PlantUml para generar diagramas sobre la marcha. Puedes usar el servidor oficial en https://www.plantuml.com/plantuml si estás de acuerdo en compartir datos con este.",
   "plantuml.configuration.urlFormat": "Formato de URL. Dejar en blanco para elegir un formato cada vez que creas una URL.",

@@ -277,6 +277,12 @@
           "default": true,
           "description": "%plantuml.configuration.previewAutoUpdate%"
         },
+        "plantuml.previewLocationSide": {
+          "type": "boolean",
+          "scope": "application",
+          "default": true,
+          "description": "%plantuml.configuration.previewLocationSide%"
+        },
         "plantuml.previewSnapIndicators": {
           "type": "boolean",
           "scope": "application",

@@ -16,6 +16,7 @@
 	"plantuml.configuration.exportConcurrency": "Допустимое Количество потоков при экспорте более, чем 1 диаграммы.",
 	"plantuml.configuration.exportOutDir": "Экспортированные из рабочего пространства диаграммы будут находиться в этой папке (относительный путь от корневой папки рабочего пространства).",
 	"plantuml.configuration.previewAutoUpdate": "Указывает, обновлять, или не обновлять окно предпросмотра автоматически.",
+	"plantuml.configuration.previewLocationSide": "Определяет, показывать ли окно предпросмотра сбоку от редактора.",
 	"plantuml.configuration.previewSnapIndicators": "Указывает, отображать, или не отображать индикаторы закрепления в области предпросмотра.",
 	"plantuml.configuration.previewSwapMouseButtons": "Инвертирует функции ЛКМ и ПКМ в окне предпросмотра.",
 	"plantuml.configuration.server": "Сервер PlantUML для генерации диаграмм на лету. вы можете использовать официальный сервер https://www.plantuml.com/plantuml если считаете, что отправка на него ваших данных не нанесёт вам ущерб.",

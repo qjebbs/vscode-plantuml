@@ -16,6 +16,7 @@
 	"plantuml.configuration.exportConcurrency": "複数のダイアグラムをエクスポートする際の並列実行数の設定します",
 	"plantuml.configuration.exportOutDir": "エクスポートされたワークスペースのダイアグラムは、このディレクトリに整理されます(ワークスペース内のディレクトリへの相対パス)。",
 	"plantuml.configuration.previewAutoUpdate": "プレビューウィンドウを自動的に更新するかを指定します",
+	"plantuml.configuration.previewLocationSide": "プレビューウィンドウをエディターの横に表示するかどうかを決定します。",
 	"plantuml.configuration.previewSnapIndicators": "プレビューウィンドウにスナップインジケーターを表示するかどうかを決定します。",
 	"plantuml.configuration.server": "その場でUMLダイアグラムを生成するPlantUMLサーバーを指定します。データを共有しても問題ないと思われる方は、公式サーバ https://www.plantuml.com/plantuml をご利用ください。",
 	"plantuml.configuration.urlFormat": "URL形式を指定。空白の場合はURLを生成するたびにフォーマットを選択します",

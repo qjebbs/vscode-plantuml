@@ -16,6 +16,7 @@
 	"plantuml.configuration.exportConcurrency": "Tæller antal eksporteringer når der eksporteres flere diagrammer.",
 	"plantuml.configuration.exportOutDir": "Eksporterede Workspace-diagrammer vil blive placeret i denne mappe (relativt til Workspace-mappe).",
 	"plantuml.configuration.previewAutoUpdate": "Auto-opdatér preview-vindue.",
+	"plantuml.configuration.previewLocationSide": "Afgør om preview-vinduet skal vises ved siden af editoren.",
 	"plantuml.configuration.previewSnapIndicators": "Vis snap-indikatorer i preview-vindue.",
 	"plantuml.configuration.server": "PlantUML-server til at generere UML-diagrammer på farten. You may use official server https://www.plantuml.com/plantuml if you feel OK to share data with it.",
 	"plantuml.configuration.urlFormat": "URL format. Lad være blankt for at vælge format hver gang der laves et URL.",

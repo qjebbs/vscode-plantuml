@@ -16,6 +16,7 @@
 	"plantuml.configuration.exportConcurrency": "여러개의 다이어그램을 내보내기 할 때 동시작업개수를 지정합니다.",
 	"plantuml.configuration.exportOutDir": "내보낸 작업공간 다이어그램이 이 디렉터리에 보관됩니다.  (작업공간의 상대 폴더).",
 	"plantuml.configuration.previewAutoUpdate": "미리보기 화면을 자동으로 업데이트할지를 결정합니다.",
+	"plantuml.configuration.previewLocationSide": "미리보기 창을 편집기 옆에 표시할지를 결정합니다.",
 	"plantuml.configuration.previewSnapIndicators": "미리보기 화면에서 스냅 지시자를 표시할지를 결정합니다.",
 	"plantuml.configuration.server": "UML 다이어그램을 바로 생성할 수 있는 Plantuml 서버. 데이터가 공개되도 괜찮다면 https://www.plantuml.com/plantuml 공식서버를 사용할 수 있습니다.",
 	"plantuml.configuration.urlFormat": "URL 형식. URL을 만들 때마다 선택하려면 비워두십시오.",
