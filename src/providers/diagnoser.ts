@@ -34,7 +34,7 @@ export class Diagnoser extends vscode.Disposable {
         let names = {};
         diagrams.map(d => {
             let range = document.lineAt(d.start.line).range;
-            if (config.lintDiagramNoName(d.parentUri) && !d.nameRaw) {
+            if (config.lintDiagramNoName(d.parentUri) && d.fileExt !== '.iuml' && !d.nameRaw) {
                 diagnostics.push(
                     new vscode.Diagnostic(
                         range,
