@@ -51,8 +51,6 @@ export class UI extends vscode.Disposable {
             this.createIfNoPanel(viewColumn);
             this.update(file, env);
         }
-        if (!this._panel.visible || viewColumn !== this._panel.viewColumn)
-            this._panel.reveal(viewColumn ? viewColumn : this._panel.viewColumn);
     }
     close() {
         this.dispose();
