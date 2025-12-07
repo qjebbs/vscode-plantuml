@@ -31,7 +31,8 @@
     "onCommand:plantuml.preview",
     "onCommand:plantuml.URLCurrent",
     "onCommand:plantuml.URLDocument",
-    "onCommand:plantuml.extractSource"
+    "onCommand:plantuml.extractSource",
+    "onCommand:plantuml.showSource"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -104,6 +105,12 @@
         "command": "plantuml.extractSource",
         "title": "%plantuml.extractSource.title%",
         "category": "PlantUML"
+      },
+      {
+        "command": "plantuml.showSource",
+        "title": "%plantuml.showSource.title%",
+        "category": "PlantUML",
+        "icon": "$(go-to-file)"
       }
     ],
     "menus": {
@@ -144,6 +151,11 @@
         {
           "when": "editorLangId == plantuml",
           "command": "plantuml.preview",
+          "group": "navigation"
+        },
+        {
+          "when": "activeWebviewPanelId == plantuml.preview",
+          "command": "plantuml.showSource",
           "group": "navigation"
         }
       ]

@@ -25,7 +25,7 @@ export async function makeDocumentURL(all: boolean) {
     }
     let diagrams: Diagram[] = [];
     if (all) {
-        diagrams = diagramsOf(editor.document);
+        diagrams = diagramsOf(editor.document, editor.viewColumn);
         if (!diagrams.length) {
             vscode.window.showWarningMessage(localize(15, null));
             return;

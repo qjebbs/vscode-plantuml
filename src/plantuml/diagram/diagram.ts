@@ -17,6 +17,7 @@ export class Diagram {
     content: string;
     start: vscode.Position;
     end: vscode.Position;
+    viewColumn: vscode.ViewColumn;
     private _lines: string[] = undefined;
     private _type: DiagramType = undefined;
     private _nameRaw: string = undefined;
@@ -26,7 +27,7 @@ export class Diagram {
     private _contentWithInclude: string = undefined;
 
     constructor(content: string);
-    constructor(content: string, document: vscode.TextDocument, start: vscode.Position, end: vscode.Position);
+    constructor(content: string, document: vscode.TextDocument, start: vscode.Position, end: vscode.Position, viewColumn?: vscode.ViewColumn);
     constructor(content: string, ...para: any[]) {
         this.content = content;
         if (!para || para.length < 3)
@@ -34,6 +35,7 @@ export class Diagram {
         this.document = para[0];
         this.start = para[1];
         this.end = para[2];
+        if (para.length >= 3) this.viewColumn = para[3];
         this.parentUri = this.document.uri;
         this.path = this.document.uri.fsPath;
         this.fileName = path.basename(this.path);

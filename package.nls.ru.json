@@ -6,6 +6,7 @@
 	"plantuml.URLCurrent.title": "Сгенерировать URL для текущей диаграммы",
 	"plantuml.URLDocument.title": "Сгенерировать URL пути для диаграмм в файле",
 	"plantuml.extractSource.title": "Извлечь исходник PlantUML из картинки",
+	"plantuml.showSource.title": "Показать исходный код диаграммы",
 	"plantuml.configuration.configTitle": "Настройка PlantUML",
 	"plantuml.configuration.exportFormat": "Формат экспорта. Оставьте пустым, если хотите выбирать формат при каждом экспорте.",
 	"plantuml.configuration.jar": "Альтернативный путь к plantuml.jar. Оставьте пустым, если хотите использовать встроенную библиотеку.",

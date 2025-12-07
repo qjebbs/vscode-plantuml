@@ -22,6 +22,7 @@ import { CommandURLDocument } from './commands/urlDocument';
 import { CommandExtractSource } from './commands/extractSource';
 import { plantumlPlugin } from './markdown-it-plantuml/index';
 import { Diagnoser } from './providers/diagnoser';
+import { CommandShowSource } from './commands/showSource';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -39,6 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
             new CommandURLCurrent(),
             new CommandURLDocument(),
             new CommandExtractSource(),
+            new CommandShowSource(),
             new Formatter(),
             new Symbol(),
             new Completion(),

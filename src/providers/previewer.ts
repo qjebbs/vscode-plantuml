@@ -43,71 +43,6 @@ class Previewer extends vscode.Disposable {
         this.watchDisposables && this.watchDisposables.length && this.watchDisposables.map(d => d.dispose());
     }
 
-    reset() {
-        this.rendered = null;
-        this.previewPageStatus = "";
-        this.images = [];
-        this.imageError = "";
-        this.error = "";
-    }
-
-    updateWebView(): string {
-        let env = {
-            localize: localize,
-            images: this.images.reduce((p, c) => {
-                if (c.startsWith('data:image/')) {
-                    return `${p}<img src="${c}">`
-                } else {
-                    return `${p}${c.replaceAll('<area ', '<area target="_blank"')}`
-                }
-            }, ""),
-            imageError: "",
-            error: "",
-            status: this.previewPageStatus,
-            // nonce: Math.random().toString(36).substr(2),
-            icon: "file:///" + path.join(extensionPath, "images", "icon.png"),
-            settings: JSON.stringify({
-                zoomUpperLimit: this.zoomUpperLimit,
-                showSpinner: this.status === previewStatus.processing,
-                showSnapIndicators: config.previewSnapIndicators,
-                swapMouseButtons: config.previewSwapMouseButtons,
-            }),
-        };
-        try {
-            switch (this.status) {
-                case previewStatus.default:
-                case previewStatus.error:
-                    env.imageError = this.imageError;
-                    env.error = this.error.replace(/\n/g, "<br />");
-                    this._uiPreview.show("preview.html", env);
-                    break;
-                case previewStatus.processing:
-                    env.error = "";
-                    env.images = ["svg", "png"].reduce((p, c) => {
-                        if (p) return p;
-                        let exported = calculateExportPath(this.rendered, c);
-                        exported = addFileIndex(exported, 0, this.rendered.pageCount);
-                        return fs.existsSync(exported) ? env.images = `<img src="${fileToBase64(exported)}">` : "";
-                    }, "");
-                    this._uiPreview.show("preview.html", env);
-                    break;
-                default:
-                    break;
-            }
-        } catch (error) {
-            return error
-        }
-    }
-    setUIStatus(status: string) {
-        this.previewPageStatus = status;
-    }
-    async update(processingTip: boolean) {
-        if (this.taskKilling) return;
-        await this.killTasks();
-        // console.log("updating...");
-        // do not await doUpdate, so that preview window could open before update task finish.
-        this.doUpdate(processingTip).catch(e => showMessagePanel(e));
-    }
     private killTasks() {
         if (!this.task) return;
         this.task.canceled = true;
@@ -122,32 +57,48 @@ class Previewer extends vscode.Disposable {
             this.taskKilling = false;
         });
     }
+
     private killTask(process: child_process.ChildProcess) {
         return new Promise((resolve, reject) => {
             process.on('exit', (code, sig) => {
                 // console.log(`Killed ${process.pid} with code ${code} and signal ${sig}!`);
                 resolve(true);
             });
-            
+
             if(!process.kill('SIGINT') && process.exitCode != null){
                 // console.log(`Process ${process.pid} exited with status code ${process.exitCode}`);
                 resolve(true);
             }
         })
     }
-    get TargetChanged(): boolean {
-        let current = currentDiagram();
-        if (!current) return false;
-        let changed = (!this.rendered || !this.rendered.isEqual(current));
-        if (changed) {
-            this.rendered = current;
-            this.error = "";
-            this.images = [];
-            this.imageError = "";
-            this.previewPageStatus = "";
-        }
-        return changed;
+
+    private reset() {
+        this.rendered = null;
+        this.previewPageStatus = "";
+        this.images = [];
+        this.imageError = "";
+        this.error = "";
     }
+
+    private targetChanged(diagram: Diagram): boolean {
+        if (!diagram) return false;
+        if (!this.rendered) return true;
+        return !this.rendered.isEqual(diagram);
+    }
+
+    private updateTarget(diagram: Diagram) {
+        this.reset();
+        this.rendered = diagram;
+    }
+
+    private async update(processingTip: boolean) {
+        if (this.taskKilling) return;
+        await this.killTasks();
+        // console.log("updating...");
+        // do not await doUpdate, so that preview window could open before update task finish.
+        this.doUpdate(processingTip).catch(e => showMessagePanel(e));
+    }
+
     private async doUpdate(processingTip: boolean) {
         let diagram = currentDiagram();
         if (!diagram) {
@@ -156,6 +107,9 @@ class Previewer extends vscode.Disposable {
             this.images = [];
             this.updateWebView();
             return;
+        }
+        if (this.targetChanged(diagram)) {
+            this.updateTarget(diagram);
         }
         let task: RenderTask = exportToBuffer(diagram, "svg");
         this.task = task;
@@ -206,12 +160,66 @@ class Previewer extends vscode.Disposable {
             }
         );
     }
+
+    private updateWebView(): string {
+        let env = {
+            localize: localize,
+            images: this.images.reduce((p, c) => {
+                if (c.startsWith('data:image/')) {
+                    return `${p}<img src="${c}">`
+                } else {
+                    return `${p}${c.replaceAll('<area ', '<area target="_blank"')}`
+                }
+            }, ""),
+            imageError: "",
+            error: "",
+            status: this.previewPageStatus,
+            // nonce: Math.random().toString(36).substr(2),
+            icon: "file:///" + path.join(extensionPath, "images", "icon.png"),
+            settings: JSON.stringify({
+                zoomUpperLimit: this.zoomUpperLimit,
+                showSpinner: this.status === previewStatus.processing,
+                showSnapIndicators: config.previewSnapIndicators,
+                swapMouseButtons: config.previewSwapMouseButtons,
+            }),
+        };
+        try {
+            switch (this.status) {
+                case previewStatus.default:
+                case previewStatus.error:
+                    env.imageError = this.imageError;
+                    env.error = this.error.replace(/\n/g, "<br />");
+                    this._uiPreview.show("preview.html", env);
+                    break;
+                case previewStatus.processing:
+                    env.error = "";
+                    env.images = ["svg", "png"].reduce((p, c) => {
+                        if (p) return p;
+                        let exported = calculateExportPath(this.rendered, c);
+                        exported = addFileIndex(exported, 0, this.rendered.pageCount);
+                        return fs.existsSync(exported) ? env.images = `<img src="${fileToBase64(exported)}">` : "";
+                    }, "");
+                    this._uiPreview.show("preview.html", env);
+                    break;
+                default:
+                    break;
+            }
+        } catch (error) {
+            return error
+        }
+    }
+
+    private setUIStatus(status: string) {
+        this.previewPageStatus = status;
+    }
+
     //display processing tip
-    processing() {
+    private processing() {
         this.status = previewStatus.processing;
         this.updateWebView();
     }
-    register() {
+
+    private register() {
         let disposable: vscode.Disposable;
 
         //register command
@@ -219,13 +227,13 @@ class Previewer extends vscode.Disposable {
             try {
                 var editor = vscode.window.activeTextEditor;
                 if (!editor) return;
-                let diagrams = diagramsOf(editor.document);
+                let diagrams = diagramsOf(editor.document, editor.viewColumn);
                 if (!diagrams.length) return;
 
-                //reset in case that starting commnad in none-diagram area, 
-                //or it may show last error image and may cause wrong "TargetChanged" result on cursor move.
+                //reset in case that starting commnad in none-diagram area,
+                //or it may show last error image and may cause wrong "targetChanged" result on cursor move.
                 this.reset();
-                this.TargetChanged;
+
                 //update preview
                 await this.update(true);
             } catch (error) {
@@ -251,7 +259,8 @@ class Previewer extends vscode.Disposable {
         this._uiPreview.addEventListener("open", () => this.startWatch());
         this._uiPreview.addEventListener("close", () => { this.stopWatch(); this.killTasks(); });
     }
-    startWatch() {
+
+    private startWatch() {
         let disposable: vscode.Disposable;
         let disposables: vscode.Disposable[] = [];
 
@@ -275,7 +284,8 @@ class Previewer extends vscode.Disposable {
             lastTimestamp = new Date().getTime();
             setTimeout(() => {
                 if (new Date().getTime() - lastTimestamp >= 400) {
-                    if (!this.TargetChanged) return;
+                    const diagram = currentDiagram();
+                    if (!this.targetChanged(diagram)) return;
                     this.update(true);
                 }
             }, 500);
@@ -284,11 +294,19 @@ class Previewer extends vscode.Disposable {
 
         this.watchDisposables = disposables;
     }
-    stopWatch() {
+
+    private stopWatch() {
         for (let d of this.watchDisposables) {
             d.dispose();
         }
         this.watchDisposables = [];
+    }
+
+    async showSource() {
+        if (!this.rendered) return;
+        const { document, start, viewColumn } = this.rendered;
+        const selection = new vscode.Range(start, start);
+        await vscode.window.showTextDocument(document, { selection, viewColumn });
     }
 }
 export const previewer = new Previewer();

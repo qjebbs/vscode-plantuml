@@ -28,7 +28,7 @@ export async function exportDocument(all: boolean) {
     }
     let diagrams: Diagram[] = [];
     if (all) {
-        diagrams = diagramsOf(editor.document);
+        diagrams = diagramsOf(editor.document, editor.viewColumn);
         if (!diagrams.length) {
             vscode.window.showInformationMessage(localize(2, null));
             return;
