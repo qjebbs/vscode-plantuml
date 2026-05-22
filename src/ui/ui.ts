@@ -134,9 +134,15 @@ export class UI extends vscode.Disposable {
         return this.evalHtml(fs.readFileSync(file).toString(), env);
     }
     private evalHtml(html: string, env: any): string {
-        let envReg = /\$\{(.+?)\}/ig;
-        html = html.replace(envReg, '${env.$1}');
-        let result: string = eval('`' + html + '`');
+        // Handle ${localize(N, null)} calls present in templates
+        let result = html.replace(/\$\{localize\((\d+),\s*null\)\}/g, (_, idx) =>
+            typeof env.localize === 'function' ? String(env.localize(parseInt(idx), null)) : ''
+        );
+        // Handle simple ${key} tokens
+        result = result.replace(/\$\{(\w+)\}/g, (_, key) => {
+            const val = env[key];
+            return val !== undefined ? String(val) : '';
+        });
         // convert relative "src", "href" paths to absolute
         let linkReg = /(src|href)\s*=\s*([`"'])(.+?)\2/ig;
         let base: string = this._resourceRoot;
