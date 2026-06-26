@@ -30,10 +30,24 @@ class Config extends ConfigReader {
         return this._jar[folderPath] || (() => {
             let jar = this.read<string>('jar', uri, (folderUri, value) => {
                 if (!value) return "";
+                // Substitute ${workspaceFolder} variable (VS Code does not expand this automatically)
+                value = value.replace(/\$\{workspaceFolder\}/g, folderUri.fsPath);
                 if (!path.isAbsolute(value))
                     value = path.join(folderUri.fsPath, value);
                 return value;
             });
+            // When called without a URI context (e.g. from intellisense), the callback above is
+            // skipped. Fall back to the first workspace folder so relative paths and
+            // ${workspaceFolder} references still resolve correctly.
+            if (jar && !path.isAbsolute(jar)) {
+                let folders = vscode.workspace.workspaceFolders;
+                if (folders && folders.length > 0) {
+                    let fsPath = folders[0].uri.fsPath;
+                    jar = jar.replace(/\$\{workspaceFolder\}/g, fsPath);
+                    if (!path.isAbsolute(jar))
+                        jar = path.join(fsPath, jar);
+                }
+            }
             let intJar = path.join(extensionPath, "plantuml.jar");
             if (!jar) {
                 jar = intJar;
