@@ -1,5 +1,9 @@
 .vscode/**
 .vscode-test/**
+.agents
+.agents/**
+release/**
+scripts/**
 out/test/**
 test/**
 src/**

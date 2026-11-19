@@ -1,4 +1,5 @@
 out
 node_modules
+release/
 *.jar
 *.tmLanguage
