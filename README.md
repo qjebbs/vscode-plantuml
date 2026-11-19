@@ -293,6 +293,22 @@ Disadvantages:
 "plantuml.render": "PlantUMLServer",
 ```
 
+The `plantuml.server` setting supports `${env:NAME}` placeholders, read from the
+environment of the VS Code extension host. For example:
+
+```json
+{
+  "plantuml.server": "http://localhost:${env:SERVICE_PLANT_UML_PORT}/plantuml",
+  "plantuml.render": "PlantUMLServer"
+}
+```
+
+An undefined variable produces an error naming the variable. Values are expanded
+once; references inside environment variable values are not expanded by the
+extension. After changing environment variables, restart VS Code from a process
+with the updated environment. In remote workspaces, variables come from the
+remote extension host.
+
 ## Multiple languages support
 
 Translations are welcome. [lang.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/master/langs/lang.nls.json), [package.nls.json](https://github.com/qjebbs/vscode-plantuml/blob/master/package.nls.json)
