@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { localize, extensionPath } from './common';
 import { ConfigReader, ConfigCache } from './configReader';
+import { resolveServerUrl } from './serverUrl';
 import { javaCommandExists, testJava } from './tools';
 
 export const RenderType = {
@@ -112,7 +113,7 @@ class Config extends ConfigReader {
     }
 
     server(uri: vscode.Uri): string {
-        return this.read<string>('server').trim().replace(/\/+$/g, "");
+        return resolveServerUrl(this.read<string>('server'));
     }
 
     get urlFormat(): string {

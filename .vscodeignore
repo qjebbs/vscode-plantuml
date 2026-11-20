@@ -1,5 +1,10 @@
 .vscode/**
 .vscode-test/**
+.npm-cache/**
+.agents
+.agents/**
+release/**
+scripts/**
 out/test/**
 test/**
 src/**

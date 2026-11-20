@@ -2,7 +2,7 @@
 
 Rich PlantUML support for Visual Studio Code.
 
-[![Build Status](https://travis-ci.org/qjebbs/vscode-plantuml.svg?branch=master)](https://travis-ci.org/qjebbs/vscode-plantuml)
+[Build Status](https://travis-ci.org/qjebbs/vscode-plantuml)
 
 <!-- [Donate by Paypal](https://paypal.me/qjebbs "If you like this plugin, you can buy me a coffee. Feel free if you don't want to, since it's free!")
 |
@@ -292,6 +292,34 @@ Disadvantages:
 "plantuml.server": "http://192.168.1.100:8080",
 "plantuml.render": "PlantUMLServer",
 ```
+
+The `plantuml.server` setting supports `${env:NAME}` placeholders, read from the
+environment of the VS Code extension host. For example:
+
+```json
+{
+  "plantuml.server": "http://localhost:${env:SERVICE_PLANT_UML_PORT}/plantuml",
+  "plantuml.render": "PlantUMLServer"
+}
+```
+
+An undefined variable produces an error naming the variable. Values are expanded
+once; references inside environment variable values are not expanded by the
+extension. After changing environment variables, restart VS Code from a process
+with the updated environment. In remote workspaces, variables come from the
+remote extension host.
+
+## Building a VSIX
+
+With Node.js 22 or later, install the project dependencies with `npm ci`, then run
+`npm run package`. This runs the existing `vscode:prepublish` build and creates
+`release/plantuml-<version>.vsix`, using the version in `package.json`.
+The command only builds and packages; it does not install or publish the extension.
+Existing release files are kept, and an identical version replaces its own file.
+
+The upstream repository does not track the bundled `plantuml.jar`. To use the
+built-in local renderer, provide that file at the repository root before packaging,
+or configure `plantuml.jar` in VS Code. Server rendering does not require the jar.
 
 ## Multiple languages support
 
