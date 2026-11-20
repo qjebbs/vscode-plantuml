@@ -1,5 +1,6 @@
 .vscode/**
 .vscode-test/**
+.npm-cache/**
 .agents
 .agents/**
 release/**

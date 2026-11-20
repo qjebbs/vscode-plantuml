@@ -1,5 +1,6 @@
 out
 node_modules
+.npm-cache/
 release/
 *.jar
 *.tmLanguage
